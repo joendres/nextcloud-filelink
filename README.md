@@ -56,7 +56,7 @@ then attach a synced file from your computer to a message, __*cloud__ will
 notice that it's already uploaded. This might not work with uploads from the
 mobile clients, but I haven't tested it.
 
- * If you attach a file with the same name but different contents as a cloud file, the cloud file will not by overwritten. Instead __*cloud__ moves the existing file to a subfolder of the attachments folder; the original share link will remain valid and point to the old content.\
+ * If you attach a file with the same name but different contents as a cloud file, the cloud file will not be overwritten. Instead __*cloud__ moves the existing file to a subfolder of the attachments folder; the original share link will remain valid and point to the old content.\
  Then the new file is uploaded and shared with a new share link.
 
 __*cloud__ uses the same method as the
@@ -133,6 +133,10 @@ platforms, have a feature suggestion or any other comment, just contact
   web-ext](https://extensionworkshop.com/documentation/develop/getting-started-with-web-ext)
   If you are developing WebExtensions, you want to use this tool. For debugging
   just set the ```firefox``` config option to your thunderbird binary.
+
+## Contributors
+* [Johannes Endres](@joendres), initial implementation, maintainer
+* [Josep Manel Mendoza](@josepmanel), catalan and spanish translations
 
 ## References
 

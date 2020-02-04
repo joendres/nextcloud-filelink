@@ -1,0 +1,18 @@
+{
+    "moz": true,
+    "esversion": 9,
+    "browser": true,
+    "predef": [
+        "browser",
+        "AbortController"
+    ],
+    "curly": true,
+    "eqeqeq": true,
+    "futurehostile": true,
+    "nocomma": true,
+    "strict": "implied",
+    "trailingcomma": true,
+    "undef": true,
+    "unused": true,
+    "-W098": true
+}

@@ -1,0 +1,12 @@
+{
+    "node": true,
+    "esversion": 6,
+    "curly": true,
+    "eqeqeq": true,
+    "futurehostile": true,
+    "nocomma": true,
+    "strict": "implied",
+    "trailingcomma": true,
+    "undef": true,
+    "unused": true
+}

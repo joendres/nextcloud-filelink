@@ -1,0 +1,67 @@
+{
+  "extensionDescription": {
+    "message": "Téléverser des fichiers volumineux vers votre Cloud et envoyer le lien par email"
+  },
+  "extensionName": {
+    "message": "*cloud - FileLink for Nextcloud and ownCloud"
+  },
+  "saveButton": {
+    "message": "Sauvegarder"
+  },
+  "resetButton": {
+    "message": "Réinitialiser"
+  },
+  "detailSummary": {
+    "message": "Aide"
+  },
+  "serverUrl": {
+    "message": "Adresse du serveur"
+  },
+  "serverUrl_details": {
+    "message": "L'adresse de votre serveur Cloud doit commencer par http ou https.<br>Si votre serveur utilise un port non standard, insérez le dans l'adresse."
+  },
+  "username": {
+    "message": "Utilisateur"
+  },
+  "username_details": {
+    "message": "Votre nom d'utilisateur enregistré sur votre serveur"
+  },
+  "password": {
+    "message": "Mot de passe d'application ou mot de passe de votre compte utilisateur"
+  },
+  "password_details": {
+    "message": "Indiquez un mot de passe d'application (solution à privilégier) ou le mot de passe de votre compte utilisateur.<br><em>Uniquement avec Nextcloud</em>, cette extension tente systèmatiquement de convertir le mot de passe du compte utilisateur en un mot de passe d'application. En cas d'échec; votre <em>mot de passe sera enregistrée sans chiffrement</em>."
+  },
+  "storageFolder": {
+    "message": "Chemin d'accès au dossier distant"
+  },
+  "storageFolder_details": {
+    "message": "Le chemin indiqué pointe sur le dossier distant sur votre serveur Cloud qui servira à stocker les pièces jointes volumineuses. Si le dossier indiqué n'existe pas, il sera créé automatiquement pendant le téléversement."
+  },
+  "useDlPassword": {
+    "message": "Protection du téléchargement par mot de passe :"
+  },
+  "useDlPassword_details": {
+    "message": "Le mot de passe doit respecter les règles de caractères appliquées sur votre serveur Cloud (ex: longueur, casse, mélange...). Dans le cas contraire, le <em>téléversement</em> échouera. Pensez à communiquer ce mot de passe au(x) destinataire(s) de la pièce jointe, il sera nécessaire pour l'obtention de cette dernière. "
+  },
+  "expiryDaysBefore": {
+    "message": "Expiration du lien après "
+  },
+  "expiryDaysAfter": {
+    "message": " jours"
+  },
+  "expiry_details": {
+    "message": "Nombre de jours durant lequel le lien de téléchargement sera valide, à partir de ce jour."
+  },
+  "freespace": {
+    "message": "Espace disponible ($FREE$ of $FULL$)",
+    "placeholders": {
+      "free": {
+        "content": "$1"
+      },
+      "full": {
+        "content": "$2"
+      }
+    }
+  }
+}

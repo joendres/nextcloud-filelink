@@ -1,0 +1,48 @@
+image: node:lts
+
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - node_modules/
+
+before_script:
+  - npm install node-fetch
+  - npm install web-ext
+  - npm install jshint
+
+lint:
+  stage: test
+  script:
+    # web-ext fails if parameters of different run modes are set
+    - unset WEB_EXT_API_KEY
+    - unset WEB_EXT_API_SECRET
+    - npx web-ext lint
+    - npx jshint src
+
+pages:
+  stage: deploy
+  script:
+    - node build-tools/build-pages.js
+    # web-ext fails if parameters of different run modes are set
+    - unset WEB_EXT_API_KEY
+    - unset WEB_EXT_API_SECRET
+    - npx web-ext build
+    - for z in public/*.zip; do mv -- "$z" "${z%zip}xpi"; done
+  artifacts:
+    paths:
+      - public
+  only:
+    - master
+    - tags
+
+sign:
+  stage: deploy
+  script:
+    # web-ext sign always fails (as documented), so manipulate the return code
+    - npx web-ext sign --channel=listed --api-url-prefix=https://addons.thunderbird.net/api/v3 ; true
+  environment:
+    name: production
+    url: https://addons.thunderbird.net/de/thunderbird/addon/filelink-nextcloud-owncloud/
+  only:
+    # Only sign tagged releases
+    - /^v\d+\.\d+\.\d+$/

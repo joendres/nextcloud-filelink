@@ -1,0 +1,210 @@
+*:disabled {
+    opacity: 0.4;
+}
+
+:root {
+    font-family: 'Segoe UI';
+    font-size: 15px;
+    font-weight: 400;
+    color: #0c0c0d;
+}
+
+label {
+    color: #0c0c0d;
+    font-size: 0.833rem/1.4;
+}
+
+em {
+    font-weight: 700;
+    font-style: normal;
+}
+
+.tooltip {
+    font-size: 13px;
+    font-weight: 400;
+    background: white;
+    box-shadow: 0 4px 16px rgba(12, 12, 13, 0.1);
+    border-radius: 4px;
+    padding: 1em;
+}
+
+details>summary::marker {
+    content: url(Help.svg);
+}
+
+/* Buttons */
+
+button {
+    border-style: none;
+    border-radius: 2px;
+    height: 32px;
+    min-width: 132px;
+    width: auto;
+    font-size: 13px;
+    padding: 0 8px;
+    background-color: rgba(12, 12, 13, 0.1);
+    color: black;
+}
+
+button:hover {
+    background-color: rgba(12, 12, 13, 0.2);
+}
+
+button:focus {
+    box-shadow: 0 0 0 1px #0a84ff inset, 0 0 0 1px #0a84ff, 0 0 0 4px rgba(10, 132, 255, 0.3)
+}
+
+button:active {
+    background-color: rgba(12, 12, 13, 0.3);
+}
+
+button.primary {
+    background-color: #0060df;
+    color: white;
+}
+
+button.primary:hover {
+    background-color: #003eaa;
+}
+
+button.primary:focus {
+    box-shadow: 0 0 0 1px #0a84ff inset, 0 0 0 1px #0a84ff, 0 0 0 4px rgba(10, 132, 255, 0.3)
+}
+
+button.primary:active {
+    background-color: #002275;
+}
+
+/* Inputs */
+
+input {
+    border-color: rgba(12, 12, 13, 0.2);
+    border-width: 1.5px;
+    border-radius: 2px;
+    border-style: solid;
+    color: #0c0c0d;
+    padding: 0 8px;
+    height: 32px;
+    font-size: 0.833rem;
+}
+
+input:focus {
+    border-color: #0a84ff;
+    box-shadow: 0 0 0 1px #0a84ff, 0 0 0 4px rgba(10, 132, 255, 0.3);
+}
+
+input:hover {
+    border-color: rgba(12, 12, 13, 0.3);
+}
+
+input::placeholder {
+    color: #737373;
+}
+
+/* Checkbox */
+
+input[type=checkbox] {
+    -moz-appearance: none;
+    background-color: rgba(12, 12, 13, 0.1);
+    border-radius: 2px;
+    border: 1px solid rgba(12, 12, 13, 0.3);
+    height: 16px;
+    margin: -2px 4px;
+    width: 16px;
+}
+
+input[type=checkbox]:hover {
+    background-color: rgba(12, 12, 13, 0.2);
+}
+
+input[type=checkbox]:active {
+    background-color: rgba(12, 12, 13, 0.3);
+}
+
+input[type=checkbox]:focus {
+    border: none;
+    box-shadow: 0 0 0 1px #0a84ff inset, 0 0 0 1px #0a84ff, 0 0 0 4px rgba(10, 132, 255, .3);
+}
+
+input[type=checkbox]:checked {
+    background-color: #0060df;
+    background-image: url(./Checkbox.svg);
+    background-position: center center;
+}
+
+input[type=checkbox]:checked:hover {
+    background-color: #003eaa;
+}
+
+/* Message bars */
+
+.msg_bar {
+    min-height: 32px;
+    border-radius: 4px;
+    padding: 4px;
+}
+
+.msg_bar .msg_bar_icon {
+    float: left;
+    padding: 4px;
+    box-sizing: content-box;
+    width: 16px;
+    height: 16px;
+    mask-repeat: no-repeat;
+    mask-size: 16px;
+    mask-position: center;
+}
+
+.msg_bar .msg_bar_closebtn {
+    float: right;
+    mask-image: url(Close.svg);
+    padding: 4px;
+    box-sizing: content-box;
+    width: 16px;
+    height: 16px;
+    mask-repeat: no-repeat;
+    mask-size: 16px;
+    mask-position: center;
+}
+
+.error_bar {
+    background-color: #d70022;
+    color: white;
+}
+
+.error_bar_icon {
+    mask-image: url(Warning.svg?fill=white);
+    background: white;
+}
+
+.error_bar_closebtn {
+    background: white;
+}
+
+.warning_bar {
+    background-color: #ffe900;
+    color: #3e2800;
+}
+
+.warning_bar_icon {
+    mask-image: url(Warning.svg);
+    background: #3e2800;
+}
+
+.warning_bar_closebtn {
+    background: #3e2800;
+}
+
+.success_bar {
+    background-color: #30e60b;
+    color: #003706;
+}
+
+.success_bar_icon {
+    mask-image: url(Check.svg);
+    background: #003706;
+}
+
+.success_bar_closebtn {
+    background: #003706;
+}
