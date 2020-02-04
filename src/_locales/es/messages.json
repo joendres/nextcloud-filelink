@@ -1,0 +1,67 @@
+{
+  "extensionDescription": {
+    "message": "Sube los adjuntos grandes a tu nube y envía el enlace por correo electrónico"
+  },
+  "extensionName": {
+    "message": "*cloud - FileLink para Nextcloud y ownCloud"
+  },
+  "saveButton": {
+    "message": "Guarda"
+  },
+  "resetButton": {
+    "message": "Reinicia"
+  },
+  "detailSummary": {
+    "message": "Ayuda"
+  },
+  "serverUrl": {
+    "message": "URL del servidor"
+  },
+  "serverUrl_details": {
+    "message": "La URL base de tu servidor, tiene que empezar por http o https.<br>Si tu servidor funciona en un puerto no estándar, añádelo a la URL."
+  },
+  "username": {
+    "message": "Usuario"
+  },
+  "username_details": {
+    "message": "Tu nombre de usuario en tu servidor."
+  },
+  "password": {
+    "message": "Testigo o contraseña"
+  },
+  "password_details": {
+    "message": "Una contraseña de aplicación (preferible) o contraseña.<br><em>Solo en Nextcloud</em>el complemento intenta convertir la contraseña en una contraseña de aplicación antes de almacenarla. Si esto falla, <em>la contraseña se almacenará sin encriptar</em>."
+  },
+  "storageFolder": {
+    "message": "Ubicación en el servidor"
+  },
+  "storageFolder_details": {
+    "message": "Ubicación donde almacenar los adjuntos en el servidor. Si no existe, se creará durante la carga."
+  },
+  "useDlPassword": {
+    "message": "Contraseña para las descargas:"
+  },
+  "useDlPassword_details": {
+    "message": "Esta contraseña debe cumplir las reglas que el administrador del servidor ha configurado (ej. Longitud, tipos de carácteres, ...). Si no es así, <em>la carga fallará</em>. Tendrás que comunicar la contraseña a los destinatarios; la necesitarán para la descarga de los adjuntos."
+  },
+  "expiryDaysBefore": {
+    "message": "Expirar la descarga en "
+  },
+  "expiryDaysAfter": {
+    "message": " días"
+  },
+  "expiry_details": {
+    "message": "El número de días que la descarga estará disponible, incluyendo hoy."
+  },
+  "freespace": {
+    "message": "Espacio disponible ($FREE$ de $FULL$)",
+    "placeholders": {
+      "free": {
+        "content": "$1"
+      },
+      "full": {
+        "content": "$2"
+      }
+    }
+  }
+}

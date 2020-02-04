@@ -11,9 +11,6 @@
   "resetButton": {
     "message": "Reset"
   },
-  "detailSummary": {
-    "message": "Help"
-  },
   "serverUrl": {
     "message": "Server URL"
   },
@@ -63,5 +60,11 @@
         "content": "$2"
       }
     }
+  },
+  "success": {
+    "message": "Success"
+  },
+  "error_0": {
+    "message": "Unknown error"
   }
 }

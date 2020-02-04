@@ -11,9 +11,6 @@
   "resetButton": {
     "message": "Zurücksetzen"
   },
-  "detailSummary": {
-    "message": "Hilfe"
-  },
   "serverUrl": {
     "message": "Server-URL"
   },
@@ -62,6 +59,12 @@
       "full": {
         "content": "$2"
       }
+    },
+    "success": {
+      "message": "Alles OK"
+    },
+    "error_0": {
+      "message": "Unbekanner Fehler"
     }
   }
 }

@@ -1,68 +1,87 @@
-:root {
-    font: message-box;
-    font-size: 1em;
-}
-
 body.busy * {
     cursor: progress;
 }
 
-header {
-    border-bottom: 1px solid;
-    margin-bottom: 1em;
+* {
+    box-sizing: border-box;
 }
+
+/* Header elements */
 
 h2 {
-    margin-top: 0;
-    margin-bottom: 0.2em;
-    overflow:hidden; 
-    white-space:nowrap; 
+    overflow: hidden;
+    white-space: nowrap;
     text-overflow: ellipsis;
-}
-
-input {
-    width: 100%;
-    box-sizing: border-box;
-    padding: 0.3em;
-    border: 0.5px solid;
-    margin: 0.1em 0 0.7em 0;
-}
-
-meter {
-    width: 100%;
 }
 
 #logo {
     float: right;
-    height: 1.5em;
+    height: 32px;
 }
 
-input[type=checkbox] {
-    width: unset;
-    margin-right: 0.1em;
+/* Free space display */
+
+#freespaceGauge {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    visibility: hidden;
 }
 
-label {
-    float: left;
+meter:-moz-meter-optimum::-moz-meter-bar {
+    background: #30e60b;
 }
 
-.checkboxWithLabel {
-    float: left;
+meter:-moz-meter-sub-optimum::-moz-meter-bar {
+    background: #ffe900;
 }
 
-.checkboxWithLabel label {
-    float: initial;
+meter:-moz-meter-sub-sub-optimum::-moz-meter-bar {
+    background: #ff0039;
 }
 
-.checkboxWithLabel input {
-    width: initial;
+meter {
+    width: 100%;
+    margin-left: 8px;
+    height: 16px;
+    background: #d7d7db;
 }
 
-details p {
-    font-size: smaller;
-    background: white;
-    border: 1px solid;
-    padding: .5em;
+/* Message bar */
+
+#msg_container {
+    /* functional */
+    /* visibility: hidden; */
+    z-index: 1;
+    position: absolute;
+    top: 9%;
+    /* Fit into frame */
+    width: 97%;
+}
+
+#msg_container .msg_bar {
+    margin-bottom: 4px;
+}
+
+/* Account form elements */
+
+input {
+    width: 100%;
+}
+
+input[type=number] {
+    max-width: 4em;
+    text-align: right;
+    padding-right: 0;
+}
+
+.helpbutton {
+    float: right;
+    margin-right: 2px;
+}
+
+.helpbutton p {
+    visibility: hidden;
     width: 50%;
     position: absolute;
     z-index: 1;
@@ -70,47 +89,17 @@ details p {
     top: 0.5em;
 }
 
-details summary {
-    float: right;
-    margin-right: 0.2em;
+.helpbutton:hover p {
+    visibility: visible;
 }
 
-.fullfield {
-    width: 100%;
+fieldset {
     position: relative;
-    display: inline-block;
-}
-
-.sameline{
-    max-width: 4em;
-    text-align: right;
-}
-
-button {
-    margin-top: 0.7em;
-    padding: 0.5em 5em;
-}
-
-#logo {
-    float: right;
-    height: 1.5em;
+    border: none;
+    padding-left: 0;
+    padding-right: 0;
 }
 
 #resetButton {
     float: right;
-}
-
-#freespaceGauge {
-    margin-bottom: .5em;
-    visibility: hidden;
-}
-
-#freespacelabel {
-    float: left;
-    margin-right: .5em;
-}
-
-#meterspan {
-    display: block;
-    overflow: hidden;
 }

@@ -1,0 +1,67 @@
+{
+  "extensionDescription": {
+    "message": "Puja els adjunts grans al teu núvol i envia l'enllaç per correu electrònic."
+  },
+  "extensionName": {
+    "message": "*cloud - FileLink per Nextcloud i ownCloud"
+  },
+  "saveButton": {
+    "message": "Desar"
+  },
+  "resetButton": {
+    "message": "Reinciar"
+  },
+  "detailSummary": {
+    "message": "Ajuda"
+  },
+  "serverUrl": {
+    "message": "URL del servidor"
+  },
+  "serverUrl_details": {
+    "message": "L'URL base del teu núvol, ha de començar per http o https.<br>Si el teu servidor funciona amb un port no estàndard, afegeix-lo a l'URL."
+  },
+  "username": {
+    "message": "Usuari"
+  },
+  "username_details": {
+    "message": "El teu nom d'usuari al servidor."
+  },
+  "password": {
+    "message": "Testimoni o contrasenya"
+  },
+  "password_details": {
+    "message": "Un testimoni d'aplicació (preferible) o la teva contrasenya d'usuari.<br><em>Només amb Nextcloud: </em>el complement provarà a convertir la contrasenya en un testimoni d'aplicació abans d'emmagatzemar-la. Si no pot fer-ho, <em>l'emmagatzemarà sense encriptar.</em>."
+  },
+  "storageFolder": {
+    "message": "Ubicació al servidor"
+  },
+  "storageFolder_details": {
+    "message": "Ubicació on pujar els adjunts al servidor. Si no existeix, es crearà durant la càrrega."
+  },
+  "useDlPassword": {
+    "message": "Contrasenya per les descàrregues:"
+  },
+  "useDlPassword_details": {
+    "message": "Aquesta contrasenya ha de complir les regles que l'administrador del servidor ha fixat (longitud, tipus de caràcters, ...). Si no és així, <em>la càrrega fallarà</em>. Hauràs de comunicar la contrasenya als destinataris; la necessitaran per la descàrrega dels adjunts."
+  },
+  "expiryDaysBefore": {
+    "message": "Expirar la descàrrega en "
+  },
+  "expiryDaysAfter": {
+    "message": " dies"
+  },
+  "expiry_details": {
+    "message": "El nombre de dies que la descàrrega estarà disponible, incloent-hi avui."
+  },
+  "freespace": {
+    "message": "Espai disponible ($FREE$ de $FULL$)",
+    "placeholders": {
+      "free": {
+        "content": "$1"
+      },
+      "full": {
+        "content": "$2"
+      }
+    }
+  }
+}

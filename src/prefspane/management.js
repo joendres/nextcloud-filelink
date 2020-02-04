@@ -20,6 +20,7 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 
 /* global CloudConnection */
+/* global popup */
 
 const accountId = new URL(location.href).searchParams.get("accountId");
 const ncc = new CloudConnection(accountId);
@@ -135,7 +136,7 @@ resetButton.onclick = async () => {
 /** Handler for Save button */
 saveButton.onclick = async () => {
     // deactivate the form while handling it
-    const provider_management = document.querySelector("#provider-management");
+    const provider_management = document.querySelector("body");
     provider_management.classList.add('busy');
     saveButton.disabled = resetButton.disabled = true;
     let states = {};

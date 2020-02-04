@@ -1,3 +1,10 @@
+3.3.0 2020-01-??
+- Catalan translation by @josepmanel 
+- Spanish translation by @josepmanel (Close #3)
+- French translation by @Go-rom (Close #4)
+- Close #49: Photon style for preferences pane (kind of)
+- Internal changes to prepare for 3.4
+ 
 3.2.1 2020-01-19
 - Fix #57: Help text for expire settings missing
 - Fix #56: Expire number input field too wide

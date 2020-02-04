@@ -142,7 +142,14 @@ class CloudConnection {
      * according to actual state
      */
     async updateConfigured() {
-        browser.cloudFile.updateAccount(this._accountId, { configured: this._isComplete(), });
+        browser.cloudFile.updateAccount(this._accountId, {
+            configured: Boolean(this.serverUrl) &&
+                Boolean(this.username) &&
+                Boolean(this.password) &&
+                Boolean(this.storageFolder) &&
+                (this.useDlPassword ? Boolean(this.downloadPassword) : true) &&
+                (this.useExpiry ? Boolean(this.expiryDays) : true),
+        });
     }
 
     /**
@@ -165,18 +172,6 @@ class CloudConnection {
     //#endregion
 
     //#region Internal helpers
-    /**
-     * Check if all necessary data is present
-     */
-    _isComplete() {
-        return Boolean(this.serverUrl) &&
-            Boolean(this.username) &&
-            Boolean(this.password) &&
-            Boolean(this.storageFolder) &&
-            (this.useDlPassword ? Boolean(this.downloadPassword) : true) &&
-            (this.useExpiry ? Boolean(this.expiryDays) : true);
-    }
-
     /**
      * Get a share link for the file, reusing an existing one with the same
      * parameters
@@ -240,10 +235,6 @@ class CloudConnection {
      * @returns {*} A Promise that resolves to the data element of the response
      */
     async _doApiCall(suburl, method, additional_headers, body) {
-        if (!this._isComplete()) {
-            throw new Error("Account not configured");
-        }
-
         let url = this.serverUrl;
         url += apiUrlBase;
         url += suburl;
