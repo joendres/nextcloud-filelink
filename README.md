@@ -137,7 +137,7 @@ platforms, have a feature suggestion or any other comment, just contact
 ## Contributors
 * [Johannes Endres](@joendres), initial implementation, maintainer
 * [Josep Manel Mendoza](@josepmanel), catalan and spanish translations
-* [Gorom](@gotom), french translation
+* [Gorom](@Go-rom), french translation
 
 ## References
 
