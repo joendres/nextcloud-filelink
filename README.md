@@ -5,9 +5,9 @@ Cloud and generates a link you can send by mail instead of the file.
 
 Information for
 
-* [Users](#user-guide)
-* [Admins](#cloud-admin-guide)
-* [Developers](#developer-guide)
+* [Users](#user-content-user-guide)
+* [Admins](#user-content-cloud-admin-guide)
+* [Developers](#user-content-developer-guide)
 
 ## Requirements
 
@@ -88,7 +88,7 @@ If you attach a file from a SMB share, it's uploaded to the cloud and the share 
   cloud, otherwise the *upload* will fail. There are default rules of Nextcloud
   and ownCloud, and your admin might have configured some different rules. 
 * If all uploads fail, it might be a problem with the settings in your Nextcloud or
-  ownCloud (point your admin to the [Admin guide](#nextcloud-admin-guide)).
+  ownCloud (point your admin to the [Admin guide](#user-content-nextcloud-admin-guide)).
 * If the Add-On still fails, please check if it's a [known bug](https://gitlab.com/joendres/filelink-nextcloud/-/boards). Feel free to open a new issue otherwise.
 
 #### Old files are not deleted 
@@ -137,6 +137,7 @@ platforms, have a feature suggestion or any other comment, just contact
 ## Contributors
 * [Johannes Endres](@joendres), initial implementation, maintainer
 * [Josep Manel Mendoza](@josepmanel), catalan and spanish translations
+* [Gorom](@gotom), french translation
 
 ## References
 
