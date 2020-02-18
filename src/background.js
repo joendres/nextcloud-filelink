@@ -29,7 +29,9 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
                 const ncc = new CloudConnection(accountId);
                 ncc.load()
                     .then(() => ncc.updateConfigured())
-                    .then(() => ncc.updateFreeSpaceInfo());
+                    .then(() => ncc.updateFreeSpaceInfo())
+                    .then(() => ncc.updateCloudVersion())
+                    .then(() => ncc.store());
             }
         });
 })();

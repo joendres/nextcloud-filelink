@@ -125,16 +125,51 @@ class CloudConnection {
      * Thunderbirds cloudFileAccount
      */
     async updateFreeSpaceInfo() {
-        this._doApiCall(apiUrlUserInfo + this.username)
-            .then(data => {
-                if (data && data.quota) {
-                    browser.cloudFile.updateAccount(this._accountId,
-                        {
-                            spaceRemaining: data.quota.free >= 0 ? data.quota.free : -1,
-                            spaceUsed: data.quota.used > 0 ? data.quota.used : -1,
-                        });
-                }
-            });
+        let data = await this._doApiCall(apiUrlUserInfo + this.username);
+        if (data && data.quota) {
+            await browser.cloudFile.updateAccount(this._accountId,
+                {
+                    spaceRemaining: data.quota.free >= 0 ? data.quota.free : -1,
+                    spaceUsed: data.quota.used > 0 ? data.quota.used : -1,
+                });
+        }
+    }
+
+    /**
+     * 
+     * @param {string} url Base URL of the cloud
+     * @returns {*} versionstring and type
+     */
+    static async fetchCloudVersion(url) {
+        let response = await fetch(url + "/status.php");
+        let status = await response.json();
+        let major = parseInt(status.versionstring.split(/\./)[0]);
+        let retval = {
+            type: null,
+            versionstring: status.versionstring,
+            productname: status.productname,
+        };
+        if (major >= 16) {
+            retval.type = "Nextcloud";
+        } else if (major === 10 && status.needsDbUpgrade !== undefined) {
+            retval.type = "ownCloud";
+        } else {
+            retval.type = "Unsupported";
+        }
+        return retval;
+    }
+
+    /**
+     * Set cloudtype and versionstring of this object
+     */
+    async updateCloudVersion() {
+        try {
+            let res = await CloudConnection.fetchCloudVersion(this.serverUrl);
+            this.versionstring = res.versionstring;
+            this.cloudtype = res.type;
+            this.productname = res.productname;
+        } catch (error) {
+        }
     }
 
     /**
