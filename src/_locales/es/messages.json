@@ -11,9 +11,6 @@
   "resetButton": {
     "message": "Reinicia"
   },
-  "detailSummary": {
-    "message": "Ayuda"
-  },
   "serverUrl": {
     "message": "URL del servidor"
   },
@@ -63,5 +60,11 @@
         "content": "$2"
       }
     }
+  },
+  "success": {
+    "message": "Correcto"
+  },
+  "error_0": {
+    "message": "Error desconocido"
   }
 }

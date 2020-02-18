@@ -1,3 +1,9 @@
+3.4.0 2020-02-18
+- Close #27: Show Nextcloud/ownCloud flavor and version
+- Close #70: Show product name instead of account name
+- Close #79: Warn about unsupported version
+- Small changes to styling
+
 3.3.0 2020-01-04
 - Catalan translation by @josepmanel 
 - Spanish translation by @josepmanel (Close #3)

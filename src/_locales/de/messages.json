@@ -59,12 +59,25 @@
       "full": {
         "content": "$2"
       }
-    },
-    "success": {
-      "message": "Alles OK"
-    },
-    "error_0": {
-      "message": "Unbekanner Fehler"
     }
+  },
+  "success": {
+    "message": "Alles OK"
+  },
+  "error_0": {
+    "message": "Unbekanner Fehler"
+  },
+  "error_cloud_unreachable": {
+    "message": "Keine Verbindung zur Cloud. Prüfe Server-URL und Netzwerkverbindung"
+  },
+  "error_no_cloud": {
+    "message": "Keine kompatible Cloud unter dieser URL"
+  },
+  "unsupported_cloud": {
+    "message": "Datenverlust droht: Veraltete Version von Nextcloud oder ownCloud. Bitte den Cloud-Admin um ein Update"
+  },
+  "obsolete_version": {
+    "description": "This is displayed instead of the icon if the cloud version is not supported, so it should be quite short and contain exactly two lines.",
+    "message": "Veraltete<br>Cloud"
   }
 }

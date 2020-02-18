@@ -25,6 +25,10 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 const accountId = new URL(location.href).searchParams.get("accountId");
 const ncc = new CloudConnection(accountId);
 
+const hiddenVersion = document.querySelector("#versionstring");
+const hiddenType = document.querySelector("#cloudtype");
+const hiddenProductname = document.querySelector("#productname");
+
 const accountForm = document.querySelector("#accountForm");
 const serverUrl = document.querySelector("#serverUrl");
 const username = document.querySelector("#username");
@@ -39,7 +43,8 @@ const resetButton = document.querySelector("#resetButton");
 
 (() => {
     // Fill in form fields
-    setStoredData();
+    setStoredData()
+        .then(fillHeader);
 
     // Add localized strings
     document.querySelectorAll("[data-message]")
@@ -47,11 +52,16 @@ const resetButton = document.querySelector("#resetButton");
             element.innerHTML = browser.i18n.getMessage(element.dataset.message);
         });
 
-    // Add text from other sources
+    // Make form active
+    document.querySelectorAll("input")
+        .forEach(inp => {
+            inp.oninput = activateButtons;
+        });
+})();
+
+function fillHeader() {
     browser.cloudFile.getAccount(accountId).then(
         theAccount => {
-            document.querySelector("#provider-name").textContent = theAccount.name;
-
             // Update the free space gauge
             let free = theAccount.spaceRemaining;
             const used = theAccount.spaceUsed;
@@ -68,13 +78,39 @@ const resetButton = document.querySelector("#resetButton");
                 document.querySelector("#freespaceGauge").style.visibility = "visible";
             }
         });
+    document.querySelector("#cloud_version").textContent = hiddenVersion.value;
+    document.querySelector("#service_url").href = serverUrl.value;
+    if (hiddenProductname.value && hiddenProductname.value !== "undefined") {
+        document.querySelector("#provider-name").textContent = hiddenProductname.value;
+    } else {
+        document.querySelector("#provider-name").textContent = "*cloud";
+    }
 
-    // Make form active
-    document.querySelectorAll("input")
-        .forEach(inp => {
-            inp.oninput = activateButtons;
-        });
-})();
+    switch (hiddenType.value) {
+        case "Nextcloud":
+            document.querySelector("#logo").src = "nextcloud-logo.svg";
+            document.querySelector("#logo").hidden = false;
+            document.querySelector("#obsolete_string").hidden = true;
+            break;
+
+        case "ownCloud":
+            document.querySelector("#logo").src = "owncloud-logo.svg";
+            document.querySelector("#logo").hidden = false;
+            document.querySelector("#obsolete_string").hidden = true;
+            break;
+
+        case "Unsupported":
+            document.querySelector("#logo").hidden = true;
+            document.querySelector("#obsolete_string").hidden = false;
+            break;
+
+        default:
+            document.querySelector("#logo").src = "management.png";
+            document.querySelector("#logo").hidden = false;
+            document.querySelector("#obsolete_string").hidden = true;
+            break;
+    }
+}
 
 /**
  * Load stored account data into form
@@ -170,6 +206,10 @@ saveButton.onclick = async () => {
             }
         });
 
+    // Update header
+    ncc.updateFreeSpaceInfo();
+    fillHeader();
+
     // Try to convert the password into App Token if necessary
     if (needsNewToken) {
         password.value = await ncc.convertToApppassword();
@@ -184,4 +224,33 @@ saveButton.onclick = async () => {
         document.getElementById(elementId).disabled = states[elementId];
     }
     provider_management.classList.remove('busy');
+};
+
+serverUrl.onchange = async () => {
+    serverUrl.value = serverUrl.value.trim();
+    let ct = { type: null, versionstring: null, };
+    popup.clear();
+    try {
+        ct = await CloudConnection.fetchCloudVersion(serverUrl.value);
+    } catch (error) {
+        switch (error.name) {
+            case "SyntaxError":
+                popup.error("no_cloud");
+                break;
+            case "TypeError":
+                popup.error("cloud_unreachable");
+                break;
+            default:
+                popup.error(0);
+                break;
+        }
+    }
+    hiddenVersion.value = ct.versionstring;
+    hiddenType.value = ct.type;
+    hiddenProductname.value = ct.productname;
+    if (ct.type==="Unsupported") {
+        popup.warn("unsupported_cloud");
+    }
+
+    fillHeader();
 };

@@ -30,96 +30,127 @@
   <title>*cloud</title>
   <link rel="stylesheet" href="photon.css">
   <link rel="stylesheet" href="management.css">
+  <link rel="stylesheet" href="popup.css">
   <script src="../lib/cloudconnection.js" defer></script>
   <script src="popup.js" defer=""></script>
   <script src="management.js" defer=""></script>
 </head>
 
 <body>
-  <header>
-    <a id="service_url" tabindex="-1"><img id="logo" src="management.png" alt="*cloud Logo" /></a>
-    <h2 id="provider-name">*cloud</h2>
-
-    <div id="msg_container">    </div>
-
-    <div id="freespaceGauge">
-      <label id="freespacelabel" for="freespace" data-message="freespace"></label>
-      <meter id="freespace" min="0" max="0" value="0"> </meter>
+  <div id="header">
+    <div id="cloud_info">
+      <a id="service_url" tabindex="-1" class="link">
+        <span id="obsolete_string" hidden data-message="obsolete_version"></span>
+        <img id="logo" src="management.png" alt="*cloud Logo" /><br />
+        <span id="cloud_version">&nbsp;</span>
+      </a>
     </div>
-  </header>
+    <div>
+      <h2 id="provider-name">*cloud</h2>
+      <label id="freespaceGauge" class="input">
+        <span id="freespacelabel" data-message="freespace"></span>
+        <meter id="freespace" min="0" max="0" value="0"> </meter>
+      </label>
+    </div>
+  </div>
+
+  <div id="msg_container"> </div>
 
   <form id="accountForm">
-    <fieldset>
-      <label for="serverUrl" data-message="serverUrl"></label>
-      <div class="helpbutton"><img src="Help.svg" alt="Help Icon">
-        <p class="tooltip" data-message="serverUrl_details"></p>
-      </div>
-      <input id="serverUrl" type="url" pattern="https?://.*" required placeholder="https://example.com" />
-    </fieldset>
+    <input type="hidden" id="versionstring">
+    <input type="hidden" id="cloudtype">
+    <input type="hidden" id="productname">
 
-    <fieldset>
-      <label for="username" data-message="username"> </label>
-      <div class="helpbutton"><img src="Help.svg" alt="Help Icon">
-        <p class="tooltip" data-message="username_details"></p>
+    <p>
+      <div class="helpbutton"><img src="images/Help.svg" alt="Help icon">
+        <p class="card card--shadow" data-message="serverUrl_details"></p>
       </div>
-      <input id="username" type="text" required />
-    </fieldset>
+      <label class="input">
+        <span class="input__label">
+          <span data-message="serverUrl"></span>
+        </span>
+        <input id="serverUrl" type="url" pattern="https?://.*" required placeholder="https://example.com"
+          class="input__field" value="" />
+      </label>
+    </p>
 
-    <fieldset>
-      <label for="password" data-message="password"></label>
-      <div class="helpbutton"><img src="Help.svg" alt="Help Icon">
-        <p class="tooltip" data-message="password_details"></p>
+    <p>
+      <div class="helpbutton"><img src="images/Help.svg" alt="Help icon">
+        <p class="card card--shadow" data-message="username_details"></p>
       </div>
-      <input id="password" type="password" required />
-    </fieldset>
+      <label class="input">
+        <span class="input__label" data-message="username"></span>
+        <input id="username" type="text" required class="input__field" value="" />
+      </label>
+    </p>
 
-    <fieldset>
-      <label for="storageFolder" data-message="storageFolder"></label>
-      <div class="helpbutton"><img src="Help.svg" alt="Help Icon">
-        <p class="tooltip" data-message="storageFolder_details"></p>
+    <p>
+      <div class="helpbutton"><img src="images/Help.svg" alt="Help icon">
+        <p class="card card--shadow" data-message="password_details"></p>
       </div>
-      <input id="storageFolder" type="text" required value="/Mail-attachments" />
-    </fieldset>
+      <label class="input">
+        <span class="input__label" data-message="password"></span>
+        <input id="password" type="password" required class="input__field" value="" />
+      </label>
+    </p>
 
-    <fieldset>
-      <input id="useDlPassword" type="checkbox" />
-      <label for="useDlPassword" data-message="useDlPassword"></label>
-      <div class="helpbutton"><img src="Help.svg" alt="Help Icon">
-        <p class="tooltip" data-message="useDlPassword_details"></p>
+    <p>
+      <div class="helpbutton"><img src="images/Help.svg" alt="Help icon">
+        <p class="card card--shadow" data-message="storageFolder_details"></p>
       </div>
-      <input id="downloadPassword" type="text" disabled />
-    </fieldset>
+      <label class="input">
+        <span data-message="storageFolder"></span>
+        <input id="storageFolder" type="text" required class="input__field" value="/Mail-attachments" />
+      </label>
+    </p>
 
-    <fieldset>
-      <input id="useExpiry" type="checkbox" />
-      <label for="useExpiry" data-message="expiryDaysBefore"></label>
-      <input type="number" id="expiryDays" min="1" step="1" value="7" disabled>
-      <span data-message="expiryDaysAfter"> </span>
-      <div class="helpbutton"><img src="Help.svg" alt="Help Icon">
-        <p class="tooltip" data-message="expiry_details"></p>
+    <p>
+      <div class="helpbutton"><img src="images/Help.svg" alt="Help icon">
+        <p class="card card--shadow" data-message="useDlPassword_details"></p>
       </div>
-    </fieldset>
+      <label class="checkbox__label">
+        <input id="useDlPassword" type="checkbox" class="checkbox" />
+        <span class="checkbox__label__text" data-message="useDlPassword"></span>
+      </label>
+      <label class="input">
+        <input id="downloadPassword" type="text" disabled class="input__field" value=""" />
+      </label>
+    </p>
 
-    <fieldset>
-      <button id="saveButton" class="primary" type="button" disabled data-message="saveButton"></button>
-      <button id="resetButton" type="reset" disabled data-message="resetButton"></button>
-    </fieldset>
+    <p>
+      <div class=" helpbutton"><img src="images/Help.svg" alt="Help icon">
+        <p class="card card--shadow" data-message="expiry_details"></p>
+        </div>
+        <label class=" checkbox__label">
+          <input id="useExpiry" type="checkbox" class="checkbox" />
+          <span class="checkbox__label__text" data-message="expiryDaysBefore"></span>
+          <input type="number" id="expiryDays" min="1" step="1" value="7" disabled class="input__field">
+          <span data-message="expiryDaysAfter"> </span>
+        </label>
+    </p>
+
+    <p>
+      <button id="saveButton" class="button button--primary" type="button" disabled data-message="saveButton"></button>
+      <button id="resetButton" class="button" type="reset" disabled data-message="resetButton"></button>
+    </p>
   </form>
+
+  <!-- Message bar templates -->
   <div id="success_popup" class="msg_bar success_bar" hidden>
-    <span class="msg_bar_icon success_bar_icon"> </span>
-    <span class="msg_bar_closebtn success_bar_closebtn"></span>
+    <span class="msg_bar_icon"> </span>
+    <span class="msg_bar_closebtn"></span>
     <span class="popup_message"></span>
   </div>
 
   <div id="warning_popup" class="msg_bar warning_bar" hidden>
-    <span class="msg_bar_icon warning_bar_icon"> </span>
-    <span class="msg_bar_closebtn warning_bar_closebtn"></span>
+    <span class="msg_bar_icon"> </span>
+    <span class="msg_bar_closebtn"></span>
     <span class="popup_message"></span>
   </div>
 
   <div id="error_popup" class="msg_bar error_bar" hidden>
-    <span class="msg_bar_icon error_bar_icon"> </span>
-    <span class="msg_bar_closebtn error_bar_closebtn"></span>
+    <span class="msg_bar_icon"> </span>
+    <span class="msg_bar_closebtn"></span>
     <span class="popup_message"></span>
   </div>
 

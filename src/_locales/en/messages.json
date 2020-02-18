@@ -66,5 +66,18 @@
   },
   "error_0": {
     "message": "Unknown error"
+  },
+  "error_cloud_unreachable": {
+    "message": "No connection. Check Server URL and network conection."
+  },
+  "error_no_cloud": {
+    "message": "No compatible cloud at this URL."
+  },
+  "unsupported_cloud": {
+    "message": "Obsolete version of Nextcloud or ownCloud. You might loose data. Ask your cloud admin to update."
+  },
+  "obsolete_version": {
+    "description": "This is displayed instead of the icon if the cloud version is not supported, so it should be quite short and contain exactly two lines.",
+    "message": "Obsolete<br>version"
   }
 }
