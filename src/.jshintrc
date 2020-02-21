@@ -13,6 +13,5 @@
     "strict": "implied",
     "trailingcomma": true,
     "undef": true,
-    "unused": true,
-    "-W098": true
+    "unused": true
 }

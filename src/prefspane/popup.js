@@ -19,6 +19,8 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 
+/* exported popup */
+
 const msgContainer = document.querySelector("#msg_container");
 const errorPopup = document.querySelector("#error_popup");
 const warningPopup = document.querySelector("#warning_popup");

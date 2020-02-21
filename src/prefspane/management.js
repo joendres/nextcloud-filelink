@@ -25,6 +25,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 const accountId = new URL(location.href).searchParams.get("accountId");
 const ncc = new CloudConnection(accountId);
 
+const freeSpaceGauge = document.querySelector("#freespaceGauge");
 const hiddenVersion = document.querySelector("#versionstring");
 const hiddenType = document.querySelector("#cloudtype");
 const hiddenProductname = document.querySelector("#productname");
@@ -60,24 +61,30 @@ const resetButton = document.querySelector("#resetButton");
 })();
 
 function fillHeader() {
-    browser.cloudFile.getAccount(accountId).then(
-        theAccount => {
-            // Update the free space gauge
-            let free = theAccount.spaceRemaining;
-            const used = theAccount.spaceUsed;
-            if (free >= 0 && used >= 0) {
-                const full = (free + used) / (1024.0 * 1024.0 * 1024.0); // Convert bytes to gigabytes
-                free /= 1024.0 * 1024.0 * 1024.0;
-                document.querySelector("#freespacelabel").textContent = browser.i18n.getMessage("freespace", [
-                    free > 100 ? free.toFixed() : free.toPrecision(2),
-                    full > 100 ? full.toFixed() : full.toPrecision(2),]);
-                const meter = document.querySelector("#freespace");
-                meter.max = full;
-                meter.value = free;
-                meter.low = full / 10;
-                document.querySelector("#freespaceGauge").style.visibility = "visible";
-            }
-        });
+    // Only show gauge if relevant form data match the account data
+    if (username.value !== ncc.username || serverUrl.value !== ncc.serverUrl) {
+        freeSpaceGauge.style.visibility = "hidden";
+    } else {
+        browser.cloudFile.getAccount(accountId)
+            .then(theAccount => {
+                // Update the free space gauge
+                let free = theAccount.spaceRemaining;
+                const used = theAccount.spaceUsed;
+                if (free >= 0 && used >= 0) {
+                    const full = (free + used) / (1024.0 * 1024.0 * 1024.0); // Convert bytes to gigabytes
+                    free /= 1024.0 * 1024.0 * 1024.0;
+                    document.querySelector("#freespacelabel").textContent = browser.i18n.getMessage("freespace", [
+                        free > 100 ? free.toFixed() : free.toPrecision(2),
+                        full > 100 ? full.toFixed() : full.toPrecision(2),]);
+                    const meter = document.querySelector("#freespace");
+                    meter.max = full;
+                    meter.value = free;
+                    meter.low = full / 10;
+                    freeSpaceGauge.style.visibility = "visible";
+                }
+            });
+    }
+    // Show cloud flavor and version
     document.querySelector("#cloud_version").textContent = hiddenVersion.value;
     document.querySelector("#service_url").href = serverUrl.value;
     if (hiddenProductname.value && hiddenProductname.value !== "undefined") {
@@ -248,7 +255,7 @@ serverUrl.onchange = async () => {
     hiddenVersion.value = ct.versionstring;
     hiddenType.value = ct.type;
     hiddenProductname.value = ct.productname;
-    if (ct.type==="Unsupported") {
+    if (ct.type === "Unsupported") {
         popup.warn("unsupported_cloud");
     }
 

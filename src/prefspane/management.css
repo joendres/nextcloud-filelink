@@ -10,47 +10,47 @@ body {
 
 /* show the turning wheel cursor while the dialog is busy */
 
-body.busy * {
+.busy * {
     cursor: progress;
 }
 
 /* Header elements */
 
 #header::after {
-    content: "";
     clear: both;
+    content: "";
     display: table;
 }
 
 h2 {
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
     margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 #cloud_info {
     float: right;
-    text-align: right;
     margin-left: 8px;
+    text-align: right;
 }
 
-#cloud_info #logo {
+#logo {
     height: 36px;
 }
 
 /* Free space display */
 
 #freespaceGauge {
-    margin-top: 4px;
     display: flex;
-    white-space: nowrap;
+    margin-top: 4px;
     visibility: hidden;
+    white-space: nowrap;
 }
 
 meter {
-    width: 100%;
     margin-left: .5em;
+    width: 100%;
 }
 
 meter:-moz-meter-optimum::-moz-meter-bar {
@@ -92,11 +92,11 @@ input[type=number] {
 }
 
 .helpbutton p {
-    visibility: hidden;
     position: absolute;
-    z-index: 1;
-    width: 50%;
     right: 0;
+    visibility: hidden;
+    width: 50%;
+    z-index: 1;
 }
 
 .helpbutton:hover p {

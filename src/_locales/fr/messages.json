@@ -63,5 +63,24 @@
         "content": "$2"
       }
     }
+  },
+  "success": {
+    "message": "Réussi"
+  },
+  "error_0": {
+    "message": "Erreur inconnue"
+  },
+  "error_cloud_unreachable": {
+    "message": "Connexion impossible. Veuillez vérifier votre connexion internet et l'adresse de votre serveur."
+  },
+  "error_no_cloud": {
+    "message": "Aucun serveur Cloud compatible trouvé avec cette adresse."
+  },
+  "unsupported_cloud": {
+    "message": "Attention, la version d'ownCloud ou Nextcloud que vous utilisez est obsolète. Si vous continuez, vous risquez de perdre des données. Contactez l'administrateur de votre serveur pour une mise à jour."
+  },
+  "obsolete_version": {
+    "description": "This is displayed instead of the icon if the cloud version is not supported, so it should be quite short and contain exactly two lines.",
+    "message": "Version<br>obsolète"
   }
 }

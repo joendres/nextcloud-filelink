@@ -20,6 +20,7 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 
 /* global encodepath */
+/* exported DavUploader */
 
 /** AbortControllers for all active uploads */
 var allAbortControllers = new Map();
@@ -59,10 +60,9 @@ class DavUploader {
      * @param {number} fileId The id Thunderbird uses to reference the upload
      * @param {string} fileName w/o path
      * @param {File} fileObject the local file as a File object
+     * @returns {Promise<Response>}
      */
     async uploadFile(fileId, fileName, fileObject) {
-        let response = {};
-
         const stat = await this._getRemoteFileInfo(fileName);
 
         if (!stat) {
@@ -87,7 +87,7 @@ class DavUploader {
      * Create a complete folder path, returns true if that path already exists
      *
      * @param {string} folder 
-     * @returns {bool} if creation succeeded
+     * @returns {boolean} if creation succeeded
      */
     async _recursivelyCreateFolder(folder) {
         // Looks clumsy, but *always* make sure recursion ends
@@ -95,7 +95,7 @@ class DavUploader {
             return false;
         } else {
             let response = await this._doDavCall(folder, 'MKCOL')
-                .catch(e => { return { status: 666, }; });
+                .catch(() => ({ status: 666, }));
             switch (response.status) {
                 case 405: // Already exists
                 case 201: // Created successfully
@@ -105,7 +105,7 @@ class DavUploader {
                     if (await this._recursivelyCreateFolder(folder.split("/").slice(0, -1).join("/"))) {
                         // Try again to create the initial folder
                         response = await this._doDavCall(folder, 'MKCOL')
-                            .catch(e => { return { status: 666, }; });
+                            .catch(() => ({ status: 666, }));
                         return (201 === response.status);
                     }
                     break;
@@ -117,7 +117,7 @@ class DavUploader {
     /**
      * Fetches information about a remote file
      * @param {File} file The file to check on the cloud
-     * @returns {Promise} A promise resolving to an object containing mtime and
+     * @returns {Promise<?{mtime: Date, size: number}} A promise resolving to an object containing mtime and
      * size or an empty object if the file doesn't exit
      */
     async _getRemoteFileInfo(fileName) {
@@ -178,7 +178,7 @@ class DavUploader {
      * @param {number} fileId Thunderbird's internal file if
      * @param {string} fileName The name in the cloud
      * @param {File} fileObject The File object to upload
-     * @returns {Promise} A Promise that resolves to the http response
+     * @returns {Promise<Response>} A Promise that resolves to the http response
      */
     async _doUpload(fileId, fileName, fileObject) {
         // Make sure storageFolder exists. Creation implicitly checks for
@@ -218,10 +218,10 @@ class DavUploader {
      *
      * @param {string} path the full file path of the object
      * @param {string} [method=GET] the HTTP METHOD to use, default GET
-     * @param {*} [body] Body of the request, eg. file contents
-     * @param {*} [abortController] An AbortController to abort the network
+     * @param {Array} [body] Body of the request, eg. file contents
+     * @param {Array} [abortController] An AbortController to abort the network
      * transaction
-     * @returns {*}  A Promise that resolves to the Response object
+     * @returns {Promise<Response>}  A Promise that resolves to the Response object
      */
     async _doDavCall(path, method, body, abortController, additional_headers) {
         let url = this._serverurl;
