@@ -14,7 +14,8 @@
     ],
     "cSpell.language": "de,en",
     "cSpell.allowCompoundWords": true,
-    "git.alwaysSignOff": true,
     "git.fetchOnPull": true,
-    "git.untrackedChanges": "separate"
+    "git.untrackedChanges": "separate",
+    "gitlab.enableExperimentalFeatures": true,
+    "gitlab.showPipelineUpdateNotifications": true
 }

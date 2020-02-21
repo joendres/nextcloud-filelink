@@ -36,6 +36,20 @@
                 }
             },
             "problemMatcher": []
+        },
+        {
+            "label": "web-ext: run in thunderbird, keep profile changes",
+            "type": "shell",
+            "command": "web-ext run --browser-console --keep-profile-changes -s src",
+            "windows": {
+                "options": {
+                    "env": {
+                        "WEB_EXT_FIREFOX": "C:\\Program Files\\Mozilla Thunderbird\\thunderbird.exe",
+                        "WEB_EXT_FIREFOX_PROFILE": "${env:APPDATA}\\Thunderbird\\Profiles\\plyesg2i.debug"
+                    }
+                }
+            },
+            "problemMatcher": []
         }
     ]
 }

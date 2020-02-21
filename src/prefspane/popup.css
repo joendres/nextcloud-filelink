@@ -1,22 +1,19 @@
 /* Message bar */
 
 #msg_container {
-    /* functional */
-    /* visibility: hidden; */
-    z-index: 1;
     position: absolute;
     top: 9%;
-    /* Fit into frame */
     width: 97%;
+    z-index: 1;
 }
 
 .msg_bar {
-    min-height: 32px;
     border-radius: 4px;
-    padding: 4px;
-    margin-bottom: 4px;
     font-size: var(--body-10);
     font-weight: 400;
+    margin-bottom: 4px;
+    min-height: 32px;
+    padding: 4px;
 }
 
 .msg_bar .popup_message {
@@ -25,26 +22,28 @@
 }
 
 .msg_bar .msg_bar_icon {
-    float: left;
-    padding: 4px;
+    background-color: currentColor;
     box-sizing: content-box;
-    width: 16px;
+    float: left;
     height: 16px;
+    mask-position: center;
     mask-repeat: no-repeat;
     mask-size: 16px;
-    mask-position: center;
+    padding: 4px;
+    width: 16px;
 }
 
 .msg_bar .msg_bar_closebtn {
-    float: right;
-    mask-image: url(images/Close.svg);
-    padding: 4px;
+    background-color: currentColor;
     box-sizing: content-box;
-    width: 16px;
+    float: right;
     height: 16px;
+    mask-image: url(images/Close.svg);
+    mask-position: center;
     mask-repeat: no-repeat;
     mask-size: 16px;
-    mask-position: center;
+    padding: 4px;
+    width: 16px;
 }
 
 .error_bar {
@@ -54,11 +53,6 @@
 
 .error_bar>.msg_bar_icon {
     mask-image: url(images/Warning.svg);
-    background: white;
-}
-
-.error_bar>.msg_bar_closebtn {
-    background: white;
 }
 
 .warning_bar {
@@ -68,11 +62,6 @@
 
 .warning_bar>.msg_bar_icon {
     mask-image: url(images/Warning.svg);
-    background: var(--yellow-90);
-}
-
-.warning_bar>.msg_bar_closebtn {
-    background: var(--yellow-90);
 }
 
 .success_bar {
@@ -82,9 +71,4 @@
 
 .success_bar>.msg_bar_icon {
     mask-image: url(images/Check.svg);
-    background: var(--green-90);
-}
-
-.success_bar>.msg_bar_closebtn {
-    background: var(--green-90);
 }

@@ -66,5 +66,18 @@
   },
   "error_0": {
     "message": "Error desconegut"
+  },
+  "error_cloud_unreachable": {
+    "message": "Sense connexió. Comprova la URL del servidor i la connexió de xarxa."
+  },
+  "error_no_cloud": {
+    "message": "No trobo un núvol compatible a la URL donada."
+  },
+  "unsupported_cloud": {
+    "message": "Versió obsoleta de Nextcloud o ownCloud. Pots perdre dades. Contacta el teu administrador per actualitzar."
+  },
+  "obsolete_version": {
+    "description": "This is displayed instead of the icon if the cloud version is not supported, so it should be quite short and contain exactly two lines.",
+    "message": "Versió<br>obsoleta"
   }
 }
