@@ -25,8 +25,6 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 /** AbortControllers for all active uploads */
 var allAbortControllers = new Map();
 
-const davTimeout = 3; // seconds
-
 /**
  * This class encapsulates communication with a WebDAV service
  */
@@ -71,7 +69,7 @@ class DavUploader {
         } else {
             // There is a file of the same name
             if ((Math.abs(stat.mtime - fileObject.lastModified) < 1000 &&
-             stat.size === fileObject.size)) {
+                stat.size === fileObject.size)) {
                 // It's the same as the local file
                 return { ok: true, };
             } else {
@@ -228,26 +226,20 @@ class DavUploader {
         url += this._davUrl;
         url += encodepath(path);
 
-        // If an AbortController was given, use it ...
-        let controller = abortController;
-        let timeout;
-        if (!controller) {
-            // ... otherwise create one that handles the timeout
-            controller = new AbortController();
-            timeout = setTimeout(() => controller.abort(),
-                1000 * davTimeout);
-        }
-
         let fetchInfo = {
-            signal: controller.signal,
             method,
             headers: additional_headers ? { ...this._davHeaders, ...additional_headers, } : this._davHeaders,
         };
+
+        // If an AbortController was given, use it ...
+        if (abortController && abortController.signal) {
+            fetchInfo.signal = abortController.signal;
+        }
+
         if (body) {
             fetchInfo.body = body;
         }
 
-        return fetch(url, fetchInfo)
-            .then(clearTimeout(timeout));
+        return fetch(url, fetchInfo);
     }
 }

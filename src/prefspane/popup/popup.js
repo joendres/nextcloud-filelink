@@ -68,8 +68,8 @@ class popup {
      * Closes the parent of the close button that has been clicked
      * @param {event} e The onClick event on the close button
      */
-    static close(e) {
-        e.target.parentElement.remove();
+    static close() {
+        this.parentElement.remove();
     }
 
     /**
