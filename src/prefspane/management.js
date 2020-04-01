@@ -25,177 +25,108 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 const accountId = new URL(location.href).searchParams.get("accountId");
 const ncc = new CloudConnection(accountId);
 
-const freeSpaceGauge = document.querySelector("#freespaceGauge");
-const hiddenVersion = document.querySelector("#versionstring");
-const hiddenType = document.querySelector("#cloudtype");
-const hiddenProductname = document.querySelector("#productname");
+//#region direct access to html elements
+const freeSpaceGauge = document.getElementById("freespaceGauge");
+const hiddenVersion = document.getElementById("versionstring");
+const hiddenType = document.getElementById("cloudtype");
+const hiddenProductname = document.getElementById("productname");
 
-const accountForm = document.querySelector("#accountForm");
-const serverUrl = document.querySelector("#serverUrl");
-const username = document.querySelector("#username");
-const password = document.querySelector("#password");
-const storageFolder = document.querySelector("#storageFolder");
-const useDlPassword = document.querySelector("#useDlPassword");
-const downloadPassword = document.querySelector("#downloadPassword");
-const useExpiry = document.querySelector("#useExpiry");
-const expiryDays = document.querySelector("#expiryDays");
-const saveButton = document.querySelector("#saveButton");
-const resetButton = document.querySelector("#resetButton");
+const serverUrl = document.getElementById("serverUrl");
+const username = document.getElementById("username");
+const password = document.getElementById("password");
+const storageFolder = document.getElementById("storageFolder");
+const useDlPassword = document.getElementById("useDlPassword");
+const downloadPassword = document.getElementById("downloadPassword");
+const useExpiry = document.getElementById("useExpiry");
+const expiryDays = document.getElementById("expiryDays");
+const saveButton = document.getElementById("saveButton");
+const resetButton = document.getElementById("resetButton");
+const all_inputs = document.querySelectorAll("input");
 
+const provider_management = document.querySelector("body");
+//#endregion
+//#region main
 (() => {
-    // Fill in form fields
-    setStoredData()
-        .then(fillHeader);
+    fillFormWithStoredData()
+        .then(updateCloudversion)
+        .then(updateGauge);
 
-    // Add localized strings
-    document.querySelectorAll("[data-message]")
-        .forEach(element => {
-            element.innerHTML = browser.i18n.getMessage(element.dataset.message);
-        });
+    addLocalizedLabels();
 
-    // Make form active
-    document.querySelectorAll("input")
-        .forEach(inp => {
-            inp.oninput = activateButtons;
-        });
+    linkButtonStateToFieldChanges();
+
+    linkUrlchangeToCloudversion();
+    serverUrl.addEventListener("change", updateGauge);
+    username.addEventListener("change", updateGauge);
+
+    linkElementStateToCheckbox(downloadPassword, useDlPassword);
+    linkElementStateToCheckbox(expiryDays, useExpiry);
 })();
+//#endregion
 
-function fillHeader() {
-    // Only show gauge if relevant form data match the account data
-    if (username.value !== ncc.username || serverUrl.value !== ncc.serverUrl) {
-        freeSpaceGauge.style.visibility = "hidden";
-    } else {
-        browser.cloudFile.getAccount(accountId)
-            .then(theAccount => {
-                // Update the free space gauge
-                let free = theAccount.spaceRemaining;
-                const used = theAccount.spaceUsed;
-                if (free >= 0 && used >= 0) {
-                    const full = (free + used) / (1024.0 * 1024.0 * 1024.0); // Convert bytes to gigabytes
-                    free /= 1024.0 * 1024.0 * 1024.0;
-                    document.querySelector("#freespacelabel").textContent = browser.i18n.getMessage("freespace", [
-                        free > 100 ? free.toFixed() : free.toPrecision(2),
-                        full > 100 ? full.toFixed() : full.toPrecision(2),]);
-                    const meter = document.querySelector("#freespace");
-                    meter.max = full;
-                    meter.value = free;
-                    meter.low = full / 10;
-                    freeSpaceGauge.style.visibility = "visible";
-                }
-            });
-    }
-    // Show cloud flavor and version
-    document.querySelector("#cloud_version").textContent = hiddenVersion.value;
-    document.querySelector("#service_url").href = serverUrl.value;
-    if (hiddenProductname.value && hiddenProductname.value !== "undefined") {
-        document.querySelector("#provider-name").textContent = hiddenProductname.value;
-    } else {
-        document.querySelector("#provider-name").textContent = "*cloud";
+//#region html element event handlers
+/**
+ * Save button is only active if field values validate OK
+ * Reset button is only active if any field has been changed
+ */
+async function linkButtonStateToFieldChanges() {
+    const accountForm = document.getElementById("accountForm");
+
+    function updateButtons() {
+        saveButton.disabled = !accountForm.checkValidity();
+        resetButton.disabled = false;
     }
 
-    switch (hiddenType.value) {
-        case "Nextcloud":
-            document.querySelector("#logo").src = "nextcloud-logo.svg";
-            document.querySelector("#logo").hidden = false;
-            document.querySelector("#obsolete_string").hidden = true;
-            break;
-
-        case "ownCloud":
-            document.querySelector("#logo").src = "owncloud-logo.svg";
-            document.querySelector("#logo").hidden = false;
-            document.querySelector("#obsolete_string").hidden = true;
-            break;
-
-        case "Unsupported":
-            document.querySelector("#logo").hidden = true;
-            document.querySelector("#obsolete_string").hidden = false;
-            break;
-
-        default:
-            document.querySelector("#logo").src = "management.png";
-            document.querySelector("#logo").hidden = false;
-            document.querySelector("#obsolete_string").hidden = true;
-            break;
-    }
+    ["input", "change",].forEach(ev => {
+        accountForm.addEventListener(ev, updateButtons);
+    });
 }
 
 /**
- * Load stored account data into form
+ *  enable/disable text input field according to checkbox state
  */
-async function setStoredData() {
-    await ncc.load();
-
-    document.querySelectorAll("input")
-        .forEach(inp => {
-            if (inp.type === "checkbox") {
-                inp.checked = Boolean(ncc[inp.id]);
-            } else if (ncc[inp.id]) {
-                inp.value = ncc[inp.id];
-            }
-        });
-
-    downloadPassword.disabled = !useDlPassword.checked;
-    downloadPassword.required = useDlPassword.checked;
-
-    expiryDays.disabled = !useExpiry.checked;
-    expiryDays.required = useExpiry.checked;
-}
-
-/** 
- * Handler for input event of all inputs: Only activate the buttons, if the form
- * input is OK
- */
-function activateButtons() {
-    if (accountForm.checkValidity()) {
-        saveButton.disabled = false;
-    } else {
-        saveButton.disabled = true;
-    }
-    resetButton.disabled = false;
-}
-
-function linkDisabledToCheckbox(element, checkbox) {
-    checkbox.addEventListener("click", async () => {
+async function linkElementStateToCheckbox(element, checkbox) {
+    checkbox.addEventListener("change", async () => {
         element.disabled = !checkbox.checked;
         element.required = !element.disabled;
     });
 }
 
 /**
- *  enable/disable download password field according to checkbox state
+ * Get cloud flavor and version as soon as we have an url
  */
-linkDisabledToCheckbox(downloadPassword, useDlPassword);
-
-linkDisabledToCheckbox(expiryDays, useExpiry);
+async function linkUrlchangeToCloudversion() {
+    serverUrl.addEventListener("change", async () => {
+        // this is only triggered if the field value really changed
+        serverUrl.value = serverUrl.value.trim();
+        if (serverUrl.checkValidity()) {
+            await getCloudVersion(serverUrl.value);
+        }
+        updateCloudversion();
+    });
+}
 
 /** 
  * Handler for Cancel button, restores saved values
  */
 resetButton.onclick = async () => {
-    setStoredData();
+    popup.clear();
+    fillFormWithStoredData()
+        .then(updateCloudversion)
+        .then(updateGauge);
     resetButton.disabled = saveButton.disabled = true;
 };
 
 /** Handler for Save button */
 saveButton.onclick = async () => {
-    // deactivate the form while handling it
-    const provider_management = document.querySelector("body");
-    provider_management.classList.add('busy');
-    saveButton.disabled = resetButton.disabled = true;
-    let states = {};
-    document.querySelectorAll("input")
-        .forEach(element => {
-            states[element.id] = element.disabled;
-            element.disabled = true;
-        });
+    const states = lookBusy();
 
     // Sanitize input
-    document.querySelectorAll("input")
+    all_inputs
         .forEach(element => {
             element.value = element.value.trim();
         });
     serverUrl.value = serverUrl.value.replace(/\/+$/, "");
-
     storageFolder.value = "/" + storageFolder.value.split('/').filter(e => "" !== e).join('/');
 
     // If user typed new password, username or URL the token is likely not valid any more
@@ -203,8 +134,8 @@ saveButton.onclick = async () => {
         username.value !== ncc.username ||
         serverUrl.value !== ncc.serverUrl;
 
-    // Copy data into a connection object
-    document.querySelectorAll("input")
+    // Copy data into the connection object
+    all_inputs
         .forEach(inp => {
             if (inp.type === "checkbox") {
                 ncc[inp.id] = inp.checked;
@@ -212,10 +143,6 @@ saveButton.onclick = async () => {
                 ncc[inp.id] = inp.value;
             }
         });
-
-    // Update header
-    ncc.updateFreeSpaceInfo();
-    fillHeader();
 
     // Try to convert the password into App Token if necessary
     if (needsNewToken) {
@@ -227,24 +154,127 @@ saveButton.onclick = async () => {
         .then(ncc.updateConfigured());
 
     // Re-activate form
-    for (const elementId in states) {
-        document.getElementById(elementId).disabled = states[elementId];
-    }
-    provider_management.classList.remove('busy');
-};
+    stopLookingBusy(await states);
 
-serverUrl.onchange = async () => {
-    serverUrl.value = serverUrl.value.trim();
+    // Update header
+    ncc.updateFreeSpaceInfo()
+        .then(updateGauge);
+};
+//#endregion
+//#region Fill visible html elements with content
+/**
+ * Set all the labels to localized strings
+ */
+async function addLocalizedLabels() {
+    document.querySelectorAll("[data-message]")
+        .forEach(element => {
+            element.innerHTML = browser.i18n.getMessage(element.dataset.message);
+        });
+}
+
+/**
+ * Update free space gauge
+ */
+async function updateGauge() {
+    // Only show gauge if relevant form data match the account data
+    if (username.value !== ncc.username || serverUrl.value !== ncc.serverUrl) {
+        freeSpaceGauge.style.visibility = "hidden";
+    } else {
+        let theAccount = await browser.cloudFile.getAccount(accountId);
+        // Update the free space gauge
+        let free = theAccount.spaceRemaining;
+        const used = theAccount.spaceUsed;
+        if (free >= 0 && used >= 0) {
+            const full = (free + used) / (1024.0 * 1024.0 * 1024.0); // Convert bytes to gigabytes
+            free /= 1024.0 * 1024.0 * 1024.0;
+            document.getElementById("freespacelabel").textContent = browser.i18n.getMessage("freespace", [
+                free > 100 ? free.toFixed() : free.toPrecision(2),
+                full > 100 ? full.toFixed() : full.toPrecision(2),]);
+            const meter = document.getElementById("freespace");
+            meter.max = full;
+            meter.value = free;
+            meter.low = full / 10;
+            freeSpaceGauge.style.visibility = "visible";
+        }
+    }
+}
+
+/**
+ * update cloud version display
+ */
+async function updateCloudversion() {
+    // Show cloud flavor and version
+    document.getElementById("cloud_version").textContent = hiddenVersion.value;
+    document.getElementById("service_url").href = serverUrl.value;
+    if (hiddenProductname.value && hiddenProductname.value !== "undefined") {
+        document.getElementById("provider-name").textContent = hiddenProductname.value;
+    } else {
+        document.getElementById("provider-name").textContent = "*cloud";
+    }
+
+    document.getElementById("logo").hidden = false;
+    document.getElementById("obsolete_string").hidden = true;
+    switch (hiddenType.value) {
+        case "Nextcloud":
+            document.getElementById("logo").src = "images/nextcloud-logo.svg";
+            break;
+
+        case "ownCloud":
+            document.getElementById("logo").src = "images/owncloud-logo.svg";
+            break;
+
+        case "Unsupported":
+            document.getElementById("logo").hidden = true;
+            document.getElementById("obsolete_string").hidden = false;
+            break;
+
+        default:
+            document.getElementById("logo").src = "images/management.png";
+            break;
+    }
+}
+
+/**
+ * Load stored account data into form
+ */
+async function fillFormWithStoredData() {
+    await ncc.load();
+
+    all_inputs
+        .forEach(inp => {
+            if (inp.type === "checkbox") {
+                inp.checked = !!ncc[inp.id];
+            } else if (ncc[inp.id]) {
+                inp.value = ncc[inp.id];
+            }
+        });
+
+    downloadPassword.disabled = !useDlPassword.checked;
+    downloadPassword.required = useDlPassword.checked;
+
+    expiryDays.disabled = !useExpiry.checked;
+    expiryDays.required = useExpiry.checked;
+}
+//#endregion
+
+//#region Helpers
+/**
+ * Fetch the cloud version and show error messages if that leads to problems
+ * @param {string} url The base url of the cloud
+ */
+async function getCloudVersion(url) {
     let ct = { type: null, versionstring: null, };
     popup.clear();
     try {
-        ct = await CloudConnection.fetchCloudVersion(serverUrl.value);
+        ct = await CloudConnection.fetchCloudVersion(url);
     } catch (error) {
         switch (error.name) {
             case "SyntaxError":
+                // Could not parse JSON
                 popup.error("no_cloud");
                 break;
             case "TypeError":
+                // fetch had a severe problem
                 popup.error("cloud_unreachable");
                 break;
             default:
@@ -258,6 +288,33 @@ serverUrl.onchange = async () => {
     if (ct.type === "Unsupported") {
         popup.warn("unsupported_cloud");
     }
+}
 
-    fillHeader();
-};
+/**
+ * Set the busy cursor and deactivate all inputs
+ * @returns {object} An object that contains the disabled state of all inputs, indexed by id
+ */
+async function lookBusy() {
+    provider_management.classList.add('busy');
+    saveButton.disabled = resetButton.disabled = true;
+    let states = {};
+    all_inputs
+        .forEach(element => {
+            states[element.id] = element.disabled;
+            element.disabled = true;
+        });
+    return states;
+}
+
+/**
+ * Hide the busy cursor and reactivate all fields that were active
+ * @param {Object} states The previous states of the elements as returned by lookBusy
+ */
+async function stopLookingBusy(states) {
+    for (const elementId in states) {
+        document.getElementById(elementId).disabled = states[elementId];
+    }
+    provider_management.classList.remove('busy');
+}
+
+//#endregion

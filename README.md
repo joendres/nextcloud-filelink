@@ -23,6 +23,7 @@ Information for
 
 __*cloud__ is available via [Thunderbird's Add-on
 repository](https://addons.thunderbird.net/thunderbird/addon/filelink-nextcloud-owncloud/).
+
 1. Install it directly from the Add-ons management within Thunderbird.
 1. Go to Settings -> Attachments -> Sending to configure your Nextcloud or
    ownCloud account.
@@ -34,8 +35,8 @@ __*cloud__. There are two ways to get such a token:
 
 * *If you are using Nextcloud or ownCloud:* Open your account in the browser and
   go to Settings -> Security -> App Token and at the bottom of the page generate
-  a new token. Copy&paste it into the "App token" field of the Attachments preferences page in
-  Thunderbird.
+  a new token. Copy&paste it into the "App token" field of the Attachments
+  preferences page in Thunderbird.
 
 * *Only if you are using Nextcloud:* Type your regular user password into the
   Attachments preferences page in Thunderbird. Upon saving, the Add-On will
@@ -48,22 +49,34 @@ __*cloud__. There are two ways to get such a token:
 
 ### Handling of existing files
 
- * If you attach a file that's already in the attachments folder in your cloud *with identical contents*,
-that file is not uploaded again. Instead the existing file is shared.\
-You can use this, if you want to share large (or many) files: Sync your
-attachments folder to a folder on your computer using the desktop client. If you
-then attach a synced file from your computer to a message, __*cloud__ will
-notice that it's already uploaded. This might not work with uploads from the
-mobile clients, but I haven't tested it.
+* If you attach a file that's already in the attachments folder in your cloud
+  *with identical contents*, that file is not uploaded again. Instead the
+  existing file is shared.\
+  You can use this, if you want to share large (or many) files: Sync your
+  attachments folder to a folder on your computer using the desktop client. If
+  you then attach a synced file from your computer to a message, __*cloud__ will
+  notice that it's already uploaded. This might not work with uploads from the
+  mobile clients, but I haven't tested it.
 
- * If you attach a file with the same name but different contents as a cloud file, the cloud file will not be overwritten. Instead __*cloud__ moves the existing file to a subfolder of the attachments folder; the original share link will remain valid and point to the old content.\
+* If you attach a file with the same name but different contents as a cloud
+  file, the cloud file will not be overwritten. Instead __*cloud__ moves the
+  existing file to a subfolder of the attachments folder; the original share
+  link will remain valid and point to the old content.\
  Then the new file is uploaded and shared with a new share link.
 
 __*cloud__ uses the same method as the
 Nextcloud/ownCloud desktop clients to decide if the local and remote files are
-identical. 
+identical.
 
 ### Known issues
+
+#### Sometimes uploads fail if expiry date is set
+
+If your admin has configured a maximum expiry time on the cloud server and you configure an expiry time in ___*cloud___ that ist _longer_ than the maximum, uploads fail. You can check for an expiry time maximum by creating a share link in the cloud's web interface; it won't let you a longer expiry time.
+
+**Workaround:** Set a shorter expiry time. Or don't set one at all; in this case your download will expire after the maximum time configured on the server.
+
+**Solution:** One of the next versions of ___*cloud___ will check for the maximum expiry time of the server.
 
 #### Only one download password for all uploads
 
@@ -78,26 +91,70 @@ multiple accounts with different passwords.
 
 #### Attaching files from SMB shares
 
-If you attach a file from a SMB share, it's uploaded to the cloud and the share link is inserted into your mail, but still the file is attached to the message. This is not a bug in __*cloud__ but a [known bug in Thunderbird](https://bugzilla.mozilla.org/show_bug.cgi?id=793118). There is nothing I can do about it in __*cloud__, sorry.
+If you attach a file from a SMB share, it's uploaded to the cloud and the share
+link is inserted into your mail, but still the file is attached to the message.
+This is not a bug in __*cloud__ but a [known bug in
+Thunderbird](https://bugzilla.mozilla.org/show_bug.cgi?id=793118). There is
+nothing I can do about it in __*cloud__, sorry.
 
 **Workaround:** Copy the file from the SMB share to your local disk before attaching it.
+
+#### URL works in browser but not in *cloud
+
+In some situations the url you use to access your Nextcloud/ownCloud account in
+the browser doesn't work in __*cloud__. That happens if your access url is
+redirected to the actual cloud location (plus some technicality). In these
+situations __*cloud__ can't find out the actual cloud location.
+
+**Workaround:** Tell __*cloud__ where to find the cloud:
+
+1. Open your cloud in the browser.
+1. Copy the url from the url bar, but
+   1. leave out `/login` at the end
+   1. leave out `/index.php`, if it's there
+1. Paste the rest into the server url field in __*cloud__'s configuration (in
+   Thunderbird).
+
+Examples:
+
+* If the url in your browser is `https://example.com/cloud/login`, paste
+  `https://example.com/cloud`.
+* If the url in your browser is `https://example.com/cloud/index.php/login`,
+  paste `https://example.com/cloud`.
+* If the url in your browser is `https://example.com/path/to/cloud/login`, paste
+  `https://example.com/path/to/cloud`.
+
+**Solution:** Point your cloud admin to the admin guide below and ask him to redirect *all* urls.
+
+#### Service name in messages is always "*cloud"
+
+When the download url is inserted into the email message, the hosting service is
+always shown as "__*cloud__". It would be less confusing, if instead the actual
+name of the service would be shown. But this is (currently) not possible, as the
+text surrounding the url is part of Thunderbird. And Thunderbird insists on
+using the name of the extension here. there's nothing the extension can do about
+this, *sorry*.
 
 #### Upload problems
 
 * The *download* password has to comply to the rules for passwords on your
   cloud, otherwise the *upload* will fail. There are default rules of Nextcloud
-  and ownCloud, and your admin might have configured some different rules. 
+  and ownCloud, and your admin might have configured some different rules.
 * If all uploads fail, it might be a problem with the settings in your Nextcloud or
   ownCloud (point your admin to the [Admin guide](#user-content-nextcloud-admin-guide)).
-* If the Add-On still fails, please check if it's a [known bug](https://gitlab.com/joendres/filelink-nextcloud/-/boards). Feel free to open a new issue otherwise.
+* If the Add-On still fails, please check if it's a [known
+  bug](https://gitlab.com/joendres/filelink-nextcloud/-/boards). Feel free to
+  open a new issue otherwise.
 
-#### Old files are not deleted 
+#### Old files are not deleted
 
 Thunderbird and __*cloud__ don't know, if a shared file has been downloaded, so
 they cannot decide which files are obsolete. You have to clean up your
 attachments folder yourself, sorry.
 
 ## Cloud admin guide
+
+### Server settings
 
 Some settings in Nextcloud/ownCloud are relevant for this Add-On:
 
@@ -107,12 +164,18 @@ Some settings in Nextcloud/ownCloud are relevant for this Add-On:
   (*mandatory*)
 * **Settings -> Sharing -> Allow users to share via link -> Enforce password
   protection** might result in confusing error messages to users, because the
-  *upload* in Thunderbird fails if an invalid password is requested. Be prepared
-  for questions, if you enable this. (*optionally off*)
+  *upload* in Thunderbird fails if an invalid password is requested. Be
+  prepared for questions, if you enable this. (*optionally off*)
+
+### Redirects
+
+In some configurations a start url like `https://cloud.example.com` is redirected to the actual url of the cloud eg `https://example.com/cloud`. __*cloud__ has to access many different paths below this url, eg. `status.php`. If these are not also redirected (`https://cloud.example.com/status.php` -> `https://example.com/cloud/status.php`), __*cloud__ can't access them and doesn't work. There is no way for the extension to find the actual base url with some certainty.
+
+There is a workaround: Users can find out the actual url and configure it in __*cloud__. But the real solution is to redirect all urls. So it would be greatly appreciated if you would do that in your cloud instance (if you have to use redirects at all). Thanks.
 
 ## Developer guide
 
-The project lives on GitLab: https://gitlab.com/joendres/filelink-nextcloud. If
+The project lives on GitLab: <https://gitlab.com/joendres/filelink-nextcloud>. If
 you'd like to contribute to the project, help with testing on different
 platforms, have a feature suggestion or any other comment, just contact
 [me](@joendres).
@@ -124,7 +187,7 @@ platforms, have a feature suggestion or any other comment, just contact
 * [ownCloud External
   API](https://doc.owncloud.com/server/developer_manual/core/apis/ocs/notifications/ocs-endpoint-v1.html)
 * [Thunderbird WebExtension
-  APIs](https://thunderbird-webextensions.readthedocs.io/en/latest/index.html) 
+  APIs](https://thunderbird-webextensions.readthedocs.io/en/latest/index.html)
 * [Example extensions for Thunderbird WebExtensions
   APIs](https://github.com/thundernest/sample-extensions)
 * [What you need to know about making add-ons for
@@ -133,8 +196,12 @@ platforms, have a feature suggestion or any other comment, just contact
   web-ext](https://extensionworkshop.com/documentation/develop/getting-started-with-web-ext)
   If you are developing WebExtensions, you want to use this tool. For debugging
   just set the ```firefox``` config option to your thunderbird binary.
+* [@JasonBayton](https://twitter.com/jasonbayton) runs [Nextcloud demo
+  servers](https://bayton.org/2017/02/introducing-nextcloud-demo-servers/) of
+  many (old) versions, great for testing.
 
 ## Contributors
+
 * [Johannes Endres](@joendres), initial implementation, maintainer
 * [Josep Manel Mendoza](@josepmanel), catalan and spanish translations
 * [Gorom](@Go-rom), french translation

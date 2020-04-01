@@ -38,7 +38,7 @@
     box-sizing: content-box;
     float: right;
     height: 16px;
-    mask-image: url(images/Close.svg);
+    mask-image: url(../images/Close.svg);
     mask-position: center;
     mask-repeat: no-repeat;
     mask-size: 16px;
@@ -52,7 +52,7 @@
 }
 
 .error_bar>.msg_bar_icon {
-    mask-image: url(images/Warning.svg);
+    mask-image: url(../images/Warning.svg);
 }
 
 .warning_bar {
@@ -61,7 +61,7 @@
 }
 
 .warning_bar>.msg_bar_icon {
-    mask-image: url(images/Warning.svg);
+    mask-image: url(../images/Warning.svg);
 }
 
 .success_bar {
@@ -70,5 +70,5 @@
 }
 
 .success_bar>.msg_bar_icon {
-    mask-image: url(images/Check.svg);
+    mask-image: url(../images/Check.svg);
 }

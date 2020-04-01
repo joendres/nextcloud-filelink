@@ -24,8 +24,6 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 /* global daysFromTodayIso */
 
 //#region  Configurable options and useful constants
-const apiTimeout = 3; // seconds
-
 const apiUrlBase = "/ocs/v1.php";
 const apiUrlUserInfo = "/cloud/users/";
 const apiUrlShares = "/apps/files_sharing/api/v1/shares";
@@ -290,12 +288,8 @@ class CloudConnection {
         if (undefined !== body) {
             fetchInfo.body = body;
         }
-        let controller = new AbortController();
-        let timeout = setTimeout(() => controller.abort(), 1000 * apiTimeout);
-        fetchInfo.signal = controller.signal;
 
         return fetch(url, fetchInfo)
-            .then(clearTimeout(timeout))
             .then(response => response.json())
             .then(
                 // json was parseable

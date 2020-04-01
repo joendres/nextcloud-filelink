@@ -68,7 +68,7 @@
     "message": "Unknown error"
   },
   "error_cloud_unreachable": {
-    "message": "No connection. Check Server URL and network conection."
+    "message": "No connection. Check Server URL and network connection."
   },
   "error_no_cloud": {
     "message": "No compatible cloud at this URL."

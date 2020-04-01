@@ -30,10 +30,7 @@
   <title>*cloud</title>
   <link rel="stylesheet" href="photon.css">
   <link rel="stylesheet" href="management.css">
-  <link rel="stylesheet" href="popup.css">
-  <script src="../lib/cloudconnection.js" defer></script>
-  <script src="popup.js" defer=""></script>
-  <script src="management.js" defer=""></script>
+  <link rel="stylesheet" href="popup/popup.css">
 </head>
 
 <body>
@@ -41,7 +38,7 @@
     <div id="cloud_info">
       <a id="service_url" tabindex="-1" class="link">
         <span id="obsolete_string" hidden data-message="obsolete_version"></span>
-        <img id="logo" src="management.png" alt="*cloud Logo" /><br />
+        <img id="logo" src="images/management.png" alt="*cloud Logo" /><br />
         <span id="cloud_version">&nbsp;</span>
       </a>
     </div>
@@ -120,13 +117,13 @@
     <p>
       <div class=" helpbutton"><img src="images/Help.svg" alt="Help icon">
         <p class="card card--shadow" data-message="expiry_details"></p>
-        </div>
-        <label class=" checkbox__label">
-          <input id="useExpiry" type="checkbox" class="checkbox" />
-          <span class="checkbox__label__text" data-message="expiryDaysBefore"></span>
-          <input type="number" id="expiryDays" min="1" step="1" value="7" disabled class="input__field">
-          <span data-message="expiryDaysAfter"> </span>
-        </label>
+      </div>
+      <label class=" checkbox__label">
+        <input id="useExpiry" type="checkbox" class="checkbox" />
+        <span class="checkbox__label__text" data-message="expiryDaysBefore"></span>
+        <input type="number" id="expiryDays" min="1" step="1" value="7" disabled class="input__field">
+        <span data-message="expiryDaysAfter"> </span>
+      </label>
     </p>
 
     <p>
@@ -154,6 +151,9 @@
     <span class="popup_message"></span>
   </div>
 
+  <script src="../lib/cloudconnection.js" defer></script>
+  <script src="popup/popup.js" defer></script>
+  <script src="management.js" defer></script>
 </body>
 
 </html>
