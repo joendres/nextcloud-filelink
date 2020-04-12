@@ -30,7 +30,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
                 ncc.load()
                     .then(() => ncc.updateConfigured())
                     .then(() => ncc.updateFreeSpaceInfo())
-                    .then(() => ncc.updateCloudVersion())
+                    .then(() => ncc.updateCapabilities())
                     .then(() => ncc.store());
             }
         });

@@ -30,13 +30,13 @@
     "message": "Mot de passe d'application ou mot de passe de votre compte utilisateur"
   },
   "password_details": {
-    "message": "Indiquez un mot de passe d'application (solution à privilégier) ou le mot de passe de votre compte utilisateur.<br><em>Uniquement avec Nextcloud</em>, cette extension tente systèmatiquement de convertir le mot de passe du compte utilisateur en un mot de passe d'application. En cas d'échec; votre <em>mot de passe sera enregistrée sans chiffrement</em>."
+    "message": "Indiquez un mot de passe d'application (solution à privilégier) ou le mot de passe de votre compte utilisateur.<br><em>Uniquement avec Nextcloud</em>, cette extension tente systèmatiquement de convertir le mot de passe du compte utilisateur en un mot de passe d'application. En cas d'échec, votre <em>mot de passe sera enregistré sans chiffrement</em>."
   },
   "storageFolder": {
     "message": "Chemin d'accès au dossier distant"
   },
   "storageFolder_details": {
-    "message": "Le chemin indiqué pointe sur le dossier distant sur votre serveur Cloud qui servira à stocker les pièces jointes volumineuses. Si le dossier indiqué n'existe pas, il sera créé automatiquement pendant le téléversement."
+    "message": "Indiquez le chemin qui pointe sur le dossier distant de votre serveur Cloud destiné à stocker les pièces jointes. Si le dossier indiqué n'existe pas, il sera créé automatiquement pendant le téléversement."
   },
   "useDlPassword": {
     "message": "Protection du téléchargement par mot de passe :"
@@ -54,7 +54,7 @@
     "message": "Nombre de jours durant lequel le lien de téléchargement sera valide, à partir de ce jour."
   },
   "freespace": {
-    "message": "Espace disponible ($FREE$ of $FULL$)",
+    "message": "Espace disponible ($FREE$GB utilisés sur $FULL$GB)",
     "placeholders": {
       "free": {
         "content": "$1"
@@ -70,17 +70,32 @@
   "error_0": {
     "message": "Erreur inconnue"
   },
-  "error_cloud_unreachable": {
+  "error_typeerror": {
     "message": "Connexion impossible. Veuillez vérifier votre connexion internet et l'adresse de votre serveur."
   },
-  "error_no_cloud": {
-    "message": "Aucun serveur Cloud compatible trouvé avec cette adresse."
+  "error_404": {
+    "message": "Utilisateur inexistant ou aucun serveur Cloud compatible à cette adresse."
   },
-  "unsupported_cloud": {
+  "warn_unsupported_cloud": {
     "message": "Attention, la version d'ownCloud ou Nextcloud que vous utilisez est obsolète. Si vous continuez, vous risquez de perdre des données. Contactez l'administrateur de votre serveur pour une mise à jour."
   },
   "obsolete_version": {
     "description": "This is displayed instead of the icon if the cloud version is not supported, so it should be quite short and contain exactly two lines.",
     "message": "Version<br>obsolète"
+  },
+  "error_401": {
+    "message": "Echec de la connexion. Vérifiez le nom d'utilisateur et le mot de passe."
+  },
+  "error_sharing_off": {
+    "message": "Le partage n'est pas activé sur ce serveur Cloud. Contactez votre administrateur pour l'activer."
+  },
+  "error_invalid_pw": {
+    "message": "Mot de passe de téléchargement incorrect (les téléversements échoueront). Raison communiquée par le serveur: $1"
+  },
+  "error_password_enforced": {
+    "message": "Votre serveur Cloud requiert un mot de passe de téléchargement. Assurez vous que celui-ci soit conforme à la politique de sécurité qui s'applique sur votre serveur (ex: longueur, chiffres, caractères spéciaux)."
+  },
+  "warn_expiry_too_long": {
+    "message": "Le temps d'expiration choisi dépasse la limite fixée par votre administrateur de serveur Cloud à $1 jour(s). La valeur a donc été ramenée à cette limite pour éviter un échec du téléversement."
   }
 }

@@ -21,18 +21,21 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 
 /* exported popup */
 
-const msgContainer = document.querySelector("#msg_container");
-const errorPopup = document.querySelector("#error_popup");
-const warningPopup = document.querySelector("#warning_popup");
-const successPopup = document.querySelector("#success_popup");
+const msgContainer = document.getElementById("msg_container");
+const errorPopup = document.getElementById("error_popup");
+const warningPopup = document.getElementById("warning_popup");
+const successPopup = document.getElementById("success_popup");
 
 class popup {
     /**
      * Show an error
-     * @param {number} err_num The number of te error message to show, ideally use the return code
+     * @param {string} err_id The id of te error to show a message for, eg. use the status code or error type
      */
-    static async error(err_num) {
-        this._openPopup(errorPopup, browser.i18n.getMessage(`error_${err_num}`));
+    static async error(err_id) {
+        this._openPopup(errorPopup,
+            browser.i18n.getMessage(`error_${err_id}`, Array.from(arguments).slice(1)) ||
+            // No message for this error, show the default one
+            browser.i18n.getMessage('error_0'));
     }
 
     /**
@@ -40,20 +43,22 @@ class popup {
      * @param {string} messageId The id of the localized string
      */
     static async warn(messageId) {
-        this._openPopup(warningPopup, browser.i18n.getMessage(messageId));
+        this._openPopup(warningPopup, browser.i18n.getMessage(`warn_${messageId}`, Array.from(arguments).slice(1)));
     }
 
     /**
-     * Show the success popup for 1.5 seconds
+     * Show the success popup for 3 seconds
+     * 
+     * @param {string} [messageId] The id of the message in _locales.
      */
-    static async success() {
-        const p = this._openPopup(successPopup, browser.i18n.getMessage("success"));
-        setTimeout(() => p.remove(), 1500);
+    static async success(messageId = "success") {
+        const p = this._openPopup(successPopup, browser.i18n.getMessage(messageId));
+        setTimeout(() => p.remove(), 3000);
     }
 
     /**
      * Actually opens the popup
-     * @param {*} popup The HTML element to open
+     * @param {Node} popup The HTML element to open
      * @param {string} message The message to display
      */
     static _openPopup(popup, message) {
@@ -66,7 +71,6 @@ class popup {
 
     /**
      * Closes the parent of the close button that has been clicked
-     * @param {event} e The onClick event on the close button
      */
     static close() {
         this.parentElement.remove();

@@ -37,9 +37,9 @@
   <div id="header">
     <div id="cloud_info">
       <a id="service_url" tabindex="-1" class="link">
-        <span id="obsolete_string" hidden data-message="obsolete_version"></span>
-        <img id="logo" src="images/management.png" alt="*cloud Logo" /><br />
+        <img id="logo" src="images/management.png" alt="*cloud Logo" /></br>
         <span id="cloud_version">&nbsp;</span>
+        <div id="obsolete_string" hidden data-message="obsolete_version"></div>
       </a>
     </div>
     <div>
@@ -54,82 +54,81 @@
   <div id="msg_container"> </div>
 
   <form id="accountForm">
-    <input type="hidden" id="versionstring">
-    <input type="hidden" id="cloudtype">
-    <input type="hidden" id="productname">
+    <fieldset id="disableable_fieldset">
+      <p>
+        <div class="helpbutton"><img src="images/Help.svg" alt="Help icon">
+          <p class="card card--shadow" data-message="serverUrl_details"></p>
+        </div>
+        <label class="input">
+          <span class="input__label">
+            <span data-message="serverUrl"></span>
+          </span>
+          <input id="serverUrl" type="url" pattern="https?://.*" required placeholder="https://example.com"
+            class="input__field" value="" />
+        </label>
+      </p>
 
-    <p>
-      <div class="helpbutton"><img src="images/Help.svg" alt="Help icon">
-        <p class="card card--shadow" data-message="serverUrl_details"></p>
-      </div>
-      <label class="input">
-        <span class="input__label">
-          <span data-message="serverUrl"></span>
-        </span>
-        <input id="serverUrl" type="url" pattern="https?://.*" required placeholder="https://example.com"
-          class="input__field" value="" />
-      </label>
-    </p>
+      <p>
+        <div class="helpbutton"><img src="images/Help.svg" alt="Help icon">
+          <p class="card card--shadow" data-message="username_details"></p>
+        </div>
+        <label class="input">
+          <span class="input__label" data-message="username"></span>
+          <input id="username" type="text" required class="input__field" value="" />
+        </label>
+      </p>
 
-    <p>
-      <div class="helpbutton"><img src="images/Help.svg" alt="Help icon">
-        <p class="card card--shadow" data-message="username_details"></p>
-      </div>
-      <label class="input">
-        <span class="input__label" data-message="username"></span>
-        <input id="username" type="text" required class="input__field" value="" />
-      </label>
-    </p>
+      <p>
+        <div class="helpbutton"><img src="images/Help.svg" alt="Help icon">
+          <p class="card card--shadow" data-message="password_details"></p>
+        </div>
+        <label class="input">
+          <span class="input__label" data-message="password"></span>
+          <input id="password" type="password" required class="input__field" value="" />
+        </label>
+      </p>
 
-    <p>
-      <div class="helpbutton"><img src="images/Help.svg" alt="Help icon">
-        <p class="card card--shadow" data-message="password_details"></p>
-      </div>
-      <label class="input">
-        <span class="input__label" data-message="password"></span>
-        <input id="password" type="password" required class="input__field" value="" />
-      </label>
-    </p>
+      <p>
+        <div class="helpbutton"><img src="images/Help.svg" alt="Help icon">
+          <p class="card card--shadow" data-message="storageFolder_details"></p>
+        </div>
+        <label class="input">
+          <span data-message="storageFolder"></span>
+          <input id="storageFolder" type="text" required class="input__field" value="/Mail-attachments" />
+        </label>
+      </p>
 
-    <p>
-      <div class="helpbutton"><img src="images/Help.svg" alt="Help icon">
-        <p class="card card--shadow" data-message="storageFolder_details"></p>
-      </div>
-      <label class="input">
-        <span data-message="storageFolder"></span>
-        <input id="storageFolder" type="text" required class="input__field" value="/Mail-attachments" />
-      </label>
-    </p>
+      <p>
+        <div class="helpbutton"><img src="images/Help.svg" alt="Help icon">
+          <p class="card card--shadow" data-message="useDlPassword_details"></p>
+        </div>
+        <label class="checkbox__label">
+          <input id="useDlPassword" type="checkbox" class="checkbox" />
+          <span class="checkbox__label__text" data-message="useDlPassword"></span>
+        </label>
+        <label class="input">
+          <input id="downloadPassword" type="text" disabled class="input__field" value="" />
+        </label>
+      </p>
 
-    <p>
-      <div class="helpbutton"><img src="images/Help.svg" alt="Help icon">
-        <p class="card card--shadow" data-message="useDlPassword_details"></p>
-      </div>
-      <label class="checkbox__label">
-        <input id="useDlPassword" type="checkbox" class="checkbox" />
-        <span class="checkbox__label__text" data-message="useDlPassword"></span>
-      </label>
-      <label class="input">
-        <input id="downloadPassword" type="text" disabled class="input__field" value="" />
-      </label>
-    </p>
+      <p>
+        <div class=" helpbutton"><img src="images/Help.svg" alt="Help icon">
+          <p class="card card--shadow" data-message="expiry_details"></p>
+        </div>
+        <label class=" checkbox__label">
+          <input id="useExpiry" type="checkbox" class="checkbox" />
+          <span class="checkbox__label__text" data-message="expiryDaysBefore"></span>
+          <input type="number" id="expiryDays" min="1" step="1" value="7" disabled class="input__field">
+          <span data-message="expiryDaysAfter"> </span>
+        </label>
+      </p>
 
-    <p>
-      <div class=" helpbutton"><img src="images/Help.svg" alt="Help icon">
-        <p class="card card--shadow" data-message="expiry_details"></p>
-      </div>
-      <label class=" checkbox__label">
-        <input id="useExpiry" type="checkbox" class="checkbox" />
-        <span class="checkbox__label__text" data-message="expiryDaysBefore"></span>
-        <input type="number" id="expiryDays" min="1" step="1" value="7" disabled class="input__field">
-        <span data-message="expiryDaysAfter"> </span>
-      </label>
-    </p>
-
-    <p>
-      <button id="saveButton" class="button button--primary" type="button" disabled data-message="saveButton"></button>
-      <button id="resetButton" class="button" type="reset" disabled data-message="resetButton"></button>
-    </p>
+      <p>
+        <button id="saveButton" class="button button--primary" type="button" disabled
+          data-message="saveButton"></button>
+        <button id="resetButton" class="button" type="reset" disabled data-message="resetButton"></button>
+      </p>
+    </fieldset>
   </form>
 
   <!-- Message bar templates -->
