@@ -1,3 +1,16 @@
+3.5.0 2020-04-12
+Fix #114: Shows outdated quota info
+Fix #106: Doesn't update productname
+Close #112: Check login data on save 
+Close #105: Check if sharing is enabled 
+Close #104: Validate password if on Nextcloud 17+
+Close #100: Enforce password policy 
+Close #97: Fix too long expiry time
+Close #77: Insert IDN-Urls in human readable format 
+Fix #107: Upload fails when password is set 
+Close #20: Check accout data in preferences panel
+Lots of internal changes
+
 3.4.2 2020-04-01
 - Close #89: Free space info missing
 - Close #60, #90: Internal changes
