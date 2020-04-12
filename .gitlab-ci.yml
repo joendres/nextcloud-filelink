@@ -16,19 +16,14 @@ lint:
     - unset WEB_EXT_API_SECRET
     - npx web-ext lint
     - npx jshint src
+    - '! grep -r --exclude=photon.css TODO src'
 
 pages:
   stage: deploy
   before_script:
     - npm install --loglevel error node-fetch
-    - npm install --loglevel error web-ext
   script:
     - node build-tools/build-pages.js
-    # web-ext fails if parameters of different run modes are set
-    - unset WEB_EXT_API_KEY
-    - unset WEB_EXT_API_SECRET
-    - npx web-ext build
-    - for z in public/*.zip; do mv -- "$z" "${z%zip}xpi"; done
   artifacts:
     paths:
       - public

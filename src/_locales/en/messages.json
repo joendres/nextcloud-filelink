@@ -1,6 +1,6 @@
 {
   "extensionDescription": {
-    "message": "Upload large attachments to your Cloud and send the link  by email"
+    "message": "Upload large attachments to your Cloud and send the link by email"
   },
   "extensionName": {
     "message": "*cloud - FileLink for Nextcloud and ownCloud"
@@ -51,7 +51,7 @@
     "message": "The number of days the download will be available, including today."
   },
   "freespace": {
-    "message": "Free Space ($FREE$ of $FULL$)",
+    "message": "Free Space ($FREE$GB of $FULL$GB)",
     "placeholders": {
       "free": {
         "content": "$1"
@@ -67,17 +67,32 @@
   "error_0": {
     "message": "Unknown error"
   },
-  "error_cloud_unreachable": {
+  "error_typeerror": {
     "message": "No connection. Check Server URL and network connection."
   },
-  "error_no_cloud": {
-    "message": "No compatible cloud at this URL."
+  "error_404": {
+    "message": "User does not exist or no compatible cloud at this URL."
   },
-  "unsupported_cloud": {
+  "warn_unsupported_cloud": {
     "message": "Obsolete version of Nextcloud or ownCloud. You might loose data. Ask your cloud admin to update."
   },
   "obsolete_version": {
-    "description": "This is displayed instead of the icon if the cloud version is not supported, so it should be quite short and contain exactly two lines.",
-    "message": "Obsolete<br>version"
+    "description": "This is displayed over the icon if the cloud version is not supported, so it should be quite short and contain at most two lines.",
+    "message": "Obsolete</br>version"
+  },
+  "error_401": {
+    "message": "Login failed. Check user name and password."
+  },
+  "error_sharing_off": {
+    "message": "Sharing is disabled on this cloud. Ask your admin to enable it."
+  },
+  "error_invalid_pw": {
+    "message": "Invalid download password (uploads will fail). Reason given by server: $1"
+  },
+  "error_password_enforced": {
+    "message": "Your cloud requires a download password. Make sure it complies to your cloud's password policy (eg. length, numbers, special chars)."
+  },
+  "warn_expiry_too_long": {
+    "message": "Your cloud admin has set a maximum expiry time of $1 days. The value was clipped, otherwise uploads would fail."
   }
 }

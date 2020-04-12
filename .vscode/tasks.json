@@ -18,10 +18,7 @@
                 "showReuseMessage": false,
                 "clear": false
             },
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            }
+            "group": "build"
         },
         {
             "label": "web-ext: run in thunderbird",
@@ -35,7 +32,11 @@
                     }
                 }
             },
-            "problemMatcher": []
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
         },
         {
             "label": "web-ext: run in thunderbird, keep profile changes",

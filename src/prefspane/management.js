@@ -27,9 +27,6 @@ const ncc = new CloudConnection(accountId);
 
 //#region direct access to html elements
 const freeSpaceGauge = document.getElementById("freespaceGauge");
-const hiddenVersion = document.getElementById("versionstring");
-const hiddenType = document.getElementById("cloudtype");
-const hiddenProductname = document.getElementById("productname");
 
 const serverUrl = document.getElementById("serverUrl");
 const username = document.getElementById("username");
@@ -47,20 +44,20 @@ const provider_management = document.querySelector("body");
 //#endregion
 //#region main
 (() => {
-    fillFormWithStoredData()
-        .then(updateCloudversion)
-        .then(updateGauge);
+
+    loadFormData()
+        .then(updateHeader);
 
     addLocalizedLabels();
 
     linkButtonStateToFieldChanges();
 
-    linkUrlchangeToCloudversion();
-    serverUrl.addEventListener("change", updateGauge);
-    username.addEventListener("change", updateGauge);
+    serverUrl.addEventListener("input", updateHeader);
+    username.addEventListener("input", updateGauge);
 
     linkElementStateToCheckbox(downloadPassword, useDlPassword);
     linkElementStateToCheckbox(expiryDays, useExpiry);
+
 })();
 //#endregion
 
@@ -70,16 +67,15 @@ const provider_management = document.querySelector("body");
  * Reset button is only active if any field has been changed
  */
 async function linkButtonStateToFieldChanges() {
-    const accountForm = document.getElementById("accountForm");
-
     function updateButtons() {
         saveButton.disabled = !accountForm.checkValidity();
         resetButton.disabled = false;
     }
 
-    ["input", "change",].forEach(ev => {
-        accountForm.addEventListener(ev, updateButtons);
-    });
+    const accountForm = document.getElementById("accountForm");
+
+    accountForm.addEventListener('input', updateButtons);
+
 }
 
 /**
@@ -92,74 +88,26 @@ async function linkElementStateToCheckbox(element, checkbox) {
     });
 }
 
-/**
- * Get cloud flavor and version as soon as we have an url
- */
-async function linkUrlchangeToCloudversion() {
-    serverUrl.addEventListener("change", async () => {
-        // this is only triggered if the field value really changed
-        serverUrl.value = serverUrl.value.trim();
-        if (serverUrl.checkValidity()) {
-            await getCloudVersion(serverUrl.value);
-        }
-        updateCloudversion();
-    });
-}
-
 /** 
  * Handler for Cancel button, restores saved values
  */
-resetButton.onclick = async () => {
+resetButton.addEventListener('click', () => {
     popup.clear();
-    fillFormWithStoredData()
-        .then(updateCloudversion)
-        .then(updateGauge);
+    loadFormData()
+        .then(updateHeader);
     resetButton.disabled = saveButton.disabled = true;
-};
+});
 
 /** Handler for Save button */
-saveButton.onclick = async () => {
-    const states = lookBusy();
-
-    // Sanitize input
-    all_inputs
-        .forEach(element => {
-            element.value = element.value.trim();
+saveButton.addEventListener('click', () => {
+    saveButton.disabled = resetButton.disabled = true;
+    Promise.all([lookBusy(), handleFormData(), popup.clear(),])
+        .then(() => {
+            updateHeader();
+            stopLookingBusy();
         });
-    serverUrl.value = serverUrl.value.replace(/\/+$/, "");
-    storageFolder.value = "/" + storageFolder.value.split('/').filter(e => "" !== e).join('/');
+});
 
-    // If user typed new password, username or URL the token is likely not valid any more
-    const needsNewToken = password.value !== ncc.password ||
-        username.value !== ncc.username ||
-        serverUrl.value !== ncc.serverUrl;
-
-    // Copy data into the connection object
-    all_inputs
-        .forEach(inp => {
-            if (inp.type === "checkbox") {
-                ncc[inp.id] = inp.checked;
-            } else {
-                ncc[inp.id] = inp.value;
-            }
-        });
-
-    // Try to convert the password into App Token if necessary
-    if (needsNewToken) {
-        password.value = await ncc.convertToApppassword();
-    }
-
-    // Store account data and update configured state
-    ncc.store()
-        .then(ncc.updateConfigured());
-
-    // Re-activate form
-    stopLookingBusy(await states);
-
-    // Update header
-    ncc.updateFreeSpaceInfo()
-        .then(updateGauge);
-};
 //#endregion
 //#region Fill visible html elements with content
 /**
@@ -170,6 +118,35 @@ async function addLocalizedLabels() {
         .forEach(element => {
             element.innerHTML = browser.i18n.getMessage(element.dataset.message);
         });
+}
+
+/**
+ * Display cloud type (as a logo) and version
+ */
+async function showVersion() {
+    const logo = document.getElementById('logo');
+    const cloud_version = document.getElementById('cloud_version');
+    const provider_name = document.getElementById('provider-name');
+
+    document.getElementById('service_url').href = serverUrl.value.trim();
+
+    provider_name.textContent = '*cloud';
+    logo.src = "images/management.png";
+    cloud_version.textContent = "";
+
+    if (serverUrl.value.trim() === ncc.serverUrl && 'undefined' !== typeof ncc.cloud_supported) {
+        cloud_version.textContent = ncc.cloud_versionstring;
+        provider_name.textContent = ncc.cloud_productname || '*cloud';
+        logo.src = {
+            "Nextcloud": "images/nextcloud-logo.svg",
+            "ownCloud": "images/owncloud-logo.svg",
+            "Unsupported": "images/management.png",
+        }[ncc.cloud_type];
+
+        if (!ncc.cloud_supported) {
+            document.getElementById("obsolete_string").hidden = false;
+        }
+    }
 }
 
 /**
@@ -199,45 +176,14 @@ async function updateGauge() {
     }
 }
 
-/**
- * update cloud version display
- */
-async function updateCloudversion() {
-    // Show cloud flavor and version
-    document.getElementById("cloud_version").textContent = hiddenVersion.value;
-    document.getElementById("service_url").href = serverUrl.value;
-    if (hiddenProductname.value && hiddenProductname.value !== "undefined") {
-        document.getElementById("provider-name").textContent = hiddenProductname.value;
-    } else {
-        document.getElementById("provider-name").textContent = "*cloud";
-    }
-
-    document.getElementById("logo").hidden = false;
-    document.getElementById("obsolete_string").hidden = true;
-    switch (hiddenType.value) {
-        case "Nextcloud":
-            document.getElementById("logo").src = "images/nextcloud-logo.svg";
-            break;
-
-        case "ownCloud":
-            document.getElementById("logo").src = "images/owncloud-logo.svg";
-            break;
-
-        case "Unsupported":
-            document.getElementById("logo").hidden = true;
-            document.getElementById("obsolete_string").hidden = false;
-            break;
-
-        default:
-            document.getElementById("logo").src = "images/management.png";
-            break;
-    }
+function updateHeader() {
+    return Promise.all([showVersion(), updateGauge(),]);
 }
 
 /**
  * Load stored account data into form
  */
-async function fillFormWithStoredData() {
+async function loadFormData() {
     await ncc.load();
 
     all_inputs
@@ -249,6 +195,17 @@ async function fillFormWithStoredData() {
             }
         });
 
+    // Don't allow longer expiry period than the server
+    if (ncc.expiry_max_days) {
+        document.getElementById("expiryDays").max = ncc.expiry_max_days;
+    }
+
+    // force download password if server requires one
+    if (ncc.enforce_password) {
+        useDlPassword.checked = true;
+        useDlPassword.disabled = true;
+    }
+
     downloadPassword.disabled = !useDlPassword.checked;
     downloadPassword.required = useDlPassword.checked;
 
@@ -259,62 +216,166 @@ async function fillFormWithStoredData() {
 
 //#region Helpers
 /**
- * Fetch the cloud version and show error messages if that leads to problems
- * @param {string} url The base url of the cloud
+ * Part of the save button handler
  */
-async function getCloudVersion(url) {
-    let ct = { type: null, versionstring: null, };
-    popup.clear();
-    try {
-        ct = await CloudConnection.fetchCloudVersion(url);
-    } catch (error) {
-        switch (error.name) {
-            case "SyntaxError":
-                // Could not parse JSON
-                popup.error("no_cloud");
-                break;
-            case "TypeError":
-                // fetch had a severe problem
-                popup.error("cloud_unreachable");
-                break;
-            default:
-                popup.error(0);
-                break;
-        }
+async function handleFormData() {
+
+    sanitizeInput();
+
+    // If user typed new password, username or URL the token is likely not valid any more
+    const needsNewToken = password.value !== ncc.password ||
+        username.value !== ncc.username ||
+        serverUrl.value !== ncc.serverUrl;
+
+    copyData();
+
+    // Try to convert the password into App Token if necessary
+    if (needsNewToken) {
+        ncc.convertToApppassword()
+            .then(pw => { password.value = pw; });
     }
-    hiddenVersion.value = ct.versionstring;
-    hiddenType.value = ct.type;
-    hiddenProductname.value = ct.productname;
-    if (ct.type === "Unsupported") {
-        popup.warn("unsupported_cloud");
+
+    // Store account data and update configured state
+    await ncc.store();
+    ncc.updateConfigured();
+
+    // Get info from cloud
+    await updateCloudInfo();
+
+    // Done. Now internal functions
+    function sanitizeInput() {
+        all_inputs
+            .forEach(element => {
+                element.value = element.value.trim();
+            });
+        serverUrl.value = serverUrl.value.replace(/\/+$/, "");
+        storageFolder.value = "/" + storageFolder.value.split('/').filter(e => "" !== e).join('/');
+    }
+
+    /**
+     * Copy data into the connection object
+     */
+    function copyData() {
+        all_inputs
+            .forEach(inp => {
+                if (inp.type === "checkbox") {
+                    ncc[inp.id] = inp.checked;
+                }
+                else {
+                    ncc[inp.id] = inp.value;
+                }
+            });
+    }
+
+    /**
+     * Try login data by fetching Quota. If that succeeds, get capabilities and
+     * store them in the Cloudconnection object,inform user about it.
+     */
+    async function updateCloudInfo() {
+        ncc.forgetCapabilities();
+        const answer = await ncc.updateFreeSpaceInfo();
+        if (answer._failed) {
+            popup.error(answer.status);
+        }
+        else {
+            await getCapabilities();
+        }
+
+        // Inner functions of getCloudInfo
+        /**
+         * Get capabilities from cloud, change input form to meet policies, inform user
+         */
+        async function getCapabilities() {
+            await ncc.updateCapabilities();
+            if (!ncc.public_shares_enabled) {
+                popup.error('sharing_off');
+            }
+            else {
+                let account_ok = true;
+                account_ok = checkEnforcedExpiry(account_ok);
+                account_ok = checkEnforcedDLPassword(account_ok);
+                account_ok = await validateDLPassword(account_ok);
+                if (false === ncc.cloud_supported) {
+                    popup.warn('unsupported_cloud');
+                    account_ok = false;
+                }
+                if (true === account_ok) {
+                    popup.success();
+                } else {
+                    ncc.store();
+                }
+            }
+
+            /**
+             * Try to validate download password
+             * AFAIK this only works with NC >=17, so ignore all errors.
+             * @param {boolean} account_ok Are the account data OK so far?
+             * @returns {boolean} account_ok || error in this check
+             */
+            async function validateDLPassword(account_ok) {
+                if (useDlPassword.checked) {
+                    const result = await ncc.validateDLPassword();
+                    if (false === result.passed) {
+                        popup.error('invalid_pw', result.reason || '(none)');
+                        account_ok = false;
+                    }
+                }
+                return account_ok;
+            }
+
+            /**
+             * If password is enforced, make it mandatory by changing the inputs
+             * @param {boolean} account_ok Are the account data OK so far?
+             * @returns {boolean} account_ok || error in this check
+             */
+            function checkEnforcedDLPassword(account_ok) {
+                if (ncc.enforce_password && !useDlPassword.checked) {
+                    useDlPassword.checked = true;
+                    useDlPassword.disabled = true;
+                    downloadPassword.disabled = false;
+                    downloadPassword.required = true;
+                    popup.error('password_enforced');
+                    account_ok = false;
+                }
+                return account_ok;
+            }
+
+            /**
+             * Check for maximum expiry on server
+             * @param {boolean} account_ok Are the account data OK so far?
+             * @returns {boolean} account_ok || error in this check
+             */
+            function checkEnforcedExpiry(account_ok) {
+                if (ncc.expiry_max_days) {
+                    const expiry_input = document.getElementById("expiryDays");
+                    expiry_input.max = ncc.expiry_max_days;
+                    if (parseInt(expiry_input.value) > ncc.expiry_max_days) {
+                        expiry_input.value = ncc.expiry_max_days;
+
+                        ncc.expiryDays = ncc.expiry_max_days;
+                        popup.warn('expiry_too_long', ncc.expiry_max_days);
+                        account_ok = false;
+                    }
+                }
+                return account_ok;
+            }
+        }
     }
 }
 
 /**
- * Set the busy cursor and deactivate all inputs
- * @returns {object} An object that contains the disabled state of all inputs, indexed by id
- */
+* Set the busy cursor and deactivate all inputs
+*/
 async function lookBusy() {
     provider_management.classList.add('busy');
-    saveButton.disabled = resetButton.disabled = true;
-    let states = {};
-    all_inputs
-        .forEach(element => {
-            states[element.id] = element.disabled;
-            element.disabled = true;
-        });
-    return states;
+    document.getElementById('disableable_fieldset').disabled = true;
 }
 
 /**
  * Hide the busy cursor and reactivate all fields that were active
- * @param {Object} states The previous states of the elements as returned by lookBusy
  */
-async function stopLookingBusy(states) {
-    for (const elementId in states) {
-        document.getElementById(elementId).disabled = states[elementId];
-    }
+function stopLookingBusy() {
+    document.getElementById('disableable_fieldset').disabled = false;
     provider_management.classList.remove('busy');
 }
-
 //#endregion

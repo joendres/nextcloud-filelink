@@ -7,6 +7,7 @@ Information for
 
 * [Users](#user-content-user-guide)
 * [Admins](#user-content-cloud-admin-guide)
+* [Cloud Service Providers](#cloud-service-providers)
 * [Developers](#user-content-developer-guide)
 
 ## Requirements
@@ -15,7 +16,7 @@ Information for
   Nextcloud](https://github.com/nextcloud/server/wiki/Maintenance-and-Release-Schedule))
 * ownCloud: 10+ (older versions might work, but are [not supported by
   ownCloud](https://github.com/owncloud/core/wiki/maintenance-and-release-schedule)
-* Thunderbird: 68+ (60.5+ might work, but has not been tested)
+* Thunderbird: 68.2.1 or newer (60.5+ might work, but has not been tested)
 
 ## User guide
 
@@ -172,6 +173,10 @@ Some settings in Nextcloud/ownCloud are relevant for this Add-On:
 In some configurations a start url like `https://cloud.example.com` is redirected to the actual url of the cloud eg `https://example.com/cloud`. __*cloud__ has to access many different paths below this url, eg. `status.php`. If these are not also redirected (`https://cloud.example.com/status.php` -> `https://example.com/cloud/status.php`), __*cloud__ can't access them and doesn't work. There is no way for the extension to find the actual base url with some certainty.
 
 There is a workaround: Users can find out the actual url and configure it in __*cloud__. But the real solution is to redirect all urls. So it would be greatly appreciated if you would do that in your cloud instance (if you have to use redirects at all). Thanks.
+
+## Cloud Service Providers
+
+If you run a service based on Nextcloud or ownCloud and would like to offer a branded/tailored version of __*cloud__ for your service, please contact me by [email](mailto:cloud@johannes-endres.de).
 
 ## Developer guide
 

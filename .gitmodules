@@ -1,0 +1,3 @@
+[submodule "punycode.js"]
+	path = punycode.js
+	url = https://github.com/bestiejs/punycode.js.git
