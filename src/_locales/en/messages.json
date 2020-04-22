@@ -71,7 +71,7 @@
     "message": "No connection. Check Server URL and network connection."
   },
   "error_404": {
-    "message": "User does not exist or no compatible cloud at this URL."
+    "message": "Account verification failed: wrong username or incompatible cloud or network error."
   },
   "warn_unsupported_cloud": {
     "message": "Obsolete version of Nextcloud or ownCloud. You might loose data. Ask your cloud admin to update."
@@ -94,5 +94,8 @@
   },
   "warn_expiry_too_long": {
     "message": "Your cloud admin has set a maximum expiry time of $1 days. The value was clipped, otherwise uploads would fail."
+  },
+  "warn_no_config_check": {
+    "message": "Account verification failed. Network problems?"
   }
 }

@@ -31,23 +31,28 @@
   <link rel="stylesheet" href="photon.css">
   <link rel="stylesheet" href="management.css">
   <link rel="stylesheet" href="popup/popup.css">
+
+  <script src="../lib/cloudconnection.js" defer></script>
+  <script src="popup/popup.js" defer></script>
+  <script src="management.js" defer></script>
+
 </head>
 
 <body>
   <div id="header">
-    <div id="cloud_info">
+    <div id="header_left">
+      <h2 id="provider_name">*cloud</h2>
+      <div id="freespaceGauge">
+        <label id="freespacelabel" data-message="freespace"></label>
+        <meter id="freespace" min="0" max="0" value="0"> </meter>
+      </div>
+    </div>
+    <div id="header_right">
       <a id="service_url" tabindex="-1" class="link">
-        <img id="logo" src="images/management.png" alt="*cloud Logo" /></br>
-        <span id="cloud_version">&nbsp;</span>
+        <img id="logo" src="images/management.png" alt="*cloud Logo" />
+        <div id="cloud_version">&nbsp;</div>
         <div id="obsolete_string" hidden data-message="obsolete_version"></div>
       </a>
-    </div>
-    <div>
-      <h2 id="provider-name">*cloud</h2>
-      <label id="freespaceGauge" class="input">
-        <span id="freespacelabel" data-message="freespace"></span>
-        <meter id="freespace" min="0" max="0" value="0"> </meter>
-      </label>
     </div>
   </div>
 
@@ -55,72 +60,71 @@
 
   <form id="accountForm">
     <fieldset id="disableable_fieldset">
+
       <p>
-        <div class="helpbutton"><img src="images/Help.svg" alt="Help icon">
-          <p class="card card--shadow" data-message="serverUrl_details"></p>
+        <div class="labelline">
+          <label for="serverUrl" class="input__label" data-message="serverUrl"></label>
+          <div class="helpbutton"><img src="images/Help.svg" alt="Help icon">
+            <p class="card card--shadow" data-message="serverUrl_details"></p>
+          </div>
         </div>
-        <label class="input">
-          <span class="input__label">
-            <span data-message="serverUrl"></span>
+        <input id="serverUrl" type="url" pattern="https?://.*" required placeholder="https://example.com"
+          class="input__field" value="" />
+      </p>
+
+      <p>
+        <div class="labelline">
+          <label for="username" class="input__label" data-message="username"></label>
+          <div class="helpbutton"><img src="images/Help.svg" alt="Help icon">
+            <p class="card card--shadow" data-message="username_details"></p>
+          </div>
+        </div>
+        <input id="username" type="text" required class="input__field" value="" />
+      </p>
+
+      <p>
+        <div class="labelline">
+          <label for="password" class="input__label" data-message="password"></label>
+          <div class="helpbutton"><img src="images/Help.svg" alt="Help icon">
+            <p class="card card--shadow" data-message="password_details"></p>
+          </div>
+        </div>
+        <input id="password" type="password" required class="input__field" value="" />
+      </p>
+
+      <p>
+        <div class="labelline">
+          <label for="storageFolder" class="input__label" data-message="storageFolder"></label>
+          <div class="helpbutton"><img src="images/Help.svg" alt="Help icon">
+            <p class="card card--shadow" data-message="storageFolder_details"></p>
+          </div>
+        </div>
+        <input id="storageFolder" type="text" required class="input__field" value="/Mail-attachments" />
+      </p>
+
+      <p>
+        <div class="labelline">
+          <input id="useDlPassword" type="checkbox" class="input checkbox" />
+          <label for="useDlPassword" class="input__label" data-message="useDlPassword"></label>
+          <div class="helpbutton"><img src="images/Help.svg" alt="Help icon">
+            <p class="card card--shadow" data-message="useDlPassword_details"></p>
+          </div>
+        </div>
+        <input id="downloadPassword" type="text" disabled class="input__field" value="" />
+      </p>
+
+      <p>
+        <div class="labelline">
+          <input id="useExpiry" type="checkbox" class="input checkbox" />
+          <span class="spacer">
+            <label for="useExpiry" class="input__label" data-message="expiryDaysBefore"></label>
+            <input type="number" id="expiryDays" min="1" step="1" value="7" disabled class="input__field">
+            <label class="input__label" data-message="expiryDaysAfter"></label>
           </span>
-          <input id="serverUrl" type="url" pattern="https?://.*" required placeholder="https://example.com"
-            class="input__field" value="" />
-        </label>
-      </p>
-
-      <p>
-        <div class="helpbutton"><img src="images/Help.svg" alt="Help icon">
-          <p class="card card--shadow" data-message="username_details"></p>
+          <div class="helpbutton"><img src="images/Help.svg" alt="Help icon">
+            <p class="card card--shadow" data-message="expiry_details"></p>
+          </div>
         </div>
-        <label class="input">
-          <span class="input__label" data-message="username"></span>
-          <input id="username" type="text" required class="input__field" value="" />
-        </label>
-      </p>
-
-      <p>
-        <div class="helpbutton"><img src="images/Help.svg" alt="Help icon">
-          <p class="card card--shadow" data-message="password_details"></p>
-        </div>
-        <label class="input">
-          <span class="input__label" data-message="password"></span>
-          <input id="password" type="password" required class="input__field" value="" />
-        </label>
-      </p>
-
-      <p>
-        <div class="helpbutton"><img src="images/Help.svg" alt="Help icon">
-          <p class="card card--shadow" data-message="storageFolder_details"></p>
-        </div>
-        <label class="input">
-          <span data-message="storageFolder"></span>
-          <input id="storageFolder" type="text" required class="input__field" value="/Mail-attachments" />
-        </label>
-      </p>
-
-      <p>
-        <div class="helpbutton"><img src="images/Help.svg" alt="Help icon">
-          <p class="card card--shadow" data-message="useDlPassword_details"></p>
-        </div>
-        <label class="checkbox__label">
-          <input id="useDlPassword" type="checkbox" class="checkbox" />
-          <span class="checkbox__label__text" data-message="useDlPassword"></span>
-        </label>
-        <label class="input">
-          <input id="downloadPassword" type="text" disabled class="input__field" value="" />
-        </label>
-      </p>
-
-      <p>
-        <div class=" helpbutton"><img src="images/Help.svg" alt="Help icon">
-          <p class="card card--shadow" data-message="expiry_details"></p>
-        </div>
-        <label class=" checkbox__label">
-          <input id="useExpiry" type="checkbox" class="checkbox" />
-          <span class="checkbox__label__text" data-message="expiryDaysBefore"></span>
-          <input type="number" id="expiryDays" min="1" step="1" value="7" disabled class="input__field">
-          <span data-message="expiryDaysAfter"> </span>
-        </label>
       </p>
 
       <p>
@@ -149,10 +153,6 @@
     <span class="msg_bar_closebtn"></span>
     <span class="popup_message"></span>
   </div>
-
-  <script src="../lib/cloudconnection.js" defer></script>
-  <script src="popup/popup.js" defer></script>
-  <script src="management.js" defer></script>
 </body>
 
 </html>

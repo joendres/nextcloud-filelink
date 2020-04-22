@@ -1,3 +1,8 @@
+3.5.1 2020-04-21
+Fix #139 Timeout issues
+Fix #136 Allow empty download password
+Close #137 & #140, html & css improvements
+
 3.5.0 2020-04-12
 Fix #114: Shows outdated quota info
 Fix #106: Doesn't update productname

@@ -75,7 +75,7 @@
     "message": "Veraltete</br>Version"
   },
   "error_404": {
-    "message": "User existiert nicht oder keine kompatible Cloud unter dieser URL."
+    "message": "Accout-Prüfung fehlgeschlagen: User existiert nicht, inkompatible Cloud oder Netzwerkproblem"
   },
   "error_401": {
     "message": "Login fehlgeschlagen. Wahrscheinlich ist das Passwort falsch."
@@ -94,5 +94,8 @@
   },
   "warn_expiry_too_long": {
     "message": "Dein Cloud-Admin hat eine maximale Ablaufzeit von $1 Tagen gesetzt. Dein gewählter Wert wurde geändert, weil sonst die Uploads fehlschlagen."
+  },
+  "warn_no_config_check": {
+    "message": "Account-Prüfung fehlgeschlagen, Netzwerkprobleme?"
   }
 }
