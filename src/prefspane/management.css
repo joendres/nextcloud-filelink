@@ -1,11 +1,83 @@
 /* Fix problems in the official css */
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'helvetica neue', ubuntu, roboto, noto, 'segoe ui', helvetica, arial, sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, ubuntu, roboto, noto, 'segoe ui', 'helvetica new', helvetica, arial, sans-serif;
 }
 
 .input__field, .input__field::placeholder {
     font-size: inherit;
+    /* Quick fix for themes that change */
+    color: initial;
+}
+
+/* Put everything in its place */
+
+* {
+    box-sizing: border-box;
+}
+
+.input__field, .input__label {
+    width: 100%;
+}
+
+#header {
+    display: flex;
+    align-items: flex-end;
+}
+
+#header_left {
+    width: 100%;
+}
+
+#freespaceGauge {
+    display: flex;
+    visibility: hidden;
+    white-space: nowrap;
+}
+
+#freespace {
+    width: 100%;
+    margin: 0 4px;
+}
+
+#freespacelabel {
+    max-width: 75%;
+}
+
+#header_right {
+    width: 48px;
+    padding-left: 4px;
+}
+
+#logo {
+    width: 100%;
+}
+
+.labelline {
+    display: flex;
+    white-space: nowrap;
+    align-items: center;
+}
+
+.labelline>.spacer {
+    width: 100%;
+}
+
+.spacer>.input__label {
+    display: inline;
+}
+
+#expiryDays {
+    max-width: 4em;
+    text-align: right;
+}
+
+.helpbutton {
+    display: inline-flex;
+}
+
+#resetButton {
+    float: right;
 }
 
 /* show the turning wheel cursor while the dialog is busy */
@@ -14,30 +86,19 @@ body {
     cursor: progress;
 }
 
-/* Header elements */
-
-#header::after {
-    clear: both;
-    content: "";
-    display: table;
+#disableable_fieldset {
+    border: none;
+    padding: 0;
+    margin: 0;
 }
 
+/* Header elements */
+
 h2 {
-    margin: 0;
+    margin-top: 0;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-}
-
-#cloud_info {
-    float: right;
-    margin-left: 8px;
-    text-align: right;
-    position: relative;
-}
-
-#logo {
-    height: 36px;
 }
 
 #obsolete_string {
@@ -49,18 +110,6 @@ h2 {
 }
 
 /* Free space display */
-
-#freespaceGauge {
-    display: flex;
-    margin-top: 4px;
-    visibility: hidden;
-    white-space: nowrap;
-}
-
-meter {
-    margin-left: .5em;
-    width: 100%;
-}
 
 meter:-moz-meter-optimum::-moz-meter-bar {
     background: var(--green-50);
@@ -78,42 +127,17 @@ meter {
     background: var(--grey-30);
 }
 
-/* Account form elements */
+/* Help overlay */
 
-#disableable_fieldset {
-    border: none;
-    padding: 0;
-    margin: 0;
-}
-
-input[type=number] {
-    max-width: 4em;
-    text-align: right;
-}
-
-#resetButton {
-    float: right;
-}
-
-/* Help button */
-
-.input__label {
-    /* photon defines it as block which makes it overlap the help button and take its hover event */
-    display: inline;
-}
-
-.helpbutton {
-    float: right;
-}
-
-.helpbutton p {
+.helpbutton>p {
     position: absolute;
-    right: 0;
+    right: 1em;
     visibility: hidden;
-    width: 50%;
+    max-width: 75%;
     z-index: 1;
+    white-space: normal;
 }
 
-.helpbutton:hover p {
+.helpbutton:hover>p {
     visibility: visible;
 }

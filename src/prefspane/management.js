@@ -19,47 +19,22 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 
-/* global CloudConnection */
-/* global popup */
-
 const accountId = new URL(location.href).searchParams.get("accountId");
 const ncc = new CloudConnection(accountId);
 
-//#region direct access to html elements
-const freeSpaceGauge = document.getElementById("freespaceGauge");
+loadFormData()
+    .then(updateHeader);
 
-const serverUrl = document.getElementById("serverUrl");
-const username = document.getElementById("username");
-const password = document.getElementById("password");
-const storageFolder = document.getElementById("storageFolder");
-const useDlPassword = document.getElementById("useDlPassword");
-const downloadPassword = document.getElementById("downloadPassword");
-const useExpiry = document.getElementById("useExpiry");
-const expiryDays = document.getElementById("expiryDays");
-const saveButton = document.getElementById("saveButton");
-const resetButton = document.getElementById("resetButton");
-const all_inputs = document.querySelectorAll("input");
+addLocalizedLabels();
 
-const provider_management = document.querySelector("body");
-//#endregion
-//#region main
-(() => {
+linkButtonStateToFieldChanges();
 
-    loadFormData()
-        .then(updateHeader);
+serverUrl.addEventListener("input", updateHeader);
+username.addEventListener("input", updateGauge);
 
-    addLocalizedLabels();
+linkElementStateToCheckbox(downloadPassword, useDlPassword);
+linkElementStateToCheckbox(expiryDays, useExpiry);
 
-    linkButtonStateToFieldChanges();
-
-    serverUrl.addEventListener("input", updateHeader);
-    username.addEventListener("input", updateGauge);
-
-    linkElementStateToCheckbox(downloadPassword, useDlPassword);
-    linkElementStateToCheckbox(expiryDays, useExpiry);
-
-})();
-//#endregion
 
 //#region html element event handlers
 /**
@@ -71,18 +46,14 @@ async function linkButtonStateToFieldChanges() {
         saveButton.disabled = !accountForm.checkValidity();
         resetButton.disabled = false;
     }
-
-    const accountForm = document.getElementById("accountForm");
-
     accountForm.addEventListener('input', updateButtons);
-
 }
 
 /**
  *  enable/disable text input field according to checkbox state
  */
 async function linkElementStateToCheckbox(element, checkbox) {
-    checkbox.addEventListener("change", async () => {
+    checkbox.addEventListener("input", async () => {
         element.disabled = !checkbox.checked;
         element.required = !element.disabled;
     });
@@ -124,11 +95,7 @@ async function addLocalizedLabels() {
  * Display cloud type (as a logo) and version
  */
 async function showVersion() {
-    const logo = document.getElementById('logo');
-    const cloud_version = document.getElementById('cloud_version');
-    const provider_name = document.getElementById('provider-name');
-
-    document.getElementById('service_url').href = serverUrl.value.trim();
+    service_url.href = serverUrl.value.trim();
 
     provider_name.textContent = '*cloud';
     logo.src = "images/management.png";
@@ -144,7 +111,7 @@ async function showVersion() {
         }[ncc.cloud_type];
 
         if (!ncc.cloud_supported) {
-            document.getElementById("obsolete_string").hidden = false;
+            obsolete_string.hidden = false;
         }
     }
 }
@@ -155,7 +122,7 @@ async function showVersion() {
 async function updateGauge() {
     // Only show gauge if relevant form data match the account data
     if (username.value !== ncc.username || serverUrl.value !== ncc.serverUrl) {
-        freeSpaceGauge.style.visibility = "hidden";
+        freespaceGauge.style.visibility = "hidden";
     } else {
         let theAccount = await browser.cloudFile.getAccount(accountId);
         // Update the free space gauge
@@ -164,14 +131,13 @@ async function updateGauge() {
         if (free >= 0 && used >= 0) {
             const full = (free + used) / (1024.0 * 1024.0 * 1024.0); // Convert bytes to gigabytes
             free /= 1024.0 * 1024.0 * 1024.0;
-            document.getElementById("freespacelabel").textContent = browser.i18n.getMessage("freespace", [
+            freespacelabel.textContent = browser.i18n.getMessage("freespace", [
                 free > 100 ? free.toFixed() : free.toPrecision(2),
                 full > 100 ? full.toFixed() : full.toPrecision(2),]);
-            const meter = document.getElementById("freespace");
-            meter.max = full;
-            meter.value = free;
-            meter.low = full / 10;
-            freeSpaceGauge.style.visibility = "visible";
+            freespace.max = full;
+            freespace.value = free;
+            freespace.low = full / 10;
+            freespaceGauge.style.visibility = "visible";
         }
     }
 }
@@ -186,7 +152,7 @@ function updateHeader() {
 async function loadFormData() {
     await ncc.load();
 
-    all_inputs
+    document.querySelectorAll("input")
         .forEach(inp => {
             if (inp.type === "checkbox") {
                 inp.checked = !!ncc[inp.id];
@@ -197,7 +163,7 @@ async function loadFormData() {
 
     // Don't allow longer expiry period than the server
     if (ncc.expiry_max_days) {
-        document.getElementById("expiryDays").max = ncc.expiry_max_days;
+        expiryDays.max = ncc.expiry_max_days;
     }
 
     // force download password if server requires one
@@ -244,7 +210,7 @@ async function handleFormData() {
 
     // Done. Now internal functions
     function sanitizeInput() {
-        all_inputs
+        document.querySelectorAll("input")
             .forEach(element => {
                 element.value = element.value.trim();
             });
@@ -256,7 +222,7 @@ async function handleFormData() {
      * Copy data into the connection object
      */
     function copyData() {
-        all_inputs
+        document.querySelectorAll("input")
             .forEach(inp => {
                 if (inp.type === "checkbox") {
                     ncc[inp.id] = inp.checked;
@@ -272,12 +238,12 @@ async function handleFormData() {
      * store them in the Cloudconnection object,inform user about it.
      */
     async function updateCloudInfo() {
-        ncc.forgetCapabilities();
         const answer = await ncc.updateFreeSpaceInfo();
         if (answer._failed) {
             popup.error(answer.status);
         }
         else {
+            ncc.forgetCapabilities();
             await getCapabilities();
         }
 
@@ -287,10 +253,9 @@ async function handleFormData() {
          */
         async function getCapabilities() {
             await ncc.updateCapabilities();
-            if (!ncc.public_shares_enabled) {
+            if (false === ncc.public_shares_enabled) {
                 popup.error('sharing_off');
-            }
-            else {
+            } else if (true === ncc.public_shares_enabled) {
                 let account_ok = true;
                 account_ok = checkEnforcedExpiry(account_ok);
                 account_ok = checkEnforcedDLPassword(account_ok);
@@ -304,6 +269,8 @@ async function handleFormData() {
                 } else {
                     ncc.store();
                 }
+            } else {
+                popup.warn('no_config_check');
             }
 
             /**
@@ -347,10 +314,9 @@ async function handleFormData() {
              */
             function checkEnforcedExpiry(account_ok) {
                 if (ncc.expiry_max_days) {
-                    const expiry_input = document.getElementById("expiryDays");
-                    expiry_input.max = ncc.expiry_max_days;
-                    if (parseInt(expiry_input.value) > ncc.expiry_max_days) {
-                        expiry_input.value = ncc.expiry_max_days;
+                    expiryDays.max = ncc.expiry_max_days;
+                    if (parseInt(expiryDays.value) > ncc.expiry_max_days) {
+                        expiryDays.value = ncc.expiry_max_days;
 
                         ncc.expiryDays = ncc.expiry_max_days;
                         popup.warn('expiry_too_long', ncc.expiry_max_days);
@@ -367,15 +333,25 @@ async function handleFormData() {
 * Set the busy cursor and deactivate all inputs
 */
 async function lookBusy() {
-    provider_management.classList.add('busy');
-    document.getElementById('disableable_fieldset').disabled = true;
+    document.querySelector("body").classList.add('busy');
+    disableable_fieldset.disabled = true;
 }
 
 /**
  * Hide the busy cursor and reactivate all fields that were active
  */
 function stopLookingBusy() {
-    document.getElementById('disableable_fieldset').disabled = false;
-    provider_management.classList.remove('busy');
+    disableable_fieldset.disabled = false;
+    document.querySelector("body").classList.remove('busy');
 }
 //#endregion
+// Make jshint happy
+// Defined in ../lib/cloudconnection.js
+/* global CloudConnection */
+// Defined in popup/popup.js
+/* global popup */
+// Defined in managemet.html as id
+/* globals serverUrl, username, downloadPassword, useDlPassword, expiryDays */
+/* globals useExpiry, saveButton, accountForm, resetButton, service_url */
+/* globals provider_name, logo, cloud_version, obsolete_string, freespaceGauge */
+/* globals freespacelabel, freespace, password, storageFolder, disableable_fieldset */
