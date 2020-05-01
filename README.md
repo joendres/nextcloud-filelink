@@ -71,13 +71,33 @@ identical.
 
 ### Known issues
 
-#### Sometimes uploads fail if expiry date is set
+#### URL works in browser but not in *cloud
 
-If your admin has configured a maximum expiry time on the cloud server and you configure an expiry time in ___*cloud___ that ist _longer_ than the maximum, uploads fail. You can check for an expiry time maximum by creating a share link in the cloud's web interface; it won't let you a longer expiry time.
+In some situations the url you use to access your Nextcloud/ownCloud account in
+the browser doesn't work in __*cloud__. This happens if your access url is
+redirected to the actual cloud location (plus some technicality).
 
-**Workaround:** Set a shorter expiry time. Or don't set one at all; in this case your download will expire after the maximum time configured on the server.
+Here is how you can point __*cloud__  to actual cloud location:
 
-**Solution:** One of the next versions of ___*cloud___ will check for the maximum expiry time of the server.
+1. Open your cloud in the browser.
+1. Log in. This should take you to the "Files" section within your cloud. If it
+   doesn't, click on the folder icon to go to that section.
+1. Copy the complete url from the url bar of your browser
+1. Paste it into the server url field in __*cloud__'s configuration (in Thunderbird).
+
+When you save the settings, __*cloud__ will remove everything, that's not necessary.
+
+If this still doesn't work for you, read on:
+
+Here is an example of what should happen:
+
+* You paste ```https://cloud.example.com/index.php/apps/files/?dir=/&fileid=42```
+* After saving the Server URL field contains ```https://cloud.example.com/```
+
+If things look very different for you and login still doesn't work, I'd
+appreciate a problem report by [email](mailto:cloud@johannes-endres.de)
+containing the url you pasted. Don't be afraid, the url does not contain any
+secret data. Thanks.
 
 #### Only one download password for all uploads
 
@@ -90,42 +110,16 @@ Thunderbirds API changes -- and as of early 2020 it changes frequently.
 **Workaround:** Change the download password in the preferences pane or use
 multiple accounts with different passwords.
 
-#### Attaching files from SMB shares
+#### Attaching files from network shares
 
-If you attach a file from a SMB share, it's uploaded to the cloud and the share
-link is inserted into your mail, but still the file is attached to the message.
+If you attach a file from a network share, it's uploaded to the cloud and the share
+link is inserted into your mail, but the file is also attached to the message.
 This is not a bug in __*cloud__ but a [known bug in
 Thunderbird](https://bugzilla.mozilla.org/show_bug.cgi?id=793118). There is
 nothing I can do about it in __*cloud__, sorry.
 
-**Workaround:** Copy the file from the SMB share to your local disk before attaching it.
-
-#### URL works in browser but not in *cloud
-
-In some situations the url you use to access your Nextcloud/ownCloud account in
-the browser doesn't work in __*cloud__. That happens if your access url is
-redirected to the actual cloud location (plus some technicality). In these
-situations __*cloud__ can't find out the actual cloud location.
-
-**Workaround:** Tell __*cloud__ where to find the cloud:
-
-1. Open your cloud in the browser.
-1. Copy the url from the url bar, but
-   1. leave out `/login` at the end
-   1. leave out `/index.php`, if it's there
-1. Paste the rest into the server url field in __*cloud__'s configuration (in
-   Thunderbird).
-
-Examples:
-
-* If the url in your browser is `https://example.com/cloud/login`, paste
-  `https://example.com/cloud`.
-* If the url in your browser is `https://example.com/cloud/index.php/login`,
-  paste `https://example.com/cloud`.
-* If the url in your browser is `https://example.com/path/to/cloud/login`, paste
-  `https://example.com/path/to/cloud`.
-
-**Solution:** Point your cloud admin to the admin guide below and ask him to redirect *all* urls.
+**Workaround:** Copy the file from the network share to your local disk before
+attaching it.
 
 #### Service name in messages is always "*cloud"
 
@@ -138,20 +132,13 @@ this, *sorry*.
 
 #### Upload problems
 
-* The *download* password has to comply to the rules for passwords on your
-  cloud, otherwise the *upload* will fail. There are default rules of Nextcloud
-  and ownCloud, and your admin might have configured some different rules.
-* If all uploads fail, it might be a problem with the settings in your Nextcloud or
-  ownCloud (point your admin to the [Admin guide](#user-content-nextcloud-admin-guide)).
+* The *download* password has to comply with *all* the rules for passwords on
+  your cloud, otherwise the *upload* will fail. There are default rules of
+  Nextcloud and ownCloud, and your admin might have configured some different
+  rules.
 * If the Add-On still fails, please check if it's a [known
   bug](https://gitlab.com/joendres/filelink-nextcloud/-/boards). Feel free to
   open a new issue otherwise.
-
-#### Old files are not deleted
-
-Thunderbird and __*cloud__ don't know, if a shared file has been downloaded, so
-they cannot decide which files are obsolete. You have to clean up your
-attachments folder yourself, sorry.
 
 ## Cloud admin guide
 
@@ -163,20 +150,27 @@ Some settings in Nextcloud/ownCloud are relevant for this Add-On:
   (*mandatory*)
 * **Settings -> Sharing -> Allow users to share via link** has to be enabled
   (*mandatory*)
-* **Settings -> Sharing -> Allow users to share via link -> Enforce password
-  protection** might result in confusing error messages to users, because the
-  *upload* in Thunderbird fails if an invalid password is requested. Be
-  prepared for questions, if you enable this. (*optionally off*)
 
 ### Redirects
 
-In some configurations a start url like `https://cloud.example.com` is redirected to the actual url of the cloud eg `https://example.com/cloud`. __*cloud__ has to access many different paths below this url, eg. `status.php`. If these are not also redirected (`https://cloud.example.com/status.php` -> `https://example.com/cloud/status.php`), __*cloud__ can't access them and doesn't work. There is no way for the extension to find the actual base url with some certainty.
+In some configurations a start url like `https://cloud.example.com` is
+redirected to the actual url of the cloud eg `https://example.com/cloud`.
+__*cloud__ has to access many different paths below this url, eg. `status.php`.
+If these are not also redirected (`https://cloud.example.com/status.php` ->
+`https://example.com/cloud/status.php`), __*cloud__ can't access them and
+doesn't work. There is no way for the extension to find the actual base url with
+some certainty.
 
-There is a workaround: Users can find out the actual url and configure it in __*cloud__. But the real solution is to redirect all urls. So it would be greatly appreciated if you would do that in your cloud instance (if you have to use redirects at all). Thanks.
+There is a workaround: Users can find out the actual url and configure it in
+__*cloud__. But it's easier for users if all urls are redirected. So it would be
+greatly appreciated if you would do that in your cloud instance (if you have to
+use redirects at all). Thanks.
 
 ## Cloud Service Providers
 
-If you run a service based on Nextcloud or ownCloud and would like to offer a branded/tailored version of __*cloud__ for your service, please contact me by [email](mailto:cloud@johannes-endres.de).
+If you run a service based on Nextcloud or ownCloud and would like to offer a
+branded/tailored version of __*cloud__ for your service, please contact me by
+[email](mailto:cloud@johannes-endres.de).
 
 ## Developer guide
 
@@ -193,6 +187,9 @@ platforms, have a feature suggestion or any other comment, just contact
   API](https://doc.owncloud.com/server/developer_manual/core/apis/ocs/notifications/ocs-endpoint-v1.html)
 * [Thunderbird WebExtension
   APIs](https://thunderbird-webextensions.readthedocs.io/en/latest/index.html)
+* [JavaScript APIs for WebExtensions](
+    https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API)),
+  some of these are also available in Thunderbird
 * [Example extensions for Thunderbird WebExtensions
   APIs](https://github.com/thundernest/sample-extensions)
 * [What you need to know about making add-ons for

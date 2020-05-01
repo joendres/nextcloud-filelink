@@ -20,28 +20,18 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 
 /* global CloudConnection */
+browser.storage.local.get().then(
+    allAccounts => {
+        for (const accountId in allAccounts) { updateAccount(accountId); }
+    });
 
-/** Whenever TB starts, all the providers are in state configured:false */
-(() => {
-    browser.storage.local.get().then(
-        allAccounts => {
-            for (const accountId in allAccounts) {
-                const ncc = new CloudConnection(accountId);
-                ncc.load()
-                    .then(() => ncc.updateConfigured())
-                    .then(() => ncc.updateFreeSpaceInfo())
-                    .then(() => ncc.updateCapabilities())
-                    .then(() => ncc.store());
-            }
-        });
-})();
-
-browser.cloudFile.onFileUpload.addListener(async (account, { id, name, data }) => {
+messenger.cloudFile.onFileUpload.addListener(async (account, { id, name, data }) => {
     const ncc = new CloudConnection(account.id);
-    return ncc.load().then(() => ncc.uploadFile(id, name, data));
+    await ncc.load();
+    return ncc.uploadFile(id, name, data);
 });
 
-browser.cloudFile.onFileUploadAbort.addListener(
+messenger.cloudFile.onFileUploadAbort.addListener(
     (account, fileId) => {
         /* global allAbortControllers */
         // defined in davuploader.js
@@ -54,12 +44,22 @@ browser.cloudFile.onFileUploadAbort.addListener(
 /** Don't delete any files because we want to reuse uploads. Just ignore the
  * event by adding an empty listener because Thunderbird will show error
  * messages if there is no listener. */
-browser.cloudFile.onFileDeleted.addListener(async () => { });
+messenger.cloudFile.onFileDeleted.addListener(() => { });
 
 /** Nothing to be done, so don't add a listener */
-// browser.cloudFile.onAccountAdded.addListener(async account => { */
+// messenger.cloudFile.onAccountAdded.addListener(async account => { */
 
-browser.cloudFile.onAccountDeleted.addListener(async accountId => {
+messenger.cloudFile.onAccountDeleted.addListener(accountId => {
     const ncc = new CloudConnection(accountId);
-    ncc.load().then(() => ncc.deleteAccount());
+    ncc.deleteAccount();
 });
+
+async function updateAccount(accountId) {
+    {
+        const ncc = new CloudConnection(accountId);
+        await ncc.load();
+        await Promise.all([ncc.updateFreeSpaceInfo(), ncc.updateCapabilities(),]);
+        await ncc.updateConfigured();
+        ncc.store();
+    }
+}

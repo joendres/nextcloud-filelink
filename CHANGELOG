@@ -1,3 +1,9 @@
+3.6.0 2020-05-01
+Close #115 Server URL by Copy & Paste from web login
+Close #122 Mark unusable accounts as not configured
+Fix #135 Wrong error message with unknown user on ownCloud
+Internal improvements #119, #131, #134, #148
+
 3.5.1 2020-04-21
 Fix #139 Timeout issues
 Fix #136 Allow empty download password

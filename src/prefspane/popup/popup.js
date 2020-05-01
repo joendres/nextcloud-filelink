@@ -84,4 +84,12 @@ class popup {
             msgContainer.firstChild.remove();
         }
     }
+
+    /**
+     * Is the popup area empty (no popup currently visible)
+     * @returns {boolean}
+     */
+    static empty() {
+        return !Boolean(msgContainer.firstChild);
+    }
 }

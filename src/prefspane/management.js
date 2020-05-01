@@ -23,7 +23,8 @@ const accountId = new URL(location.href).searchParams.get("accountId");
 const ncc = new CloudConnection(accountId);
 
 loadFormData()
-    .then(updateHeader);
+    .then(updateHeader)
+    .then(showErrors);
 
 addLocalizedLabels();
 
@@ -97,10 +98,6 @@ async function addLocalizedLabels() {
 async function showVersion() {
     service_url.href = serverUrl.value.trim();
 
-    provider_name.textContent = '*cloud';
-    logo.src = "images/management.png";
-    cloud_version.textContent = "";
-
     if (serverUrl.value.trim() === ncc.serverUrl && 'undefined' !== typeof ncc.cloud_supported) {
         cloud_version.textContent = ncc.cloud_versionstring;
         provider_name.textContent = ncc.cloud_productname || '*cloud';
@@ -113,6 +110,10 @@ async function showVersion() {
         if (!ncc.cloud_supported) {
             obsolete_string.hidden = false;
         }
+    } else {
+        provider_name.textContent = '*cloud';
+        logo.src = "images/management.png";
+        cloud_version.textContent = "";
     }
 }
 
@@ -124,7 +125,7 @@ async function updateGauge() {
     if (username.value !== ncc.username || serverUrl.value !== ncc.serverUrl) {
         freespaceGauge.style.visibility = "hidden";
     } else {
-        let theAccount = await browser.cloudFile.getAccount(accountId);
+        let theAccount = await messenger.cloudFile.getAccount(accountId);
         // Update the free space gauge
         let free = theAccount.spaceRemaining;
         const used = theAccount.spaceUsed;
@@ -144,6 +145,22 @@ async function updateGauge() {
 
 function updateHeader() {
     return Promise.all([showVersion(), updateGauge(),]);
+}
+
+function showErrors() {
+    if (false === ncc.public_shares_enabled) {
+        popup.error('sharing_off');
+    } else {
+        if (ncc.enforce_password && (!useDlPassword.checked || !downloadPassword.value)) {
+            popup.error('password_enforced');
+        }
+        if (ncc.invalid_downloadpassword_reason) {
+            popup.error('invalid_pw', ncc.invalid_downloadpassword_reason);
+        }
+        if (false === ncc.cloud_supported) {
+            popup.warn('unsupported_cloud');
+        }
+    }
 }
 
 /**
@@ -201,21 +218,35 @@ async function handleFormData() {
             .then(pw => { password.value = pw; });
     }
 
-    // Store account data and update configured state
-    await ncc.store();
-    ncc.updateConfigured();
-
     // Get info from cloud
     await updateCloudInfo();
+    await ncc.updateConfigured();
+    ncc.store();
 
+    showErrors();
+    if (popup.empty()) {
+        popup.success();
+    }
     // Done. Now internal functions
+
     function sanitizeInput() {
         document.querySelectorAll("input")
             .forEach(element => {
                 element.value = element.value.trim();
             });
-        serverUrl.value = serverUrl.value.replace(/\/+$/, "");
         storageFolder.value = "/" + storageFolder.value.split('/').filter(e => "" !== e).join('/');
+
+        const url = new URL(serverUrl.value);
+        const shortpath = url.pathname.split('/').filter(e => "" !== e);
+
+        if (shortpath[shortpath.length - 1] === 'files' && shortpath[shortpath.length - 2] === 'apps') {
+            shortpath.pop();
+            shortpath.pop();
+            if (shortpath[shortpath.length - 1] === 'index.php') {
+                shortpath.pop();
+            }
+        }
+        serverUrl.value = url.origin + '/' + shortpath.join('/');
     }
 
     /**
@@ -276,43 +307,34 @@ async function handleFormData() {
             /**
              * Try to validate download password
              * AFAIK this only works with NC >=17, so ignore all errors.
-             * @param {boolean} account_ok Are the account data OK so far?
-             * @returns {boolean} account_ok || error in this check
              */
-            async function validateDLPassword(account_ok) {
+            async function validateDLPassword() {
+                delete ncc.invalid_downloadpassword_reason;
                 if (useDlPassword.checked) {
                     const result = await ncc.validateDLPassword();
                     if (false === result.passed) {
-                        popup.error('invalid_pw', result.reason || '(none)');
-                        account_ok = false;
+                        ncc.invalid_downloadpassword_reason = result.reason || '(none)';
                     }
                 }
-                return account_ok;
             }
 
             /**
              * If password is enforced, make it mandatory by changing the inputs
-             * @param {boolean} account_ok Are the account data OK so far?
-             * @returns {boolean} account_ok || error in this check
              */
-            function checkEnforcedDLPassword(account_ok) {
+            function checkEnforcedDLPassword() {
                 if (ncc.enforce_password && !useDlPassword.checked) {
                     useDlPassword.checked = true;
                     useDlPassword.disabled = true;
                     downloadPassword.disabled = false;
                     downloadPassword.required = true;
-                    popup.error('password_enforced');
-                    account_ok = false;
                 }
-                return account_ok;
             }
 
             /**
              * Check for maximum expiry on server
-             * @param {boolean} account_ok Are the account data OK so far?
-             * @returns {boolean} account_ok || error in this check
              */
-            function checkEnforcedExpiry(account_ok) {
+            function checkEnforcedExpiry() {
+                const expiry_input = document.getElementById("expiryDays");
                 if (ncc.expiry_max_days) {
                     expiryDays.max = ncc.expiry_max_days;
                     if (parseInt(expiryDays.value) > ncc.expiry_max_days) {
@@ -320,10 +342,10 @@ async function handleFormData() {
 
                         ncc.expiryDays = ncc.expiry_max_days;
                         popup.warn('expiry_too_long', ncc.expiry_max_days);
-                        account_ok = false;
                     }
+                } else {
+                    expiry_input.removeAttribute('max');
                 }
-                return account_ok;
             }
         }
     }
