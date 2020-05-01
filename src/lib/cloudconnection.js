@@ -130,7 +130,7 @@ class CloudConnection {
             spaceUsed = data.quota.used >= 0 ? data.quota.used : -1;
         }
 
-        await browser.cloudFile.updateAccount(this._accountId, { spaceRemaining, spaceUsed, });
+        await messenger.cloudFile.updateAccount(this._accountId, { spaceRemaining, spaceUsed, });
 
         return data;
     }
@@ -209,16 +209,20 @@ class CloudConnection {
 
     /**
      * Sets the "configured" property of Thunderbird's cloudFileAccount
-     * according to actual state
+     * to true if the is usable
      */
     async updateConfigured() {
-        browser.cloudFile.updateAccount(this._accountId, {
-            configured: Boolean(this.serverUrl) &&
+        messenger.cloudFile.updateAccount(this._accountId, {
+            configured:
+                this.public_shares_enabled &&
+                Boolean(this.serverUrl) &&
                 Boolean(this.username) &&
                 Boolean(this.password) &&
                 Boolean(this.storageFolder) &&
-                (this.useDlPassword ? Boolean(this.downloadPassword) : true) &&
-                (this.useExpiry ? Boolean(this.expiryDays) : true),
+                !(this.enforce_password && !this.useDlPassword) &&
+                !(this.useDlPassword && !Boolean(this.downloadPassword)) &&
+                !(this.useExpiry && !Boolean(this.expiryDays)) &&
+                !(Boolean(this.expiry_max_days) && this.useExpiry && this.expiry_max_days < this.expiryDays),
         });
     }
 

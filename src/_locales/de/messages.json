@@ -75,10 +75,10 @@
     "message": "Veraltete</br>Version"
   },
   "error_404": {
-    "message": "Accout-Prüfung fehlgeschlagen: User existiert nicht, inkompatible Cloud oder Netzwerkproblem"
+    "message": "Account-Prüfung fehlgeschlagen: User existiert nicht, inkompatible Cloud oder Netzwerkproblem"
   },
   "error_401": {
-    "message": "Login fehlgeschlagen. Wahrscheinlich ist das Passwort falsch."
+    "message": "Login fehlgeschlagen. Wahrscheinlich ist der Username oder das Passwort falsch."
   },
   "error_typeerror": {
     "message": "Keine Verbindung zur Cloud. Prüfe die Server-URL und deine Netzwerkverbindung"
@@ -90,7 +90,7 @@
     "message": "Ungültiges Download-Passwort (Uploads werden fehlschlagen). Erklärung vom Server: $1"
   },
   "error_password_enforced": {
-    "message": "Für diese Cloud muss ein Download-Passwort gesetzt werden. Dieses Passwort muss <em>allen</em> Richtlinien entsprechen, die der Admin deiner Cloud aufgestellt hat (Länge, Zeichen, Ziffern, ...)."
+    "message": "Für diese Cloud muss ein Download-Passwort gesetzt werden. Dieses Passwort muss allen Richtlinien entsprechen, die der Admin deiner Cloud aufgestellt hat (Länge, Zeichen, Ziffern, ...)."
   },
   "warn_expiry_too_long": {
     "message": "Dein Cloud-Admin hat eine maximale Ablaufzeit von $1 Tagen gesetzt. Dein gewählter Wert wurde geändert, weil sonst die Uploads fehlschlagen."

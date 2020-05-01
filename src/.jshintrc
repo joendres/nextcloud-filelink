@@ -4,7 +4,8 @@
     "browser": true,
     "predef": [
         "browser",
-        "AbortController"
+        "AbortController",
+        "messenger"
     ],
     "curly": true,
     "eqeqeq": true,
