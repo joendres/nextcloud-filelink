@@ -4,10 +4,10 @@ body {
     font-family: -apple-system, BlinkMacSystemFont, ubuntu, roboto, noto, 'segoe ui', 'helvetica new', helvetica, arial, sans-serif;
 }
 
-.input__field, .input__field::placeholder {
+.input__field {
     font-size: inherit;
-    /* Quick fix for themes that change */
-    color: initial;
+    /* Quick fix for gnome themes that change this */
+    background-color: white;
 }
 
 /* Put everything in its place */
