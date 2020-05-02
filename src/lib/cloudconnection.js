@@ -31,7 +31,7 @@ const apiUrlUserInfo = "/cloud/users/";
 const apiUrlShares = "/apps/files_sharing/api/v1/shares";
 const apiUrlGetApppassword = "/core/getapppassword";
 const apiUrlCapabilities = "/cloud/capabilities";
-const davUrlDefault = "/remote.php/dav/files/";
+const davUrlDefault = "remote.php/dav/files/";
 //#endregion
 
 /**
@@ -86,7 +86,7 @@ class CloudConnection {
             // Fetch URL from capabilities
             const data = await this._doApiCall(apiUrlCapabilities);
             if (data && data.capabilities && data.capabilities.core && data.capabilities.core["webdav-root"]) {
-                this._davUrl = "/" + data.capabilities.core["webdav-root"];
+                this._davUrl = data.capabilities.core["webdav-root"];
             } else {
                 // Use default from docs instead
                 this._davUrl = davUrlDefault + this.username;
@@ -153,7 +153,7 @@ class CloudConnection {
         if (!data._failed && data.capabilities) {
             // Remember the URL to use in WebDAV calls
             if (data.capabilities.core && data.capabilities.core["webdav-root"]) {
-                this._davUrl = "/" + data.capabilities.core["webdav-root"];
+                this._davUrl = data.capabilities.core["webdav-root"];
             }
 
             if (data.capabilities.files_sharing) {
