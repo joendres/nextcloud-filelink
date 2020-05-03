@@ -1,3 +1,6 @@
+3.6.2 2002-05-03
+Fix #155 bug introduced in 3.6.1 that broke some existing configurations
+
 3.6.1 2020-05-03
 Fix #138 & #139 (previous fix didn't fix)
 Fix #153 & #154 Upload fails if file already exists
