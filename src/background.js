@@ -58,6 +58,9 @@ async function updateAccount(accountId) {
     {
         const ncc = new CloudConnection(accountId);
         await ncc.load();
+        if (ncc.serverUrl && !ncc.serverUrl.endsWith('/')) {
+            ncc.serverUrl += '/';
+        }
         await Promise.all([ncc.updateFreeSpaceInfo(), ncc.updateCapabilities(),]);
         await ncc.updateConfigured();
         ncc.store();
