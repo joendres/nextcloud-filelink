@@ -1,4 +1,8 @@
-3.6.2 2002-05-03
+3.6.3 2020-05-11
+Fix #166 introduced in 3.6.0, broke urls with path like http://example.com/cloud
+Fix a typo in CHANGELOG ;-)
+
+3.6.2 2020-05-03
 Fix #155 bug introduced in 3.6.1 that broke some existing configurations
 
 3.6.1 2020-05-03
