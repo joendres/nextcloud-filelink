@@ -247,6 +247,9 @@ async function handleFormData() {
             }
         }
         serverUrl.value = url.origin + '/' + shortpath.join('/');
+        if (!serverUrl.value.endsWith('/')) {
+            serverUrl.value += '/';
+        }
     }
 
     /**
