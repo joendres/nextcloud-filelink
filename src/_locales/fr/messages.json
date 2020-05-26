@@ -18,7 +18,7 @@
     "message": "Adresse du serveur"
   },
   "serverUrl_details": {
-    "message": "L'adresse de votre serveur Cloud doit commencer par http ou https.<br>Si votre serveur utilise un port non standard, insérez le dans l'adresse."
+    "message": "L'adresse de votre serveur Cloud doit commencer par http ou https.\nSi votre serveur utilise un port non standard, insérez le dans l'adresse."
   },
   "username": {
     "message": "Utilisateur"
@@ -30,7 +30,7 @@
     "message": "Mot de passe d'application ou mot de passe de votre compte utilisateur"
   },
   "password_details": {
-    "message": "Indiquez un mot de passe d'application (solution à privilégier) ou le mot de passe de votre compte utilisateur.<br><em>Uniquement avec Nextcloud</em>, cette extension tente systèmatiquement de convertir le mot de passe du compte utilisateur en un mot de passe d'application. En cas d'échec, votre <em>mot de passe sera enregistré sans chiffrement</em>."
+    "message": "Indiquez un mot de passe d'application (solution à privilégier) ou le mot de passe de votre compte utilisateur.\nUniquement avec Nextcloud, cette extension tente systèmatiquement de convertir le mot de passe du compte utilisateur en un mot de passe d'application. En cas d'échec, votre mot de passe sera enregistré sans chiffrement."
   },
   "storageFolder": {
     "message": "Chemin d'accès au dossier distant"
@@ -42,7 +42,7 @@
     "message": "Protection du téléchargement par mot de passe :"
   },
   "useDlPassword_details": {
-    "message": "Le mot de passe doit respecter les règles de caractères appliquées sur votre serveur Cloud (ex: longueur, casse, mélange...). Dans le cas contraire, le <em>téléversement</em> échouera. Pensez à communiquer ce mot de passe au(x) destinataire(s) de la pièce jointe, il sera nécessaire pour l'obtention de cette dernière. "
+    "message": "Le mot de passe doit respecter les règles de caractères appliquées sur votre serveur Cloud (ex: longueur, casse, mélange...). Dans le cas contraire, le téléversement échouera. Pensez à communiquer ce mot de passe au(x) destinataire(s) de la pièce jointe, il sera nécessaire pour l'obtention de cette dernière. "
   },
   "expiryDaysBefore": {
     "message": "Expiration du lien après "
@@ -81,7 +81,7 @@
   },
   "obsolete_version": {
     "description": "This is displayed instead of the icon if the cloud version is not supported, so it should be quite short and contain exactly two lines.",
-    "message": "Version<br>obsolète"
+    "message": "Version\nobsolète"
   },
   "error_401": {
     "message": "Echec de la connexion. Vérifiez le nom d'utilisateur et le mot de passe."
@@ -93,9 +93,60 @@
     "message": "Mot de passe de téléchargement incorrect (les téléversements échoueront). Raison communiquée par le serveur: $1"
   },
   "error_password_enforced": {
-    "message": "Votre serveur Cloud requiert un mot de passe de téléchargement. Assurez vous que celui-ci soit conforme à la politique de sécurité qui s'applique sur votre serveur (ex: longueur, chiffres, caractères spéciaux)."
+    "message": "Votre serveur Cloud requiert un mot de passe de téléchargement."
   },
   "warn_expiry_too_long": {
     "message": "Le temps d'expiration choisi dépasse la limite fixée par votre administrateur de serveur Cloud à $1 jour(s). La valeur a donc été ramenée à cette limite pour éviter un échec du téléversement."
+  },
+  "useNoDlPassword": {
+    "message": "Pas de mot de passe"
+  },
+  "useNoDlPassword_details": {
+    "message": "Aucun mot de passe ne sera demandé pour ce téléchargement"
+  },
+  "oneDlPassword": {
+    "message": "Utiliser un mot de passe unique pour tous les téléchargements"
+  },
+  "useGeneratedDlPassword": {
+    "message": "Utiliser un mot de passe généré automatiquement pour chaque téléchargement"
+  },
+  "useGeneratedDlPassword_details": {
+    "message": "Un mot de passe aléatoire est généré automatiquement pour chaque fichier. Il faudra le copier depuis la fenêtre surgissante de statut après le téléversement."
+  },
+  "status_menuname": {
+    "description": "This is put after the *cloud logo to form the button in the message compose window that opens the progress popup window",
+    "message": "Statut"
+  },
+  "status_no_uploads": {
+    "message": "Aucun téléversement en cours"
+  },
+  "status_button_clear": {
+    "description": "Button to remove messages from status popup",
+    "message": "Vider la liste des téléversements achevés"
+  },
+  "status_preparing": {
+    "message": "Préparation du téléversement"
+  },
+  "status_creating": {
+    "message": "Création du dossier"
+  },
+  "status_moving": {
+    "message": "Déplacement du fichier en conflit"
+  },
+  "status_uploading": {
+    "message": "Téléversement du fichier"
+  },
+  "status_sharing": {
+    "message": "Partage du fichier"
+  },
+  "status_error": {
+    "description": "The $1 will be replaced with one of the states above, eg 'Sharing failed'. You may put text before and after it. If this doesn't work in your language, please tell me.",
+    "message": "$1 : échec"
+  },
+  "status_password": {
+    "message": "mot de passe: $1"
+  },
+  "warn_nonascii_password": {
+    "message": "Votre mot de passe contient des caractères qui semble poser un problème d'identification. Veuillez utiliser plutôt un mot de passe d'application."
   }
 }

@@ -10,6 +10,10 @@ body {
     background-color: white;
 }
 
+.input__field:disabled {
+    background-color: ThreeDLightShadow;
+}
+
 /* Put everything in its place */
 
 * {
@@ -57,6 +61,7 @@ body {
     display: flex;
     white-space: nowrap;
     align-items: center;
+    min-height: 24px;
 }
 
 .labelline>.spacer {
@@ -105,8 +110,9 @@ h2 {
     color: red;
     font-weight: bolder;
     position: absolute;
-    top: 2px;
+    top: 8px;
     right: 0;
+    white-space: pre-line;
 }
 
 /* Free space display */
@@ -129,15 +135,15 @@ meter {
 
 /* Help overlay */
 
-.helpbutton>p {
+.helpbutton>.card {
     position: absolute;
     right: 1em;
     visibility: hidden;
     max-width: 75%;
     z-index: 1;
-    white-space: normal;
+    white-space: pre-line;
 }
 
-.helpbutton:hover>p {
+.helpbutton:hover>.card {
     visibility: visible;
 }

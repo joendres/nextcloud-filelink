@@ -28,26 +28,20 @@ loadFormData()
 
 addLocalizedLabels();
 
-linkButtonStateToFieldChanges();
-
+accountForm.addEventListener('input', updateButtons);
 serverUrl.addEventListener("input", updateHeader);
 username.addEventListener("input", updateGauge);
 
-linkElementStateToCheckbox(downloadPassword, useDlPassword);
 linkElementStateToCheckbox(expiryDays, useExpiry);
-
 
 //#region html element event handlers
 /**
  * Save button is only active if field values validate OK
  * Reset button is only active if any field has been changed
  */
-async function linkButtonStateToFieldChanges() {
-    function updateButtons() {
-        saveButton.disabled = !accountForm.checkValidity();
-        resetButton.disabled = false;
-    }
-    accountForm.addEventListener('input', updateButtons);
+function updateButtons() {
+    saveButton.disabled = !accountForm.checkValidity();
+    resetButton.disabled = false;
 }
 
 /**
@@ -61,6 +55,17 @@ async function linkElementStateToCheckbox(element, checkbox) {
 }
 
 /** 
+ * Handler for Password protect downloads radio buttons
+ */
+function adjustDLPasswordElementStates() {
+    downloadPassword.disabled = !oneDLPassword.checked;
+    downloadPassword.required = oneDLPassword.checked;
+    useDlPassword.checked = oneDLPassword.checked || useGeneratedDlPassword.checked;
+    updateButtons();
+}
+document.getElementsByName("DLPRadio").forEach(inp => inp.addEventListener("change", adjustDLPasswordElementStates));
+
+/** 
  * Handler for Cancel button, restores saved values
  */
 resetButton.addEventListener('click', () => {
@@ -72,8 +77,10 @@ resetButton.addEventListener('click', () => {
 
 /** Handler for Save button */
 saveButton.addEventListener('click', () => {
+    lookBusy();
     saveButton.disabled = resetButton.disabled = true;
-    Promise.all([lookBusy(), handleFormData(), popup.clear(),])
+    popup.clear();
+    handleFormData()
         .then(() => {
             updateHeader();
             stopLookingBusy();
@@ -82,16 +89,6 @@ saveButton.addEventListener('click', () => {
 
 //#endregion
 //#region Fill visible html elements with content
-/**
- * Set all the labels to localized strings
- */
-async function addLocalizedLabels() {
-    document.querySelectorAll("[data-message]")
-        .forEach(element => {
-            element.innerHTML = browser.i18n.getMessage(element.dataset.message);
-        });
-}
-
 /**
  * Display cloud type (as a logo) and version
  */
@@ -151,7 +148,7 @@ function showErrors() {
     if (false === ncc.public_shares_enabled) {
         popup.error('sharing_off');
     } else {
-        if (ncc.enforce_password && (!useDlPassword.checked || !downloadPassword.value)) {
+        if (ncc.enforce_password && (!useDlPassword.checked || (!downloadPassword.value && !useGeneratedDlPassword.checked))) {
             popup.error('password_enforced');
         }
         if (ncc.invalid_downloadpassword_reason) {
@@ -171,12 +168,13 @@ async function loadFormData() {
 
     document.querySelectorAll("input")
         .forEach(inp => {
-            if (inp.type === "checkbox") {
+            if (inp.type === "checkbox" || inp.type === "radio") {
                 inp.checked = !!ncc[inp.id];
             } else if (ncc[inp.id]) {
                 inp.value = ncc[inp.id];
             }
         });
+    useNoDlPassword.checked = !useDlPassword.checked && !useGeneratedDlPassword.checked;
 
     // Don't allow longer expiry period than the server
     if (ncc.expiry_max_days) {
@@ -185,12 +183,11 @@ async function loadFormData() {
 
     // force download password if server requires one
     if (ncc.enforce_password) {
-        useDlPassword.checked = true;
-        useDlPassword.disabled = true;
+        useNoDlPassword.disabled = true;
+        useNoDlPassword.checked = false;
+        oneDLPassword.checked = !useGeneratedDlPassword.checked;
     }
-
-    downloadPassword.disabled = !useDlPassword.checked;
-    downloadPassword.required = useDlPassword.checked;
+    adjustDLPasswordElementStates();
 
     expiryDays.disabled = !useExpiry.checked;
     expiryDays.required = useExpiry.checked;
@@ -212,14 +209,17 @@ async function handleFormData() {
 
     copyData();
 
-    // Try to convert the password into App Token if necessary
-    if (needsNewToken) {
-        ncc.convertToApppassword()
-            .then(pw => { password.value = pw; });
-    }
-
     // Get info from cloud
     await updateCloudInfo();
+
+    // Try to convert the password into App Token if necessary
+    if (needsNewToken) {
+        if (await ncc.convertToApppassword()) {
+            password.value = ncc.password;
+            username.value = ncc.username;
+        }
+    }
+
     await ncc.updateConfigured();
     ncc.store();
 
@@ -247,8 +247,13 @@ async function handleFormData() {
             }
         }
         serverUrl.value = url.origin + '/' + shortpath.join('/');
+
         if (!serverUrl.value.endsWith('/')) {
             serverUrl.value += '/';
+        }
+
+        if (!password.value.match(/^[\x21-\x7e]+$/)) {
+            popup.warn('nonascii_password');
         }
     }
 
@@ -258,7 +263,7 @@ async function handleFormData() {
     function copyData() {
         document.querySelectorAll("input")
             .forEach(inp => {
-                if (inp.type === "checkbox") {
+                if (inp.type === "checkbox" || inp.type === "radio") {
                     ncc[inp.id] = inp.checked;
                 }
                 else {
@@ -272,7 +277,17 @@ async function handleFormData() {
      * store them in the Cloudconnection object,inform user about it.
      */
     async function updateCloudInfo() {
-        const answer = await ncc.updateFreeSpaceInfo();
+        let answer = await ncc.updateFreeSpaceInfo();
+        if (answer._failed) {
+            // If login failed, we might be using an app token which requires a lowercase user name
+            const oldname = ncc.username;
+            ncc.username = ncc.username.toLowerCase();
+            answer = await ncc.updateFreeSpaceInfo();
+            if (answer._failed) {
+                // Nope, it's not the case, restore username
+                ncc.username = oldname;
+            }
+        }
         if (answer._failed) {
             popup.error(answer.status);
         }
@@ -287,23 +302,12 @@ async function handleFormData() {
          */
         async function getCapabilities() {
             await ncc.updateCapabilities();
-            if (false === ncc.public_shares_enabled) {
-                popup.error('sharing_off');
-            } else if (true === ncc.public_shares_enabled) {
-                let account_ok = true;
-                account_ok = checkEnforcedExpiry(account_ok);
-                account_ok = checkEnforcedDLPassword(account_ok);
-                account_ok = await validateDLPassword(account_ok);
-                if (false === ncc.cloud_supported) {
-                    popup.warn('unsupported_cloud');
-                    account_ok = false;
-                }
-                if (true === account_ok) {
-                    popup.success();
-                } else {
-                    ncc.store();
-                }
-            } else {
+            if (true === ncc.public_shares_enabled) {
+                checkEnforcedExpiry();
+                checkEnforcedDLPassword();
+                await validateDLPassword();
+                ncc.store();
+            } else if ('undefined' === typeof ncc.public_shares_enabled) {
                 popup.warn('no_config_check');
             }
 
@@ -313,7 +317,7 @@ async function handleFormData() {
              */
             async function validateDLPassword() {
                 delete ncc.invalid_downloadpassword_reason;
-                if (useDlPassword.checked) {
+                if (useDlPassword.checked && !useGeneratedDlPassword.checked) {
                     const result = await ncc.validateDLPassword();
                     if (false === result.passed) {
                         ncc.invalid_downloadpassword_reason = result.reason || '(none)';
@@ -325,11 +329,13 @@ async function handleFormData() {
              * If password is enforced, make it mandatory by changing the inputs
              */
             function checkEnforcedDLPassword() {
-                if (ncc.enforce_password && !useDlPassword.checked) {
-                    useDlPassword.checked = true;
-                    useDlPassword.disabled = true;
-                    downloadPassword.disabled = false;
-                    downloadPassword.required = true;
+                if (ncc.enforce_password) {
+                    useNoDlPassword.disabled = true;
+                    useNoDlPassword.checked = false;
+                    oneDLPassword.checked = !useGeneratedDlPassword.checked;
+                    adjustDLPasswordElementStates();
+                } else {
+                    useNoDlPassword.disabled = false;
                 }
             }
 
@@ -337,7 +343,6 @@ async function handleFormData() {
              * Check for maximum expiry on server
              */
             function checkEnforcedExpiry() {
-                const expiry_input = document.getElementById("expiryDays");
                 if (ncc.expiry_max_days) {
                     expiryDays.max = ncc.expiry_max_days;
                     if (parseInt(expiryDays.value) > ncc.expiry_max_days) {
@@ -347,7 +352,7 @@ async function handleFormData() {
                         popup.warn('expiry_too_long', ncc.expiry_max_days);
                     }
                 } else {
-                    expiry_input.removeAttribute('max');
+                    expiryDays.removeAttribute('max');
                 }
             }
         }
@@ -376,7 +381,10 @@ function stopLookingBusy() {
 // Defined in popup/popup.js
 /* global popup */
 // Defined in managemet.html as id
-/* globals serverUrl, username, downloadPassword, useDlPassword, expiryDays */
+/* globals serverUrl, username, expiryDays */
+/* globals downloadPassword, useDlPassword, useNoDlPassword, useGeneratedDlPassword, oneDLPassword*/
 /* globals useExpiry, saveButton, accountForm, resetButton, service_url */
 /* globals provider_name, logo, cloud_version, obsolete_string, freespaceGauge */
 /* globals freespacelabel, freespace, password, storageFolder, disableable_fieldset */
+// Defined in ../lib/localize.js
+/* globals addLocalizedLabels */

@@ -19,7 +19,6 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 
-/* global CloudConnection */
 browser.storage.local.get().then(
     allAccounts => {
         for (const accountId in allAccounts) { updateAccount(accountId); }
@@ -39,12 +38,14 @@ messenger.cloudFile.onFileUploadAbort.addListener(
         if (abortController) {
             abortController.abort();
         }
+        Status.remove(fileId);
     });
 
-/** Don't delete any files because we want to reuse uploads. Just ignore the
- * event by adding an empty listener because Thunderbird will show error
- * messages if there is no listener. */
-messenger.cloudFile.onFileDeleted.addListener(() => { });
+/** Don't delete any files because we want to reuse uploads.  */
+messenger.cloudFile.onFileDeleted.addListener(
+    (account, fileId) => {
+        Status.remove(fileId);
+    });
 
 /** Nothing to be done, so don't add a listener */
 // messenger.cloudFile.onAccountAdded.addListener(async account => { */
@@ -66,3 +67,6 @@ async function updateAccount(accountId) {
         ncc.store();
     }
 }
+
+/* Make jshint happy */
+/* global CloudConnection, Status */
