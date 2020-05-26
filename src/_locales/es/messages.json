@@ -15,7 +15,7 @@
         "message": "URL del servidor"
     },
     "serverUrl_details": {
-        "message": "La URL base de tu servidor, tiene que empezar por http o https.<br>Si tu servidor funciona en un puerto no estándar, añádelo a la URL."
+        "message": "La URL base de tu servidor, tiene que empezar por http o https.\nSi tu servidor funciona en un puerto no estándar, añádelo a la URL."
     },
     "username": {
         "message": "Usuario"
@@ -27,7 +27,7 @@
         "message": "Testigo o contraseña"
     },
     "password_details": {
-        "message": "Una contraseña de aplicación (preferible) o contraseña.<br><em>Solo en Nextcloud</em>el complemento intenta convertir la contraseña en una contraseña de aplicación antes de almacenarla. Si esto falla, <em>la contraseña se almacenará sin encriptar</em>."
+        "message": "Una contraseña de aplicación (preferible) o contraseña.\nSolo en Nextcloudel complemento intenta convertir la contraseña en una contraseña de aplicación antes de almacenarla. Si esto falla, la contraseña se almacenará sin encriptar."
     },
     "storageFolder": {
         "message": "Ubicación en el servidor"
@@ -39,7 +39,7 @@
         "message": "Contraseña para las descargas:"
     },
     "useDlPassword_details": {
-        "message": "Esta contraseña debe cumplir las reglas que el administrador del servidor ha configurado (ej. Longitud, tipos de carácteres, ...). Si no es así, <em>la carga fallará</em>. Tendrás que comunicar la contraseña a los destinatarios; la necesitarán para la descarga de los adjuntos."
+        "message": "Esta contraseña debe cumplir las reglas que el administrador del servidor ha configurado (ej. Longitud, tipos de carácteres, ...). Si no es así, la carga fallará. Tendrás que comunicar la contraseña a los destinatarios; la necesitarán para la descarga de los adjuntos."
     },
     "expiryDaysBefore": {
         "message": "Expirar la descarga en "
@@ -78,7 +78,7 @@
     },
     "obsolete_version": {
         "description": "This is displayed instead of the icon if the cloud version is not supported, so it should be quite short and contain exactly two lines.",
-        "message": "Versión<br>obsoleta"
+        "message": "Versión\nobsoleta"
     },
     "error_401": {
         "message": "El inicio de sessión falló. Comprueba el usuario y la contraseña."
@@ -90,9 +90,58 @@
         "message": "La contraseña de descárrega es inválida (la carga fallará). La razón dada por el servidor es: $1"
     },
     "error_password_enforced": {
-        "message": "Tu nube necesita una contraseña de descarga. Asegurate que cumples con los requisitos (ej. longitud, números, caracteres especiales)."
+        "message": "Tu nube necesita una contraseña de descarga."
     },
     "warn_expiry_too_long": {
         "message": "El administrador ha fijado el tiempo de expiración en un máximo de $1 dias. El valor se ajustará, para que la carga sea correcta."
+    },
+    "useNoDlPassword": {
+        "message": "Sin contraseña"
+    },
+    "useNoDlPassword_details": {
+        "message": "No requerir contraseña en las descargas"
+    },
+    "oneDlPassword": {
+        "message": "Una contraseña para todas las descargas"
+    },
+    "useGeneratedDlPassword": {
+        "message": "Usa una contraseña generada",
+        "description": "ToDo "
+    },
+    "useGeneratedDlPassword_details": {
+        "message": "Se genera una contraseña aleatoria para cada descarga. Cópiala de la notificación del estado después de la carga."
+    },
+    "status_menuname": {
+        "message": "Estado"
+    },
+    "status_no_uploads": {
+        "message": "Sin cargas activas"
+    },
+    "status_button_clear": {
+        "message": "Limpia las cargas completadas"
+    },
+    "status_preparing": {
+        "message": "Preparando"
+    },
+    "status_creating": {
+        "message": "Creando la carpeta"
+    },
+    "status_moving": {
+        "message": "Moviento el archivo confiltivo"
+    },
+    "status_uploading": {
+        "message": "Cargando"
+    },
+    "status_sharing": {
+        "message": "Compartiendo"
+    },
+    "status_error": {
+        "message": "Error : $1"
+    },
+    "status_password": {
+        "message": "contraseña: $1"
+    },
+    "warn_nonascii_password": {
+        "message": "La contraseña contiene caracteres que pueden causar problemas. Usa una contraseña de aplicación en su lugar."
     }
 }

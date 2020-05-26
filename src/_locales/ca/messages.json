@@ -15,7 +15,7 @@
         "message": "URL del servidor"
     },
     "serverUrl_details": {
-        "message": "L'URL base del teu núvol, ha de començar per http o https.<br>Si el teu servidor funciona amb un port no estàndard, afegeix-lo a l'URL."
+        "message": "L'URL base del teu núvol, ha de començar per http o https.\nSi el teu servidor funciona amb un port no estàndard, afegeix-lo a l'URL."
     },
     "username": {
         "message": "Usuari"
@@ -24,10 +24,10 @@
         "message": "El teu nom d'usuari al servidor."
     },
     "password": {
-        "message": "Testimoni o contrasenya"
+        "message": "Testimoni o clau"
     },
     "password_details": {
-        "message": "Un testimoni d'aplicació (preferible) o la teva contrasenya d'usuari.<br><em>Només amb Nextcloud: </em>el complement provarà a convertir la contrasenya en un testimoni d'aplicació abans d'emmagatzemar-la. Si no pot fer-ho, <em>l'emmagatzemarà sense encriptar.</em>."
+        "message": "Un testimoni d'aplicació (preferible) o la teva clau d'usuari.\nNomés amb Nextcloud: el complement provarà a convertir la clau en un testimoni d'aplicació abans d'emmagatzemar-la. Si no pot fer-ho, l'emmagatzemarà sense encriptar.."
     },
     "storageFolder": {
         "message": "Ubicació al servidor"
@@ -36,10 +36,10 @@
         "message": "Ubicació on pujar els adjunts al servidor. Si no existeix, es crearà durant la càrrega."
     },
     "useDlPassword": {
-        "message": "Contrasenya per les descàrregues:"
+        "message": "Clau per les descàrregues:"
     },
     "useDlPassword_details": {
-        "message": "Aquesta contrasenya ha de complir les regles que l'administrador del servidor ha fixat (longitud, tipus de caràcters, ...). Si no és així, <em>la càrrega fallarà</em>. Hauràs de comunicar la contrasenya als destinataris; la necessitaran per la descàrrega dels adjunts."
+        "message": "Aquesta clau ha de complir les regles que l'administrador del servidor ha fixat (longitud, tipus de caràcters, ...). Si no és així, la càrrega fallarà. Hauràs de comunicar la clau als destinataris; la necessitaran per la descàrrega dels adjunts."
     },
     "expiryDaysBefore": {
         "message": "Expirar la descàrrega en "
@@ -78,7 +78,7 @@
     },
     "obsolete_version": {
         "description": "This is displayed instead of the icon if the cloud version is not supported, so it should be quite short and contain exactly two lines.",
-        "message": "Versió<br>obsoleta"
+        "message": "Versió\nobsoleta"
     },
     "error_401": {
         "message": "L'inici de sessió ha fallat. Comprova l'usuari i la clau."
@@ -90,9 +90,57 @@
         "message": "Clau de descàrrega no vàlida (la càrrega fallarà). La raó donada pel servidor: $1"
     },
     "error_password_enforced": {
-        "message": "El teu núvol requereix una clau per la descàrrega. Assegura't de complir els requisits de la clau (ex. llargària, números, caràcters especials)."
+        "message": "El teu núvol requereix una clau per la descàrrega."
     },
     "warn_expiry_too_long": {
         "message": "L'administrador a fixat un temps d'expiració màxim de $1 dies. EL valor s'ha ajustat, si no la càrrega fallarà."
+    },
+    "useGeneratedDlPassword": {
+        "message": "Usa una clau generada"
+    },
+    "useNoDlPassword": {
+        "message": "Sense clau"
+    },
+    "useNoDlPassword_details": {
+        "message": "No es requerix una clau per la descàrrega"
+    },
+    "oneDlPassword": {
+        "message": "Una clau per totes les descàrregues"
+    },
+    "useGeneratedDlPassword_details": {
+        "message": "Una clau aleatòria es genera per cada arxiu. Copia-la a la notificació d'estat després de la càrrega."
+    },
+    "status_menuname": {
+        "message": "Estat"
+    },
+    "status_no_uploads": {
+        "message": "Cap càrrega activa"
+    },
+    "status_button_clear": {
+        "message": "Neteja les completades"
+    },
+    "status_preparing": {
+        "message": "Preparant"
+    },
+    "status_creating": {
+        "message": "Creant la carpeta"
+    },
+    "status_moving": {
+        "message": "Movent l'arxiu conflictiu"
+    },
+    "status_uploading": {
+        "message": "Carregant"
+    },
+    "status_sharing": {
+        "message": "Compartint"
+    },
+    "status_error": {
+        "message": "error: $1"
+    },
+    "status_password": {
+        "message": "clau: $1"
+    },
+    "warn_nonascii_password": {
+        "message": "La clau conté caràcters que poden donar problemes a l'accedir. Fes servir una clau d'aplicació en el seu lloc."
     }
 }

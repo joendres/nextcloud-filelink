@@ -23,15 +23,20 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 /* global encodepath  */
 /* global daysFromTodayIso */
 /* global punycode */
+/* global Status */
+/* global attachmentStatus */
+/* global generatePassword */
 /* exported CloudConnection */
 
 //#region  Configurable options and useful constants
-const apiUrlBase = "/ocs/v1.php";
+const apiUrlBase = "ocs/v1.php";
 const apiUrlUserInfo = "/cloud/users/";
 const apiUrlShares = "/apps/files_sharing/api/v1/shares";
 const apiUrlGetApppassword = "/core/getapppassword";
 const apiUrlCapabilities = "/cloud/capabilities";
 const davUrlDefault = "remote.php/dav/files/";
+const ncMinimalVersion = 16;
+const ocMinimalVersion = 10;
 //#endregion
 
 /**
@@ -78,9 +83,13 @@ class CloudConnection {
      *
      * @param {number} fileId The id Thunderbird uses to reference the upload
      * @param {string} fileName w/o path
-     *      @param {File} fileObject the local file as a File object
+     * @param {File} fileObject the local file as a File object
      */
     async uploadFile(fileId, fileName, fileObject) {
+        const upload_status = new Status(fileName);
+        attachmentStatus.set(fileId, upload_status);
+        upload_status.set_status('preparing');
+
         // Get the server's actual DAV URL
         if (!this._davUrl) {
             // Fetch URL from capabilities
@@ -95,14 +104,24 @@ class CloudConnection {
 
         const uploader = new DavUploader(
             this.serverUrl, this.username, this.password, this._davUrl, this.storageFolder);
+
         const response = await uploader.uploadFile(fileId, fileName, fileObject);
 
         if (response.aborted) {
             return response;
         } else if (response.ok) {
+            upload_status.set_status('sharing');
             this.updateFreeSpaceInfo();
-            return { url: (await this._getShareLink(fileName)) + "/download", aborted: false, };
+            let url = await this._getShareLink(fileName, fileId);
+            if (url) {
+                if (upload_status.status !== 'generatedpassword') {
+                    Status.remove(fileId);
+                }
+                url += "/download";
+                return { url, aborted: false, };
+            }
         }
+        upload_status.fail();
         throw new Error("Upload failed.");
     }
 
@@ -129,8 +148,11 @@ class CloudConnection {
             spaceRemaining = data.quota.free >= 0 ? data.quota.free : -1;
             spaceUsed = data.quota.used >= 0 ? data.quota.used : -1;
         }
-
         await messenger.cloudFile.updateAccount(this._accountId, { spaceRemaining, spaceUsed, });
+
+        if (data.id) {
+            this.cloud_user_id = data.id;
+        }
 
         return data;
     }
@@ -156,27 +178,25 @@ class CloudConnection {
                 this._davUrl = data.capabilities.core["webdav-root"];
             }
 
-            if (data.capabilities.files_sharing) {
-                // Don't test data.capabilities.files_sharing.api_enabled because the next line contains it all
-                // Is public sharing enabled?
-                this.public_shares_enabled = data.capabilities.files_sharing.public && !!data.capabilities.files_sharing.public.enabled;
-                if (this.public_shares_enabled) {
-                    // Remember if a download password is required
-                    if (data.capabilities.files_sharing.public.password) {
-                        if (data.capabilities.files_sharing.public.password.enforced_for && 'boolean' === typeof data.capabilities.files_sharing.public.password.enforced_for.read_only) {
-                            // ownCloud
-                            this.enforce_password = data.capabilities.files_sharing.public.password.enforced_for.read_only;
-                        } else {
-                            //Nextcloud                        
-                            this.enforce_password = data.capabilities.files_sharing.public.password.enforced;
-                        }
+            // Don't test data.capabilities.files_sharing.api_enabled because the next line contains it all
+            // Is public sharing enabled?
+            this.public_shares_enabled = !!data.capabilities.files_sharing && data.capabilities.files_sharing.public && !!data.capabilities.files_sharing.public.enabled;
+            if (this.public_shares_enabled) {
+                // Remember if a download password is required
+                if (data.capabilities.files_sharing.public.password) {
+                    if (data.capabilities.files_sharing.public.password.enforced_for && 'boolean' === typeof data.capabilities.files_sharing.public.password.enforced_for.read_only) {
+                        // ownCloud
+                        this.enforce_password = data.capabilities.files_sharing.public.password.enforced_for.read_only;
+                    } else {
+                        //Nextcloud                        
+                        this.enforce_password = data.capabilities.files_sharing.public.password.enforced;
                     }
-                    // Remember maximum expiry set on server
-                    if (data.capabilities.files_sharing.public.expire_date && data.capabilities.files_sharing.public.expire_date.enforced) {
-                        this.expiry_max_days = parseInt(data.capabilities.files_sharing.public.expire_date.days);
-                        if (!isFinite(this.expiry_max_days) || this.expiry_max_days <= 0) {
-                            delete this.expiry_max_days;
-                        }
+                }
+                // Remember maximum expiry set on server
+                if (data.capabilities.files_sharing.public.expire_date && data.capabilities.files_sharing.public.expire_date.enforced) {
+                    this.expiry_max_days = parseInt(data.capabilities.files_sharing.public.expire_date.days);
+                    if (!isFinite(this.expiry_max_days) || this.expiry_max_days <= 0) {
+                        delete this.expiry_max_days;
                     }
                 }
             }
@@ -193,11 +213,15 @@ class CloudConnection {
             if (data.capabilities.theming && data.capabilities.theming.name) {
                 this.cloud_productname = data.capabilities.theming.name;
                 this.cloud_type = "Nextcloud";
-                this.cloud_supported = data.version.major >= 16;
+                this.cloud_supported = data.version.major >= ncMinimalVersion;
             } else if (data.capabilities.core.status && data.capabilities.core.status.productname) {
                 this.cloud_productname = data.capabilities.core.status.productname;
                 this.cloud_type = "ownCloud";
-                this.cloud_supported = data.version.major >= 10;
+                this.cloud_supported = data.version.major >= ocMinimalVersion;
+            } else if (data.version.major >= ncMinimalVersion) {
+                this.cloud_productname = 'Nextcloud';
+                this.cloud_type = "Nextcloud";
+                this.cloud_supported = true;
             } else {
                 this.cloud_type = "Unsupported";
                 this.cloud_supported = false;
@@ -209,18 +233,18 @@ class CloudConnection {
 
     /**
      * Sets the "configured" property of Thunderbird's cloudFileAccount
-     * to true if the is usable
+     * to true if it is usable
      */
     async updateConfigured() {
         messenger.cloudFile.updateAccount(this._accountId, {
             configured:
-                this.public_shares_enabled &&
+                this.public_shares_enabled !== false &&
                 Boolean(this.serverUrl) &&
                 Boolean(this.username) &&
                 Boolean(this.password) &&
                 Boolean(this.storageFolder) &&
                 !(this.enforce_password && !this.useDlPassword) &&
-                !(this.useDlPassword && !Boolean(this.downloadPassword)) &&
+                (!this.useDlPassword || this.useGeneratedDlPassword || Boolean(this.downloadPassword)) &&
                 !(this.useExpiry && !Boolean(this.expiryDays)) &&
                 !(Boolean(this.expiry_max_days) && this.useExpiry && this.expiry_max_days < this.expiryDays),
         });
@@ -234,8 +258,12 @@ class CloudConnection {
         const data = await this._doApiCall(apiUrlGetApppassword);
         if (data && data.apppassword) {
             this.password = data.apppassword;
+            if (this.cloud_user_id) {
+                this.username = this.cloud_user_id;
+            }
+            return true;
         }
-        return this.password;
+        return false;
     }
 
     /**
@@ -245,11 +273,7 @@ class CloudConnection {
      */
     async validateDLPassword() {
         if (this._password_validate_url) {
-            // This is a full url, reduce it to a suburl as needed by _doApiCall
-            const url_parts = this._password_validate_url.split('/');
-            while (url_parts.length && 'v2.php' !== url_parts.shift()) { }
-
-            return this._doApiCall('/' + url_parts.join('/'), 'POST',
+            return this._doApiCall(this._password_validate_url, 'POST',
                 { "Content-Type": "application/x-www-form-urlencoded", },
                 'password=' + encodeURIComponent(this.downloadPassword));
         } else if (!this.downloadPassword) {
@@ -261,6 +285,22 @@ class CloudConnection {
             };
         }
     }
+    /**
+     * Generate a download password using the NC web service if its present or a local generator otherwise
+     * @returns {string} A most probably valid password
+     */
+    async generateDLPassword() {
+        let pw;
+        if (this._password_generate_url) {
+            const data = await this._doApiCall(this._password_generate_url);
+            if (data.password) {
+                pw = data.password;
+            }
+        }
+        /* If we generate a password locally, the generation via web service didn't work. In that case
+        validation also doesn't work, so the locally generateed password cannot be validated. */
+        return pw ? pw : generatePassword(16);
+    }
     //#endregion
 
     //#region Internal helpers
@@ -270,7 +310,7 @@ class CloudConnection {
      * @param {string} fileName The name of the file to share
      * @returns {string} The share link
      */
-    async _getShareLink(fileName) {
+    async _getShareLink(fileName, fileId) {
         const path_to_share = encodepath(this.storageFolder + "/" + fileName);
 
         let expireDate = this.useExpiry ? daysFromTodayIso(this.expiryDays) : undefined;
@@ -281,6 +321,8 @@ class CloudConnection {
         const existingShare = shareinfo.find(share =>
             /// ... and if it's a public share ...
             (share.share_type === 3) &&
+            // ownCloud doesn't tell us the password, so ignore their shares with passwords
+            !share.share_with &&
             // ... with the same password (if any) ...
             // CAUTION: If no password is set Nextcloud has password===null, ownCloud has password===undefined
             (this.useDlPassword ? share.password === this.downloadPassword : !share.password) &&
@@ -297,6 +339,9 @@ class CloudConnection {
             shareFormData += "&shareType=3"; // 3 = public share
 
             if (this.useDlPassword) {
+                if (this.useGeneratedDlPassword) {
+                    this.downloadPassword = await this.generateDLPassword();
+                }
                 shareFormData += "&password=" + encodeURIComponent(this.downloadPassword);
             }
 
@@ -307,10 +352,16 @@ class CloudConnection {
             const data = await this._doApiCall(apiUrlShares, 'POST', { "Content-Type": "application/x-www-form-urlencoded", }, shareFormData);
 
             if (data && data.url) {
+                if (this.useDlPassword && this.useGeneratedDlPassword) {
+                    const status = attachmentStatus.get(fileId);
+                    status.password = this.downloadPassword;
+                    status.set_status('generatedpassword');
+                }
+
                 return punycode.toUnicode(data.url);
             }
             else {
-                throw new Error("Sharing failed.");
+                return null;
             }
         }
     }
@@ -320,16 +371,21 @@ class CloudConnection {
     /**
      * Call a function of the Nextcloud/ownCloud web service API
      *
-     * @param {string} suburl The function's URL relative to the API base URL
+     * @param {string} suburl The function's URL relative to the API base URL or a full url
      * @param {string} [method='GET'] HTTP method of the function, default GET
      * @param {*} [additional_headers] Additional Headers this function needs
      * @param {string} [body] Request body if the function needs it
      * @returns {*} A Promise that resolves to the data element of the response
      */
     async _doApiCall(suburl, method = 'GET', additional_headers = undefined, body = undefined) {
-        let url = this.serverUrl;
-        url += apiUrlBase;
-        url += suburl;
+        let url;
+        if (suburl.startsWith(this.serverUrl)) {
+            url = suburl;
+        } else {
+            url = this.serverUrl;
+            url += apiUrlBase;
+            url += suburl;
+        }
         url += (suburl.includes('?') ? '&' : '?') + "format=json";
 
         let headers = this._apiHeaders;
@@ -355,7 +411,7 @@ class CloudConnection {
             const parsed = await response.json();
             if (!parsed || !parsed.ocs || !parsed.ocs.meta || !parsed.ocs.meta.statuscode) {
                 return { _failed: true, status: 'invalid_json', statusText: "No valid data in json", };
-            } else if (parsed.ocs.meta.statuscode !== 100) {
+            } else if (parsed.ocs.meta.statuscode >= 300) {
                 return { _failed: true, status: parsed.ocs.meta.statuscode, statusText: parsed.ocs.meta.message, };
             } else {
                 return parsed.ocs.data;

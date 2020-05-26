@@ -19,11 +19,11 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 
-/* global encodepath */
+/* global encodepath, attachmentStatus, promisedTimeout */
 /* exported DavUploader */
 
 /** AbortControllers for all active uploads */
-var allAbortControllers = new Map();
+const allAbortControllers = new Map();
 
 /**
  * This class encapsulates communication with a WebDAV service
@@ -34,19 +34,16 @@ class DavUploader {
      * @param {string} server_url The URL of the server
      * @param {string} user The username
      * @param {string} password the password
-     * @param {string} [dav_url="/"] The url path to the webdav service
+     * @param {string} dav_url The url path to the webdav service
+     * @param {string} folder The folder to store attachment
      */
-    constructor(server_url, user, password, dav_url = "/", folder = "/") {
+    constructor(server_url, user, password, dav_url, folder) {
         this._serverurl = server_url;
-        this._username = user;
-        this._password = password;
         this._storageFolder = folder;
         this._davUrl = dav_url;
 
-        let auth = "Basic " + btoa(this._username + ':' + this._password);
-
         this._davHeaders = {
-            "Authorization": auth,
+            "Authorization": "Basic " + btoa(user + ':' + password),
             "User-Agent": "Filelink for *cloud",
             "Content-Type": "application/octet-stream",
         };
@@ -74,7 +71,7 @@ class DavUploader {
                 return { ok: true, };
             } else {
                 // It's different, move it out of the way
-                await this._moveFileToDir(fileName, "old_shares/" + (stat.mtime / 1000 | 0));
+                await this._moveFileToDir(fileId, fileName, "old_shares/" + (stat.mtime / 1000 | 0));
                 return this._doUpload(fileId, fileName, fileObject);
             }
         }
@@ -87,13 +84,17 @@ class DavUploader {
      * @param {string} folder 
      * @returns {boolean} if creation succeeded
      */
-    async _recursivelyCreateFolder(folder) {
+    async _recursivelyCreateFolder(folder, retry_count = 0) {
         // Looks clumsy, but *always* make sure recursion ends
         if ("/" === folder) {
             return false;
         } else {
-            let response = await this._doDavCall(folder, 'MKCOL')
-                .catch(() => ({ status: 666, }));
+            let response;
+            try {
+                response = await this._doDavCall(folder, 'MKCOL');
+            } catch (e) {
+                return false;
+            }
             switch (response.status) {
                 case 405: // Already exists
                 case 201: // Created successfully
@@ -102,9 +103,15 @@ class DavUploader {
                     // Try to create parent folder
                     if (await this._recursivelyCreateFolder(folder.split("/").slice(0, -1).join("/"))) {
                         // Try again to create the initial folder
-                        response = await this._doDavCall(folder, 'MKCOL')
-                            .catch(() => ({ status: 666, }));
-                        return (201 === response.status);
+                        return this._recursivelyCreateFolder(folder);
+                    }
+                    break;
+                case 423: // Locked
+                    // Maybe a parallel upload is currently creating the folder, so wait a little and try again
+                    // This timout is longer in reality because it adds to the waiting time in the queue
+                    if (retry_count < 3) {
+                        await promisedTimeout(5);
+                        return await this._recursivelyCreateFolder(folder, retry_count++);
                     }
                     break;
             }
@@ -117,6 +124,7 @@ class DavUploader {
      * @param {File} file The file to check on the cloud
      * @returns {Promise<?{mtime: Date, size: number}} A promise resolving to an object containing mtime and
      * size or an empty object if the file doesn't exit
+
      */
     async _getRemoteFileInfo(fileName) {
         const response = await this._doDavCall(this._storageFolder + '/' + fileName, "PROPFIND");
@@ -136,18 +144,21 @@ class DavUploader {
 
     /**
      * Moves a file to a new destination or name
+     * @param {*} fileId The id of the upload as given by TB
      * @param {string} fileName The file's path and name relative to the storage
      * folder
      * @param {string} newPath The new path and name
      */
-    async _moveFileToDir(fileName, newPath) {
+    async _moveFileToDir(fileId, fileName, newPath) {
+        attachmentStatus.get(fileId).set_status('moving');
         const dest_header = {
             "Destination":
                 this._davUrl + encodepath(this._storageFolder + "/" + newPath + "/" + fileName),
         };
         if (await this._recursivelyCreateFolder(this._storageFolder + "/" + newPath)) {
-            return this._doDavCall(this._storageFolder + "/" + fileName, "MOVE", null, null, dest_header);
+            return this._doDavCall(this._storageFolder + "/" + fileName, "MOVE", null, dest_header);
         } else {
+            attachmentStatus.get(fileId).fail();
             throw new Error("Couldn't create backup folder.");
         }
     }
@@ -158,7 +169,7 @@ class DavUploader {
      * @param {number} newMtime The mtime to set ont the file as a unix
      * timestamp (seconds)
      */
-    async _setMtime(fileName, newMtime) {
+    _setMtime(fileName, newMtime) {
         const body =
             `<d:propertyupdate xmlns:d="DAV:">
                 <d:set>
@@ -183,33 +194,30 @@ class DavUploader {
         // existence of folder, so the extra webservice call for checking first
         // isn't necessary.
         if (!(await this._recursivelyCreateFolder(this._storageFolder))) {
+            attachmentStatus.get(fileId).set_status('creating');
+            attachmentStatus.get(fileId).fail();
             throw new Error("Upload failed: Can't create folder");
         }
 
-        // Some bookkeeping to enable aborting upload
-        let abortController = new AbortController();
-        allAbortControllers.set(fileId, abortController);
-
-        return this._doDavCall(this._storageFolder + '/' + fileName, "PUT", fileObject, abortController)
-            .then(response => {
-                if (response.ok) {
-                    this._setMtime(fileName, fileObject.lastModified / 1000 | 0);
-                }
-                return response;
-            })
-            .catch(e => {
-                if ("AbortError" === e.name) {
-                    return { aborted: true, url: "", };
-                } else {
-                    throw e;
-                }
-            })
-            .finally(whatever => {
-                allAbortControllers.delete(fileId);
-                return whatever;
-            });
-    }
-    //#endregion
+        let response;
+        try {
+            response = await this._xhrUpload(fileId, this._storageFolder + '/' + fileName, fileObject);
+            this._setMtime(fileName, fileObject.lastModified / 1000 | 0);
+            // Handle errors that don't throw an exception
+            if (response.status < 300) {
+                response.ok = true;
+            }
+        } catch (error) {
+            if (error.type === 'abort') {
+                response = { aborted: true, url: "", };
+            }
+            else {
+                attachmentStatus.get(fileId).fail();
+            }
+        }
+        allAbortControllers.delete(fileId);
+        return response;
+    }    //#endregion
 
     /**
      * Calls one function of the WebDAV service
@@ -217,11 +225,9 @@ class DavUploader {
      * @param {string} path the full file path of the object
      * @param {string} [method=GET] the HTTP METHOD to use, default GET
      * @param {Array} [body] Body of the request, eg. file contents
-     * @param {Array} [abortController] An AbortController to abort the network
-     * transaction
      * @returns {Promise<Response>}  A Promise that resolves to the Response object
      */
-    async _doDavCall(path, method, body, abortController, additional_headers) {
+    _doDavCall(path, method, body, additional_headers) {
         let url = this._serverurl;
         url += this._davUrl;
         url += encodepath(path);
@@ -231,15 +237,52 @@ class DavUploader {
             headers: additional_headers ? { ...this._davHeaders, ...additional_headers, } : this._davHeaders,
         };
 
-        // If an AbortController was given, use it ...
-        if (abortController && abortController.signal) {
-            fetchInfo.signal = abortController.signal;
-        }
-
         if (body) {
             fetchInfo.body = body;
         }
 
         return fetch(url, fetchInfo);
+    }
+
+    /**
+     * 
+     * @param {*} fileId The id of this upload as supplied by Thunderbird
+     * @param {string} path The path the file will be uploaded to
+     * @param {Blob} data The file content (as a File object)
+     * @returns {Promise} A promise that resolves to the XHR or rejects with the entire event
+     */
+    _xhrUpload(fileId, path, data) {
+        let url = this._serverurl;
+        url += this._davUrl;
+        url += encodepath(path);
+
+        return new Promise((resolve, reject) => {
+            const uploadRequest = new XMLHttpRequest();
+
+            uploadRequest.addEventListener("load", e => {
+                if (e.target.status < 300) {
+                    resolve(e.target);
+                } else {
+                    reject(e);
+                }
+            });
+
+            uploadRequest.addEventListener("error", reject);
+            uploadRequest.addEventListener("abort", reject);
+            uploadRequest.addEventListener("timeout", reject);
+
+            uploadRequest.addEventListener("loadstart", () => attachmentStatus.get(fileId).set_status('uploading'));
+            uploadRequest.upload.addEventListener("progress", e => {
+                attachmentStatus.get(fileId).set_progress(e.total ? e.loaded * 1.0 / e.total : 0);
+            });
+
+            uploadRequest.open("PUT", url);
+            for (const key in this._davHeaders) {
+                uploadRequest.setRequestHeader(key, this._davHeaders[key]);
+            }
+
+            allAbortControllers.set(fileId, uploadRequest);
+            uploadRequest.send(data);
+        });
     }
 }

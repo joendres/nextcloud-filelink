@@ -1,3 +1,13 @@
+3.7.0 20220-05-26
+Close #141, #163, #183: Add a dialog with upload status
+Close #175, #176, #177: Offer random passwords (one per file)
+Fix #147 Login fails with app passwords
+Fix #159 Input fields unreadable with some gnome themes
+Fix #161 Some uploads fail if multiple files attached at once
+Fix #170 Misleading error message if necessary server apps disabled
+Fix #185 Password erroneously password protected on ownCloud
+Fix minor bugs #150, #156, #157, #172, #180
+
 3.6.3 2020-05-11
 Fix #166 introduced in 3.6.0, broke urls with path like http://example.com/cloud
 Fix a typo in CHANGELOG ;-)
