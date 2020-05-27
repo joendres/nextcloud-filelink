@@ -28,9 +28,15 @@ loadFormData()
 
 addLocalizedLabels();
 
-accountForm.addEventListener('input', updateButtons);
 serverUrl.addEventListener("input", updateHeader);
 username.addEventListener("input", updateGauge);
+accountForm.addEventListener('input', updateButtons);
+document.getElementsByName("DLPRadio")
+    .forEach(inp => inp.addEventListener("change", () => {
+        adjustDLPasswordElementStates();
+        updateButtons();
+    }));
+
 
 linkElementStateToCheckbox(expiryDays, useExpiry);
 
@@ -61,9 +67,7 @@ function adjustDLPasswordElementStates() {
     downloadPassword.disabled = !oneDLPassword.checked;
     downloadPassword.required = oneDLPassword.checked;
     useDlPassword.checked = oneDLPassword.checked || useGeneratedDlPassword.checked;
-    updateButtons();
 }
-document.getElementsByName("DLPRadio").forEach(inp => inp.addEventListener("change", adjustDLPasswordElementStates));
 
 /** 
  * Handler for Cancel button, restores saved values
