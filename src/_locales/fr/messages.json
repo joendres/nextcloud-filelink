@@ -84,7 +84,7 @@
     "message": "Version\nobsolète"
   },
   "error_401": {
-    "message": "Echec de la connexion. Vérifiez le nom d'utilisateur et le mot de passe."
+    "message": "Échec de la connexion. Vérifiez le nom d'utilisateur et le mot de passe."
   },
   "error_sharing_off": {
     "message": "Le partage n'est pas activé sur ce serveur Cloud. Contactez votre administrateur pour l'activer."
@@ -147,6 +147,6 @@
     "message": "mot de passe: $1"
   },
   "warn_nonascii_password": {
-    "message": "Votre mot de passe contient des caractères qui semble poser un problème d'identification. Veuillez utiliser plutôt un mot de passe d'application."
+    "message": "Votre mot de passe contient des caractères qui semblent poser un problème d'identification. Veuillez utiliser plutôt un mot de passe d'application."
   }
 }
