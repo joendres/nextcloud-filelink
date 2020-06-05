@@ -7,7 +7,7 @@ Cloud and generates a link you can send by mail instead of the file.
 
 ## Requirements
 
-* Nextcloud: 16 or newer (older versions might work, but are [not supported by
+* Nextcloud: 17 or newer (older versions might work, but are [not supported by
   Nextcloud](https://github.com/nextcloud/server/wiki/Maintenance-and-Release-Schedule))
 * ownCloud: 10+ (older versions might work, but are [not supported by
   ownCloud](https://github.com/owncloud/core/wiki/maintenance-and-release-schedule))

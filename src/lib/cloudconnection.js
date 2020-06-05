@@ -35,7 +35,7 @@ const apiUrlShares = "/apps/files_sharing/api/v1/shares";
 const apiUrlGetApppassword = "/core/getapppassword";
 const apiUrlCapabilities = "/cloud/capabilities";
 const davUrlDefault = "remote.php/dav/files/";
-const ncMinimalVersion = 16;
+const ncMinimalVersion = 17;
 const ocMinimalVersion = 10;
 //#endregion
 
