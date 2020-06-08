@@ -38,7 +38,8 @@
     },
     "permissions": [
         "<all_urls>",
-        "storage"
+        "storage",
+        "cookies"
     ],
     "default_locale": "en"
 }
