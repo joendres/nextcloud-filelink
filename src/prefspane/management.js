@@ -207,7 +207,7 @@ async function handleFormData() {
     sanitizeInput();
 
     // If user typed new password, username or URL the token is likely not valid any more
-    const needsNewToken = password.value !== ncc.password ||
+    let needsNewToken = password.value !== ncc.password ||
         username.value !== ncc.username ||
         serverUrl.value !== ncc.serverUrl;
 
@@ -281,12 +281,12 @@ async function handleFormData() {
      * store them in the Cloudconnection object,inform user about it.
      */
     async function updateCloudInfo() {
-        let answer = await ncc.updateFreeSpaceInfo();
+        let answer = await ncc.updateUserId();
         if (answer._failed) {
             // If login failed, we might be using an app token which requires a lowercase user name
             const oldname = ncc.username;
             ncc.username = ncc.username.toLowerCase();
-            answer = await ncc.updateFreeSpaceInfo();
+            answer = await ncc.updateUserId();
             if (answer._failed) {
                 // Nope, it's not the case, restore username
                 ncc.username = oldname;
@@ -294,10 +294,13 @@ async function handleFormData() {
         }
         if (answer._failed) {
             popup.error(answer.status);
-        }
-        else {
+        } else {
+            if (answer.backend === "LDAP") {
+                // Quickfix: generated app passwords seem to be broken with LDAP accounts
+                needsNewToken = false;
+            }
             ncc.forgetCapabilities();
-            await getCapabilities();
+            await Promise.all([ncc.updateFreeSpaceInfo(), getCapabilities(),]);
         }
 
         // Inner functions of getCloudInfo
