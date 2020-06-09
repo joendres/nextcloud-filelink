@@ -1,4 +1,10 @@
-3.7.0 20220-05-26
+3.7.1 2020-06-10
+Fix #193 buttons not disabled in some situations
+Fix #194 generated app passwords & LDAP user database
+Fix #199 triggers brute force prevention
+Close #87 Nextcloud 16 is obsolete now
+
+3.7.0 2020-05-26
 Close #141, #163, #183: Add a dialog with upload status
 Close #175, #176, #177: Offer random passwords (one per file)
 Fix #147 Login fails with app passwords

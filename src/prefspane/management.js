@@ -28,9 +28,15 @@ loadFormData()
 
 addLocalizedLabels();
 
-accountForm.addEventListener('input', updateButtons);
 serverUrl.addEventListener("input", updateHeader);
 username.addEventListener("input", updateGauge);
+accountForm.addEventListener('input', updateButtons);
+document.getElementsByName("DLPRadio")
+    .forEach(inp => inp.addEventListener("change", () => {
+        adjustDLPasswordElementStates();
+        updateButtons();
+    }));
+
 
 linkElementStateToCheckbox(expiryDays, useExpiry);
 
@@ -61,9 +67,7 @@ function adjustDLPasswordElementStates() {
     downloadPassword.disabled = !oneDLPassword.checked;
     downloadPassword.required = oneDLPassword.checked;
     useDlPassword.checked = oneDLPassword.checked || useGeneratedDlPassword.checked;
-    updateButtons();
 }
-document.getElementsByName("DLPRadio").forEach(inp => inp.addEventListener("change", adjustDLPasswordElementStates));
 
 /** 
  * Handler for Cancel button, restores saved values
@@ -277,12 +281,12 @@ async function handleFormData() {
      * store them in the Cloudconnection object,inform user about it.
      */
     async function updateCloudInfo() {
-        let answer = await ncc.updateFreeSpaceInfo();
+        let answer = await ncc.updateUserId();
         if (answer._failed) {
             // If login failed, we might be using an app token which requires a lowercase user name
             const oldname = ncc.username;
             ncc.username = ncc.username.toLowerCase();
-            answer = await ncc.updateFreeSpaceInfo();
+            answer = await ncc.updateUserId();
             if (answer._failed) {
                 // Nope, it's not the case, restore username
                 ncc.username = oldname;
@@ -290,10 +294,9 @@ async function handleFormData() {
         }
         if (answer._failed) {
             popup.error(answer.status);
-        }
-        else {
+        } else {
             ncc.forgetCapabilities();
-            await getCapabilities();
+            await Promise.all([ncc.updateFreeSpaceInfo(), getCapabilities(),]);
         }
 
         // Inner functions of getCloudInfo
