@@ -7,7 +7,7 @@ Cloud and generates a link you can send by mail instead of the file.
 
 ## Requirements
 
-* Nextcloud: 16 or newer (older versions might work, but are [not supported by
+* Nextcloud: 17 or newer (older versions might work, but are [not supported by
   Nextcloud](https://github.com/nextcloud/server/wiki/Maintenance-and-Release-Schedule))
 * ownCloud: 10+ (older versions might work, but are [not supported by
   ownCloud](https://github.com/owncloud/core/wiki/maintenance-and-release-schedule))
@@ -262,6 +262,7 @@ If you'd like to fix a bug or implement a feature
 * [Josep Manel Mendoza](@josepmanel), catalan and spanish localisations
 * [Gorom](@Go-rom), french localisation
 * [Jun Futagawa](@jfut), implementation of generated random passwords
+* [Lionel Elie Mamane](@lmamane), solution of the LDAP/getapppassword problem
 * Based on [FileLink Provider for
   Dropbox](https://github.com/darktrojan/dropbox) by [Geoff
   Lankow](https://darktrojan.github.io/)

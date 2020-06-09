@@ -56,15 +56,22 @@ messenger.cloudFile.onAccountDeleted.addListener(accountId => {
 });
 
 async function updateAccount(accountId) {
-    {
-        const ncc = new CloudConnection(accountId);
-        await ncc.load();
+    const ncc = new CloudConnection(accountId);
+    await ncc.load();
+    await upgradeOldConfigurations();
+
+    await Promise.all([ncc.updateFreeSpaceInfo(), ncc.updateCapabilities(),]);
+    await ncc.updateConfigured();
+    ncc.store();
+
+    function upgradeOldConfigurations() {
         if (ncc.serverUrl && !ncc.serverUrl.endsWith('/')) {
             ncc.serverUrl += '/';
         }
-        await Promise.all([ncc.updateFreeSpaceInfo(), ncc.updateCapabilities(),]);
-        await ncc.updateConfigured();
-        ncc.store();
+
+        if (!ncc.user_id) {
+            ncc.updateUserId();
+        }
     }
 }
 

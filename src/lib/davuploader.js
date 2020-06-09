@@ -235,6 +235,7 @@ class DavUploader {
         let fetchInfo = {
             method,
             headers: additional_headers ? { ...this._davHeaders, ...additional_headers, } : this._davHeaders,
+            credentials: "omit",
         };
 
         if (body) {
@@ -251,10 +252,13 @@ class DavUploader {
      * @param {Blob} data The file content (as a File object)
      * @returns {Promise} A promise that resolves to the XHR or rejects with the entire event
      */
-    _xhrUpload(fileId, path, data) {
+    async _xhrUpload(fileId, path, data) {
         let url = this._serverurl;
         url += this._davUrl;
         url += encodepath(path);
+
+        // Remove session password as it interferes with credentials 
+        await browser.cookies.remove({ url, name: "oc_sessionPassphrase", });
 
         return new Promise((resolve, reject) => {
             const uploadRequest = new XMLHttpRequest();

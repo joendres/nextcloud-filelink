@@ -31,11 +31,12 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 //#region  Configurable options and useful constants
 const apiUrlBase = "ocs/v1.php";
 const apiUrlUserInfo = "/cloud/users/";
+const apiUrlUserID = "/cloud/user";
 const apiUrlShares = "/apps/files_sharing/api/v1/shares";
 const apiUrlGetApppassword = "/core/getapppassword";
 const apiUrlCapabilities = "/cloud/capabilities";
 const davUrlDefault = "remote.php/dav/files/";
-const ncMinimalVersion = 16;
+const ncMinimalVersion = 17;
 const ocMinimalVersion = 10;
 //#endregion
 
@@ -98,7 +99,7 @@ class CloudConnection {
                 this._davUrl = data.capabilities.core["webdav-root"];
             } else {
                 // Use default from docs instead
-                this._davUrl = davUrlDefault + this.username;
+                this._davUrl = davUrlDefault + this.user_id;
             }
         }
 
@@ -143,16 +144,12 @@ class CloudConnection {
         let spaceRemaining = -1;
         let spaceUsed = -1;
 
-        const data = await this._doApiCall(apiUrlUserInfo + this.username);
+        const data = await this._doApiCall(apiUrlUserInfo + this.user_id);
         if (data && data.quota) {
             spaceRemaining = data.quota.free >= 0 ? data.quota.free : -1;
             spaceUsed = data.quota.used >= 0 ? data.quota.used : -1;
         }
         await messenger.cloudFile.updateAccount(this._accountId, { spaceRemaining, spaceUsed, });
-
-        if (data.id) {
-            this.cloud_user_id = data.id;
-        }
 
         return data;
     }
@@ -241,6 +238,7 @@ class CloudConnection {
                 this.public_shares_enabled !== false &&
                 Boolean(this.serverUrl) &&
                 Boolean(this.username) &&
+                Boolean(this.user_id) &&
                 Boolean(this.password) &&
                 Boolean(this.storageFolder) &&
                 !(this.enforce_password && !this.useDlPassword) &&
@@ -251,17 +249,33 @@ class CloudConnection {
     }
 
     /**
+     * Get the UserID from the cloud an store it in the objects's internals
+     * @returns An object w/ the data from the response or error information
+     */
+    async updateUserId() {
+        const data = await this._doApiCall(apiUrlUserID);
+        if (data.id) {
+            this.user_id = data.id;
+        }
+        return data;
+    }
+
+    /**
      * Fetches a new app password from the Nextcloud/ownCloud web service and
      * replaces the current password with it
      */
     async convertToApppassword() {
         const data = await this._doApiCall(apiUrlGetApppassword);
         if (data && data.apppassword) {
+            // Test if the apppassword really works with the given username
+            const oldpassword = this.password;
             this.password = data.apppassword;
-            if (this.cloud_user_id) {
-                this.username = this.cloud_user_id;
+            const r = await this._doApiCall(apiUrlUserID);
+            if (r._failed || r.status >= 900) {
+                this.password = oldpassword;
+            } else {
+                return true;
             }
-            return true;
         }
         return false;
     }
@@ -398,6 +412,7 @@ class CloudConnection {
         const fetchInfo = {
             method,
             headers,
+            credentials: "omit",
         };
         if (undefined !== body) {
             fetchInfo.body = body;
