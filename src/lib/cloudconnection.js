@@ -267,8 +267,15 @@ class CloudConnection {
     async convertToApppassword() {
         const data = await this._doApiCall(apiUrlGetApppassword);
         if (data && data.apppassword) {
+            // Test if the apppassword really works with the given username
+            const oldpassword = this.password;
             this.password = data.apppassword;
-            return true;
+            const r = await this._doApiCall(apiUrlUserID);
+            if (r._failed || r.status >= 900) {
+                this.password = oldpassword;
+            } else {
+                return true;
+            }
         }
         return false;
     }

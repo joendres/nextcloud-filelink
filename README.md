@@ -262,6 +262,7 @@ If you'd like to fix a bug or implement a feature
 * [Josep Manel Mendoza](@josepmanel), catalan and spanish localisations
 * [Gorom](@Go-rom), french localisation
 * [Jun Futagawa](@jfut), implementation of generated random passwords
+* [Lionel Elie Mamane](@lmamane), solution of the LDAP/getapppassword problem
 * Based on [FileLink Provider for
   Dropbox](https://github.com/darktrojan/dropbox) by [Geoff
   Lankow](https://darktrojan.github.io/)

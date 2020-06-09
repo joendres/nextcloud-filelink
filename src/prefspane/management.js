@@ -207,7 +207,7 @@ async function handleFormData() {
     sanitizeInput();
 
     // If user typed new password, username or URL the token is likely not valid any more
-    let needsNewToken = password.value !== ncc.password ||
+    const needsNewToken = password.value !== ncc.password ||
         username.value !== ncc.username ||
         serverUrl.value !== ncc.serverUrl;
 
@@ -295,10 +295,6 @@ async function handleFormData() {
         if (answer._failed) {
             popup.error(answer.status);
         } else {
-            if (answer.backend === "LDAP") {
-                // Quickfix: generated app passwords seem to be broken with LDAP accounts
-                needsNewToken = false;
-            }
             ncc.forgetCapabilities();
             await Promise.all([ncc.updateFreeSpaceInfo(), getCapabilities(),]);
         }
