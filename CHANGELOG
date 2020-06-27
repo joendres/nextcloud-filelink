@@ -1,3 +1,11 @@
+3.8 2020-06-??
+Close #188 Hide advanced options
+Close #189 Check free space befor upload
+Fix #203 wrong error message
+Close #205 hungarian localization
+Close #211 Handle maintenance mode in prefs pane
+Some code cleanup
+
 3.7.1 2020-06-10
 Fix #193 buttons not disabled in some situations
 Fix #194 generated app passwords & LDAP user database

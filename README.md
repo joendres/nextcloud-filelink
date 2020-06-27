@@ -21,7 +21,7 @@ Cloud and generates a link you can send by mail instead of the file.
 1. Click the link "Find more providers..." at the bottom of the page.
 1. Find __*cloud__ in the list and click the "Add to Thunderbird" button.
 1. On the "Options" tab click the button "Add *cloud".
-1. Configure, only three settings are strictly necessary:
+1. Configure. Only three settings are strictly necessary:
    * Server URL
    * Username
    * App token or password
@@ -30,48 +30,6 @@ __*cloud__ is also available via Thunderbird's Add-on
 repository:
 
 [![Get the Addon](https://addons.cdn.mozilla.net/static/img/addons-buttons/TB-AMO-button_1.png)](https://addons.thunderbird.net/thunderbird/addon/filelink-nextcloud-owncloud/).
-
-### Good to know
-
-#### Password vs. App Token
-
-Instead of storing your password it's more secure to use an "App Token" with
-__*cloud__. There are two ways to get such a token:
-
-* *If you are using Nextcloud or ownCloud:* Open your account in the browser and
-  go to Settings -> Security -> App Token and at the bottom of the page generate
-  a new token. Copy&paste it into the "App token" field of the Attachments
-  preferences page in Thunderbird.
-
-* *Only if you are using Nextcloud:* Type your user password into the
-  Attachments/Outgoing preferences page in Thunderbird. Upon saving, the Add-On will
-  *try* to get a token from your Nextcloud and use it instead of your password.
-  You will notice the change, because afterwards the password field is filled
-  with dots completely (app tokens are quite long).\
-  **BUT!** if getting the token fails for any reason (e.g. your Nextcloud is not
-  reachable, timeout, wrong username, ...), the Add-On will *store your password
-  unencrypted*.
-
-#### Handling of existing files
-
-* If you attach a file that's already in the attachments folder in your cloud
-  *with identical contents*, that file is not uploaded again. Instead the
-  existing file is shared.\
-  You can use this, if you want to share large (or many) files: Sync your
-  attachments folder to a folder on your computer using the desktop client. If
-  you then attach a synced file from your computer to a message, __*cloud__ will
-  notice that it's already uploaded. This might not work with uploads from the
-  mobile clients, but I haven't tested it.
-
-* If you attach a file with the same name but different contents as a cloud
-  file, the cloud file will not be overwritten. Instead __*cloud__ moves the
-  existing file to a subfolder of the attachments folder; the original share
-  link will remain valid and point to the old content.\
-  Then the new file is uploaded and shared with a new share link.
-
-__*cloud__ uses the same method as the
-Nextcloud/ownCloud desktop clients to decide if the local and remote files are
-identical.
 
 ### Known issues
 
@@ -111,8 +69,15 @@ This is not a bug in __*cloud__ but a [known bug in
 Thunderbird](https://bugzilla.mozilla.org/show_bug.cgi?id=793118). There is
 nothing I can do about it in __*cloud__, sorry.
 
-**Workaround:** Copy the file from the network share to your local disk before
+**Workaround 1:** Copy the file from the network share to your local disk before
 attaching it.
+
+**Workaround 2:**
+
+1. Attach the file from the network share.
+1. Copy the URL from the message
+1. Remove the attachment
+1. In some configurations the URL does not disappear from the message. If it does, just paste it back in.
 
 #### Upload problems
 
@@ -133,6 +98,60 @@ text surrounding the url is part of Thunderbird. And Thunderbird insists on
 using the name of the extension here. There's nothing the extension can do about
 this, *sorry*.
 
+### Good to know
+
+#### Download passwords
+
+**If you use download passwords, _never_ put them into an email, but give them to the recipient via a separate, secure channel eg a messenger or a telefone call.**
+
+Why? As a security measure the generated download links contain a long, almost random part. So an attacker (let's call her Eve) can't guess the link for a file or scan all possible links to find a file. The only reasonable way for Eve to gain access to your file is to intercept the mail.
+
+So the links are fairly secure by themselves and quite comfortable for the recipient, because she only has to click the link.
+
+If you use download passwords, *never* put them into the same email as the link. Because if Eve can read the link, she can also read the password. So a download password in the same email doesn't make the transfer more secure, but only more complicated for the recipient. The same goes for a separate email with the password: If Eve can intercept the first email with the link, she is very probably also able to intercept the second email.
+
+#### Password vs. App Token
+
+Instead of storing your password it's more secure to use an "App Token" with
+__*cloud__. There are two ways to get such a token:
+
+* *If you are using Nextcloud or ownCloud:* Open your account in the browser and
+  go to Settings -> Security -> App Token and at the bottom of the page generate
+  a new token. Copy&paste it into the "App token" field of the Attachments
+  preferences page in Thunderbird.
+
+* *Only if you are using Nextcloud:* Type your user password into the
+  Attachments/Outgoing preferences page in Thunderbird. Upon saving, the Add-On will
+  *try* to get a token from your Nextcloud and use it instead of your password.
+  You will notice the change, because afterwards the password field is filled
+  with dots completely (app tokens are quite long).\
+  **BUT!** if getting the token fails for any reason (e.g. your Nextcloud is not
+  reachable, timeout, wrong username, ...), the Add-On will *store your password
+  unencrypted*.
+
+#### Handling of existing files
+
+* If you attach a file that's already in the attachments folder in your cloud
+  *with identical contents*, that file is not uploaded again. Instead the
+  existing file is shared.
+
+* To make this possible, __*cloud__ never deletes files in your cloud. Over time your attachments folder may grow to considerable size. It's safe to delete old attachments. Your admin may automate that; point her to the [Admin Guide](#old-uploads)
+
+* You can use this behavior if you want to share large (or many) files: Sync your
+  attachments folder to a folder on your computer using the desktop client. If
+  you then attach a synced file from your computer to a message, __*cloud__ will
+  notice that it's already uploaded.
+
+* If you attach a file with the same name but different contents as a cloud
+  file, the cloud file will not be overwritten. Instead __*cloud__ moves the
+  existing file to a subfolder of the attachments folder; the original share
+  link will remain valid and point to the old content.\
+  Then the new file is uploaded and shared with a new share link.
+
+__*cloud__ uses the same method as the
+Nextcloud/ownCloud desktop clients to decide if the local and remote files are
+identical.
+
 ## Information for cloud administrators
 
 ### Server settings
@@ -144,6 +163,40 @@ Some settings in Nextcloud/ownCloud are relevant for this Add-On:
 * **The app "Share Files" has to be active.** In ownCloud the Apps management is
   part of the Administrator's settings, in Nextcloud it's accessible directly
   from the Admin's profile menu.
+
+### Old uploads
+
+ __*cloud__ never deletes any file it uploads, because:
+
+* It reuses previous uploads to save bandwidth,
+* it can't decide if a file has been downloaded or is still necessary,
+* an Add-on in a client software is hardly the richt place for server maintenance.
+
+So users have to clean up their attachments folder themselves. You may help them by automatically removing files after some time. This works in Nextcloud and the Enterprise version of ownCloud:
+
+1. Install and activate two server apps
+   * [Files automated tagging](https://apps.nextcloud.com/apps/files_automatedtagging)
+   * [Retention](https://apps.nextcloud.com/apps/files_retention)
+1. In Settings -> Basic settings in section "Collaborative tags" create a new tag, eg "FilelinkUpload"
+1. In Settings -> Flow click "Add new Flow"
+   1. Choose "File is changed"
+   1. Filter by "Request user agent"
+   1. "matches"
+   1. "Custom user agent"
+   1. Enter `/^Filelink for \*cloud/` as the Regular Expression
+   1. As the action choose "Automated tagging"
+   1. Select the previously created tag.
+   1. Save
+1. In the section "File retention"
+   1. Select the tag
+   1. Enter the number of days before the uploads will be deleted
+   1. Create
+1. (Optional) In Settings -> Sharing
+   1. Choose "Set default expiration date for shares"
+   1. Set a default expiry time that is shorter than the retention time you configured above. So users will be less confused if their files disappear.
+   1. Choose "Enforce expiration date"
+
+This might still delete shared files, because the Retention app deletes them n days after *creation*, ie upload. If the user shares it again before it is deleted, the file is not uploaded again and hence the retention timeout is *not reset*.
 
 ### Redirects
 
@@ -202,7 +255,7 @@ If you'd like to help with testing, first install one of the development version
 
 If you find a bug please use one of the [options above](#reporting-bugs-and-suggesting-features) to report it.
 
-### Localisations
+### Localizations
 
 If you'd like to have __*cloud__ in a language you are fluent in:
 
@@ -220,8 +273,8 @@ If you'd like to have __*cloud__ in a language you are fluent in:
 
 Important:
 
-* Don't bother with the `description`s; thy don't show up anywhere, they're just there for your reference.
-* If you're not sure about a strings context just put all your questions in a mail or an issue. I'll be glad to clarify.
+* Don't bother with the `descriptions`; they don't show up anywhere, they're just there for your reference.
+* If you're not sure about a strings context just put all your questions in an email or an issue. I'll be glad to clarify.
 
 ### Code
 
@@ -259,10 +312,12 @@ If you'd like to fix a bug or implement a feature
 ## Contributions
 
 * [Johannes Endres](@joendres), initial implementation, maintainer
-* [Josep Manel Mendoza](@josepmanel), catalan and spanish localisations
-* [Gorom](@Go-rom), french localisation
+* [Josep Manel Mendoza](@josepmanel), catalan and spanish localizations
+* [Gorom](@Go-rom), french localization
 * [Jun Futagawa](@jfut), implementation of generated random passwords
 * [Lionel Elie Mamane](@lmamane), solution of the LDAP/getapppassword problem
+* [Óvári](@ovari1), hungarian localization
+
 * Based on [FileLink Provider for
   Dropbox](https://github.com/darktrojan/dropbox) by [Geoff
   Lankow](https://darktrojan.github.io/)
