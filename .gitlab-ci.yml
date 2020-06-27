@@ -18,19 +18,6 @@ lint:
     - npx jshint src
     - '! grep -r --exclude=photon.css TODO src'
 
-pages:
-  stage: deploy
-  before_script:
-    - npm install --loglevel error node-fetch
-  script:
-    - node build-tools/build-pages.js
-  artifacts:
-    paths:
-      - public
-  only:
-    - master
-    - tags
-
 sign:
   stage: deploy
   before_script:
