@@ -1,9 +1,13 @@
-3.8 2020-06-??
+3.8.1 2020-07-21
+Fix #236 Uploads fail if firstPartyIsolation is set
+Fix several typos in messages, comments and CHANGELOG
+
+3.8 2020-06-27
 Close #188 Hide advanced options
-Close #189 Check free space befor upload
+Close #189 Check free space before upload
 Fix #203 wrong error message
 Close #205 hungarian localization
-Close #211 Handle maintenance mode in prefs pane
+Close #211 Handle maintenance mode in preferences pane
 Some code cleanup
 
 3.7.1 2020-06-10
