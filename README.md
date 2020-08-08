@@ -33,6 +33,27 @@ repository:
 
 ### Known issues
 
+#### You don't like the text/HTML/links inserted into the message
+
+Many users would like to change the text that is inserted into the message along
+with the download url, eg add the expiration date, change the cloud service link, remove some of the text or style the HTML less prominently.
+Addons like __*cloud__ have no chance to do that, because the template text surrounding the url is part of Thunderbird. The Addon only supplies the url, Thunderbird wraps its template around it and inserts the whole thing into your message (technical
+details
+[here](https://gitlab.com/joendres/filelink-nextcloud/-/issues/238#note_383881835)
+and
+[here](https://thunderbird-webextensions.readthedocs.io/en/68/cloudFile.html#onfileupload-account-fileinfo)).
+
+There is a feature suggestion for Thunderbird, to [make this template editable](https://bugzilla.mozilla.org/show_bug.cgi?id=1643729). You might consider backing this suggestion with your vote or a helpful comment.
+
+#### Files from network shares uploaded to cloud *and* attached
+
+There was a [bug in
+Thunderbird](https://bugzilla.mozilla.org/show_bug.cgi?id=793118): If you
+attached a file from a network share, it was uploaded to the cloud and the share
+link was inserted into your mail, but the file was *also attached to the
+message*. This was fixed in Thunderbird 68.11.0 and 78.0.1. If you're still
+experiencing this issue, update Thunderbird to a fixed version.
+
 #### URL works in browser but not in *cloud
 
 In some situations the url you use to access your Nextcloud/ownCloud account in
@@ -61,24 +82,6 @@ appreciate a problem report by [email](mailto:cloud@johannes-endres.de)
 containing the url you pasted. Don't be afraid, the url does not contain any
 secret data. Thanks.
 
-#### Attaching files from network shares
-
-If you attach a file from a network share, it's uploaded to the cloud and the share
-link is inserted into your mail, but the file is also attached to the message.
-This is not a bug in __*cloud__ but a [known bug in
-Thunderbird](https://bugzilla.mozilla.org/show_bug.cgi?id=793118). There is
-nothing I can do about it in __*cloud__, sorry.
-
-**Workaround 1:** Copy the file from the network share to your local disk before
-attaching it.
-
-**Workaround 2:**
-
-1. Attach the file from the network share.
-1. Copy the URL from the message
-1. Remove the attachment
-1. In some configurations the URL does not disappear from the message. If it does, just paste it back in.
-
 #### Upload problems
 
 * The *download* password has to comply with *all* the rules for passwords on
@@ -89,26 +92,30 @@ attaching it.
   bug](https://gitlab.com/joendres/filelink-nextcloud/-/boards). Feel free to
   open a new issue otherwise.
 
-#### Service name in messages is always "*cloud"
-
-When the download url is inserted into the email message, the hosting service is
-always shown as "__*cloud__". It would be less confusing, if instead the actual
-name of the service would be shown. But this is (currently) not possible, as the
-text surrounding the url is part of Thunderbird. And Thunderbird insists on
-using the name of the extension here. There's nothing the extension can do about
-this, *sorry*.
-
 ### Good to know
 
 #### Download passwords
 
-**If you use download passwords, _never_ put them into an email, but give them to the recipient via a separate, secure channel eg a messenger or a telefone call.**
+**If you use download passwords, _never_ put them into an email, but give them
+to the recipient via a separate, secure channel eg a messenger or a telefone
+call.**
 
-Why? As a security measure the generated download links contain a long, almost random part. So an attacker (let's call her Eve) can't guess the link for a file or scan all possible links to find a file. The only reasonable way for Eve to gain access to your file is to intercept the mail.
+Why? As a security measure the generated download links contain a long, almost
+random part. So an attacker (let's call her Eve) can't guess the link for a file
+or scan all possible links to find a file. The only reasonable way for Eve to
+gain access to your file is to intercept the mail. (If you are interested in
+technical details, read this
+[posting](https://gitlab.com/joendres/filelink-nextcloud/-/issues/221#note_367524670)).
 
-So the links are fairly secure by themselves and quite comfortable for the recipient, because she only has to click the link.
+So the links are fairly secure by themselves and quite comfortable for the
+recipient, because she only has to click the link.
 
-If you use download passwords, *never* put them into the same email as the link. Because if Eve can read the link, she can also read the password. So a download password in the same email doesn't make the transfer more secure, but only more complicated for the recipient. The same goes for a separate email with the password: If Eve can intercept the first email with the link, she is very probably also able to intercept the second email.
+If you use download passwords, *never* put them into the same email as the link.
+Because if Eve can read the link, she can also read the password. So a download
+password in the same email doesn't make the transfer more secure, but only more
+complicated for the recipient. The same goes for a separate email with the
+password: If Eve can intercept the first email with the link, she is very
+probably also able to intercept the second email.
 
 #### Password vs. App Token
 
@@ -135,7 +142,10 @@ __*cloud__. There are two ways to get such a token:
   *with identical contents*, that file is not uploaded again. Instead the
   existing file is shared.
 
-* To make this possible, __*cloud__ never deletes files in your cloud. Over time your attachments folder may grow to considerable size. It's safe to delete old attachments. Your admin may automate that; point her to the [Admin Guide](#old-uploads)
+* To make this possible, __*cloud__ never deletes files in your cloud. Over time
+  your attachments folder may grow to considerable size. It's safe to delete old
+  attachments. Your admin may automate that; point her to the [Admin
+  Guide](#old-uploads)
 
 * You can use this behavior if you want to share large (or many) files: Sync your
   attachments folder to a folder on your computer using the desktop client. If
@@ -170,9 +180,11 @@ Some settings in Nextcloud/ownCloud are relevant for this Add-On:
 
 * It reuses previous uploads to save bandwidth,
 * it can't decide if a file has been downloaded or is still necessary,
-* an Add-on in a client software is hardly the richt place for server maintenance.
+* an Addon in a client software is hardly the right place for server maintenance.
 
-So users have to clean up their attachments folder themselves. You may help them by automatically removing files after some time. This works in Nextcloud and the Enterprise version of ownCloud:
+So users have to clean up their attachments folder themselves. You may help them
+by automatically removing files after some time. This works in Nextcloud and the
+Enterprise version of ownCloud:
 
 1. Install and activate two server apps
    * [Files automated tagging](https://apps.nextcloud.com/apps/files_automatedtagging)
@@ -193,10 +205,14 @@ So users have to clean up their attachments folder themselves. You may help them
    1. Create
 1. (Optional) In Settings -> Sharing
    1. Choose "Set default expiration date for shares"
-   1. Set a default expiry time that is shorter than the retention time you configured above. So users will be less confused if their files disappear.
+   1. Set a default expiry time that is shorter than the retention time you
+      configured above. So users will be less confused if their files disappear.
    1. Choose "Enforce expiration date"
 
-This might still delete shared files, because the Retention app deletes them n days after *creation*, ie upload. If the user shares it again before it is deleted, the file is not uploaded again and hence the retention timeout is *not reset*.
+This might still delete shared files, because the Retention app deletes them n
+days after *creation*, ie upload. If the user shares it again before it is
+deleted, the file is not uploaded again and hence the retention timeout is *not
+reset*.
 
 ### Redirects
 
@@ -228,10 +244,14 @@ The project lives on GitLab: <https://gitlab.com/joendres/filelink-nextcloud>.
 
 If you find a bug or have an idea for a feature:
 
-1. Go to the [issues board](https://gitlab.com/joendres/filelink-nextcloud/-/boards) and check if there is an open issue already.
-1. If there no issue describing your problem or your idea, there are two option to submit a new one:
+1. Go to the [issues
+   board](https://gitlab.com/joendres/filelink-nextcloud/-/boards) and check if
+   there is an open issue already.
+1. If there no issue describing your problem or your idea, there are two option
+   to submit a new one:
    * Open a new issue on the issues board.
-   * If you don't feel comfortable with that option, send an e-mail to the [Service Desk](mailto:cloud@johannes-endres.de).
+   * If you don't have a gitlab account, just send an e-mail to the
+     [Service Desk](mailto:cloud@johannes-endres.de).
 
 ### Pre-release versions
 
@@ -266,7 +286,6 @@ If you'd like to have __*cloud__ in a language you are fluent in:
    1. Translate all the `message`s in `messages.json` in your new directory.
    1. Create a merge request into the Release-x.y branch you cloned.
 * If you're not
-
    1. Just download the [english strings file](https://gitlab.com/joendres/filelink-nextcloud/-/raw/master/src/_locales/en/messages.json)
    1. Translate alls the `message`s in that file
    1. Mail it to [me](mailto:cloud@johannes-endres.de) stating the language
@@ -274,7 +293,7 @@ If you'd like to have __*cloud__ in a language you are fluent in:
 Important:
 
 * Don't bother with the `descriptions`; they don't show up anywhere, they're just there for your reference.
-* If you're not sure about a strings context just put all your questions in an email or an issue. I'll be glad to clarify.
+* If you're not sure about a string's context, just put all your questions in an email or an issue. I'll be glad to clarify.
 
 ### Code
 
@@ -282,8 +301,10 @@ If you'd like to fix a bug or implement a feature
 
 * Just branch from the latest Release-x.y or Bugfix-x.y.z branch
 * Use [jshint](https://jshint.com/) to check your code.
-* Optional: When your code is ready, `git merge` the original branch and resolve conflicts. I'll handle all conflicts that arise later.
-* If you add strings, just add them to the english locales (and any other language you are fluent in), don't add english strings to other locales
+* Optional: When your code is ready, `git merge` the original branch and resolve
+  conflicts. I'll handle all conflicts that arise later.
+* If you add strings, just add them to the english locales (and any other
+  language you are fluent in), *don't* add english strings to other locales
 
 ### Dev resources
 
@@ -301,8 +322,11 @@ If you'd like to fix a bug or implement a feature
   web-ext](https://extensionworkshop.com/documentation/develop/getting-started-with-web-ext)
   If you are developing WebExtensions, you want to use this tool. For debugging
   just set the ```firefox``` config option to your thunderbird binary.
-* [Photon Components](https://firefoxux.github.io/photon-components-web) contain CSS styles and some additional resources to replicate the standard styles used in Thunderbird
-* [Firefox Brand + Design Assets](https://design.firefox.com/) are also useful for Thunderbird, especially the icon library.
+* [Photon Components](https://firefoxux.github.io/photon-components-web) contain
+  CSS styles and some additional resources to replicate the standard styles used
+  in Thunderbird
+* [Firefox Brand + Design Assets](https://design.firefox.com/) are also useful
+  for Thunderbird, especially the icon library.
 * [What you need to know about making add-ons for
   Thunderbird](https://developer.thunderbird.net/add-ons/), not complete at all.
 * [@JasonBayton](https://twitter.com/jasonbayton) runs [Nextcloud demo
@@ -317,7 +341,6 @@ If you'd like to fix a bug or implement a feature
 * [Jun Futagawa](@jfut), implementation of generated random passwords
 * [Lionel Elie Mamane](@lmamane), solution of the LDAP/getapppassword problem
 * [Óvári](@ovari1), hungarian localization
-
 * Based on [FileLink Provider for
   Dropbox](https://github.com/darktrojan/dropbox) by [Geoff
   Lankow](https://darktrojan.github.io/)
