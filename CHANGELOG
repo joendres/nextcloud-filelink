@@ -1,3 +1,6 @@
+3.8.3 2020-09-27
+Fix #260 introduced in 3.8.2, could not reuse existing shares
+
 3.8.2 2020-09-05
 Fix #255 wrong homepage_url in manifest.json
 Fix #252 handling password protected shares
