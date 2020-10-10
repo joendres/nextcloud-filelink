@@ -9,8 +9,7 @@ Cloud and generates a link you can send by mail instead of the file.
 
 * Nextcloud: 17 or newer (older versions might work, but are [not supported by
   Nextcloud](https://github.com/nextcloud/server/wiki/Maintenance-and-Release-Schedule))
-* ownCloud: 10+ (older versions might work, but are [not supported by
-  ownCloud](https://github.com/owncloud/core/wiki/maintenance-and-release-schedule))
+* ownCloud: 10.0.10+ (10.0.9 and older versions contain bugs that prevent __*cloud__ from working).
 * Thunderbird: 68.2.1 or newer (60.5+ might work, but has not been tested)
 
 ## User guide
