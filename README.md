@@ -7,16 +7,16 @@ Cloud and generates a link you can send by mail instead of the file.
 
 ## Requirements
 
-* Nextcloud: 17 or newer (older versions might work, but are [not supported by
+* Nextcloud: 18 or newer (older versions might work, but are [not supported by
   Nextcloud](https://github.com/nextcloud/server/wiki/Maintenance-and-Release-Schedule))
 * ownCloud: 10.0.10+ (10.0.9 and older versions contain bugs that prevent __*cloud__ from working).
-* Thunderbird: 68.2.1 or newer (60.5+ might work, but has not been tested)
+* Thunderbird: 68.2.1 or newer
 
 ## User guide
 
 ### Installation
 
-1. Go to Settings -> Attachments -> Outgoing
+1. Go to Settings -> Compose -> Attachments (in Thunderbird 68 Attachments -> Outgoing)
 1. Click the link "Find more providers..." at the bottom of the page.
 1. Find __*cloud__ in the list and click the "Add to Thunderbird" button.
 1. On the "Options" tab click the button "Add *cloud".
@@ -35,14 +35,19 @@ repository:
 #### You don't like the text/HTML/links inserted into the message
 
 Many users would like to change the text that is inserted into the message along
-with the download url, eg add the expiration date, change the cloud service link, remove some of the text or style the HTML less prominently.
-Addons like __*cloud__ have no chance to do that, because the template text surrounding the url is part of Thunderbird. The Addon only supplies the url, Thunderbird wraps its template around it and inserts the whole thing into your message (technical
+with the download url, eg add the expiration date, change the cloud service
+link, remove some of the text or style the HTML less prominently. Addons like
+__*cloud__ have no chance to do that, because the template text surrounding the
+url is part of Thunderbird. The Addon only supplies the url, Thunderbird wraps
+its template around it and inserts the whole thing into your message (technical
 details
 [here](https://gitlab.com/joendres/filelink-nextcloud/-/issues/238#note_383881835)
 and
 [here](https://thunderbird-webextensions.readthedocs.io/en/68/cloudFile.html#onfileupload-account-fileinfo)).
 
-There is a feature suggestion for Thunderbird, to [make this template editable](https://bugzilla.mozilla.org/show_bug.cgi?id=1643729). You might consider backing this suggestion with your vote or a helpful comment.
+There is a feature suggestion for Thunderbird, to [make this template
+editable](https://bugzilla.mozilla.org/show_bug.cgi?id=1643729). You might
+consider backing this suggestion with your vote or a helpful comment.
 
 #### Files from network shares uploaded to cloud *and* attached
 
@@ -51,35 +56,57 @@ Thunderbird](https://bugzilla.mozilla.org/show_bug.cgi?id=793118): If you
 attached a file from a network share, it was uploaded to the cloud and the share
 link was inserted into your mail, but the file was *also attached to the
 message*. This was fixed in Thunderbird 68.11.0 and 78.0.1. If you're still
-experiencing this issue, update Thunderbird to a fixed version.
+experiencing this issue, update Thunderbird.
 
 #### URL works in browser but not in *cloud
 
 In some situations the url you use to access your Nextcloud/ownCloud account in
-the browser doesn't work in __*cloud__. This happens if your access url is
-redirected to the actual cloud location (plus some technicality).
+the browser doesn't work in __*cloud__.
+
+##### Reason 1: Redirect
+
+If your access url is redirected to the actual cloud location (plus some
+technicality), __*cloud__ can't find the actual url.
 
 If this happens to you, point __*cloud__  to the actual cloud location:
 
 1. Open your cloud in your browser.
-1. Log in. This should take you to the "Files" app within your cloud. If it
-   doesn't, click on the folder icon to go to that app.
+1. Log in.
+1. Depending on your cloud version you now have different views:
+   * In Nextcloud 20 you see the "Dashboard", just continue to the next step.
+   * In older versions of Nextcloud and in ownCloud your see the "Files" app.
+     Continue to the next step.
+   * If you are neither in the "Dashboard" nor the "Files" app, click on the
+     folder icon in the cloud's top menu to go to the "Files" app.
 1. Copy the complete url from the url bar of your browser
 1. Paste it into the server url field in __*cloud__'s configuration (in Thunderbird).
 
 When you save the settings, __*cloud__ will remove unnecessary parts.
 
-If this still doesn't work for you, read on:
+##### Reason 2: https certificate
 
-Here is an example of what should happen:
+If the admin of your cloud used something called a "self signed certificate",
+Thunderbird (not __*cloud__) refuses to connect to the server. There are two
+solutions:
 
-* You paste ```https://cloud.example.com/index.php/apps/files/?dir=/&fileid=42```
-* After saving the Server URL field contains ```https://cloud.example.com/```
+1. (preferred) Tell your admin about the problem. She might [install another type
+   of certificate](#self-signed-certificates), which Thunderbird accepts.
+1. (if 1. is not possible) Force Thunderbird to accept the certificate:
+   1. Open Thunderbird's preferences
+   1. Go to "Privacy & Security"
+   1. Scroll down to "Certificates"
+   1. Click on "Manage Certificates"
+   1. Choose "Servers"
+   1. Click on "Add Exception"
+   1. Enter your cloud's address in the "Location" field
+   1. Click "Ger Certificate"
+   1. Click "Confirm Security Exception"
 
-If things look very different for you and login still doesn't work, I'd
-appreciate a problem report by [email](mailto:cloud@johannes-endres.de)
-containing the url you pasted. Don't be afraid, the url does not contain any
-secret data. Thanks.
+##### Still not working?
+
+If things still don't work, I'd appreciate a problem report by
+[email](mailto:cloud@johannes-endres.de) containing the url you pasted. Don't be
+afraid, the url does not contain any secret data. Thanks.
 
 #### Upload problems
 
@@ -188,7 +215,8 @@ Enterprise version of ownCloud:
 1. Install and activate two server apps
    * [Files automated tagging](https://apps.nextcloud.com/apps/files_automatedtagging)
    * [Retention](https://apps.nextcloud.com/apps/files_retention)
-1. In Settings -> Basic settings in section "Collaborative tags" create a new tag, eg "FilelinkUpload"
+1. In Settings -> Basic settings in section "Collaborative tags" create a new
+   tag, eg "FilelinkUpload"
 1. In Settings -> Flow click "Add new Flow"
    1. Choose "File is changed"
    1. Filter by "Request user agent"
@@ -229,6 +257,13 @@ But it's easier for users if all urls are redirected. So it would be
 greatly appreciated if you would do that in your cloud instance (if you have to
 use redirects at all). Thanks.
 
+### Self-signed certificates
+
+By default Thunderbird (not __*cloud__) refuses https connections using
+self-signed certificates. It's a lot easier for your users, if you install a
+[Let's encrypt](https://letsencrypt.org/getting-started/) certificate. There are
+great How-tos on their site.
+
 ## Information for Cloud Service Providers
 
 If you run a service based on Nextcloud or ownCloud and would like to offer a
@@ -259,7 +294,8 @@ There usually are two development versions of __*cloud__:
 * Release-x.y for the next release that has new features or visible changes for users
 * Bugfix-x.y.z for the next release that only fixes bugs
 
-These versions usually are more or less functional. They have corresponding branches in the repository.
+These versions usually are more or less functional. They have corresponding
+branches in the repository.
 
 All other branches are work in progress and guaranteed not to work :wink:.
 
@@ -269,10 +305,12 @@ If you'd like to help with testing, first install one of the development version
 
 1. Clone or download one the development branches
 1. Pack the contents of the "src" subdirectory (not the subdir itself) into a zip file
-1. In Thunderbird go to the Add-ons Manager and from the rotary menu select "Install Add-on from file"
+1. In Thunderbird go to the Add-ons Manager and from the rotary menu select
+   "Install Add-on from file"
 1. Choose your zip file and install
 
-If you find a bug please use one of the [options above](#reporting-bugs-and-suggesting-features) to report it.
+If you find a bug please use one of the [options
+above](#reporting-bugs-and-suggesting-features) to report it.
 
 ### Localizations
 
@@ -285,14 +323,17 @@ If you'd like to have __*cloud__ in a language you are fluent in:
    1. Translate all the `message`s in `messages.json` in your new directory.
    1. Create a merge request into the Release-x.y branch you cloned.
 * If you're not
-   1. Just download the [english strings file](https://gitlab.com/joendres/filelink-nextcloud/-/raw/master/src/_locales/en/messages.json)
+   1. Just download the [english strings
+      file](https://gitlab.com/joendres/filelink-nextcloud/-/raw/master/src/_locales/en/messages.json)
    1. Translate alls the `message`s in that file
    1. Mail it to [me](mailto:cloud@johannes-endres.de) stating the language
 
 Important:
 
-* Don't bother with the `descriptions`; they don't show up anywhere, they're just there for your reference.
-* If you're not sure about a string's context, just put all your questions in an email or an issue. I'll be glad to clarify.
+* Don't bother with the `descriptions`; they don't show up anywhere, they're
+  just there for your reference.
+* If you're not sure about a string's context, just put all your questions in an
+  email or an issue. I'll be glad to clarify.
 
 ### Code
 
