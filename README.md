@@ -1,5 +1,7 @@
 # __*cloud__ - FileLink for Nextcloud and ownCloud
 
+[Deutsche Dokumentation](README.de.md)
+
 A MailExtension for Thunderbird (68+) that uploads large attachments to your
 Cloud and generates a link you can send by mail instead of the file.
 
