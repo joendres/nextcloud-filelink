@@ -1,3 +1,8 @@
+3.9.2 2021-03-06
+Fix #332 Some kinds of existing shares make upload fail
+Close #344 Nextcloud 18 is now obsolete
+Fix #352 Too much free space blocks Login
+
 3.9.1 2020-11-14
 Fix #288 Existing file might be overwritten with new content
 
