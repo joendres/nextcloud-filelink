@@ -1,7 +1,6 @@
 /* MIT License
 
 Copyright (c) 2020 Johannes Endres
-
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
 the Software without restriction, including without limitation the rights to
@@ -23,6 +22,19 @@ browser.storage.local.get().then(
     allAccounts => {
         for (const accountId in allAccounts) { updateAccount(accountId); }
     });
+
+// If the current TB version does not support button labels, it uses the title instead
+if (!messenger.composeAction.setLabel) {
+    const manifest = browser.runtime.getManifest();
+    if (manifest.compose_action && manifest.compose_action.default_label) {
+        messenger.composeAction.setTitle({
+            title: manifest.compose_action.default_label.replace(
+                /^__MSG_([@\w]+)__$/, (matched, key) => {
+                    return browser.i18n.getMessage(key) || matched;
+                }),
+        });
+    }
+}
 
 messenger.cloudFile.onFileUpload.addListener(async (account, { id, name, data }) => {
     const ncc = new CloudConnection(account.id);
