@@ -126,9 +126,6 @@
     "description": "This is put after the *cloud logo to form the button in the message compose window that opens the progress popup window",
     "message": "Status"
   },
-  "status_menutooltip": {
-    "message": "Show *cloud uploads status and generated passwords (if any)"
-  },
   "status_no_uploads": {
     "message": "No active uploads"
   },
