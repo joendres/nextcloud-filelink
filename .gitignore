@@ -1,3 +1,7 @@
 /web-ext-artifacts
 node_modules
 package-lock.json
+.vscode/tasks.json
+.vscode/launch.json
+tests/filenames/x><x.txt
+tests/filenames/x["?:\\|*]x.txt
