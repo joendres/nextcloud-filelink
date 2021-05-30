@@ -1,6 +1,6 @@
 # __*cloud__ - FileLink for Nextcloud and ownCloud
 
-[Deutsche Dokumentation](README.de.md)
+[Deutsche Dokumentation](doc/README.de.md)
 
 A MailExtension for Thunderbird (68+) that uploads large attachments to your
 Cloud and generates a link you can send by mail instead of the file.
@@ -9,7 +9,7 @@ Cloud and generates a link you can send by mail instead of the file.
 
 ## Requirements
 
-* Nextcloud: 18 or newer (older versions might work, but are [not supported by
+* Nextcloud: 19 or newer (older versions might work, but are [not supported by
   Nextcloud](https://github.com/nextcloud/server/wiki/Maintenance-and-Release-Schedule))
 * ownCloud: 10.0.10+ (10.0.9 and older versions contain bugs that prevent __*cloud__ from working).
 * Thunderbird: 68.2.1 or newer
@@ -104,21 +104,18 @@ solutions:
    1. Click "Ger Certificate"
    1. Click "Confirm Security Exception"
 
+#### Upload problems
+
+The *download* password has to comply with *all* the rules for passwords on
+your cloud, otherwise the *upload* will fail. There are default rules of
+Nextcloud and ownCloud, and your admin might have configured some different
+rules.
+
 ##### Still not working?
 
 If things still don't work, I'd appreciate a problem report by
 [email](mailto:cloud@johannes-endres.de) containing the url you pasted. Don't be
 afraid, the url does not contain any secret data. Thanks.
-
-#### Upload problems
-
-* The *download* password has to comply with *all* the rules for passwords on
-  your cloud, otherwise the *upload* will fail. There are default rules of
-  Nextcloud and ownCloud, and your admin might have configured some different
-  rules.
-* If the Add-On still fails, please check if it's a [known
-  bug](https://gitlab.com/joendres/filelink-nextcloud/-/boards). Feel free to
-  open a new issue otherwise.
 
 ### Good to know
 
@@ -166,25 +163,24 @@ __*cloud__. There are two ways to get such a token:
 
 #### Handling of existing files
 
-* If you attach a file that's already in the attachments folder in your cloud
-  *with identical contents*, that file is not uploaded again. Instead the
-  existing file is shared.
+If you attach a file that's already in the attachments folder in your cloud
+*with identical contents*, that file is not uploaded again. Instead the
+existing file is shared.
 
-* To make this possible, __*cloud__ never deletes files in your cloud. Over time
-  your attachments folder may grow to considerable size. It's safe to delete old
-  attachments. Your admin may automate that; point her to the [Admin
-  Guide](#old-uploads)
+To make this possible, __*cloud__ never deletes files in your cloud. Over time
+your attachments folder may grow to considerable size. It's safe to delete old
+attachments. Your admin may automate that, using "Flows" in Nextcloud or ownCloud.
 
-* You can use this behavior if you want to share large (or many) files: Sync your
-  attachments folder to a folder on your computer using the desktop client. If
-  you then attach a synced file from your computer to a message, __*cloud__ will
-  notice that it's already uploaded.
+You can use this behavior if you want to share large (or many) files: Sync your
+attachments folder to a folder on your computer using the desktop client. If
+you then attach a synced file from your computer to a message, __*cloud__ will
+notice that it's already uploaded.
 
-* If you attach a file with the same name but different contents as a cloud
-  file, the cloud file will not be overwritten. Instead __*cloud__ moves the
-  existing file to a subfolder of the attachments folder; the original share
-  link will remain valid and point to the old content.\
-  Then the new file is uploaded and shared with a new share link.
+If you attach a file with the same name but different contents as a cloud
+file, the cloud file will not be overwritten. Instead __*cloud__ moves the
+existing file to a subfolder of the attachments folder; the original share
+link will remain valid and point to the old content.\
+Then the new file is uploaded and shared with a new share link.
 
 __*cloud__ uses the same method as the
 Nextcloud/ownCloud desktop clients to decide if the local and remote files are
@@ -201,47 +197,6 @@ Some settings in Nextcloud/ownCloud are relevant for this Add-On:
 * **The app "Share Files" has to be active.** In ownCloud the Apps management is
   part of the Administrator's settings, in Nextcloud it's accessible directly
   from the Admin's profile menu.
-
-### Old uploads
-
- __*cloud__ never deletes any file it uploads, because:
-
-* It reuses previous uploads to save bandwidth,
-* it can't decide if a file has been downloaded or is still necessary,
-* an Addon in a client software is hardly the right place for server maintenance.
-
-So users have to clean up their attachments folder themselves. You may help them
-by automatically removing files after some time. This works in Nextcloud and the
-Enterprise version of ownCloud:
-
-1. Install and activate two server apps
-   * [Files automated tagging](https://apps.nextcloud.com/apps/files_automatedtagging)
-   * [Retention](https://apps.nextcloud.com/apps/files_retention)
-1. In Settings -> Basic settings in section "Collaborative tags" create a new
-   tag, eg "FilelinkUpload"
-1. In Settings -> Flow click "Add new Flow"
-   1. Choose "File is changed"
-   1. Filter by "Request user agent"
-   1. "matches"
-   1. "Custom user agent"
-   1. Enter `/^Filelink for \*cloud/` as the Regular Expression
-   1. As the action choose "Automated tagging"
-   1. Select the previously created tag.
-   1. Save
-1. In the section "File retention"
-   1. Select the tag
-   1. Enter the number of days before the uploads will be deleted
-   1. Create
-1. (Optional) In Settings -> Sharing
-   1. Choose "Set default expiration date for shares"
-   1. Set a default expiry time that is shorter than the retention time you
-      configured above. So users will be less confused if their files disappear.
-   1. Choose "Enforce expiration date"
-
-This might still delete shared files, because the Retention app deletes them n
-days after *creation*, ie upload. If the user shares it again before it is
-deleted, the file is not uploaded again and hence the retention timeout is *not
-reset*.
 
 ### Redirects
 
@@ -266,11 +221,15 @@ self-signed certificates. It's a lot easier for your users, if you install a
 [Let's encrypt](https://letsencrypt.org/getting-started/) certificate. There are
 great How-tos on their site.
 
-## Information for Cloud Service Providers
+## Branded or customized versions of *cloud
 
 If you run a service based on Nextcloud or ownCloud and would like to offer a
 branded/tailored version of __*cloud__ for your service, please contact me by
 [email](mailto:cloud@johannes-endres.de).
+
+### Current customization partners
+
+* [Ultreia Comunicaciones](https://www.ultreia.es/)
 
 ## Contributing
 
@@ -316,19 +275,20 @@ above](#reporting-bugs-and-suggesting-features) to report it.
 
 ### Localizations
 
-If you'd like to have __*cloud__ in a language you are fluent in:
+If you'd like to help translate __*cloud__ into your language there are two options:
 
-* If you're also fluent in `git`
-   1. Clone the latest Release-x.y branch
-   1. In `src/_locales` duplicate the directory `en`
-   1. Rename the copy to the 2-letter code of your language
-   1. Translate all the `message`s in `messages.json` in your new directory.
-   1. Create a merge request into the Release-x.y branch you cloned.
-* If you're not
+* Translations live on
+  [Crowdin](https://crowdin.com/project/filelink-nextcloud/invite). Just click
+  on the [link](https://crowdin.com/project/filelink-nextcloud/invite) and
+  start.
+
+* If you don't want to use Crowdin or feel it's too complicated:
    1. Just download the [english strings
       file](https://gitlab.com/joendres/filelink-nextcloud/-/raw/master/src/_locales/en/messages.json)
-   1. Translate alls the `message`s in that file
-   1. Mail it to [me](mailto:cloud@johannes-endres.de) stating the language
+   1. Translate the `message`s in that file
+   1. Mail it to [me](mailto:cloud@johannes-endres.de) or put it into an
+      [issue](https://gitlab.com/joendres/filelink-nextcloud/-/issues) stating
+      the language
 
 Important:
 
@@ -355,7 +315,7 @@ If you'd like to fix a bug or implement a feature
 * [ownCloud External
   API](https://doc.owncloud.com/server/developer_manual/core/apis/ocs/notifications/ocs-endpoint-v1.html)
 * [Thunderbird WebExtension
-  APIs](https://thunderbird-webextensions.readthedocs.io/en/latest/index.html)
+  APIs](https://thunderbird-webextensions.readthedocs.io/en/68/)
 * [JavaScript APIs for WebExtensions](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API)),
   some of these are also available in Thunderbird
 * [Example extensions for Thunderbird WebExtensions
@@ -370,10 +330,9 @@ If you'd like to fix a bug or implement a feature
 * [Firefox Brand + Design Assets](https://design.firefox.com/) are also useful
   for Thunderbird, especially the icon library.
 * [What you need to know about making add-ons for
-  Thunderbird](https://developer.thunderbird.net/add-ons/), not complete at all.
-* [@JasonBayton](https://twitter.com/jasonbayton) runs [Nextcloud demo
-  servers](https://bayton.org/2017/02/introducing-nextcloud-demo-servers/) of
-  many (old) versions, great for testing.
+  Thunderbird](https://developer.thunderbird.net/add-ons/).
+* There are demo instances of [Nextcloud](https://try.nextcloud.com/) and
+  [ownCloud](https://demo.owncloud.com) you might use for initial testing.
 
 ## Contributions
 
@@ -383,6 +342,7 @@ If you'd like to fix a bug or implement a feature
 * [Jun Futagawa](@jfut), implementation of generated random passwords
 * [Lionel Elie Mamane](@lmamane), solution of the LDAP/getapppassword problem
 * [Óvári](@ovari1), hungarian localization
+* [Pietro Federico Sacchi](https://crowdin.com/profile/sacchi.pietro), italian localization
 * Based on [FileLink Provider for
   Dropbox](https://github.com/darktrojan/dropbox) by [Geoff
   Lankow](https://darktrojan.github.io/)
@@ -390,3 +350,10 @@ If you'd like to fix a bug or implement a feature
   Filelink](https://github.com/nextcloud/nextcloud-filelink) by [Olivier
   Paroz](https://github.com/oparoz) and [Guillaume
   Viguier-Just](https://github.com/guillaumev).
+* Thanks to [@JasonBayton](https://twitter.com/jasonbayton) for his [Nextcloud demo
+  servers](https://bayton.org/2017/02/introducing-nextcloud-demo-servers/) of
+  many (old) versions, that helped in the initial testing a lot.
+* Contains [punycode.js](https://github.com/bestiejs/punycode.js), Copyright
+  Mathias Bynens, [MIT
+  license](https://github.com/bestiejs/punycode.js/blob/master/LICENSE-MIT.txt)
+* Contains [photon-components-web](https://firefoxux.github.io/photon-components-web/)

@@ -1,3 +1,16 @@
+3.10.0 2021-05-30
+Close #292 Better error handling in folder creation
+Close #310 Set max file size
+Close #365 Add Italian localization
+Close #367 Show number of uploads in status button badge
+Fix #299 Correct status button label in older TB versions
+Fix #321 Check format of existing share urls
+Fix #323 Correctly parse WebDAV URL
+Fix #327 Separate status by account
+Fix #335 Determine free space
+Fix #336 Filename was encoded twice
+Minor improvements to code quality and localized wording 
+
 3.9.2 2021-03-06
 Fix #332 Some kinds of existing shares make upload fail
 Close #344 Nextcloud 18 is now obsolete

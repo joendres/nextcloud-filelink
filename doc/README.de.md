@@ -7,7 +7,7 @@ hochlädt und dann einen Download-Link in die Mail einfügt.
 
 ## Voraussetzungen
 
-* Nextcloud: Version 18 oder neuer (ältere Versionen funktionieren eventuell,
+* Nextcloud: Version 19 oder neuer (ältere Versionen funktionieren eventuell,
   werden aber [von Nextcloud nicht mehr
   unterstützt](https://github.com/nextcloud/server/wiki/Maintenance-und-Release-Schedule))
 * ownCloud: Version 10.0.10 oder neuer (10.0.9 und ältere Versionen enthalten
@@ -57,9 +57,9 @@ Kommentar zu unterstützen.
 Es gab einen [Fehler in
 Thunderbird](https://bugzilla.mozilla.org/show_bug.cgi?id=793118): Wenn man eine
 Datei von einer Netzwerkfreigabe anhängte, wurde sie in die Cloud hochgeladen
-und der Link wurde in die Mail eingefügt, aber *zusätzlich* die Datei wurde auch
-an die Mail angehängt*. Dies wurde in Thunderbird 68.11.0 und 78.0.1 behoben.
-Wenn dieses Problem bei dir noch auftritt, aktualisiere Thunderbird.
+und der Link wurde in die Mail eingefügt, aber *zusätzlich* wurde die Datei auch
+an die Mail angehängt. Dies wurde in Thunderbird 68.11.0 und 78.0.1 behoben.
+Wenn dieses Problem bei dir noch auftritt, aktualisiere bitte Thunderbird.
 
 ### URL funktioniert im Browser, aber nicht in den Einstellungen von *cloud
 
@@ -92,10 +92,10 @@ Wenn dir dies passiert, zeige __*cloud__ die tatsächlichen Cloud-URL:
 #### Ursache 2: https-Zertifikat
 
 Wenn der Administrator deiner Cloud ein sogenanntes "selbstsigniertes
-Zertifikat" verwendet hat, (nicht __*cloud__) weigert sich Thunderbird, eine
+Zertifikat" verwendet hat, weigert sich Thunderbird (nicht __*cloud__), eine
 Verbindung zum Server herzustellen. Es gibt zwei Lösungen:
 
-1. (bevorzugt) Informiere deinen Administrator über das Problem. Er sollte
+1. (besser) Informiere deinen Administrator über das Problem. Er sollte
    [einen anderen Zertifikat-Typ
    installieren](https://gitlab.com/joendres/filelink-nextcloud#self-signed-certificates),
    das Thunderbird akzeptiert.
@@ -110,23 +110,16 @@ Verbindung zum Server herzustellen. Es gibt zwei Lösungen:
    1. Klicke auf "Zertifikat herunterladen".
    1. Klicke auf "Sicherheits-Ausnahmeregel bestätigen".
 
-#### Funktioniert immer noch nicht?
-
-Wenn die Einstellungen immer noch nicht funktionieren, würde ich mich über einen
-Problembericht per [E-Mail](mailto:cloud@johannes-endres.de) freuen. Vielen
-Dank.
-
 ### Probleme beim Hochladen
 
 Das *Download*-Passwort muss *allen* Regeln für Passwörter entsprechen, die der
 Admin deiner Cloud konfiguriert hat. Andernfalls schlägt der *Upload* fehl.
 
-### Andere Probleme
+#### Funktioniert immer noch nicht?
 
-Wenn du auf ein Problem stößt, das oben nicht angesprochen wird, überprüfe
-bitte, ob es ein [bekannter
-Fehler](https://gitlab.com/joendres/filelink-nextcloud/-/boards) ist.
-Andernfalls eröffne bitte ein Ticket für das Problem.
+Wenn die Einstellungen immer noch nicht funktionieren, würde ich mich über einen
+Problembericht per [E-Mail](mailto:cloud@johannes-endres.de) freuen. Vielen
+Dank.
 
 ## Gut zu wissen
 
@@ -217,4 +210,7 @@ Remote-Dateien identisch sind.
   Filelink](https://github.com/nextcloud/nextcloud-filelink) von [Olivier
   Paroz](https://github.com/oparoz) und [Guillaume
   Viguier-Just](https://github.com/guillaumev).
-  
+* Enthält [punycode.js](https://github.com/bestiejs/punycode.js), Copyright
+  Mathias Bynens,
+  [MIT-Lizenz](https://github.com/bestiejs/punycode.js/blob/master/LICENSE-MIT.txt)
+* Enthält [photon-components-web](https://firefoxux.github.io/photon-components-web/)
