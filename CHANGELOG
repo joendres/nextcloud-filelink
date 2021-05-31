@@ -1,3 +1,6 @@
+3.10.1 2021-05-31
+Fix -378 Uploads fail if cloud folder doesn't exist
+
 3.10.0 2021-05-30
 Close #292 Better error handling in folder creation
 Close #310 Set max file size
