@@ -173,7 +173,7 @@ class DavUploader {
             const xmlDoc = new DOMParser().parseFromString(await response.text(), 'application/xml');
             free = parseInt(xmlDoc.getElementsByTagName("d:quota-available-bytes")[0].textContent);
         }
-        return isNaN(free) ? -1 : free;
+        return (isNaN(free) || free < 0) ? -1 : free;
     }
 
     /**
@@ -186,7 +186,7 @@ class DavUploader {
     async _doUpload(uploadId, fileName, fileObject) {
         // Is the file bigger than the maximum size for WebDAV?
         attachmentStatus.get(uploadId).set_status('checkingsize');
-        if(fileObject.size > DAV_MAX_FILE_SIZE){
+        if (fileObject.size > DAV_MAX_FILE_SIZE) {
             attachmentStatus.get(uploadId).fail();
             return { ok: false, };
         }
@@ -201,8 +201,8 @@ class DavUploader {
         // Make sure storageFolder exists. Creation implicitly checks for
         // existence of folder, so the extra webservice call for checking first
         // isn't necessary.
+        attachmentStatus.get(uploadId).set_status('creating');
         if (!(await this._recursivelyCreateFolder(this._storageFolder))) {
-            attachmentStatus.get(uploadId).set_status('creating');
             attachmentStatus.get(uploadId).fail();
             throw new Error("Upload failed: Can't create folder");
         }
