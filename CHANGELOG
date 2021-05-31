@@ -1,5 +1,8 @@
+3.10.2 2021-05-31
+Fix the fix for #378 Uploads fail if no quota set
+
 3.10.1 2021-05-31
-Fix -378 Uploads fail if cloud folder doesn't exist
+Fix #378 Uploads fail if no quota set
 
 3.10.0 2021-05-30
 Close #292 Better error handling in folder creation
