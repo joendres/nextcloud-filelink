@@ -167,7 +167,7 @@ class DavUploader {
      * @returns {number} Free space in bytes or -1 if no info available
      */
     async _getFreeSpace() {
-        const response = await this._doDavCall(this._storageFolder + "/.", "PROPFIND");
+        const response = await this._doDavCall("/.", "PROPFIND");
         let free = -1;
         if (response.ok && response.status < 300) {
             const xmlDoc = new DOMParser().parseFromString(await response.text(), 'application/xml');
