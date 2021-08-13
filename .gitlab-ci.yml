@@ -10,18 +10,20 @@ lint:
   before_script:
     - npm install --loglevel error web-ext
     - npm install --loglevel error jshint
+    - git submodule update --init
   script:
     # web-ext fails if parameters of different run modes are set
     - unset WEB_EXT_API_KEY
     - unset WEB_EXT_API_SECRET
     - npx web-ext lint
     - npx jshint src
-    - '! grep -r --exclude=photon.css TODO src'
+    - '! grep -r --exclude-dir=photon-components-web TODO src'
 
 sign:
   stage: deploy
   before_script:
     - npm install --loglevel error web-ext
+    - git submodule update --init
   script:
     # web-ext sign always fails (as documented), so manipulate the return code
     - 'npx web-ext sign --channel=listed --api-url-prefix=https://addons.thunderbird.net/api/v3 || true'

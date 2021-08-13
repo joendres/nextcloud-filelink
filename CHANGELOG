@@ -1,3 +1,9 @@
+3.11.0 2012-08-13
+Close #388 Show error status in "unknown error" message
+Close #389 Nexcloud 19 is obsolete
+Add Basque localization
+Minor improvements to code quality
+
 3.10.3 2021-06-04
 Fix #379 Ignore custom 404 pages in WebDAV
 Close #381 Improve WebDAV stability

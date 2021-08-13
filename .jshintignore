@@ -1,1 +1,3 @@
-src/lib/punycode.js
+
+src/punycode
+src/photon-components-web
