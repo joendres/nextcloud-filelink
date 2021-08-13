@@ -9,7 +9,7 @@ Cloud and generates a link you can send by mail instead of the file.
 
 ## Requirements
 
-* Nextcloud: 19 or newer (older versions might work, but are [not supported by
+* Nextcloud: 20 or newer (older versions might work, but are [not supported by
   Nextcloud](https://github.com/nextcloud/server/wiki/Maintenance-and-Release-Schedule))
 * ownCloud: 10.0.10+ (10.0.9 and older versions contain bugs that prevent __*cloud__ from working).
 * Thunderbird: 68.2.1 or newer
@@ -343,6 +343,7 @@ If you'd like to fix a bug or implement a feature
 * [Lionel Elie Mamane](@lmamane), solution of the LDAP/getapppassword problem
 * [Óvári](@ovari1), hungarian localization
 * [Pietro Federico Sacchi](https://crowdin.com/profile/sacchi.pietro), italian localization
+* [Asier Iturralde Sarasola](https://gitlab.com/aldatsa), basque localization
 * Based on [FileLink Provider for
   Dropbox](https://github.com/darktrojan/dropbox) by [Geoff
   Lankow](https://darktrojan.github.io/)

@@ -7,7 +7,7 @@ hochlädt und dann einen Download-Link in die Mail einfügt.
 
 ## Voraussetzungen
 
-* Nextcloud: Version 19 oder neuer (ältere Versionen funktionieren eventuell,
+* Nextcloud: Version 20 oder neuer (ältere Versionen funktionieren eventuell,
   werden aber [von Nextcloud nicht mehr
   unterstützt](https://github.com/nextcloud/server/wiki/Maintenance-und-Release-Schedule))
 * ownCloud: Version 10.0.10 oder neuer (10.0.9 und ältere Versionen enthalten
@@ -203,6 +203,8 @@ Remote-Dateien identisch sind.
 * [Jun Futagawa](@jfut), Implementierung generierter zufälliger Passwörter
 * [Lionel Elie Mamane](@lmamane), Lösung des LDAP/getapppassword-Problems
 * [Óvári](@ovari1), ungarische Übersetzung
+* [Pietro Federico Sacchi](https://crowdin.com/profile/sacchi.pietro), italienische Übersetzung
+* [Asier Iturralde Sarasola](https://gitlab.com/aldatsa), baskische Übersetzung
 * Basierend auf [FileLink Provider für
   Dropbox](https://github.com/darktrojan/dropbox) von [Geoff
   Lankow](https://darktrojan.github.io/)
