@@ -9,16 +9,23 @@ Cloud and generates a link you can send by mail instead of the file.
 
 ## Requirements
 
-* Nextcloud: 20 or newer (older versions might work, but are [not supported by
-  Nextcloud](https://github.com/nextcloud/server/wiki/Maintenance-and-Release-Schedule))
-* ownCloud: 10.0.10+ (10.0.9 and older versions contain bugs that prevent __*cloud__ from working).
 * Thunderbird: 68.2.1 or newer
+* An account on a server running a supported version of Nextcloud or ownCloud,
+  more specifically:
+  * [Nextcloud](https://nextcloud.com/): version 20 or newer (older versions
+    might work, but are [not supported by
+    Nextcloud](https://github.com/nextcloud/server/wiki/Maintenance-and-Release-Schedule))
+  * [ownCloud](https://owncloud.com/): version 10.0.10+ (10.0.9 and older
+    versions contain bugs that prevent __*cloud__ from working).
+
+  If you can't or don't want to run your own server, there are many offers for
+  hosted Nextcloud and ownCloud services.
 
 ## User guide
 
 ### Installation
 
-1. Go to Settings -> Compose -> Attachments (in Thunderbird 68 Attachments -> Outgoing)
+1. Go to Preferences -> Compose -> Attachments (in Thunderbird 68 Attachments -> Outgoing)
 1. Click the link "Find more providers..." at the bottom of the page.
 1. Find __*cloud__ in the list and click the "Add to Thunderbird" button.
 1. On the "Options" tab click the button "Add *cloud".
@@ -31,6 +38,22 @@ __*cloud__ is also available via Thunderbird's Add-on
 repository:
 
 [![Get the Addon](https://addons.cdn.mozilla.net/static/img/addons-buttons/TB-AMO-button_1.png)](https://addons.thunderbird.net/thunderbird/addon/filelink-nextcloud-owncloud/).
+
+### Usage
+
+After you have configured at least one Nextcloud or ownCloud server there are
+three ways to start the upload:
+
+1. Add an attachment that is larger than the upload threshold. Thunderbird will
+   then show a yellow notification bar at the bottom of the message window with
+   a "Link" button. To get this button for smaller attachments you can change
+   the threshold: Go to Preferences -> Compose -> Attachments and change the
+   value "Offer to share...".
+1. In the message window in the attachments menu (downward arrow in the "Attach"
+   button), there is an entry "Filelink". It lets you choose a file and uploads
+   it immediately.
+1. After you added an attachment you can choose "Convert to..." from that
+   attachments context menu (right click on the attachment).
 
 ### Known issues
 
@@ -63,7 +86,7 @@ experiencing this issue, update Thunderbird.
 #### URL works in browser but not in *cloud
 
 In some situations the url you use to access your Nextcloud/ownCloud account in
-the browser doesn't work in __*cloud__.
+the browser doesn't work as the server URL in __*cloud__.
 
 ##### Reason 1: Redirect
 
@@ -72,10 +95,10 @@ technicality), __*cloud__ can't find the actual url.
 
 If this happens to you, point __*cloud__  to the actual cloud location:
 
-1. Open your cloud in your browser.
+1. Open your cloud in a browser.
 1. Log in.
 1. Depending on your cloud version you now have different views:
-   * In Nextcloud 20 you see the "Dashboard", just continue to the next step.
+   * In Nextcloud 20 and newer you see the "Dashboard", just continue to the next step.
    * In older versions of Nextcloud and in ownCloud your see the "Files" app.
      Continue to the next step.
    * If you are neither in the "Dashboard" nor the "Files" app, click on the
@@ -101,7 +124,7 @@ solutions:
    1. Choose "Servers"
    1. Click on "Add Exception"
    1. Enter your cloud's address in the "Location" field
-   1. Click "Ger Certificate"
+   1. Click "Get Certificate"
    1. Click "Confirm Security Exception"
 
 #### Upload problems
@@ -114,8 +137,7 @@ rules.
 ##### Still not working?
 
 If things still don't work, I'd appreciate a problem report by
-[email](mailto:cloud@johannes-endres.de) containing the url you pasted. Don't be
-afraid, the url does not contain any secret data. Thanks.
+[email](mailto:cloud@johannes-endres.de).  Thanks.
 
 ### Good to know
 
@@ -242,7 +264,7 @@ If you find a bug or have an idea for a feature:
 1. Go to the [issues
    board](https://gitlab.com/joendres/filelink-nextcloud/-/boards) and check if
    there is an open issue already.
-1. If there no issue describing your problem or your idea, there are two option
+1. If there no issue describing your problem or your idea, there are two options
    to submit a new one:
    * Open a new issue on the issues board.
    * If you don't have a gitlab account, just send an e-mail to the
@@ -275,14 +297,8 @@ above](#reporting-bugs-and-suggesting-features) to report it.
 
 ### Localizations
 
-If you'd like to help translate __*cloud__ into your language there are two options:
+If you'd like to help translate __*cloud__ into your language:
 
-* Translations live on
-  [Crowdin](https://crowdin.com/project/filelink-nextcloud/invite). Just click
-  on the [link](https://crowdin.com/project/filelink-nextcloud/invite) and
-  start.
-
-* If you don't want to use Crowdin or feel it's too complicated:
    1. Just download the [english strings
       file](https://gitlab.com/joendres/filelink-nextcloud/-/raw/master/src/_locales/en/messages.json)
    1. Translate the `message`s in that file
@@ -313,11 +329,11 @@ If you'd like to fix a bug or implement a feature
 * [Nextcloud Client
   APIs](https://docs.nextcloud.com/server/stable/developer_manual/client_apis/index.html)
 * [ownCloud External
-  API](https://doc.owncloud.com/server/developer_manual/core/apis/ocs/notifications/ocs-endpoint-v1.html)
+  API](https://doc.owncloud.com/server/developer_manual/core/apis/ocs-capabilities.html)
 * [Thunderbird WebExtension
-  APIs](https://thunderbird-webextensions.readthedocs.io/en/68/)
-* [JavaScript APIs for WebExtensions](https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API)),
-  some of these are also available in Thunderbird
+  APIs](https://webextension-api.thunderbird.net/)
+* [Firefox' JavaScript APIs for WebExtensions](https://developer.mozilla.org/docs/Mozilla/Add-ons/WebExtensions/API),
+  most of these are also available in Thunderbird
 * [Example extensions for Thunderbird WebExtensions
   APIs](https://github.com/thundernest/sample-extensions)
 * [Getting started with
@@ -343,7 +359,8 @@ If you'd like to fix a bug or implement a feature
 * [Lionel Elie Mamane](@lmamane), solution of the LDAP/getapppassword problem
 * [Óvári](@ovari1), hungarian localization
 * [Pietro Federico Sacchi](https://crowdin.com/profile/sacchi.pietro), italian localization
-* [Asier Iturralde Sarasola](https://gitlab.com/aldatsa), basque localization
+* [Asier Iturralde Sarasola](@aldatsa), basque localization
+* [Anatolii Balbutckii](@abalbuc), russian localization
 * Based on [FileLink Provider for
   Dropbox](https://github.com/darktrojan/dropbox) by [Geoff
   Lankow](https://darktrojan.github.io/)

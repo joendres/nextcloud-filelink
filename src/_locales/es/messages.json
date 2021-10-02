@@ -66,7 +66,7 @@
     "message": "El número de días que la descarga estará disponible, incluyendo hoy."
   },
   "freespace": {
-    "message": "Espacio disponible ($FREE$GB de $FULL$GB)",
+    "message": "Espacio disponible ($FREE$ de $FULL$)",
     "placeholders": {
       "free": {
         "content": "$1"

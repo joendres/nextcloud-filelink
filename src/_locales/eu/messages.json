@@ -66,7 +66,7 @@
     "message": "Zenbat egunez egongo den deskarga bat eskuragarri, gaurkoa barne"
   },
   "freespace": {
-    "message": "Leku librea ($FREE$GB / $FULL$GB)",
+    "message": "Leku librea ($FREE$ / $FULL$)",
     "placeholders": {
       "free": {
         "content": "$1"
