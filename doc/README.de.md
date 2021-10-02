@@ -32,6 +32,22 @@ __*cloud__ gibt es auch in der Addon-Sammlung von Thunderbird:
 
 [![Hol dir das Addon](https://addons.cdn.mozilla.net/static/img/addons-buttons/TB-AMO-button_1.png)](https://addons.thunderbird.net/thunderbird/addon/filelink-nextcloud-owncloud/).
 
+## Benutzung
+
+Nachdem du mindestens einen Nextcloud- oder ownCloud-Server konfiguriert hast, gibt es
+drei Möglichkeiten, den Upload zu starten:
+
+1. Füge einer Mail einen Anhang hinzu, der größer als die Upload-Schwelle ist.
+   Thunderbird zeigt dann eine gelbe Benachrichtigungsleiste am unteren Rand des Nachrichtenfensters mit
+   einer Schaltfläche "Filelink verwenden". Um diese Schaltfläche für kleinere Anhänge zu erhalten, kannst du
+   den Schwellenwert ändern: Gehe zu Einstellungen -> Verfassen -> Anhänge und ändere den
+   Wert bei "Hochladen für Dateien größer als ...".
+1. Im Nachrichtenfenster gibt es im Menü "Anhängen" (Pfeil nach unten in der Schaltfläche "Anhängen")
+  einen Eintrag "Filelink". Damit kannst du eine Datei auswählen und
+   und sie sofort hochladen.
+1. Nachdem du einen Anhang hinzugefügt hast, kannst du "Anhang umwandeln in..." aus dem
+   Kontextmenü des Anhangs wählen (Rechtsklick auf den Anhang).
+
 ## Bekannte Probleme
 
 ### Du möchtest den Text ändern, den Thunderbird mit dem Link in die Mail einbaut
@@ -204,7 +220,8 @@ Remote-Dateien identisch sind.
 * [Lionel Elie Mamane](@lmamane), Lösung des LDAP/getapppassword-Problems
 * [Óvári](@ovari1), ungarische Übersetzung
 * [Pietro Federico Sacchi](https://crowdin.com/profile/sacchi.pietro), italienische Übersetzung
-* [Asier Iturralde Sarasola](https://gitlab.com/aldatsa), baskische Übersetzung
+* [Asier Iturralde Sarasola](@aldatsa), baskische Übersetzung
+* [Anatolii Balbutckii](@abalbuc), russische Übersetzung
 * Basierend auf [FileLink Provider für
   Dropbox](https://github.com/darktrojan/dropbox) von [Geoff
   Lankow](https://darktrojan.github.io/)

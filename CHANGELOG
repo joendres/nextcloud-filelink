@@ -1,6 +1,11 @@
-3.11.0 2012-08-13
+3.12.0 2021-10-02
+Close #391 improve display of free space
+Improve documentation
+Add Russian localization
+
+3.11.0 2021-08-13
 Close #388 Show error status in "unknown error" message
-Close #389 Nexcloud 19 is obsolete
+Close #389 Nextcloud 19 is obsolete
 Add Basque localization
 Minor improvements to code quality
 

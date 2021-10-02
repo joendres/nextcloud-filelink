@@ -66,7 +66,7 @@
     "message": "Nombre de jours durant lequel le lien de téléchargement sera valide, à partir de ce jour. "
   },
   "freespace": {
-    "message": "Espace disponible ($FREE$GB utilisés sur $FULL$GB)",
+    "message": "Espace disponible ($FREE$ utilisés sur $FULL$)",
     "placeholders": {
       "free": {
         "content": "$1"

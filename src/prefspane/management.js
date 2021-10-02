@@ -101,25 +101,39 @@ async function showVersion() {
  * Update free space gauge
  */
 async function updateGauge() {
+    freespaceGauge.style.visibility = "hidden";
     // Only show gauge if relevant form data match the account data
-    if (username.value !== ncc.username || serverUrl.value !== ncc.serverUrl) {
-        freespaceGauge.style.visibility = "hidden";
-    } else {
+    if (username.value === ncc.username && serverUrl.value === ncc.serverUrl) {
         let theAccount = await messenger.cloudFile.getAccount(accountId);
         // Update the free space gauge
-        let free = theAccount.spaceRemaining;
-        const used = theAccount.spaceUsed;
-        if (free >= 0 && used >= 0) {
-            const full = (free + used) / (1024.0 * 1024.0 * 1024.0); // Convert bytes to gigabytes
-            free /= 1024.0 * 1024.0 * 1024.0;
+        const free = parseInt(theAccount.spaceRemaining);
+        const full = free + parseInt(theAccount.spaceUsed);
+        if (free >= 0 && full >= 0 &&
+            free <= Number.MAX_SAFE_INTEGER && full <= Number.MAX_SAFE_INTEGER &&
+            isFinite(free) && isFinite(full)) {
             freespacelabel.textContent = browser.i18n.getMessage("freespace", [
-                free > 100 ? free.toFixed() : free.toPrecision(2),
-                full > 100 ? full.toFixed() : full.toPrecision(2),]);
+                humanReadable(free),
+                humanReadable(full),]);
             freespace.max = full;
             freespace.value = free;
             freespace.low = full / 10;
             freespaceGauge.style.visibility = "visible";
         }
+    }
+
+    function humanReadable(bytes) {
+        const units = ["B", "kB", "MB", "GB", "TB", "PB",];
+        let n = bytes;
+        let s = "";
+        let i = -1;
+        do {
+            s = n.toPrecision(2);
+            n /= 1000;
+            if (i++ >= units.length) {
+                throw ReferenceError("parameter bytes too big");
+            }
+        } while (s.match(/e/));
+        return s.replace(/(\.\d+)0$/, "$1").replace(/\.0$/, "") + units[i];
     }
 }
 

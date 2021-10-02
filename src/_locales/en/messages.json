@@ -33,7 +33,7 @@
     "message": "Storage path in cloud"
   },
   "storageFolder_details": {
-    "message": "The path where attachments will be are stored in your cloud. If it doesn't exits, it's created during upload."
+    "message": "The path where attachments will be stored in your cloud. If it doesn't exist, it's created during upload."
   },
   "useNoDlPassword": {
     "message": "No password"
@@ -66,7 +66,7 @@
     "message": "The number of days the download will be available, including today"
   },
   "freespace": {
-    "message": "Free Space ($FREE$GB of $FULL$GB)",
+    "message": "Free Space ($FREE$ of $FULL$)",
     "placeholders": {
       "free": {
         "content": "$1"
@@ -135,6 +135,7 @@
     "message": "Clear complete uploads"
   },
   "status_preparing": {
+    "description": "This will be displayed in the status popup. If this step fails this string will be combined with one indicating failure, eg 'Preparing file size failed'.",
     "message": "Preparing"
   },
   "status_creating": {
@@ -150,7 +151,6 @@
     "message": "Sharing"
   },
   "status_checkingsize": {
-    "description": "This will be displayed in the status popup. If this step fails this string will be with one indicating failure, eg 'Checking maximum file size failed'.",
     "message": "Checking maximum file size"
   },
   "status_checkingspace": {
