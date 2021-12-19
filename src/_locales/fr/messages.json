@@ -135,6 +135,7 @@
     "message": "Vider la liste des téléversements achevés"
   },
   "status_preparing": {
+    "description": "This will be displayed in the status popup. If this step fails this string will be combined with one indicating failure, eg 'Preparing file size failed'.",
     "message": "Préparation du téléversement"
   },
   "status_creating": {
@@ -150,7 +151,6 @@
     "message": "Partage du fichier"
   },
   "status_checkingsize": {
-    "description": "This will be displayed in the status popup. If this step fails this string will be with one indicating failure, eg 'Checking maximum file size failed'.",
     "message": "Vérification de la taille maximale du fichier"
   },
   "status_checkingspace": {

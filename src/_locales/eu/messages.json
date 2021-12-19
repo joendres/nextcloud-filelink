@@ -92,7 +92,7 @@
     "message": "Nextcloud edo ownClouden bertsio zaharkitua. Datuak galdu ditzakezu. Eskatu hodeiaren administratzaileari eguneratzeko"
   },
   "obsolete_version": {
-    "description": "Hau ikonoaren gainean bistaratzen da hodeiaren bertsioak euskarririk ez duenean. Nahiko motza izan behar du eta gehienez bi lerrokoa.",
+    "description": "This is displayed over the icon if the cloud version is not supported, so it should be quite short and contain at most two lines.",
     "message": "Bertsio\nzaharkitua"
   },
   "error_401": {
@@ -120,21 +120,22 @@
     "message": "http:-rekin zure saio hasierako datuak enkriptatu gabe transferituko dira. Hobe https: erabiltzea. Ez badabil, jakinarazi zure administratzaileari."
   },
   "status_menutooltip": {
-    "description": "Hau argibide bezala bistaratzen da saguaren erakuslea 'status_menuname' etiketa duen menuko botoiaren gainetik igarotzean",
+    "description": "This is displayed as a tooltip when the mouse pointer hovers over the menu button labelled with 'status_menuname'",
     "message": "Erakutsi *cloud igoeren egoera eta sortutako pasahitzak (baldin badaude)"
   },
   "status_menuname": {
-    "description": "Testu labur hau egoeraren laster-leihoa bistaratzen duen *cloud logoaren ondoko menuko botoian bistaratzen da.",
+    "description": "This short text is displayed on the menu button that opens the status popup next to the *cloud logo",
     "message": "Egoera"
   },
   "status_no_uploads": {
     "message": "Igoera aktiborik ez"
   },
   "status_button_clear": {
-    "description": "Errore-mezuak egoera laster-leihotik kentzeko botoia.",
+    "description": "Button to remove error messages from status popup",
     "message": "Garbitu osatutako igoerak"
   },
   "status_preparing": {
+    "description": "This will be displayed in the status popup. If this step fails this string will be combined with one indicating failure, eg 'Preparing file size failed'.",
     "message": "Prestatzen"
   },
   "status_creating": {
@@ -150,14 +151,13 @@
     "message": "Partekatzen"
   },
   "status_checkingsize": {
-    "description": "Hau egoeraren laster-leihoan bistaratuko da. Urrats honek huts egiten badu, kate honek adieraziko du hutsegitea, adibidez, 'Fitxategiaren gehienezko tamaina egiaztatzeak huts egin du'.",
     "message": "Fitxategiaren gehienezko tamaina egiaztatzen"
   },
   "status_checkingspace": {
     "message": "Leku librea egiaztatzen"
   },
   "status_error": {
-    "description": "Hau goiko egoeretako batekin konbinatuko da, adibidez, 'Prestatzen huts egin du'. Honek zure hizkuntzan ez badu funtzionatzen, jakinarazi proiektuaren arduradunari.",
+    "description": "This will be combined with one of the states above, eg 'Preparing failed'. If this doesn't work in your language, please tell me.",
     "message": "$1 huts egin du"
   },
   "status_password": {

@@ -89,10 +89,10 @@
     "message": "Ошибка проверки учётной записи: неправильное имя, несовместимое облако или сетевая ошибка"
   },
   "warn_unsupported_cloud": {
-    "message": "Устаревшая версия Nextcloud или ownCloud. Вы можете потерять данные. Попросите администратора вашего облака обновить версию"
+    "message": "Устаревшая версия Nextcloud или ownCloud. Вы можете потерять данные. Попросите администратора вашег облака обновить версию"
   },
   "obsolete_version": {
-    "description": "Он отображается над значком, если облачная версия не поддерживается, поэтому он должен достаточно коротким и содержать не более двух строк.",
+    "description": "This is displayed over the icon if the cloud version is not supported, so it should be quite short and contain at most two lines.",
     "message": "Устаревшая\nверсия"
   },
   "error_401": {
@@ -120,21 +120,22 @@
     "message": "С  http: префиксом в URL адресе ваши данные авторизации будут передаваться в незашифрованном виде. Используйте https: префикс в URL адресе. Если это не работает, уточните у вашего администратора облака."
   },
   "status_menutooltip": {
-    "description": "Это отображается как всплывающая подсказка при наведении мыши на кнопку меню, с надписью 'status_menuname'",
+    "description": "This is displayed as a tooltip when the mouse pointer hovers over the menu button labelled with 'status_menuname'",
     "message": "Показать *cloud-статус выгрузок в облако и сгенерированные пароли(если они есть)"
   },
   "status_menuname": {
-    "description": "Этот короткий текст отображается на кнопке меню, которая открывает всплывающее окно состояня рядом с *cloud-логотипом",
+    "description": "This short text is displayed on the menu button that opens the status popup next to the *cloud logo",
     "message": "Статус"
   },
   "status_no_uploads": {
     "message": "Нет активных выгрузок"
   },
   "status_button_clear": {
-    "description": "Кнопка удаления сообщений ошибок из окна статуса",
+    "description": "Button to remove error messages from status popup",
     "message": "Очистить список выгруженных файлов"
   },
   "status_preparing": {
+    "description": "This will be displayed in the status popup. If this step fails this string will be combined with one indicating failure, eg 'Preparing file size failed'.",
     "message": "Подготовка"
   },
   "status_creating": {
@@ -150,14 +151,13 @@
     "message": "Совместное использование"
   },
   "status_checkingsize": {
-    "description": "Это будет отображаться во всплывающем окне статуса. Если этот шаг завершился неудано, в этой строке будет одна строка, указывающая на ошибку, например 'Проверка максимального размера файла не удалась'.",
     "message": "Проверка максимального размера файла"
   },
   "status_checkingspace": {
     "message": "Проверка свободного места"
   },
   "status_error": {
-    "description": "Это будет сочетаться с одним из состояний выше, например 'Ошибка подготовки'. Если это не работает на вашем языке, сообщите мне.",
+    "description": "This will be combined with one of the states above, eg 'Preparing failed'. If this doesn't work in your language, please tell me.",
     "message": "$1 не удалась(сбой)"
   },
   "status_password": {
