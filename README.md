@@ -12,7 +12,7 @@ Cloud and generates a link you can send by mail instead of the file.
 * Thunderbird: 68.2.1 or newer
 * An account on a server running a supported version of Nextcloud or ownCloud,
   more specifically:
-  * [Nextcloud](https://nextcloud.com/): version 20 or newer (older versions
+  * [Nextcloud](https://nextcloud.com/): version 21 or newer (older versions
     might work, but are [not supported by
     Nextcloud](https://github.com/nextcloud/server/wiki/Maintenance-and-Release-Schedule))
   * [ownCloud](https://owncloud.com/): version 10.0.10+ (10.0.9 and older
@@ -295,23 +295,20 @@ If you'd like to help with testing, first install one of the development version
 If you find a bug please use one of the [options
 above](#reporting-bugs-and-suggesting-features) to report it.
 
-### Localizations
+### Localization / Translation
 
 If you'd like to help translate __*cloud__ into your language:
 
    1. Just download the [english strings
       file](https://gitlab.com/joendres/filelink-nextcloud/-/raw/master/src/_locales/en/messages.json)
    1. Translate the `message`s in that file
+      * Do not translate the `description`; they don't show up anywhere, they're just in there for your reference.
+      * If you're not sure about a string's context, just put all your questions in an email or an issue. I'll be glad to clarify.
    1. Mail it to [me](mailto:cloud@johannes-endres.de) or put it into an
       [issue](https://gitlab.com/joendres/filelink-nextcloud/-/issues) stating
       the language
 
-Important:
-
-* Don't bother with the `descriptions`; they don't show up anywhere, they're
-  just there for your reference.
-* If you're not sure about a string's context, just put all your questions in an
-  email or an issue. I'll be glad to clarify.
+Alternatively, if you know how to use gitlab.com and how [Internationalization in Mozilla WebExtensions](https://developer.mozilla.org/docs/Mozilla/Add-ons/WebExtensions/Internationalization) works, you may of course just add a new locale in the correct folder and create a merge request.
 
 ### Code
 

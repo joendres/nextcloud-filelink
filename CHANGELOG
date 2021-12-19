@@ -1,3 +1,8 @@
+3.12.0 2021-12-19
+Close #400 Nextcloud 20 is obsolete
+Close #403 Remove some links from documentation as they confuses users
+Close #418 Don't check for maximum webdav file size as both clouds accept larger files
+
 3.12.0 2021-10-02
 Close #391 improve display of free space
 Improve documentation
@@ -30,7 +35,7 @@ Fix #323 Correctly parse WebDAV URL
 Fix #327 Separate status by account
 Fix #335 Determine free space
 Fix #336 Filename was encoded twice
-Minor improvements to code quality and localized wording 
+Minor improvements to code quality and localized wording
 
 3.9.2 2021-03-06
 Fix #332 Some kinds of existing shares make upload fail
@@ -86,7 +91,7 @@ Fix #185 Password erroneously password protected on ownCloud
 Fix minor bugs #150, #156, #157, #172, #180
 
 3.6.3 2020-05-11
-Fix #166 introduced in 3.6.0, broke urls with path like http://example.com/cloud
+Fix #166 introduced in 3.6.0, broke urls with path like <http://example.com/cloud>
 Fix a typo in CHANGELOG ;-)
 
 3.6.2 2020-05-03
@@ -110,83 +115,98 @@ Close #137 & #140, html & css improvements
 3.5.0 2020-04-12
 Fix #114: Shows outdated quota info
 Fix #106: Doesn't update productname
-Close #112: Check login data on save 
-Close #105: Check if sharing is enabled 
+Close #112: Check login data on save
+Close #105: Check if sharing is enabled
 Close #104: Validate password if on Nextcloud 17+
-Close #100: Enforce password policy 
+Close #100: Enforce password policy
 Close #97: Fix too long expiry time
-Close #77: Insert IDN-Urls in human readable format 
-Fix #107: Upload fails when password is set 
+Close #77: Insert IDN-Urls in human readable format
+Fix #107: Upload fails when password is set
 Close #20: Check accout data in preferences panel
 Lots of internal changes
 
 3.4.2 2020-04-01
+
 - Close #89: Free space info missing
 - Close #60, #90: Internal changes
 - Close minor issues #48, #95
 
 3.4.1 2020-02-21
+
 - Close #81: French translation of new messages
 - Close #82: Catalan and spanish translations of new messages
 - Close #73: Shows outdated free space info while editing account
 - Internal Project optimization & cleanup in davuploader
 
 3.4.0 2020-02-18
+
 - Close #27: Show Nextcloud/ownCloud flavor and version
 - Close #70: Show product name instead of account name
 - Close #79: Warn about unsupported version
 - Small changes to styling
 
 3.3.0 2020-01-04
-- Catalan translation by @josepmanel 
+
+- Catalan translation by @josepmanel
 - Spanish translation by @josepmanel (Close #3)
 - French translation by @Go-rom (Close #4)
 - Close #49: Photon style for preferences pane (kind of)
 - Internal changes to prepare for 3.4
- 
+
 3.2.1 2020-01-19
+
 - Fix #57: Help text for expire settings missing
 - Fix #56: Expire number input field too wide
 - Code cleanup with no functional effects
 
 3.2.0 2020-01-17
+
 - Don't overwrite shared cloud files with changed local content
 - Allow setting a share timeout
 
 3.1.0 2020-01-13
+
 - Don't upload file if it's already in the cloud
 - Use existing share link instead of generating new ones
 - Send url that immediately starts download
 
 3.0.0 2020-01-12
+
 - Support owncloud
 - Change name to *cloud
 
 2.0.6 2020-01-09
+
 - Fix #17: Preferences panel blocks on network errors
 - Fix #18: Upload error for nextcloud accounts with external auth
 - Fix #21: Doesn't get app password if username or url changed
 
 2.0.5 2020-01-09
+
 - Fix #11: Adds extra / at beginning of folder path
 - Fix #14: Stores PW instead of app password
 - Fix #15: Free space gauge missing
 - Fix several smaller bugs introduced by 2.0.4
 
 2.0.4 2020-01-08
+
 - Internal rewrite, no changed functions
 
 2.0.3 2020-01-08
+
 - Fix issue #9: Accepts other url types than https and http
 - Fix issue #10: Doesn't upload huge files
 
 2.0.2 2020-01-03
+
 - Fix issue #1: Removes app token on account deletion
 
 2.0.1 2020-01-03
+
 - Fix issue #2: Preferences pane hangs on Save
 
 2.0.0 2020-01-03
+
 - Works with Thunderbird 68+
 - Handles multiple accounts
 - All accounts editable

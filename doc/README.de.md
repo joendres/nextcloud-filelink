@@ -7,7 +7,7 @@ hochlädt und dann einen Download-Link in die Mail einfügt.
 
 ## Voraussetzungen
 
-* Nextcloud: Version 20 oder neuer (ältere Versionen funktionieren eventuell,
+* Nextcloud: Version 21 oder neuer (ältere Versionen funktionieren eventuell,
   werden aber [von Nextcloud nicht mehr
   unterstützt](https://github.com/nextcloud/server/wiki/Maintenance-und-Release-Schedule))
 * ownCloud: Version 10.0.10 oder neuer (10.0.9 und ältere Versionen enthalten
@@ -93,7 +93,7 @@ Wenn dir dies passiert, zeige __*cloud__ die tatsächlichen Cloud-URL:
 1. Öffne deine Cloud im Browser.
 1. Melde dich an.
 1. Abhängig von der Cloud-Version hast du jetzt unterschiedliche Ansichten:
-   * In Nextcloud 20 siehst du das "Dashboard"; mach einfach mit dem nächsten
+   * In Nextcloud seit Version 20 siehst du das "Dashboard"; mach einfach mit dem nächsten
      Schritt weiter.
    * In älteren Versionen von Nextcloud und in ownCloud siehst du normalerweise
      die App "Dateien". Auch dann geht es mit dem nächsten Schritt weiter.
