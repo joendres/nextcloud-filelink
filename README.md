@@ -243,16 +243,6 @@ self-signed certificates. It's a lot easier for your users, if you install a
 [Let's encrypt](https://letsencrypt.org/getting-started/) certificate. There are
 great How-tos on their site.
 
-## Branded or customized versions of *cloud
-
-If you run a service based on Nextcloud or ownCloud and would like to offer a
-branded/tailored version of __*cloud__ for your service, please contact me by
-[email](mailto:cloud@johannes-endres.de).
-
-### Current customization partners
-
-* [Ultreia Comunicaciones](https://www.ultreia.es/)
-
 ## Contributing
 
 The project lives on GitLab: <https://gitlab.com/joendres/filelink-nextcloud>.
