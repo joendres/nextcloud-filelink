@@ -1,4 +1,11 @@
-3.12.0 2021-12-19
+3.13.1 2022-07-18
+Close #447 Deprecate Nextcloud 21 and 22
+Close #437 Errors while checking free space break progress window
+Close #422 Handle XHR exceptions
+Close #419 URLEncode userid
+Some improvements in docs
+
+3.13.0 2021-12-19
 Close #400 Nextcloud 20 is obsolete
 Close #403 Remove some links from documentation as they confuses users
 Close #418 Don't check for maximum webdav file size as both clouds accept larger files

@@ -7,7 +7,7 @@ hochlädt und dann einen Download-Link in die Mail einfügt.
 
 ## Voraussetzungen
 
-* Nextcloud: Version 21 oder neuer (ältere Versionen funktionieren eventuell,
+* Nextcloud: Version 23 oder neuer (ältere Versionen funktionieren eventuell,
   werden aber [von Nextcloud nicht mehr
   unterstützt](https://github.com/nextcloud/server/wiki/Maintenance-und-Release-Schedule))
 * ownCloud: Version 10.0.10 oder neuer (10.0.9 und ältere Versionen enthalten
@@ -131,7 +131,15 @@ Verbindung zum Server herzustellen. Es gibt zwei Lösungen:
 Das *Download*-Passwort muss *allen* Regeln für Passwörter entsprechen, die der
 Admin deiner Cloud konfiguriert hat. Andernfalls schlägt der *Upload* fehl.
 
-#### Funktioniert immer noch nicht?
+### Der Upload klappt, aber das Teilen funktioniert nicht
+
+Das liegt normalerweise an einer falschen Einstellung auf dem Cloud-Server. Das
+kann nur der dortige Admin korrigieren. Verweise ihn auf den Abschnitt ["Apache
+and
+mod_rewrite"](https://gitlab.com/joendres/filelink-nextcloud#apache-and-modrewrite)
+in der Admin-Dokumentation.
+
+### Funktioniert immer noch nicht?
 
 Wenn die Einstellungen immer noch nicht funktionieren, würde ich mich über einen
 Problembericht per [E-Mail](mailto:cloud@johannes-endres.de) freuen. Vielen

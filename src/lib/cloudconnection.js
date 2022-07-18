@@ -6,7 +6,7 @@ const apiUrlShares = "/apps/files_sharing/api/v1/shares";
 const apiUrlGetApppassword = "/core/getapppassword";
 const apiUrlCapabilities = "/cloud/capabilities";
 const davUrlBase = "remote.php/dav/files/";
-const ncMinimalVersion = 21;
+const ncMinimalVersion = 23;
 const ocMinimalVersion = 10 * 10000 + 0 * 100 + 10;
 // const DAV_MAX_FILE_SIZE = 0x100000000 - 1; /* Almost 4GB, Nextcloud and ownCloud accept larger files */
 const DAV_MAX_FILE_SIZE = Number.MAX_SAFE_INTEGER;
@@ -23,9 +23,11 @@ class CloudConnection {
      */
     constructor(accountId) {
         this._accountId = accountId;
+
+        const manifest = browser.runtime.getManifest();
         this._apiHeaders = {
             "OCS-APIREQUEST": "true",
-            "User-Agent": "Filelink for *cloud",
+            "User-Agent": "Filelink for *cloud/" + manifest.version,
         };
         this.laststatus = null;
     }
@@ -172,13 +174,13 @@ class CloudConnection {
                     if (u.host === (new URL(this.serverUrl)).host) {
                         this._password_validate_url = u.origin + u.pathname;
                     }
-                } catch (error) { /* Error just means there is no url */ }
+                } catch (_) { /* Error just means there is no url */ }
                 try {
                     const u = new URL(data.capabilities.password_policy.api.generate);
                     if (u.host === (new URL(this.serverUrl)).host) {
                         this._password_generate_url = u.origin + u.pathname;
                     }
-                } catch (error) { /* Error just means there is no url */ }
+                } catch (_) { /* Error just means there is no url */ }
             }
 
             // Take version from capabilities
@@ -233,9 +235,18 @@ class CloudConnection {
      */
     async updateUserId() {
         const data = await this._doApiCall(apiUrlUserID);
-        // I don't have the faintest idea if we could/should check the userId against a RE
         if (data.id) {
-            this.userId = data.id;
+            // Nextcloud and ownCloud use this RE to check usernames created manually
+            if (data.id.match(/^[a-zA-Z0-9 _\.@\-']+$/)) {
+                this.userId = data.id;
+            } else {
+                /* The userid contains characters that ownCloud and Nextcloud
+                don't like. This might happen with external ids as eg supplied
+                via SAML. One reals world example: Guest users in an ADFS tenant
+                have #EXT# in their userid. Those IDs seem to work over the API
+                but (at least) break the web interface. */
+                this.userId = encodeURIComponent(data.id);
+            }
         }
         return data;
     }
@@ -292,7 +303,7 @@ class CloudConnection {
         if (this._password_generate_url) {
             const data = await this._doApiCall(this._password_generate_url);
             if (data.password) {
-                // This needs no sanitization because it is only displayed, using textContet
+                // This needs no sanitization because it is only displayed, using textContent
                 pw = data.password;
             }
         }
@@ -403,14 +414,14 @@ class CloudConnection {
      * - Remove all unwanted parts like username, parameters, ...
      * - Convert punycode domain names to UTF-8
      * - URIencode special characters in path
-     * @param {String} url An URL thant might contain illegal characters, Punycode and unwanted parameters
+     * @param {String} url An URL that might contain illegal characters, Punycode and unwanted parameters
      * @returns {?String} The cleaned URL or null if url is not a valid http(s) URL
      */
     _cleanUrl(url) {
         let u;
         try {
             u = new URL(url);
-        } catch (error) {
+        } catch (_) {
             return null;
         }
         if (!u.protocol.match(/^https?:$/)) {
@@ -472,8 +483,8 @@ class CloudConnection {
             } else {
                 return parsed.ocs.data;
             }
-        } catch (e) {
-            return { _failed: true, status: e.name, statusText: e.message, };
+        } catch (error) {
+            return { _failed: true, status: error.name, statusText: error.message, };
         }
     }
     //#endregion
