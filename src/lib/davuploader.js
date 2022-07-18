@@ -18,9 +18,10 @@ class DavUploader {
         this._storageFolder = folder;
         this._davUrl = dav_url;
 
+        const manifest = browser.runtime.getManifest();
         this._davHeaders = {
             "Authorization": "Basic " + btoa(user + ':' + password),
-            "User-Agent": "Filelink for *cloud",
+            "User-Agent": "Filelink for *cloud/" + manifest.version,
             "Content-Type": "application/octet-stream",
         };
     }
@@ -73,13 +74,11 @@ class DavUploader {
     }
 
     async findOrCreateFolder(folder) {
-        let response;
         let retry_count = 0;
         while (retry_count < 5) {
 
-            try {
-                response = await this._doDavCall(folder, 'MKCOL');
-            } catch (e) {
+            const response = await this._doDavCall(folder, 'MKCOL');
+            if (!response.status) {
                 return false;
             }
 
@@ -174,12 +173,14 @@ class DavUploader {
      */
     async _getFreeSpace() {
         const response = await this._doDavCall("/.", "PROPFIND");
-        let free = -1;
         if (response.ok && response.status < 300) {
-            const xmlDoc = new DOMParser().parseFromString(await response.text(), 'application/xml');
-            free = parseInt(xmlDoc.getElementsByTagName("d:quota-available-bytes")[0].textContent);
+            try {
+                const xmlDoc = new DOMParser().parseFromString(await response.text(), 'application/xml');
+                let free = parseInt(xmlDoc.getElementsByTagName("d:quota-available-bytes")[0].textContent);
+                return (isNaN(free) || free < 0) ? -1 : free;
+            } catch (_) { }
         }
-        return (isNaN(free) || free < 0) ? -1 : free;
+        return -1;
     }
 
     /**
@@ -227,6 +228,10 @@ class DavUploader {
             }
             else {
                 attachmentStatus.get(uploadId).fail();
+                console.error(error); // jshint ignore: line
+                if (!response) {
+                    response = {};
+                }
                 response.ok = false;
             }
         }
@@ -258,7 +263,11 @@ class DavUploader {
             fetchInfo.body = body;
         }
 
-        return fetch(url, fetchInfo);
+        return fetch(url, fetchInfo).
+            catch(error => {
+                console.error(error); // jshint ignore: line
+                return { ok: false, };
+            });
     }
 
     /**

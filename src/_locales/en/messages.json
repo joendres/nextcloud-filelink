@@ -45,7 +45,7 @@
     "message": "Use generated passwords"
   },
   "useGeneratedDlPassword_details": {
-    "message": "A random password will be generated for every file. Click the *cloud Status button above the attachment pane to see and copy the generated passwords after upload."
+    "message": "A random password will be generated for every file. Click the *cloud Status button to see and copy the generated passwords after upload."
   },
   "useDlPassword": {
     "message": "Password protect downloads"

@@ -12,7 +12,7 @@ Cloud and generates a link you can send by mail instead of the file.
 * Thunderbird: 68.2.1 or newer
 * An account on a server running a supported version of Nextcloud or ownCloud,
   more specifically:
-  * [Nextcloud](https://nextcloud.com/): version 21 or newer (older versions
+  * [Nextcloud](https://nextcloud.com/): version 23 or newer (older versions
     might work, but are [not supported by
     Nextcloud](https://github.com/nextcloud/server/wiki/Maintenance-and-Release-Schedule))
   * [ownCloud](https://owncloud.com/): version 10.0.10+ (10.0.9 and older
@@ -134,7 +134,13 @@ your cloud, otherwise the *upload* will fail. There are default rules of
 Nextcloud and ownCloud, and your admin might have configured some different
 rules.
 
-##### Still not working?
+#### Files are uploaded correctly but sharing fails
+
+This is usually caused by a misconfiguration of your cloud server. Please point
+your cloud admin to the section on [Apache and
+mod_rewrite](#apache-and-modrewrite) below.
+
+#### Still not working?
 
 If things still don't work, I'd appreciate a problem report by
 [email](mailto:cloud@johannes-endres.de).  Thanks.
@@ -243,6 +249,14 @@ self-signed certificates. It's a lot easier for your users, if you install a
 [Let's encrypt](https://letsencrypt.org/getting-started/) certificate. There are
 great How-tos on their site.
 
+### Apache and mod_rewrite
+
+[Nextcloud](https://docs.nextcloud.com/server/latest/admin_manual/installation/source_installation.html#additional-apache-configurations)
+and[ownCloud](https://doc.owncloud.com/server/next/admin_manual/installation/manual_installation/manual_installation_apache.html#additional-apache-configurations)
+both require mod_rewrite to be active if run in the Apache http server. Without
+mod_rewrite __*cloud__ fails with different error scenarios depending on other
+details of the configuration.
+
 ## Contributing
 
 The project lives on GitLab: <https://gitlab.com/joendres/filelink-nextcloud>.
@@ -298,7 +312,11 @@ If you'd like to help translate __*cloud__ into your language:
       [issue](https://gitlab.com/joendres/filelink-nextcloud/-/issues) stating
       the language
 
-Alternatively, if you know how to use gitlab.com and how [Internationalization in Mozilla WebExtensions](https://developer.mozilla.org/docs/Mozilla/Add-ons/WebExtensions/Internationalization) works, you may of course just add a new locale in the correct folder and create a merge request.
+Alternatively, if you know how to use gitlab.com and how [Internationalization
+in Mozilla
+WebExtensions](https://developer.mozilla.org/docs/Mozilla/Add-ons/WebExtensions/Internationalization)
+works, you may of course just add a new locale in the correct folder and create
+a merge request.
 
 ### Code
 

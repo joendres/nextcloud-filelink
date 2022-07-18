@@ -45,7 +45,7 @@
     "message": "Usa password generate"
   },
   "useGeneratedDlPassword_details": {
-    "message": "Verrà generata una password casuale per ogni file. Fare clic sul pulsante *stato cloud sopra il riquadro degli allegati per visualizzare e copiare le password generate dopo il caricamento."
+    "message": "Verrà generata una password casuale per ogni file. Fare clic sul pulsante *stato cloud per visualizzare e copiare le password generate dopo il caricamento."
   },
   "useDlPassword": {
     "message": "Proteggere con password i download"
