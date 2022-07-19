@@ -32,6 +32,9 @@
   "storageFolder": {
     "message": "Storage path in cloud"
   },
+  "advanced_options": {
+    "message": "Advanced Options"
+  },
   "storageFolder_details": {
     "message": "The path where attachments will be stored in your cloud. If it doesn't exist, it's created during upload."
   },
@@ -65,6 +68,12 @@
   "expiry_details": {
     "message": "The number of days the download will be available, including today"
   },
+  "noAutoDownload": {
+    "message": "Show file info before download"
+  },
+  "noAutoDownload_details": {
+    "message": "Should clicking the link display information about the file (and possibly a preview) or immediately start the download?"
+  },
   "freespace": {
     "message": "Free Space ($FREE$ of $FULL$)",
     "placeholders": {
@@ -77,46 +86,63 @@
     }
   },
   "success": {
+    "description": "This is displayed as a popup over the configuration page if the configuration has no errors or warnings",
     "message": "Success"
   },
   "error_0": {
+    "description": "This is displayed as a popup over the configuration page. $1 will be replaced with the server's error message",
     "message": "Unknown error ($1)"
   },
   "error_typeerror": {
+    "description": "This is displayed as a popup over the configuration page",
     "message": "No connection. Check Server URL and network connection"
   },
   "error_404": {
+    "description": "This is displayed as a popup over the configuration page",
     "message": "Account verification failed: wrong user name or incompatible cloud or network error"
   },
   "warn_unsupported_cloud": {
+    "description": "This is displayed as a popup over the configuration page",
     "message": "Obsolete version of Nextcloud or ownCloud. You might lose data. Ask your cloud admin to update"
+  },
+  "warn_nonascii_password": {
+    "description": "This is displayed as a popup over the configuration page",
+    "message": "Your password contains characters that are likely to cause log-in problems. Use an app password instead."
   },
   "obsolete_version": {
     "description": "This is displayed over the icon if the cloud version is not supported, so it should be quite short and contain at most two lines.",
     "message": "Obsolete\nversion"
   },
   "error_401": {
+    "description": "This is displayed as a popup over the configuration page",
     "message": "Login failed. Check user name and password."
   },
   "error_503": {
+    "description": "This is displayed as a popup over the configuration page",
     "message": "Server is in maintenance mode. Try again later."
   },
   "error_sharing_off": {
+    "description": "This is displayed as a popup over the configuration page",
     "message": "Sharing is disabled on this cloud. Ask your admin to enable it."
   },
   "error_invalid_pw": {
+    "description": "This is displayed as a popup over the configuration page. $1 will be replaced with the server's error message",
     "message": "Invalid download password (uploads will fail). Server says: $1"
   },
   "error_password_enforced": {
+    "description": "This is displayed as a popup over the configuration page",
     "message": "Your cloud requires a download password."
   },
   "warn_expiry_too_long": {
+    "description": "This is displayed as a popup over the configuration page",
     "message": "Your cloud admin has set a maximum expiry time of $1 days. The value was clipped, otherwise uploads would fail."
   },
   "warn_no_config_check": {
+    "description": "This is displayed as a popup over the configuration page",
     "message": "Account verification failed. Network problems?"
   },
   "warn_insecure_http": {
+    "description": "This is displayed as a popup over the configuration page",
     "message": "With http: your log-in data will be transferred unencrypted. Use https: instead. If that doesn't work, ask your admin."
   },
   "status_menutooltip": {
@@ -139,21 +165,27 @@
     "message": "Preparing"
   },
   "status_creating": {
+    "description": "This will be displayed in the status popup. If this step fails this string will be combined with one indicating failure, eg 'Preparing file size failed'.",
     "message": "Creating folder"
   },
   "status_moving": {
+    "description": "This will be displayed in the status popup. If this step fails this string will be combined with one indicating failure, eg 'Preparing file size failed'.",
     "message": "Moving conflicting file"
   },
   "status_uploading": {
+    "description": "This will be displayed in the status popup. If this step fails this string will be combined with one indicating failure, eg 'Preparing file size failed'.",
     "message": "Uploading"
   },
   "status_sharing": {
+    "description": "This will be displayed in the status popup. If this step fails this string will be combined with one indicating failure, eg 'Preparing file size failed'.",
     "message": "Sharing"
   },
   "status_checkingsize": {
+    "description": "This will be displayed in the status popup. If this step fails this string will be combined with one indicating failure, eg 'Preparing file size failed'.",
     "message": "Checking maximum file size"
   },
   "status_checkingspace": {
+    "description": "This will be displayed in the status popup. If this step fails this string will be combined with one indicating failure, eg 'Preparing file size failed'.",
     "message": "Checking free space"
   },
   "status_error": {
@@ -161,12 +193,7 @@
     "message": "$1 failed"
   },
   "status_password": {
+    "description": "This will be displayed in the status popup if download passwords are generated. $1 is replaced with the generated password for this file",
     "message": "password: $1"
-  },
-  "warn_nonascii_password": {
-    "message": "Your password contains characters that are likely to cause log-in problems. Use an app password instead."
-  },
-  "advanced_options": {
-    "message": "Advanced Options"
   }
 }
