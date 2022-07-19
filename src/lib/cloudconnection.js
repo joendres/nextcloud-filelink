@@ -427,9 +427,13 @@ class CloudConnection {
         if (!u.protocol.match(/^https?:$/)) {
             return null;
         }
-        const encoderUrl = u.origin.replace(u.hostname, punycode.toUnicode(u.hostname)) +
+        let encoderUrl = u.origin.replace(u.hostname, punycode.toUnicode(u.hostname)) +
             utils.encodepath(u.pathname);
-        return encoderUrl + (encoderUrl.endsWith("/") ? "" : "/") + "download";
+
+        if (!this.noAutoDownload) {
+            encoderUrl += (encoderUrl.endsWith("/") ? "" : "/") + "download";
+        }
+        return encoderUrl;
     }
     //#endregion
 

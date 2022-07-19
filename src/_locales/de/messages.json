@@ -65,6 +65,12 @@
   "expiry_details": {
     "message": "Die Anzahl der Tage, für die der Download verfügbar bleibt, inklusive heute"
   },
+  "noAutoDownload": {
+    "message": "Vor dem Download Datei-Informationen anzeigen"
+  },
+  "noAutoDownload_details": {
+    "message": "Soll ein Klick auf den Link Informationen über die Datei (und möglicherweise eine Vorschau) anzeigen oder sofort den Download starten?"
+  },
   "freespace": {
     "message": "Freier Speicher: $FREE$ von $FULL$",
     "placeholders": {
