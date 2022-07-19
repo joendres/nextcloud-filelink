@@ -102,7 +102,7 @@ class CloudConnection {
     /**
      * Gets free/used space from web service and sets the parameters in
      * Thunderbirds cloudFileAccount
-     * @returns {*} A data object that may contain error information (see _doApiCall)
+     * @returns {number} The amount of free space available to the user in bytes or -1
      */
     async updateFreeSpaceInfo() {
         let spaceRemaining = -1;
@@ -123,7 +123,7 @@ class CloudConnection {
 
         await messenger.cloudFile.updateAccount(this._accountId, { spaceRemaining, spaceUsed, uploadSizeLimit, });
 
-        return data;
+        return spaceRemaining;
     }
 
     /**
