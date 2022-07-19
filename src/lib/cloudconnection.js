@@ -8,8 +8,8 @@ const apiUrlCapabilities = "/cloud/capabilities";
 const davUrlBase = "remote.php/dav/files/";
 const ncMinimalVersion = 23;
 const ocMinimalVersion = 10 * 10000 + 0 * 100 + 10;
-// const DAV_MAX_FILE_SIZE = 0x100000000 - 1; /* Almost 4GB, Nextcloud and ownCloud accept larger files */
-const DAV_MAX_FILE_SIZE = Number.MAX_SAFE_INTEGER;
+// const MAX_FILE_SIZE = 0x100000000 - 1; /* WebDAV limit: Almost 4GB, Nextcloud and ownCloud accept larger files */
+const MAX_FILE_SIZE = Number.MAX_SAFE_INTEGER;
 //#endregion
 
 /**
@@ -67,7 +67,8 @@ class CloudConnection {
         upload_status.set_status('preparing');
 
         const uploader = new DavUploader(
-            this.serverUrl, this.username, this.password, davUrlBase + this.userId, this.storageFolder);
+            this.serverUrl, this.username, this.password, davUrlBase + this.userId, this.storageFolder,
+            await this.updateFreeSpaceInfo());
 
         const response = await uploader.uploadFile(uploadId, fileName, fileObject);
 
@@ -101,7 +102,7 @@ class CloudConnection {
     /**
      * Gets free/used space from web service and sets the parameters in
      * Thunderbirds cloudFileAccount
-     * @returns {*} A data object that may contain error information (see _doApiCall)
+     * @returns {number} The amount of free space available to the user in bytes or -1
      */
     async updateFreeSpaceInfo() {
         let spaceRemaining = -1;
@@ -118,11 +119,11 @@ class CloudConnection {
                 spaceUsed = used >= 0 && used <= Number.MAX_SAFE_INTEGER ? used : -1;
             }
         }
-        const uploadSizeLimit = spaceRemaining >= 0 ? Math.min(spaceRemaining, DAV_MAX_FILE_SIZE) : DAV_MAX_FILE_SIZE;
+        const uploadSizeLimit = spaceRemaining >= 0 ? Math.min(spaceRemaining, MAX_FILE_SIZE) : MAX_FILE_SIZE;
 
         await messenger.cloudFile.updateAccount(this._accountId, { spaceRemaining, spaceUsed, uploadSizeLimit, });
 
-        return data;
+        return spaceRemaining;
     }
 
     /**
