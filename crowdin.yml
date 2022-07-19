@@ -1,7 +1,7 @@
 project_id: 527610
 api_token_env: CROWDIN_PERSONAL_TOKEN
 branch: Release-3.14
-commit_message: [ci skip]
+commit_message: "[ci skip]"
 
 files:
   - source: /src/_locales/en/messages.json
