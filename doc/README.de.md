@@ -147,6 +147,22 @@ Dank.
 
 ## Gut zu wissen
 
+### *cloud-Konto umbenennen
+
+Jedes neue __*cloud__-Konto, das du einrichtet, wird von Thunderbird "*cloud" genannt.
+Es ist einfach, ihm einen nützlicheren Namen wie "Meine Nextcloud" zu geben:
+
+1. Öffne die Thunderbird-Einstellungen
+1. Wähle  "Verfassen"
+1. Scrolle zum Abschnitt "Anhänge".
+1. Wähle das __*cloud__-Konto, das du umbenennen möchtest, in der Liste aus
+1. Klicke erneut mit der linken Maustaste auf den Namen
+
+Jetzt ist der Name editierbar.
+
+In einigen älteren Versionen von Thunderbird ist es auch möglich, mit der rechten Maustaste auf den
+Kontonamen zu klicken und "Umbenennen" aus dem Kontextmenü zu wählen.
+
 ### Download-Passwörter
 
 Wenn du Download-Passwörter verwendest, gib sie *niemals* in eine E-Mail ein,

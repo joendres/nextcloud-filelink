@@ -147,10 +147,26 @@ If things still don't work, I'd appreciate a problem report by
 
 ### Good to know
 
+#### Rename your *cloud accounts
+
+Every new  __*cloud__ account you confire is called "*cloud" by Thunderbird.
+It's easy to give it a more useful name like "My Nextcloud":
+
+1. Got to Thunderbird settings
+1. Choose "Composition"
+1. Scroll to the "Attachments" section
+1. Select the __*cloud__ account you want to rename in the list
+1. Left click on its name again
+
+Now the name is editable.
+
+In some older versions of Thunderbird it's also possible to right-click the
+account name and choose "Rename" from the context menu.
+
 #### Download passwords
 
 **If you use download passwords, _never_ put them into an email, but give them
-to the recipient via a separate, secure channel eg a messenger or a telefone
+to the recipient via a separate, secure channel eg a messenger or a telephone
 call.**
 
 Why? As a security measure the generated download links contain a long, almost
