@@ -8,8 +8,8 @@ const apiUrlCapabilities = "/cloud/capabilities";
 const davUrlBase = "remote.php/dav/files/";
 const ncMinimalVersion = 23;
 const ocMinimalVersion = 10 * 10000 + 0 * 100 + 10;
-// const DAV_MAX_FILE_SIZE = 0x100000000 - 1; /* Almost 4GB, Nextcloud and ownCloud accept larger files */
-const DAV_MAX_FILE_SIZE = Number.MAX_SAFE_INTEGER;
+// const MAX_FILE_SIZE = 0x100000000 - 1; /* WebDAV limit: Almost 4GB, Nextcloud and ownCloud accept larger files */
+const MAX_FILE_SIZE = Number.MAX_SAFE_INTEGER;
 //#endregion
 
 /**
@@ -119,7 +119,7 @@ class CloudConnection {
                 spaceUsed = used >= 0 && used <= Number.MAX_SAFE_INTEGER ? used : -1;
             }
         }
-        const uploadSizeLimit = spaceRemaining >= 0 ? Math.min(spaceRemaining, DAV_MAX_FILE_SIZE) : DAV_MAX_FILE_SIZE;
+        const uploadSizeLimit = spaceRemaining >= 0 ? Math.min(spaceRemaining, MAX_FILE_SIZE) : MAX_FILE_SIZE;
 
         await messenger.cloudFile.updateAccount(this._accountId, { spaceRemaining, spaceUsed, uploadSizeLimit, });
 

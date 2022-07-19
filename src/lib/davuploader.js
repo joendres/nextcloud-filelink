@@ -180,7 +180,7 @@ class DavUploader {
     async _doUpload(uploadId, fileName, fileObject) {
         // Is the file bigger than the maximum size for WebDAV?
         attachmentStatus.get(uploadId).set_status('checkingsize');
-        if (fileObject.size > DAV_MAX_FILE_SIZE) {
+        if (fileObject.size > MAX_FILE_SIZE) {
             attachmentStatus.get(uploadId).fail();
             return { ok: false, };
         }
@@ -301,6 +301,6 @@ class DavUploader {
         });
     }
 }
-/* global DAV_MAX_FILE_SIZE */
+/* global MAX_FILE_SIZE */
 /* global attachmentStatus, utils */
 /* exported DavUploader */
