@@ -32,6 +32,9 @@
   "storageFolder": {
     "message": "Speicherpfad in der Cloud"
   },
+  "advanced_options": {
+    "message": "Erweiterte Optionen"
+  },
   "storageFolder_details": {
     "message": "Das Verzeichnis, in dem die Dateien abgelegt werden. Falls es nicht existiert, wird es automatisch angelegt."
   },
@@ -65,6 +68,12 @@
   "expiry_details": {
     "message": "Die Anzahl der Tage, für die der Download verfügbar bleibt, inklusive heute"
   },
+  "noAutoDownload": {
+    "message": "Vor dem Download Datei-Informationen anzeigen"
+  },
+  "noAutoDownload_details": {
+    "message": "Soll ein Klick auf den Link Informationen über die Datei (und möglicherweise eine Vorschau) anzeigen oder sofort den Download starten?"
+  },
   "freespace": {
     "message": "Freier Speicher: $FREE$ von $FULL$",
     "placeholders": {
@@ -77,46 +86,63 @@
     }
   },
   "success": {
+    "description": "This is displayed as a popup over the configuration page if the configuration has no errors or warnings",
     "message": "Alles OK"
   },
   "error_0": {
+    "description": "This is displayed as a popup over the configuration page. $1 will be replaced with the server's error message",
     "message": "Unbekannter Fehler ($1)"
   },
   "error_typeerror": {
+    "description": "This is displayed as a popup over the configuration page",
     "message": "Keine Verbindung zur Cloud. Prüfe die Server-URL und deine Netzwerkverbindung"
   },
   "error_404": {
+    "description": "This is displayed as a popup over the configuration page",
     "message": "Account-Prüfung fehlgeschlagen: User existiert nicht, inkompatible Cloud oder Netzwerkproblem"
   },
   "warn_unsupported_cloud": {
+    "description": "This is displayed as a popup over the configuration page",
     "message": "Datenverlust droht: Veraltete Version von Nextcloud oder ownCloud. Bitte den Cloud-Admin um ein Update"
+  },
+  "warn_nonascii_password": {
+    "description": "This is displayed as a popup over the configuration page",
+    "message": "Das Passwort enthält Zeichen, die oft Login-Probleme verursachen. Benutze hier besser ein App-Passwort (unter \"Sicherheit\" in den Einstellungen deiner Cloud)."
   },
   "obsolete_version": {
     "description": "This is displayed over the icon if the cloud version is not supported, so it should be quite short and contain at most two lines.",
     "message": "Veraltete\nVersion"
   },
   "error_401": {
+    "description": "This is displayed as a popup over the configuration page",
     "message": "Login fehlgeschlagen. Wahrscheinlich ist der Username oder das Passwort falsch"
   },
   "error_503": {
+    "description": "This is displayed as a popup over the configuration page",
     "message": "Server ist im Wartungsmodus. Versuch es später wieder"
   },
   "error_sharing_off": {
+    "description": "This is displayed as a popup over the configuration page",
     "message": "Freigaben sind in dieser Cloud deaktiviert. Bitte den Admin, sie zu aktivieren"
   },
   "error_invalid_pw": {
+    "description": "This is displayed as a popup over the configuration page. $1 will be replaced with the server's error message",
     "message": "Ungültiges Download-Passwort (Uploads werden fehlschlagen). Erklärung vom Server: $1"
   },
   "error_password_enforced": {
+    "description": "This is displayed as a popup over the configuration page",
     "message": "Diese Cloud verlangt ein Download-Passwort"
   },
   "warn_expiry_too_long": {
+    "description": "This is displayed as a popup over the configuration page",
     "message": "Dein Cloud-Admin hat eine maximale Ablaufzeit von $1 Tagen gesetzt. Dein gewählter Wert wurde geändert, weil sonst die Uploads fehlschlagen"
   },
   "warn_no_config_check": {
+    "description": "This is displayed as a popup over the configuration page",
     "message": "Account-Prüfung fehlgeschlagen, Netzwerkprobleme?"
   },
   "warn_insecure_http": {
+    "description": "This is displayed as a popup over the configuration page",
     "message": "Mit http: werden die Login-Daten unverschlüsselt übertragen. Benutze lieber https:. Wenn das nicht funktioniert, frage den Admin."
   },
   "status_menutooltip": {
@@ -139,21 +165,27 @@
     "message": "Vorbereiten"
   },
   "status_creating": {
+    "description": "This will be displayed in the status popup. If this step fails this string will be combined with one indicating failure, eg 'Preparing file size failed'.",
     "message": "Erstellen des Upload-Ordners"
   },
   "status_moving": {
+    "description": "This will be displayed in the status popup. If this step fails this string will be combined with one indicating failure, eg 'Preparing file size failed'.",
     "message": "Verschieben einer alten Datei"
   },
   "status_uploading": {
+    "description": "This will be displayed in the status popup. If this step fails this string will be combined with one indicating failure, eg 'Preparing file size failed'.",
     "message": "Upload"
   },
   "status_sharing": {
+    "description": "This will be displayed in the status popup. If this step fails this string will be combined with one indicating failure, eg 'Preparing file size failed'.",
     "message": "Teilen"
   },
   "status_checkingsize": {
+    "description": "This will be displayed in the status popup. If this step fails this string will be combined with one indicating failure, eg 'Preparing file size failed'.",
     "message": "Überprüfen der maximalen Dateigröße"
   },
   "status_checkingspace": {
+    "description": "This will be displayed in the status popup. If this step fails this string will be combined with one indicating failure, eg 'Preparing file size failed'.",
     "message": "Freien Speicher prüfen"
   },
   "status_error": {
@@ -161,12 +193,7 @@
     "message": "Fehler beim $1"
   },
   "status_password": {
+    "description": "This will be displayed in the status popup if download passwords are generated. $1 is replaced with the generated password for this file",
     "message": "Passwort: $1"
-  },
-  "warn_nonascii_password": {
-    "message": "Das Passwort enthält Zeichen, die oft Login-Probleme verursachen. Benutze hier besser ein App-Passwort (unter \"Sicherheit\" in den Einstellungen deiner Cloud)."
-  },
-  "advanced_options": {
-    "message": "Erweiterte Optionen"
   }
 }
