@@ -24,10 +24,10 @@
     "message": "Der Username auf dem Cloud-Server"
   },
   "password": {
-    "message": "App-Token oder Passwort"
+    "message": "App-Passwort oder User-Passwort"
   },
   "password_details": {
-    "message": "Ein App Passwort (Einstellungen -> Sicherheit -> App Passwort auf der Cloud) oder notfalls dein Cloud-Passwort.\nNur mit Nextcloud: Das Add-On versucht, vor dem Speichern ein App Passwort zu erzeugen. Aber falls das fehlschlägt, wir das Passwort unverschlüsselt gespeichert."
+    "message": "Ein App-Passwort (Einstellungen -> Sicherheit -> App Passwort auf der Cloud) oder notfalls dein Cloud-Passwort.\nNur mit Nextcloud: Das Add-on versucht, vor dem Speichern ein App-Passwort zu erzeugen. Aber falls das fehlschlägt, wir das Passwort unverschlüsselt gespeichert."
   },
   "storageFolder": {
     "message": "Speicherpfad in der Cloud"
@@ -96,22 +96,22 @@
     "message": "Veraltete\nVersion"
   },
   "error_401": {
-    "message": "Login fehlgeschlagen. Wahrscheinlich ist der Username oder das Passwort falsch."
+    "message": "Login fehlgeschlagen. Wahrscheinlich ist der Username oder das Passwort falsch"
   },
   "error_503": {
-    "message": "Server ist im Wartungsmodus. Versuch es später wieder."
+    "message": "Server ist im Wartungsmodus. Versuch es später wieder"
   },
   "error_sharing_off": {
-    "message": "Freigaben sind in dieser Cloud deaktiviert. Bitte den Admin, sie zu aktivieren."
+    "message": "Freigaben sind in dieser Cloud deaktiviert. Bitte den Admin, sie zu aktivieren"
   },
   "error_invalid_pw": {
     "message": "Ungültiges Download-Passwort (Uploads werden fehlschlagen). Erklärung vom Server: $1"
   },
   "error_password_enforced": {
-    "message": "Diese Cloud verlangt ein Download-Passwort."
+    "message": "Diese Cloud verlangt ein Download-Passwort"
   },
   "warn_expiry_too_long": {
-    "message": "Dein Cloud-Admin hat eine maximale Ablaufzeit von $1 Tagen gesetzt. Dein gewählter Wert wurde geändert, weil sonst die Uploads fehlschlagen."
+    "message": "Dein Cloud-Admin hat eine maximale Ablaufzeit von $1 Tagen gesetzt. Dein gewählter Wert wurde geändert, weil sonst die Uploads fehlschlagen"
   },
   "warn_no_config_check": {
     "message": "Account-Prüfung fehlgeschlagen, Netzwerkprobleme?"
@@ -154,7 +154,7 @@
     "message": "Überprüfen der maximalen Dateigröße"
   },
   "status_checkingspace": {
-    "message": "Speicherplatz prüfen"
+    "message": "Freien Speicher prüfen"
   },
   "status_error": {
     "description": "This will be combined with one of the states above, eg 'Preparing failed'. If this doesn't work in your language, please tell me.",
@@ -164,7 +164,7 @@
     "message": "Passwort: $1"
   },
   "warn_nonascii_password": {
-    "message": "Das Passwort enthält Zeichen, die oft Login-Probleme verursachen. Benutze hier besser ein App Passwort (unter \"Sicherheit\" in den Einstellungen deiner Cloud)."
+    "message": "Das Passwort enthält Zeichen, die oft Login-Probleme verursachen. Benutze hier besser ein App-Passwort (unter \"Sicherheit\" in den Einstellungen deiner Cloud)."
   },
   "advanced_options": {
     "message": "Erweiterte Optionen"
