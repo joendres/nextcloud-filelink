@@ -12,11 +12,13 @@ class DavUploader {
      * @param {string} password the password
      * @param {string} dav_url The url path to the webdav service
      * @param {string} folder The folder to store attachment
+     * @param {number} freeSpace The amount of free space in bytes or -1
      */
-    constructor(server_url, user, password, dav_url, folder) {
+    constructor(server_url, user, password, dav_url, folder, freeSpace = -1) {
         this._serverurl = server_url;
         this._storageFolder = folder;
         this._davUrl = dav_url;
+        this._freeSpace = freeSpace;
 
         const manifest = browser.runtime.getManifest();
         this._davHeaders = {
@@ -169,21 +171,6 @@ class DavUploader {
     }
 
     /**
-     * @returns {number} Free space in bytes or -1 if no info available
-     */
-    async _getFreeSpace() {
-        const response = await this._doDavCall("/.", "PROPFIND");
-        if (response.ok && response.status < 300) {
-            try {
-                const xmlDoc = new DOMParser().parseFromString(await response.text(), 'application/xml');
-                let free = parseInt(xmlDoc.getElementsByTagName("d:quota-available-bytes")[0].textContent);
-                return (isNaN(free) || free < 0) ? -1 : free;
-            } catch (_) { }
-        }
-        return -1;
-    }
-
-    /**
      *
      * @param {string} uploadId The id of the upload created in background.js
      * @param {string} fileName The name in the cloud
@@ -199,8 +186,7 @@ class DavUploader {
         }
         // Check it there is enough free space
         attachmentStatus.get(uploadId).set_status('checkingspace');
-        const free = await this._getFreeSpace();
-        if (free !== -1 && free < fileObject.size) {
+        if (this._freeSpace !== -1 && this._freeSpace < fileObject.size) {
             attachmentStatus.get(uploadId).fail();
             return { ok: false, };
         }

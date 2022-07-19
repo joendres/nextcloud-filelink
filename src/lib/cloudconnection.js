@@ -67,7 +67,8 @@ class CloudConnection {
         upload_status.set_status('preparing');
 
         const uploader = new DavUploader(
-            this.serverUrl, this.username, this.password, davUrlBase + this.userId, this.storageFolder);
+            this.serverUrl, this.username, this.password, davUrlBase + this.userId, this.storageFolder,
+            await this.updateFreeSpaceInfo());
 
         const response = await uploader.uploadFile(uploadId, fileName, fileObject);
 
