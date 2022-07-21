@@ -51,6 +51,7 @@ body {
 #header_right {
     width: 48px;
     padding-left: 4px;
+    text-align: center;
 }
 
 #logo {
