@@ -76,8 +76,6 @@ accountForm.addEventListener("submit", evt => {
  * Display cloud type (as a logo) and version
  */
 async function showVersion() {
-    service_url.href = serverUrl.value.trim();
-
     if (serverUrl.value.trim() === ncc.serverUrl && 'undefined' !== typeof ncc.cloud_supported) {
         cloud_version.textContent = ncc.cloud_versionstring;
         provider_name.textContent = ncc.cloud_productname || '*cloud';
@@ -389,7 +387,7 @@ function stopLookingBusy() {
 // Defined in managemet.html as id
 /* globals serverUrl, username, expiryDays */
 /* globals downloadPassword, useDlPassword, useNoDlPassword, useGeneratedDlPassword, oneDLPassword*/
-/* globals useExpiry, saveButton, accountForm, resetButton, service_url, advanced_options */
+/* globals useExpiry, saveButton, accountForm, resetButton, advanced_options */
 /* globals provider_name, logo, cloud_version, obsolete_string, freespaceGauge */
 /* globals freespacelabel, freespace, password, storageFolder, disableable_fieldset */
 // Defined in ../lib/localize.js
