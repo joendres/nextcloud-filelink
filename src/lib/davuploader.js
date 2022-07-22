@@ -178,12 +178,6 @@ class DavUploader {
      * @returns {Promise<Response>} A Promise that resolves to the http response
      */
     async _doUpload(uploadId, fileName, fileObject) {
-        // Is the file bigger than the maximum size for WebDAV?
-        attachmentStatus.get(uploadId).set_status('checkingsize');
-        if (fileObject.size > MAX_FILE_SIZE) {
-            attachmentStatus.get(uploadId).fail();
-            return { ok: false, };
-        }
         // Check it there is enough free space
         attachmentStatus.get(uploadId).set_status('checkingspace');
         if (this._freeSpace !== -1 && this._freeSpace < fileObject.size) {

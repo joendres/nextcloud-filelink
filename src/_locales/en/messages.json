@@ -180,10 +180,6 @@
     "description": "This will be displayed in the status popup. If this step fails this string will be combined with one indicating failure, eg 'Preparing file size failed'.",
     "message": "Sharing"
   },
-  "status_checkingsize": {
-    "description": "This will be displayed in the status popup. If this step fails this string will be combined with one indicating failure, eg 'Preparing file size failed'.",
-    "message": "Checking maximum file size"
-  },
   "status_checkingspace": {
     "description": "This will be displayed in the status popup. If this step fails this string will be combined with one indicating failure, eg 'Preparing file size failed'.",
     "message": "Checking free space"
