@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "baseUrl": "src",
+        "target": "ES2018",
+        "module": "es6",
+        "checkJs": false
+    },
+    "include": [
+        "src/**/*.js"
+    ],
+    "exclude": [
+        "src/photon-components-web/**/*.js"
+    ]
+}

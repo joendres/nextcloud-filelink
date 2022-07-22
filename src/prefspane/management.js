@@ -3,70 +3,40 @@ const ncc = new CloudConnection(accountId);
 
 loadFormData()
     .then(updateHeader)
-    .then(showErrors);
+    .then(showErrors)
+    .catch();
 
-addLocalizedLabels();
+Localize.addLocalizedLabels();
+
+FormStateHandler.addAllListeners();
 
 serverUrl.addEventListener("input", updateHeader);
 username.addEventListener("input", updateGauge);
-accountForm.addEventListener('input', updateButtons);
-document.getElementsByName("DLPRadio")
-    .forEach(inp => inp.addEventListener("change", () => {
-        adjustDLPasswordElementStates();
-        updateButtons();
-    }));
-
-linkElementStateToCheckbox(expiryDays, useExpiry);
 
 //#region html element event handlers
-/**
- * Save button is only active if field values validate OK
- * Reset button is only active if any field has been changed
- */
-function updateButtons() {
-    saveButton.disabled = !accountForm.checkValidity();
-    resetButton.disabled = false;
-}
-
-/**
- *  enable/disable text input field according to checkbox state
- */
-async function linkElementStateToCheckbox(element, checkbox) {
-    checkbox.addEventListener("input", async () => {
-        element.disabled = !checkbox.checked;
-        element.required = !element.disabled;
-    });
-}
-
-/** 
- * Handler for Password protect downloads radio buttons
- */
-function adjustDLPasswordElementStates() {
-    downloadPassword.disabled = !oneDLPassword.checked;
-    downloadPassword.required = oneDLPassword.checked;
-    useDlPassword.checked = oneDLPassword.checked || useGeneratedDlPassword.checked;
-}
 
 /** 
  * Handler for Cancel button, restores saved values
  */
 accountForm.addEventListener("reset", () => {
-    popup.clear();
+    Popup.clear();
     loadFormData()
-        .then(updateHeader);
+        .then(updateHeader)
+        .catch();
     resetButton.disabled = saveButton.disabled = true;
 });
 
 /** Handler for Save button */
 accountForm.addEventListener("submit", evt => {
-    lookBusy();
+    FormStateHandler.lookBusy();
     saveButton.disabled = resetButton.disabled = true;
-    popup.clear();
+    Popup.clear();
     handleFormData()
         .then(() => {
             updateHeader();
-            stopLookingBusy();
-        });
+            FormStateHandler.stopLookingBusy();
+        })
+        .catch();
     evt.preventDefault();
 });
 
@@ -141,21 +111,21 @@ function updateHeader() {
 
 function showErrors() {
     if (ncc.laststatus) {
-        popup.error(ncc.laststatus);
+        Popup.error(ncc.laststatus);
     } else if (false === ncc.public_shares_enabled) {
-        popup.error('sharing_off');
+        Popup.error('sharing_off');
     } else {
         if (ncc.enforce_password && (!useDlPassword.checked || (!downloadPassword.value && !useGeneratedDlPassword.checked))) {
-            popup.error('password_enforced');
+            Popup.error('password_enforced');
         }
         if (ncc.invalid_downloadpassword_reason) {
-            popup.error('invalid_pw', ncc.invalid_downloadpassword_reason);
+            Popup.error('invalid_pw', ncc.invalid_downloadpassword_reason);
         }
         if (false === ncc.cloud_supported) {
-            popup.warn('unsupported_cloud');
+            Popup.warn('unsupported_cloud');
         }
         if (serverUrl.value.startsWith("http:")) {
-            popup.warn("insecure_http");
+            Popup.warn("insecure_http");
         }
     }
 }
@@ -186,8 +156,7 @@ async function loadFormData() {
         oneDLPassword.checked = !useGeneratedDlPassword.checked;
         advanced_options.open = true;
     }
-    adjustDLPasswordElementStates();
-
+    FormStateHandler.adjustDLPasswordElementStates();
 }
 //#endregion
 
@@ -221,8 +190,8 @@ async function handleFormData() {
     ncc.store();
 
     showErrors();
-    if (popup.empty()) {
-        popup.success();
+    if (Popup.empty()) {
+        Popup.success();
     }
     // Done. Now internal functions
 
@@ -255,7 +224,7 @@ async function handleFormData() {
         }
 
         if (!password.value.match(/^[\x21-\x7e]+$/)) {
-            popup.warn('nonascii_password');
+            Popup.warn('nonascii_password');
         }
     }
 
@@ -310,7 +279,7 @@ async function handleFormData() {
                 await validateDLPassword();
                 ncc.store();
             } else if ('undefined' === typeof ncc.public_shares_enabled) {
-                popup.warn('no_config_check');
+                Popup.warn('no_config_check');
             }
 
             /**
@@ -335,7 +304,7 @@ async function handleFormData() {
                     useNoDlPassword.disabled = true;
                     useNoDlPassword.checked = false;
                     oneDLPassword.checked = !useGeneratedDlPassword.checked;
-                    adjustDLPasswordElementStates();
+                    FormStateHandler.adjustDLPasswordElementStates();
                     advanced_options.open = true;
                 } else {
                     useNoDlPassword.disabled = false;
@@ -363,32 +332,15 @@ function checkEnforcedExpiry() {
     expiryDays.required = useExpiry.checked;
 }
 
-/**
-* Set the busy cursor and deactivate all inputs
-*/
-async function lookBusy() {
-    document.querySelector("body").classList.add('busy');
-    disableable_fieldset.disabled = true;
-}
-
-/**
- * Hide the busy cursor and reactivate all fields that were active
- */
-function stopLookingBusy() {
-    disableable_fieldset.disabled = false;
-    document.querySelector("body").classList.remove('busy');
-}
 //#endregion
 // Make jshint happy
-// Defined in ../lib/cloudconnection.js
 /* global CloudConnection */
-// Defined in popup/popup.js
-/* global popup */
+/* global Popup */
+/* globals Localize, FormStateHandler */
 // Defined in managemet.html as id
 /* globals serverUrl, username, expiryDays */
 /* globals downloadPassword, useDlPassword, useNoDlPassword, useGeneratedDlPassword, oneDLPassword*/
 /* globals useExpiry, saveButton, accountForm, resetButton, advanced_options */
 /* globals provider_name, logo, cloud_version, obsolete_string, freespaceGauge */
-/* globals freespacelabel, freespace, password, storageFolder, disableable_fieldset */
-// Defined in ../lib/localize.js
-/* globals addLocalizedLabels */
+/* globals freespacelabel, freespace, password, storageFolder */
+

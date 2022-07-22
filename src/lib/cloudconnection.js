@@ -17,7 +17,7 @@ const ocMinimalVersion = 10 * 10000 + 0 * 100 + 10;
 class CloudConnection {
     //#region Constructors, load & store
     /**
-     * @param {*} accountId Whatever Thunderbird uses as an account identifier
+     * @param {string} accountId Whatever Thunderbird uses as an account identifier
      */
     constructor(accountId) {
         this._accountId = accountId;
@@ -307,7 +307,7 @@ class CloudConnection {
         }
         /* If we generate a password locally, the generation via web service didn't work. In that case
         validation also doesn't work, so the locally generateed password cannot be validated. */
-        return pw ? pw : generatePassword(16);
+        return pw ? pw : PasswordGenerator.generate(16);
     }
     //#endregion
 
@@ -320,7 +320,7 @@ class CloudConnection {
      * @returns {string} The share link as returned by the OCS API
      */
     async _getShareLink(fileName, uploadId) {
-        const path_to_share = utils.encodepath(this.storageFolder + "/" + fileName);
+        const path_to_share = Utils.encodepath(this.storageFolder + "/" + fileName);
         const expireDate = this.useExpiry ? daysFromTodayIso(this.expiryDays) : undefined;
 
         // It's not possible to retreive an display the password for an existing share
@@ -426,7 +426,7 @@ class CloudConnection {
             return null;
         }
         let encoderUrl = u.origin.replace(u.hostname, punycode.toUnicode(u.hostname)) +
-            utils.encodepath(u.pathname);
+            Utils.encodepath(u.pathname);
 
         if (!this.noAutoDownload) {
             encoderUrl += (encoderUrl.endsWith("/") ? "" : "/") + "download";
@@ -473,6 +473,7 @@ class CloudConnection {
         }
 
         try {
+            // deepcode ignore Ssrf: The input is checked, but Snyk can't see that.
             const response = await fetch(url, fetchInfo);
             if (!response.ok) {
                 return { _failed: true, status: response.status, statusText: response.statusText, };
@@ -492,10 +493,10 @@ class CloudConnection {
     //#endregion
 }
 
-/* global utils*/
+/* global Utils*/
 /* global DavUploader  */
 /* global punycode */
 /* global Status */
 /* global attachmentStatus */
-/* global generatePassword */
+/* global PasswordGenerator */
 /* exported CloudConnection */
