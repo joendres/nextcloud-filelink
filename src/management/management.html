@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+    <meta charset="UTF-8">
+    <title>*cloud</title>
+
+    <link rel="stylesheet" href="management.css">
+
+    <script type="module" src="./management.js"></script>
+
+</head>
+
+<body>
+    <header>
+        <div id="header_left">
+            <h1 id="provider_name">*cloud</h1>
+            <div id="freespaceinfo">
+                <label for="meter" data-message="freespace"></label>
+                <meter max="100" min="0" value="75" id="meter"></meter>
+            </div>
+        </div>
+        <div id="header_right">
+            <img src="../icon48.png" alt="Logo" id="logo">
+            <labe for="logo" id="label_version"></label>
+        </div>
+    </header>
+
+    <form id="accountForm">
+        <fieldset id="account_fields">
+            <div class="labelline">
+                <label for="serverUrl" data-message="serverUrl">serverUrl</label>
+                <div class="helpbutton">
+                    <div class="card" data-message="serverUrl_details"></div>
+                </div>
+            </div>
+            <input id="serverUrl" type="url" pattern="https?://.*" required placeholder="https://example.com"
+                class="input__field input__line" />
+
+            <div class="labelline">
+                <label for="username" data-message="username">username</label>
+                <div class="helpbutton">
+                    <div class="card" data-message="username_details"></div>
+                </div>
+            </div>
+            <input id="username" type="text" required class="input__field input__line" />
+
+            <div class="labelline">
+                <label for="password" data-message="password">password</label>
+                <div class="helpbutton">
+                    <div class="card" data-message="username_details"></div>
+                </div>
+            </div>
+            <input id="password" type="password" required class="input__field input__line" />
+        </fieldset>
+
+        <details id="advanced_options">
+            <summary data-message="advanced_options"></summary>
+
+            <fieldset id="expiry_fields">
+                <div class="optionline">
+                    <input type="checkbox" id="useExpiry" class="checkbox">
+                    <label for="useExpiry" data-message="expiryDaysBefore"></label>
+                    <input type="number" id="expiryDays" min="1" step="1" value="7" maxlength="3" disabled
+                        class="input__field three_digits">
+                    <label data-message="expiryDaysAfter"></label>
+                    <div class="helpbutton">
+                        <div class="card" data-message="expiry_details"></div>
+                    </div>
+                </div>
+            </fieldset>
+
+        </details>
+
+    </form>
+
+</body>
+
+</html>

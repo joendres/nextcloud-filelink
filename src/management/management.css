@@ -1,0 +1,60 @@
+@import url("../photon-components-web/index.css");
+
+/* Header */
+header {
+    display: flex;
+    padding-bottom: 18px;
+}
+
+#header_left {
+    flex-grow: 1;
+}
+
+#header_right {
+    text-align: center;
+}
+
+#logo {
+    width: 52px;
+    display: block;
+}
+
+h1 {
+    padding: 0;
+    margin-top: 0;
+}
+
+/* The Form */
+fieldset {
+    border-style: none;
+    padding: 0;
+}
+
+.input__line {
+    width: 100%;
+}
+
+.three_digits {
+    width: 5em;
+}
+
+.helpbutton {
+    float: right;
+    width: 16px;
+    height: 16px;
+    background-image: url(images/Help.svg);
+
+}
+
+.helpbutton>.card {
+    position: absolute;
+    right: 1em;
+    visibility: hidden;
+    max-width: 75%;
+    z-index: 5;
+    white-space: pre-line;
+}
+
+.helpbutton:hover>.card {
+    visibility: visible;
+}

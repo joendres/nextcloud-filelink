@@ -15,7 +15,7 @@
     },
     "cloud_file": {
         "name": "*cloud",
-        "management_url": "prefspane/management.html",
+        "management_url": "management/management.html",
         "data_format": "File"
     },
     "permissions": [
