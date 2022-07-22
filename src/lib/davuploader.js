@@ -1,6 +1,3 @@
-/** AbortControllers for all active uploads */
-const allAbortControllers = new Map();
-
 /**
  * This class encapsulates communication with a WebDAV service
  */
@@ -91,7 +88,7 @@ class DavUploader {
                 case 423: // Locked
                     // Maybe a parallel upload is currently creating the folder, so wait a little and try again
                     // This timeout is longer in reality because it adds to the waiting time in the queue
-                    await utils.promisedTimeout(400 + Math.floor(Math.random() * 200));
+                    await Utils.promisedTimeout(400 + Math.floor(Math.random() * 200));
                     retry_count++;
                     break;
                 default:
@@ -138,7 +135,7 @@ class DavUploader {
         attachmentStatus.get(uploadId).set_status('moving');
         const dest_header = {
             "Destination":
-                this._davUrl + utils.encodepath(this._storageFolder + "/" + newPath + "/" + fileName),
+                this._davUrl + Utils.encodepath(this._storageFolder + "/" + newPath + "/" + fileName),
         };
         if (await this._recursivelyCreateFolder(this._storageFolder + "/" + newPath)) {
             const retval = await this._doDavCall(this._storageFolder + "/" + fileName, "MOVE", null, dest_header);
@@ -231,7 +228,7 @@ class DavUploader {
     _doDavCall(path, method, body, additional_headers) {
         let url = this._serverurl;
         url += this._davUrl;
-        url += utils.encodepath(path);
+        url += Utils.encodepath(path);
 
         let fetchInfo = {
             method,
@@ -260,7 +257,7 @@ class DavUploader {
     async _xhrUpload(uploadId, path, data) {
         let url = this._serverurl;
         url += this._davUrl;
-        url += utils.encodepath(path);
+        url += Utils.encodepath(path);
 
         // Remove session password as it interferes with credentials 
         await browser.cookies.remove({ url, name: "oc_sessionPassphrase", firstPartyDomain: "", });
@@ -296,5 +293,7 @@ class DavUploader {
     }
 }
 /* global MAX_FILE_SIZE */
-/* global attachmentStatus, utils */
+/* global attachmentStatus, Utils */
+/* global allAbortControllers */
+// defined in background.js
 /* exported DavUploader */

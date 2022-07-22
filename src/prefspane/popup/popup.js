@@ -1,15 +1,13 @@
-const msgContainer = document.getElementById("msg_container");
-const errorPopup = document.getElementById("error_popup");
-const warningPopup = document.getElementById("warning_popup");
-const successPopup = document.getElementById("success_popup");
-
-class popup {
+/**
+ * Static class that contains all the methods for handling message popups in the management pane
+ */
+class Popup {
     /**
      * Show an error
      * @param {string} err_id The id of te error to show a message for, eg. use the status code or error type
      */
     static async error(err_id) {
-        this._openPopup(errorPopup,
+        Popup._openPopup(error_popup,
             browser.i18n.getMessage(`error_${err_id}`, Array.from(arguments).slice(1)) ||
             // No message for this error, show the default one
             browser.i18n.getMessage('error_0', err_id));
@@ -20,7 +18,7 @@ class popup {
      * @param {string} messageId The id of the localized string
      */
     static async warn(messageId) {
-        this._openPopup(warningPopup, browser.i18n.getMessage(`warn_${messageId}`, Array.from(arguments).slice(1)));
+        Popup._openPopup(warning_popup, browser.i18n.getMessage(`warn_${messageId}`, Array.from(arguments).slice(1)));
     }
 
     /**
@@ -29,36 +27,38 @@ class popup {
      * @param {string} [messageId] The id of the message in _locales.
      */
     static async success(messageId = "success") {
-        const p = this._openPopup(successPopup, browser.i18n.getMessage(messageId));
+        const p = Popup._openPopup(success_popup, browser.i18n.getMessage(messageId));
         setTimeout(() => p.remove(), 3000);
     }
 
     /**
      * Actually opens the popup
-     * @param {Node} popup The HTML element to open
+     * @param {Node} template The HTML element to open
      * @param {string} message The message to display
+     * @return {Node} The newly created popup
      */
-    static _openPopup(popup, message) {
-        const new_box = popup.cloneNode(true);
+    static _openPopup(template, message) {
+        const new_box = template.cloneNode(true);
         new_box.querySelector(".popup_message").textContent = message;
         new_box.hidden = false;
-        new_box.querySelector(".msg_bar_closebtn").onclick = this.close;
-        return msgContainer.appendChild(new_box);
+        new_box.querySelector(".msg_bar_closebtn").onclick = Popup.close;
+        return msg_container.appendChild(new_box);
     }
 
     /**
      * Closes the parent of the close button that has been clicked
+     * @param {Event} evt The Onclick event that resulted int the call
      */
-    static close() {
-        this.parentElement.remove();
+    static close(evt) {
+        evt.target.parentElement.remove();
     }
 
     /**
      * Close all popups that might be open
      */
     static async clear() {
-        while (msgContainer.firstChild) {
-            msgContainer.firstChild.remove();
+        while (msg_container.firstChild) {
+            msg_container.firstChild.remove();
         }
     }
 
@@ -67,9 +67,11 @@ class popup {
      * @returns {boolean}
      */
     static empty() {
-        return !Boolean(msgContainer.firstChild);
+        return !Boolean(msg_container.firstChild);
     }
 }
 
 /* Make jshint happy */
-/* exported popup */
+/* exported Popup */
+// Defined as ids in management.html
+/* global msg_container, error_popup, warning_popup, success_popup */

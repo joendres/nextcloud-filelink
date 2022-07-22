@@ -5,7 +5,7 @@ window.addEventListener("load", () => {
     port = browser.runtime.connect();
     port.onMessage.addListener(updateStatusDisplay);
 
-    addLocalizedLabels();
+    Localize.addLocalizedLabels();
     // Unsuccessful uploads remain in the popup window until this button is pressed
     buttonClear.addEventListener('click', () => port.postMessage('clearcomplete'));
 });
@@ -97,4 +97,4 @@ function fill_status_row(status, row) {
 // Automatic variables defined by ids in html
 /* global no_uploads, status_lines, buttonClear, buttonCopy */
 // Functions defined in other scripts imported in html file
-/* global addLocalizedLabels */
+/* global Localize */

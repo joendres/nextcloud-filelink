@@ -7,7 +7,7 @@ body {
 .input__field {
     font-size: inherit;
     /* Quick fix for gnome themes that change this */
-    background-color: white;
+    background-color: var(--white-100);
 }
 
 .input__field:disabled {
@@ -20,7 +20,8 @@ body {
     box-sizing: border-box;
 }
 
-.input__field, .input__label {
+.input__field,
+.input__label {
     width: 100%;
 }
 
@@ -92,10 +93,12 @@ body {
     cursor: progress;
 }
 
-#disableable_fieldset {
-    border: none;
-    padding: 0;
-    margin: 0;
+/* Style the fieldsets */
+
+fieldset {
+    border-style: none;
+    padding-left: 0;
+    padding-right: 0;
 }
 
 /* Header elements */
@@ -108,30 +111,12 @@ h2 {
 }
 
 #obsolete_string {
-    color: red;
+    color: var(--red-60);
     font-weight: bolder;
     position: absolute;
     top: 8px;
     right: 0;
     white-space: pre-line;
-}
-
-/* Free space display */
-
-meter:-moz-meter-optimum::-moz-meter-bar {
-    background: var(--green-50);
-}
-
-meter:-moz-meter-sub-optimum::-moz-meter-bar {
-    background: var(--yellow-50);
-}
-
-meter:-moz-meter-sub-sub-optimum::-moz-meter-bar {
-    background: var(--red-50);
-}
-
-meter {
-    background: var(--grey-30);
 }
 
 /* Help overlay */

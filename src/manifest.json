@@ -27,10 +27,13 @@
     "background": {
         "scripts": [
             "lib/utils.js",
-            "lib/generatePassword.js",
+            "lib/passwordgenerator.js",
             "lib/status.js",
             "lib/davuploader.js",
             "lib/cloudconnection.js",
+            "lib/accountupdater.js",
+            "lib/eventhandlers.js",
+            "lib/tbversionworkarounds.js",
             "punycode/punycode.js",
             "background.js"
         ]
