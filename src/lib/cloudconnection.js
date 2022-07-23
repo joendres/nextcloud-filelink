@@ -220,15 +220,17 @@ export class CloudConnection {
         messenger.cloudFile.updateAccount(this._accountId, {
             configured:
                 this.public_shares_enabled !== false &&
-                Boolean(this.serverUrl) &&
-                Boolean(this.username) &&
-                Boolean(this.userId) &&
-                Boolean(this.password) &&
-                Boolean(this.storageFolder) &&
-                !(this.enforce_password && !this.useDlPassword) &&
-                (!this.useDlPassword || this.useGeneratedDlPassword || Boolean(this.downloadPassword)) &&
-                !(this.useExpiry && !Boolean(this.expiryDays)) &&
-                !(Boolean(this.expiry_max_days) && this.useExpiry && this.expiry_max_days < this.expiryDays),
+                !!this.serverUrl &&
+                !!this.username &&
+                !!this.userId &&
+                !!this.password &&
+                !!this.storageFolder &&
+                // If download password is enforced, a password option is active
+                !(this.enforce_password && !this.useGeneratedDlPassword && !this.oneDLPassword) &&
+                // If "one password" is selected, it has to be present 
+                !(this.oneDLPassword && !this.downloadPassword) &&
+                !(this.useExpiry && !this.expiryDays) &&
+                !(!!this.expiry_max_days && this.useExpiry && this.expiry_max_days < this.expiryDays),
         });
     }
 
@@ -274,7 +276,7 @@ export class CloudConnection {
         if (answer._failed) {
             this.laststatus = answer.status;
         } else {
-            // @todo inline this?
+            // @todo inline
             this.forgetCapabilities();
             await Promise.all([this.updateFreeSpaceInfo(), this.updateCapabilities(),]);
             // Needs result of updateCapabilities
@@ -357,7 +359,7 @@ export class CloudConnection {
         const expireDate = this.useExpiry ? daysFromTodayIso(this.expiryDays) : undefined;
 
         // It's not possible to retreive an display the password for an existing share
-        if (!this.useDlPassword) {
+        if (!this.oneDLPassword && !this.useGeneratedDlPassword) {
             //  Check if the file is already shared ...
             const existingShare = await this._findExistingShare(path_to_share, expireDate);
             if (existingShare && existingShare.url) {
@@ -417,10 +419,10 @@ export class CloudConnection {
         let shareFormData = "path=" + path_to_share;
         shareFormData += "&shareType=3"; // 3 = public share
 
-        if (this.useDlPassword) {
-            if (this.useGeneratedDlPassword) {
-                this.downloadPassword = await this.generateDLPassword();
-            }
+        if (this.oneDLPassword) {
+            shareFormData += "&password=" + encodeURIComponent(this.downloadPassword);
+        } else if (this.useGeneratedDlPassword) {
+            this.downloadPassword = await this.generateDLPassword();
             shareFormData += "&password=" + encodeURIComponent(this.downloadPassword);
         }
 
@@ -431,7 +433,7 @@ export class CloudConnection {
         const data = await this._doApiCall(apiUrlShares, 'POST', { "Content-Type": "application/x-www-form-urlencoded", }, shareFormData);
 
         if (data && data.url) {
-            if (this.useDlPassword && this.useGeneratedDlPassword) {
+            if (this.useGeneratedDlPassword) {
                 const status = attachmentStatus.get(uploadId);
                 status.password = this.downloadPassword;
                 status.set_status('generatedpassword');
