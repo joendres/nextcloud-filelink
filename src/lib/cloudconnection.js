@@ -129,20 +129,11 @@ export class CloudConnection {
     }
 
     /**
-     * Delete all the properties that are read from the server's capabilities to clean out old values
-     */
-    forgetCapabilities() {
-        ['_password_validate_url', '_password_generate_url', 'api_enabled',
-            'public_shares_enabled', 'enforce_password', 'expiry_max_days',
-            'cloud_versionstring', 'cloud_productname', 'cloud_type', 'cloud_supported',]
-            .forEach(p => delete this[p]);
-    }
-
-    /**
      * Get useful information from the server and store it as properties
      */
     async updateCapabilities() {
         const data = await this._doApiCall(apiUrlCapabilities);
+
         if (!data._failed && data.capabilities) {
             // Don't test data.capabilities.files_sharing.api_enabled because the next line contains it all
             // Is public sharing enabled?
@@ -150,6 +141,7 @@ export class CloudConnection {
                 !!data.capabilities.files_sharing.public && !!data.capabilities.files_sharing.public.enabled;
             if (this.public_shares_enabled) {
                 // Remember if a download password is required
+                this.enforce_password = false;
                 if (data.capabilities.files_sharing.public.password) {
                     if (data.capabilities.files_sharing.public.password.enforced_for &&
                         'boolean' === typeof data.capabilities.files_sharing.public.password.enforced_for.read_only) {
@@ -171,6 +163,8 @@ export class CloudConnection {
             }
 
             // Remember password policy urls if they are present (AFAIK only in NC 17+)
+            delete this._password_validate_url;
+            delete this._password_generate_url;
             if (data.capabilities.password_policy && data.capabilities.password_policy.api) {
                 try {
                     const u = new URL(data.capabilities.password_policy.api.validate);
@@ -187,6 +181,7 @@ export class CloudConnection {
             }
 
             // Take version from capabilities
+            this.cloud_productname = "*cloud";
             this.cloud_versionstring = data.version.string;
             // Take name & type from capabilities
             if (data.capabilities.theming && data.capabilities.theming.name) {
@@ -200,7 +195,7 @@ export class CloudConnection {
                     parseInt(data.version.minor) * 100 +
                     parseInt(data.version.micro) >= ocMinimalVersion;
             } else if (data.version.major >= ncMinimalVersion) {
-                this.cloud_productname = 'Nextcloud';
+                this.cloud_productname = "Nextcloud";
                 this.cloud_type = "Nextcloud";
                 this.cloud_supported = true;
             } else {
@@ -276,10 +271,7 @@ export class CloudConnection {
         if (answer._failed) {
             this.laststatus = answer.status;
         } else {
-            // @todo inline
-            this.forgetCapabilities();
             await Promise.all([this.updateFreeSpaceInfo(), this.updateCapabilities(),]);
-            // Needs result of updateCapabilities
         }
     }
 
@@ -311,19 +303,16 @@ export class CloudConnection {
      */
     async validateDLPassword() {
         if (this._password_validate_url) {
-            const data = this._doApiCall(this._password_validate_url, 'POST',
+            const data = await this._doApiCall(this._password_validate_url, 'POST',
                 { "Content-Type": "application/x-www-form-urlencoded", },
                 'password=' + encodeURIComponent(this.downloadPassword));
             data.passed = !!data.passed;
             return data;
-        } else if (!this.downloadPassword) {
-            return { passed: false, reason: 'Password must not be empty.', };
         } else {
             return {
+                // Probably not a Nextcloud instance, accept any password
                 passed: true,
-                _failed: true,
-                status: 'not_nc',
-                statusText: 'Cloud does not validate passwords, probably not a Nextcloud instance.',
+
             };
         }
     }
