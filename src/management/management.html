@@ -1,12 +1,7 @@
 <!DOCTYPE html>
-<html lang="">
-
 <head>
     <meta charset="UTF-8">
-    <title>*cloud</title>
-
-    <link rel="stylesheet" href="management.css">
-
+    <link rel="stylesheet" href="./management.css">
     <script type="module" src="./management.js"></script>
 </head>
 
@@ -15,7 +10,7 @@
 
     <header>
         <div id="header_right">
-            <img src="../icon48.png" alt="Logo" id="logo">
+            <img src="../icon48.png" id="logo">
             <label for="logo" id="label_version"></label>
             <div id="obsolete_string" hidden data-message="obsolete_version"></div>
         </div>
@@ -120,6 +115,7 @@
                     <input id="storageFolder" type="text" required class="input__field fullwidth" />
                 </fieldset>
             </details>
+            
             <fieldset id="buttons">
                 <button id="saveButton" class="button button--primary" type="submit" disabled
                     data-message="saveButton"></button>
