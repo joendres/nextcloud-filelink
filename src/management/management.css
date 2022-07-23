@@ -1,5 +1,10 @@
 @import url("../photon-components-web/index.css");
 
+/* Fix a problem with some dark themes */
+.input__filed:active {
+    background-color: white;
+}
+
 /* Header */
 header {
     display: flex;
