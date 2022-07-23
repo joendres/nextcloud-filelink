@@ -1,3 +1,8 @@
+import { attachmentStatus, Status } from "./status.js";
+import { DavUploader } from "./davuploader.js";
+import { PasswordGenerator } from "./passwordgenerator.js";
+import { Utils } from "./utils.js";
+
 //#region  Configurable options and useful constants
 const apiUrlBase = "ocs/v1.php";
 const apiUrlUserInfo = "/cloud/users/";
@@ -519,9 +524,4 @@ export class CloudConnection {
     //#endregion
 }
 
-/* global Utils*/
-/* global DavUploader  */
 /* global punycode */
-/* global Status */
-/* global attachmentStatus */
-/* global PasswordGenerator */

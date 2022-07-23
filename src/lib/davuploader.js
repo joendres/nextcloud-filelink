@@ -1,7 +1,11 @@
+import { allAbortControllers } from "./eventhandlers.js";
+import { attachmentStatus } from "./status.js";
+import { Utils } from "./utils.js";
+
 /**
  * This class encapsulates communication with a WebDAV service
  */
-class DavUploader {
+ export class DavUploader {
     /**
      *
      * @param {string} server_url The URL of the server
@@ -292,8 +296,3 @@ class DavUploader {
         });
     }
 }
-/* global MAX_FILE_SIZE */
-/* global attachmentStatus, Utils */
-/* global allAbortControllers */
-// defined in background.js
-/* exported DavUploader */

@@ -25,18 +25,8 @@
     ],
     "manifest_version": 2,
     "background": {
-        "scripts": [
-            "lib/utils.js",
-            "lib/passwordgenerator.js",
-            "lib/status.js",
-            "lib/davuploader.js",
-            "lib/cloudconnection.js",
-            "lib/accountupdater.js",
-            "lib/eventhandlers.js",
-            "lib/tbversionworkarounds.js",
-            "punycode/punycode.js",
-            "background.js"
-        ]
+        "page": "background.html",
+        "persistent": true
     },
     "compose_action": {
         "default_popup": "progress/progress.html",

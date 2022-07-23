@@ -1,5 +1,6 @@
 /**
- * Global Map to hold Status objects for all active uploads, indexed by the uploadId created in background.js
+ * Global Map to hold Status objects for all active uploads, indexed by the
+ * uploadId
  */
 const attachmentStatus = new Map();
 
@@ -97,5 +98,4 @@ class MsgHandler {
     }
 }
 
-/* Make jshint happy */
-/* exported attachmentStatus, Status */
+export { Status, attachmentStatus };

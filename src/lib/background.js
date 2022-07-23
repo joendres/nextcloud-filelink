@@ -1,3 +1,7 @@
+import { AccountUpdater } from "./accountupdater.js";
+import { EventHandlers } from "./eventhandlers.js";
+import { TBVersionWorkarounds } from "./tbversionworkarounds.js";
+
 AccountUpdater.update_all();
 TBVersionWorkarounds.apply_all();
 
@@ -6,6 +10,3 @@ messenger.cloudFile.onFileUploadAbort.addListener(EventHandlers.onFileUploadAbor
 messenger.cloudFile.onFileDeleted.addListener(EventHandlers.onFileDeleted);
 messenger.cloudFile.onAccountAdded.addListener(EventHandlers.onAccountAdded);
 messenger.cloudFile.onAccountDeleted.addListener(EventHandlers.onAccountDeleted);
-
-/* Make jshint happy */
-/* global AccountUpdater, EventHandlers, TBVersionWorkarounds */

@@ -1,4 +1,6 @@
-class AccountUpdater {
+import { CloudConnection } from "./cloudconnection.js";
+
+export class AccountUpdater {
     /**
      * Get all accounts from Thunderbird and update each one
      */
@@ -32,7 +34,3 @@ class AccountUpdater {
         }
     }
 }
-
-/* Make jshint happy */
-/* global CloudConnection */
-/* exported AccountUpdater */

@@ -1,3 +1,6 @@
+import { CloudConnection } from "./cloudconnection.js";
+import { Status } from "./status.js";
+
 /** AbortControllers for all active uploads */
 const allAbortControllers = new Map();
 
@@ -44,7 +47,6 @@ class EventHandlers {
      * @param {CloudFileAccount} account The created account
      */
     static async onAccountAdded(account) {
-        console.debug("Account added");
         const ncc = new CloudConnection(account.id);
         ncc.storageFolder = "/mail-attachments";
         await ncc.store();
@@ -70,6 +72,4 @@ class EventHandlers {
     }
 }
 
-/* Make jshint happy */
-/* global CloudConnection, Status */
-/* exported Listeners */
+export { EventHandlers, allAbortControllers };

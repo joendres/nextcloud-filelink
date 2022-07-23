@@ -1,3 +1,5 @@
+import { Localize } from "lib/localize.js";
+
 // Establish messaging with background worker
 var port;
 
@@ -96,5 +98,3 @@ function fill_status_row(status, row) {
 /* Make jshint happy */
 // Automatic variables defined by ids in html
 /* global no_uploads, status_lines, buttonClear, buttonCopy */
-// Functions defined in other scripts imported in html file
-/* global Localize */
