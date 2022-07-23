@@ -1,5 +1,5 @@
 /**
- * Handle the input fields in the account_fields fieldset
+ * Handle the input fields in the expiry_fields fieldset
  */
 export class ExpiryFieldHandler {
 
