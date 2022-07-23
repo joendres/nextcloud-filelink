@@ -261,7 +261,7 @@ export class CloudConnection {
     async updateFromCloud() {
         let answer = await this.updateUserId();
         this.laststatus = null;
-        if (answer._failed) {
+        if (answer._failed && this.username) {
             // If login failed, we might be using an app token which requires a lowercase user name
             const oldname = this.username;
             this.username = this.username.toLowerCase();
