@@ -55,9 +55,6 @@ export class AccountFieldHandler {
      * @param {*} persist Persistent data as returned by preCloudUpdate
      */
     static async postCloudUpdate(cc, persist) {
-        if (false === this.cc.cloud_supported) {
-            Popup.warn('unsupported_cloud');
-        }
         if (persist.needsNewToken) {
             await cc.convertToApppassword();
         }

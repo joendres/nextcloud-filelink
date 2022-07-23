@@ -77,6 +77,10 @@ export class FormHandler {
         this.cc.updateConfigured();
         await this.cc.store();
         this.fillData();
+        this.showErrors();
+        if (Popup.empty()) {
+            Popup.success();
+        }
         FormHandler.stopLookingBusy();
         evt.preventDefault();
     }
@@ -162,6 +166,8 @@ export class FormHandler {
             Popup.error(this.cc.laststatus);
         } else if (false === this.cc.public_shares_enabled) {
             Popup.error('sharing_off');
+        } else if (false === this.cc.cloud_supported) {
+            Popup.warn('unsupported_cloud');
         }
     }
 }
