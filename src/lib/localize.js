@@ -1,4 +1,4 @@
-class Localize {
+export class Localize {
     /**
      * Set all the labels to localized strings
      */
@@ -21,5 +21,3 @@ class Localize {
             });
     }
 }
-
-/* exported Localize */

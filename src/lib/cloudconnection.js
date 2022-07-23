@@ -14,7 +14,7 @@ const ocMinimalVersion = 10 * 10000 + 0 * 100 + 10;
  * This class encapsulates all calls to the Nextcloud or ownCloud web services
  * (API and DAV)
  */
-class CloudConnection {
+export class CloudConnection {
     //#region Constructors, load & store
     /**
      * @param {string} accountId Whatever Thunderbird uses as an account identifier
@@ -499,4 +499,3 @@ class CloudConnection {
 /* global Status */
 /* global attachmentStatus */
 /* global PasswordGenerator */
-/* exported CloudConnection */

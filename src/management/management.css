@@ -25,8 +25,9 @@ h1 {
 
 /* The Form */
 fieldset {
-    border-style: none;
-    padding: 0;
+    /* border-style: none; */
+    padding-left: 0;
+    padding-right: 0;
 }
 
 .fullwidth {
@@ -61,4 +62,9 @@ fieldset {
 #buttons {
     display: flex;
     justify-content: space-between;
+}
+
+/* Set the busy cursor */
+.busy * {
+    cursor: progress;
 }
