@@ -29,6 +29,10 @@ export class AccountFieldHandler {
         }
         serverUrl.value = url.origin + '/' + shortpath.join('/');
 
+        if (url.protocol !== "https:") {
+            Popup.warn("insecure_http");
+        }
+
         // Make sure, url end with a slash
         if (!serverUrl.value.endsWith('/')) {
             serverUrl.value += '/';
@@ -37,6 +41,7 @@ export class AccountFieldHandler {
         if (!password.value.match(/^[\x21-\x7e]+$/)) {
             Popup.warn('nonascii_password');
         }
+
         return {
             needsNewToken: password.value !== cc.password ||
                 username.value !== cc.username ||
@@ -50,6 +55,9 @@ export class AccountFieldHandler {
      * @param {*} persist Persistent data as returned by preCloudUpdate
      */
     static async postCloudUpdate(cc, persist) {
+        if (false === this.cc.cloud_supported) {
+            Popup.warn('unsupported_cloud');
+        }
         if (persist.needsNewToken) {
             await cc.convertToApppassword();
         }

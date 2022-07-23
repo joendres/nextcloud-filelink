@@ -6,3 +6,4 @@ Localize.addLocalizedLabels();
 const formHandler = new FormHandler(new URL(location.href).searchParams.get("accountId"));
 formHandler.fillData();
 formHandler.addListeners();
+formHandler.showErrors();

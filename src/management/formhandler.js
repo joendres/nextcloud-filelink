@@ -153,4 +153,15 @@ export class FormHandler {
                 }
             });
     }
+
+    /**
+     * Show general errors
+     */
+    showErrors() {
+        if (this.cc.laststatus) {
+            Popup.error(this.cc.laststatus);
+        } else if (false === this.cc.public_shares_enabled) {
+            Popup.error('sharing_off');
+        }
+    }
 }

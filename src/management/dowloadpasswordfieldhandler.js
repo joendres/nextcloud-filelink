@@ -40,10 +40,13 @@ export class DownloadPasswordFieldHandler {
             const advanced_options = document.querySelector("#advanced_options");
 
             useNoDlPassword.disabled = true;
-            useNoDlPassword.checked = false;
-            useGeneratedDlPassword.checked = !oneDLPassword.checked;
-            DownloadPasswordFieldHandler.syncInputStateToRadio();
-            advanced_options.open = true;
+            if (useNoDlPassword.checked) {
+                useNoDlPassword.checked = false;
+                useGeneratedDlPassword.checked = !oneDLPassword.checked;
+                DownloadPasswordFieldHandler.syncInputStateToRadio();
+                advanced_options.open = true;
+                Popup.error('password_enforced');
+            }
         } else {
             useNoDlPassword.disabled = false;
         }
