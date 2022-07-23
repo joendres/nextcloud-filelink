@@ -6,10 +6,21 @@ export class FormHandler {
         this.cc = new CloudConnection(accountId);
     }
 
+    /**
+     * Add event listeners to all elements that need them
+     */
     addListeners() {
         accountForm.oninput = FormHandler.updateButtons;
         accountForm.onreset = () => this.resetHandler();
         accountForm.onsubmit = (evt) => this.submitHandler(evt);
+    }
+
+    /**
+     * Get data from a stored account and put it into the form
+     */
+    async fillData() {
+        await this.cc.load();
+        this.fillAllInputs();
     }
 
     /**
@@ -21,12 +32,19 @@ export class FormHandler {
         resetButton.disabled = false;
     }
 
+    /**
+     * Handle reset events AKA reset button pressed
+     */
     resetHandler() {
         Popup.clear();
         this.fillData();
         resetButton.disabled = saveButton.disabled = true;
     }
 
+    /**
+     * Handle submit event AKA save button pressed
+     * @param {Event} evt The button press event
+     */
     async submitHandler(evt) {
         FormHandler.lookBusy();
         saveButton.disabled = resetButton.disabled = true;
@@ -55,11 +73,9 @@ export class FormHandler {
         body.classList.remove('busy');
     }
 
-    async fillData() {
-        await this.cc.load();
-        this.fillAllInputs();
-    }
-
+    /**
+     * Fill standard inputs with the data of the same id
+     */
     fillAllInputs() {
         accountForm.querySelectorAll("input")
             .forEach(input => {
