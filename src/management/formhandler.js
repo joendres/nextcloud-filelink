@@ -1,4 +1,5 @@
 import { CloudConnection } from "../lib/cloudconnection.js";
+import { AccountFieldHandler } from "./accountfieldhandler.js";
 import { Popup } from "./popup/popup.js";
 
 export class FormHandler {
@@ -49,8 +50,11 @@ export class FormHandler {
         FormHandler.lookBusy();
         saveButton.disabled = resetButton.disabled = true;
         Popup.clear();
-        // @todo handle inputs
+        const persist = this.preCloudUpdate();
         this.copyAllInputs();
+        await this.cc.updateFromCloud();
+        await this.postCloudUpdate(persist);
+        this.cc.updateConfigured();
         await this.cc.store();
         this.fillData();
         FormHandler.stopLookingBusy();
@@ -85,6 +89,31 @@ export class FormHandler {
                     input.value = this.cc[input.id];
                 }
             });
+    }
+
+    /**
+     * Prepare everything for harvesting the data from the form and for getting
+     * additional data from the cloud, eg sanitize inputs
+     * @returns Data that will be reused in the postCloudUpdate call later
+     */
+    preCloudUpdate() {
+        accountForm.querySelectorAll("input")
+            .forEach(element => {
+                element.value = element.value.trim();
+            });
+
+        const persist = {};
+        persist.account = AccountFieldHandler.preCloudUpdate(this.cc);
+
+        return persist;
+    }
+
+    /**
+     * Do whatever is necessary after the CloudConnection state is update from the cloud
+     * @param {*} persist Data returned from preCloudUpdate earlier
+     */
+    async postCloudUpdate(persist) {
+        await AccountFieldHandler.postCloudUpdate(this.cc, persist.account);
     }
 
     /**

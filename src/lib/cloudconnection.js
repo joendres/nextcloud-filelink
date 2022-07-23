@@ -250,8 +250,34 @@ export class CloudConnection {
     }
 
     /**
-     * Fetches a new app password from the Nextcloud/ownCloud web service and
+     * Update the state of the CloudConnection object with relevant information
+     * available from the cloud eg free space, capabilities, userid
+     */
+    async updateFromCloud() {
+        let answer = await this.updateUserId();
+        this.laststatus = null;
+        if (answer._failed) {
+            // If login failed, we might be using an app token which requires a lowercase user name
+            const oldname = this.username;
+            this.username = this.username.toLowerCase();
+            answer = await this.updateUserId();
+            if (answer._failed) {
+                // Nope, it's not the case, restore username
+                this.username = oldname;
+            }
+        }
+        if (answer._failed) {
+            this.laststatus = answer.status;
+        } else {
+            await Promise.all([this.updateFreeSpaceInfo(), this.updateCapabilities(),]);
+            // Needs result of updateCapabilities
+        }
+    }
+
+    /**
+     * Fetches a new app password from the Nextcloud web service and
      * replaces the current password with it
+     * @return {boolean} Was a new app password set?
      */
     async convertToApppassword() {
         const data = await this._doApiCall(apiUrlGetApppassword);
