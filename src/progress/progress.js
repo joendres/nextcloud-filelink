@@ -1,18 +1,16 @@
-import { Localize } from "lib/localize.js";
+import { Localize } from "../lib/localize.js";
 
 // Establish messaging with background worker
 var port;
 
-window.addEventListener("load", () => {
-    const buttonClear = document.querySelector("#buttonClear");
+const buttonClear = document.querySelector("#buttonClear");
 
-    port = browser.runtime.connect();
-    port.onMessage.addListener(updateStatusDisplay);
+port = browser.runtime.connect();
+port.onMessage.addListener(updateStatusDisplay);
 
-    Localize.addLocalizedLabels();
-    // Unsuccessful uploads remain in the popup window until this button is pressed
-    buttonClear.addEventListener('click', () => port.postMessage('clearcomplete'));
-});
+Localize.addLocalizedLabels();
+// Unsuccessful uploads remain in the popup window until this button is pressed
+buttonClear.addEventListener('click', () => port.postMessage('clearcomplete'));
 
 /**
  * Fills the status popup with content
