@@ -168,6 +168,8 @@ export class FormHandler {
             Popup.error(this.cc.laststatus);
         } else if (false === this.cc.public_shares_enabled) {
             Popup.error('sharing_off');
+        } else if ('undefined' === typeof this.cc.public_shares_enabled) {
+            Popup.warn('no_config_check');
         } else if (false === this.cc.cloud_supported) {
             Popup.warn('unsupported_cloud');
         }
