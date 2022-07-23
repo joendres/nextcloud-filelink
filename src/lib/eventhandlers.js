@@ -4,6 +4,9 @@ import { Status } from "./status.js";
 /** AbortControllers for all active uploads */
 const allAbortControllers = new Map();
 
+/**
+ * High level handlers for the cloudFile events
+ */
 class EventHandlers {
     /**
      * Called when a file should be uploaded to the cloud file provider
