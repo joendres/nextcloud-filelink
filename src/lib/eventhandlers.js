@@ -40,6 +40,17 @@ class EventHandlers {
     }
 
     /**
+     * Called when a cloud file account of this add-on was created
+     * @param {CloudFileAccount} account The created account
+     */
+    static async onAccountAdded(account) {
+        console.debug("Account added");
+        const ncc = new CloudConnection(account.id);
+        ncc.storageFolder = "/mail-attachments";
+        await ncc.store();
+    }
+
+    /**
      * Called when a cloud file account of this add-on was deleted
      * @param {string} accountId The id of the removed account
      */

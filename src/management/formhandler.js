@@ -1,6 +1,7 @@
 import { CloudConnection } from "../lib/cloudconnection.js";
 import { AccountFieldHandler } from "./accountfieldhandler.js";
 import { ExpiryFieldHandler } from "./expiryfieldhandler.js";
+import { FolderFieldHandler } from "./folderfieldhandler.js";
 import { Popup } from "./popup/popup.js";
 
 export class FormHandler {
@@ -107,7 +108,7 @@ export class FormHandler {
 
         const persist = {};
         persist.account = AccountFieldHandler.preCloudUpdate(this.cc);
-
+        FolderFieldHandler.preCloudUpdate();
         return persist;
     }
 
