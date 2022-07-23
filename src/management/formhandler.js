@@ -1,5 +1,6 @@
 import { CloudConnection } from "../lib/cloudconnection.js";
 import { AccountFieldHandler } from "./accountfieldhandler.js";
+import { ExpiryFieldHandler } from "./expiryfieldhandler.js";
 import { Popup } from "./popup/popup.js";
 
 export class FormHandler {
@@ -14,6 +15,7 @@ export class FormHandler {
         accountForm.oninput = FormHandler.updateButtons;
         accountForm.onreset = () => this.resetHandler();
         accountForm.onsubmit = (evt) => this.submitHandler(evt);
+        ExpiryFieldHandler.addListeners();
     }
 
     /**
@@ -22,6 +24,7 @@ export class FormHandler {
     async fillData() {
         await this.cc.load();
         this.fillAllInputs();
+        ExpiryFieldHandler.fillData(this.cc);
     }
 
     /**
