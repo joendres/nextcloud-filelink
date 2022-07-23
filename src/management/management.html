@@ -11,6 +11,8 @@
 </head>
 
 <body id="body">
+    <div id="msg_container"></div>
+
     <header>
         <div id="header_right">
             <img src="../icon48.png" alt="Logo" id="logo">
@@ -75,8 +77,8 @@
                     <div class="helpbutton">
                         <div class="card" data-message="storageFolder_details"></div>
                     </div>
-                </div>
-                <input id="storageFolder" type="text" required class="input__field fullwidth" />
+                    </div>
+                    <input id="storageFolder" type="text" required class="input__field fullwidth" />
 
                 </fieldset>
             </details>
@@ -88,6 +90,24 @@
         </fieldset>
     </form>
 
+    <!-- Message bar templates -->
+    <div id="success_popup" class="msg_bar success_bar" hidden>
+        <span class="msg_bar_icon"> </span>
+        <span class="msg_bar_closebtn"></span>
+        <span class="popup_message"></span>
+    </div>
+
+    <div id="warning_popup" class="msg_bar warning_bar" hidden>
+        <span class="msg_bar_icon"> </span>
+        <span class="msg_bar_closebtn"></span>
+        <span class="popup_message"></span>
+    </div>
+
+    <div id="error_popup" class="msg_bar error_bar" hidden>
+        <span class="msg_bar_icon"> </span>
+        <span class="msg_bar_closebtn"></span>
+        <span class="popup_message"></span>
+    </div>
 </body>
 
 </html>
