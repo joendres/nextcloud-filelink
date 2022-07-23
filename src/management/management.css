@@ -1,4 +1,5 @@
 @import url("../photon-components-web/index.css");
+@import url("./popup/popup.css");
 
 /* Fix a problem with some dark themes */
 .input__filed:active {
