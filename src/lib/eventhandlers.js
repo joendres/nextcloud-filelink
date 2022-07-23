@@ -49,7 +49,9 @@ class EventHandlers {
     static async onAccountAdded(account) {
         const ncc = new CloudConnection(account.id);
         ncc.storageFolder = "/mail-attachments";
-        ncc.expiryDays = 42;
+        ncc.expiryDays = 7;
+        ncc.useNoDlPassword = true;
+
         await ncc.store();
     }
 

@@ -274,6 +274,8 @@ export class CloudConnection {
         if (answer._failed) {
             this.laststatus = answer.status;
         } else {
+            // @todo inline this?
+            this.forgetCapabilities();
             await Promise.all([this.updateFreeSpaceInfo(), this.updateCapabilities(),]);
             // Needs result of updateCapabilities
         }

@@ -1,5 +1,6 @@
 import { CloudConnection } from "../lib/cloudconnection.js";
 import { AccountFieldHandler } from "./accountfieldhandler.js";
+import { DownloadPasswordFieldHandler } from "./dowloadpasswordfieldhandler.js";
 import { ExpiryFieldHandler } from "./expiryfieldhandler.js";
 import { FolderFieldHandler } from "./folderfieldhandler.js";
 import { Popup } from "./popup/popup.js";
@@ -18,7 +19,9 @@ export class FormHandler {
         accountForm.oninput = FormHandler.updateButtons;
         accountForm.onreset = () => this.resetHandler();
         accountForm.onsubmit = (evt) => this.submitHandler(evt);
+
         ExpiryFieldHandler.addListeners();
+        DownloadPasswordFieldHandler.addListeners();
     }
 
     /**
@@ -28,6 +31,7 @@ export class FormHandler {
         await this.cc.load();
         this.fillAllInputs();
         ExpiryFieldHandler.fillData(this.cc);
+        DownloadPasswordFieldHandler.fillData(this.cc);
     }
 
     /**
@@ -129,7 +133,10 @@ export class FormHandler {
      * @param {*} persist Data returned from preCloudUpdate earlier
      */
     async postCloudUpdate(persist) {
-        await AccountFieldHandler.postCloudUpdate(this.cc, persist.account);
+        return Promise.all([
+            AccountFieldHandler.postCloudUpdate(this.cc, persist.account),
+            DownloadPasswordFieldHandler.postCloudUpdate(this.cc),
+        ]);
     }
 
     /**
@@ -146,5 +153,4 @@ export class FormHandler {
                 }
             });
     }
-
 }

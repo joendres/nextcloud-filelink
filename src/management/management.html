@@ -10,7 +10,7 @@
     <script type="module" src="./management.js"></script>
 </head>
 
-<body id="body">
+<body>
     <div id="msg_container"></div>
 
     <header>
@@ -29,7 +29,7 @@
 
     <form id="accountForm">
         <fieldset id="all_fields">
-            <fieldset id="account_fields">
+            <fieldset>
                 <div class="labelline">
                     <label for="serverUrl" data-message="serverUrl"></label>
                     <div class="helpbutton">
@@ -59,7 +59,7 @@
             <details id="advanced_options">
                 <summary data-message="advanced_options"></summary>
 
-                <fieldset id="expiry_fields">
+                <fieldset>
                     <div class="optionline">
                         <input type="checkbox" id="useExpiry" class="checkbox">
                         <label for="useExpiry" data-message="expiryDaysBefore"></label>
@@ -72,14 +72,51 @@
                     </div>
                 </fieldset>
 
-                <fieldset id="folder_fields">
+                <fieldset>
+                    <div class="labelline">
+                        <label data-message="useDlPassword"></label>
+                    </div>
+                    <div class="optionline">
+                        <input type="radio" id="useNoDlPassword" name="DownloadPasswordRadio" class="radio">
+                        <label for="useNoDlPassword" data-message="useNoDlPassword"></label>
+                        <div class="helpbutton">
+                            <div class="card" data-message="useNoDlPassword_details"></div>
+                        </div>
+                    </div>
+                    <div class="optionline">
+                        <input type="radio" id="useGeneratedDlPassword" name="DownloadPasswordRadio" class="radio">
+                        <label for="useGeneratedDlPassword" data-message="useGeneratedDlPassword"></label>
+                        <div class="helpbutton">
+                            <div class="card" data-message="useGeneratedDlPassword_details"></div>
+                        </div>
+                    </div>
+                    <div class="optionline">
+                        <input type="radio" id="oneDLPassword" name="DownloadPasswordRadio" class="radio">
+                        <label for="oneDLPassword" data-message="oneDLPassword"></label>
+                        <input type="text" id="downloadPassword" disabled class="input__field">
+                        <div class="helpbutton">
+                            <div class="card" data-message="useDLPassword_details"></div>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <div class="optionline">
+                        <input type="checkbox" id="noAutoDownload" class="checkbox">
+                        <label for="noAutoDownload" data-message="noAutoDownload"></label>
+                        <div class="helpbutton">
+                            <div class="card" data-message="noAutoDownload_details"></div>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset>
                     <label for="storageFolder" data-message="storageFolder"></label>
                     <div class="helpbutton">
                         <div class="card" data-message="storageFolder_details"></div>
                     </div>
                     </div>
                     <input id="storageFolder" type="text" required class="input__field fullwidth" />
-
                 </fieldset>
             </details>
             <fieldset id="buttons">
