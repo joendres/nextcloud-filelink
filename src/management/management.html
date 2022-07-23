@@ -13,6 +13,10 @@
 
 <body>
     <header>
+        <div id="header_right">
+            <img src="../icon48.png" alt="Logo" id="logo">
+            <labe for="logo" id="label_version"></label>
+        </div>
         <div id="header_left">
             <h1 id="provider_name">*cloud</h1>
             <div id="freespaceinfo">
@@ -20,38 +24,34 @@
                 <meter max="100" min="0" value="75" id="meter"></meter>
             </div>
         </div>
-        <div id="header_right">
-            <img src="../icon48.png" alt="Logo" id="logo">
-            <labe for="logo" id="label_version"></label>
-        </div>
     </header>
 
     <form id="accountForm">
         <fieldset id="account_fields">
             <div class="labelline">
-                <label for="serverUrl" data-message="serverUrl">serverUrl</label>
+                <label for="serverUrl" data-message="serverUrl"></label>
                 <div class="helpbutton">
                     <div class="card" data-message="serverUrl_details"></div>
                 </div>
             </div>
             <input id="serverUrl" type="url" pattern="https?://.*" required placeholder="https://example.com"
-                class="input__field input__line" />
+                class="input__field fullwidth" />
 
             <div class="labelline">
-                <label for="username" data-message="username">username</label>
+                <label for="username" data-message="username"></label>
                 <div class="helpbutton">
                     <div class="card" data-message="username_details"></div>
                 </div>
             </div>
-            <input id="username" type="text" required class="input__field input__line" />
+            <input id="username" type="text" required class="input__field fullwidth" />
 
             <div class="labelline">
-                <label for="password" data-message="password">password</label>
+                <label for="password" data-message="password"></label>
                 <div class="helpbutton">
                     <div class="card" data-message="username_details"></div>
                 </div>
             </div>
-            <input id="password" type="password" required class="input__field input__line" />
+            <input id="password" type="password" required class="input__field fullwidth" />
         </fieldset>
 
         <details id="advanced_options">

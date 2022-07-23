@@ -6,27 +6,21 @@
 }
 
 /* Header */
-header {
-    display: flex;
-    padding-bottom: 18px;
-}
-
-#header_left {
-    flex-grow: 1;
-}
-
 #header_right {
+    float: right;
     text-align: center;
 }
 
 #logo {
-    width: 52px;
+    width: 48px;
     display: block;
 }
 
 h1 {
-    padding: 0;
     margin-top: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 /* The Form */
@@ -35,7 +29,7 @@ fieldset {
     padding: 0;
 }
 
-.input__line {
+.fullwidth {
     width: 100%;
 }
 
@@ -43,12 +37,12 @@ fieldset {
     width: 5em;
 }
 
+/* The help button for inputs */
 .helpbutton {
     float: right;
     width: 16px;
     height: 16px;
     background-image: url(images/Help.svg);
-
 }
 
 .helpbutton>.card {
@@ -62,4 +56,9 @@ fieldset {
 
 .helpbutton:hover>.card {
     visibility: visible;
+}
+
+#buttons {
+    display: flex;
+    justify-content: space-between;
 }
