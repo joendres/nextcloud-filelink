@@ -14,6 +14,7 @@ export class FormHandler {
      */
     addListeners() {
         const accountForm = document.querySelector("#accountForm");
+
         accountForm.oninput = FormHandler.updateButtons;
         accountForm.onreset = () => this.resetHandler();
         accountForm.onsubmit = (evt) => this.submitHandler(evt);
@@ -35,7 +36,7 @@ export class FormHandler {
      */
     static updateButtons() {
         const saveButton = document.querySelector("#saveButton");
-        const resetButton = document.querySelector("#resetButtonButton");
+        const resetButton = document.querySelector("#resetButton");
         const accountForm = document.querySelector("#accountForm");
 
         saveButton.disabled = !accountForm.checkValidity();
@@ -47,7 +48,7 @@ export class FormHandler {
      */
     resetHandler() {
         const saveButton = document.querySelector("#saveButton");
-        const resetButton = document.querySelector("#resetButtonButton");
+        const resetButton = document.querySelector("#resetButton");
 
         Popup.clear();
         this.fillData();
@@ -60,7 +61,7 @@ export class FormHandler {
      */
     async submitHandler(evt) {
         const saveButton = document.querySelector("#saveButton");
-        const resetButton = document.querySelector("#resetButtonButton");
+        const resetButton = document.querySelector("#resetButton");
 
         FormHandler.lookBusy();
         saveButton.disabled = resetButton.disabled = true;
