@@ -24,6 +24,16 @@ h1 {
     white-space: nowrap;
 }
 
+#obsolete_string {
+    color: var(--red-50);
+    font-weight: bolder;
+    position: absolute;
+    top: 8px;
+    right: 4px;
+    white-space: pre-line;
+    background-color: var(--grey-10-a60);
+}
+
 /* The Form */
 fieldset {
     border-style: none;

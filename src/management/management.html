@@ -16,13 +16,14 @@
     <header>
         <div id="header_right">
             <img src="../icon48.png" alt="Logo" id="logo">
-            <labe for="logo" id="label_version"></label>
+            <label for="logo" id="label_version"></label>
+            <div id="obsolete_string" hidden data-message="obsolete_version"></div>
         </div>
         <div id="header_left">
             <h1 id="provider_name">*cloud</h1>
             <div id="freespaceinfo" hidden>
-                <label for="meter" data-message="freespace"></label>
-                <meter max="100" min="0" id="meter"></meter>
+                <label for="freespace" id="freespacelabel"></label>
+                <meter id="freespace"></meter>
             </div>
         </div>
     </header>

@@ -1,3 +1,4 @@
+import { HeaderHandler } from "./headerhandler.js";
 import { CloudConnection } from "../lib/cloudconnection.js";
 import { AccountFieldHandler } from "./accountfieldhandler.js";
 import { DownloadPasswordFieldHandler } from "./dowloadpasswordfieldhandler.js";
@@ -77,6 +78,7 @@ export class FormHandler {
         this.cc.updateConfigured();
         await this.cc.store();
         this.fillData();
+        this.updateHeader();
         this.showErrors();
         if (Popup.empty()) {
             Popup.success();
@@ -169,5 +171,10 @@ export class FormHandler {
         } else if (false === this.cc.cloud_supported) {
             Popup.warn('unsupported_cloud');
         }
+    }
+
+    updateHeader() {
+        HeaderHandler.updateFreespace(this.cc._accountId);
+        HeaderHandler.updateCloudVersion(this.cc);
     }
 }
