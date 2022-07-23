@@ -7,6 +7,7 @@ export class ExpiryFieldHandler {
      * Add event listeners to the form elements
      */
     static addListeners() {
+        const useExpiry = document.querySelector("#useExpiry");
         useExpiry.oninput = ExpiryFieldHandler.syncInputStateToCheck;
     }
 
@@ -14,6 +15,8 @@ export class ExpiryFieldHandler {
      * Set state of number input field to state of checkbox
      */
     static syncInputStateToCheck() {
+        const expiryDays = document.querySelector("#expiryDays");
+        const useExpiry = document.querySelector("#useExpiry");
         expiryDays.disabled = !useExpiry.checked;
         expiryDays.required = useExpiry.checked;
     }
@@ -22,6 +25,9 @@ export class ExpiryFieldHandler {
      * @param {CloudConnection} cc The cloudConnection linked to the open dialog
      */
     static fillData(cc) {
+        const expiryDays = document.querySelector("#expiryDays");
+        const useExpiry = document.querySelector("#useExpiry");
+
         if (cc.expiry_max_days) {
             expiryDays.max = cc.expiry_max_days;
             // @todo this seems wrong. How do we know that expiry is enforced?
@@ -37,6 +43,3 @@ export class ExpiryFieldHandler {
         // @todo Warn about enforced expiry
     }
 }
-
-// html ids are automatic vairables
-/* globals expiryDays, useExpiry */

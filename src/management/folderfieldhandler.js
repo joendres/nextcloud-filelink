@@ -3,10 +3,8 @@
  */
 export class FolderFieldHandler {
     static preCloudUpdate() {
+        const storageFolder = document.querySelector("#storageFolder");
         // Remove extra slashes from folder path
         storageFolder.value = "/" + storageFolder.value.split('/').filter(e => "" !== e).join('/');
     }
 }
-
-// html ids are automatic vairables
-/* globals storageFolder */

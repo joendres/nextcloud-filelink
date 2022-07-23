@@ -7,6 +7,8 @@ export class Popup {
      * @param {string} err_id The id of te error to show a message for, eg. use the status code or error type
      */
     static async error(err_id) {
+        const error_popup = document.querySelector("#error_popup");
+
         Popup._openPopup(error_popup,
             browser.i18n.getMessage(`error_${err_id}`, Array.from(arguments).slice(1)) ||
             // No message for this error, show the default one
@@ -18,7 +20,10 @@ export class Popup {
      * @param {string} messageId The id of the localized string
      */
     static async warn(messageId) {
-        Popup._openPopup(warning_popup, browser.i18n.getMessage(`warn_${messageId}`, Array.from(arguments).slice(1)));
+        const warning_popup = document.querySelector("#warning_popup");
+
+        Popup._openPopup(warning_popup,
+            browser.i18n.getMessage(`warn_${messageId}`, Array.from(arguments).slice(1)));
     }
 
     /**
@@ -27,6 +32,8 @@ export class Popup {
      * @param {string} [messageId] The id of the message in _locales.
      */
     static async success(messageId = "success") {
+        const success_popup = document.querySelector("#success_popup");
+
         const p = Popup._openPopup(success_popup, browser.i18n.getMessage(messageId));
         setTimeout(() => p.remove(), 3000);
     }
@@ -38,6 +45,8 @@ export class Popup {
      * @return {Node} The newly created popup
      */
     static _openPopup(template, message) {
+        const msg_container = document.querySelector("#msg_container");
+
         const new_box = template.cloneNode(true);
         new_box.querySelector(".popup_message").textContent = message;
         new_box.hidden = false;
@@ -57,6 +66,8 @@ export class Popup {
      * Close all popups that might be open
      */
     static async clear() {
+        const msg_container = document.querySelector("#msg_container");
+
         while (msg_container.firstChild) {
             msg_container.firstChild.remove();
         }
@@ -67,9 +78,8 @@ export class Popup {
      * @returns {boolean}
      */
     static empty() {
+        const msg_container = document.querySelector("#msg_container");
         return !Boolean(msg_container.firstChild);
     }
 }
 
-// Defined as ids in management.html
-/* global msg_container, error_popup, warning_popup, success_popup */

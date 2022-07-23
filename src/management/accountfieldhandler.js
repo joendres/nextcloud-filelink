@@ -10,6 +10,10 @@ export class AccountFieldHandler {
      * @returns Persistent data, that will be used after the cloud update
      */
     static preCloudUpdate(cc) {
+        const serverUrl = document.querySelector("#serverUrl");
+        const password = document.querySelector("#password");
+        const username = document.querySelector("#username");
+
         const url = new URL(serverUrl.value);
         // Remove double slashes from url
         const shortpath = url.pathname.split('/').filter(e => "" !== e);
@@ -51,6 +55,3 @@ export class AccountFieldHandler {
         }
     }
 }
-
-// html ids are automatic vairables
-/* globals serverUrl, password, username */

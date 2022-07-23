@@ -13,6 +13,7 @@ export class FormHandler {
      * Add event listeners to all elements that need them
      */
     addListeners() {
+        const accountForm = document.querySelector("#accountForm");
         accountForm.oninput = FormHandler.updateButtons;
         accountForm.onreset = () => this.resetHandler();
         accountForm.onsubmit = (evt) => this.submitHandler(evt);
@@ -33,6 +34,10 @@ export class FormHandler {
      * Reset button is only active if any field has been changed
      */
     static updateButtons() {
+        const saveButton = document.querySelector("#saveButton");
+        const resetButton = document.querySelector("#resetButtonButton");
+        const accountForm = document.querySelector("#accountForm");
+
         saveButton.disabled = !accountForm.checkValidity();
         resetButton.disabled = false;
     }
@@ -41,6 +46,9 @@ export class FormHandler {
      * Handle reset events AKA reset button pressed
      */
     resetHandler() {
+        const saveButton = document.querySelector("#saveButton");
+        const resetButton = document.querySelector("#resetButtonButton");
+
         Popup.clear();
         this.fillData();
         resetButton.disabled = saveButton.disabled = true;
@@ -51,6 +59,9 @@ export class FormHandler {
      * @param {Event} evt The button press event
      */
     async submitHandler(evt) {
+        const saveButton = document.querySelector("#saveButton");
+        const resetButton = document.querySelector("#resetButtonButton");
+
         FormHandler.lookBusy();
         saveButton.disabled = resetButton.disabled = true;
         Popup.clear();
@@ -69,23 +80,23 @@ export class FormHandler {
      * Set the busy cursor and deactivate all inputs
      */
     static lookBusy() {
-        body.classList.add('busy');
-        all_fields.disabled = true;
+        document.querySelector("body").classList.add('busy');
+        document.querySelector("#all_fields").disabled = true;
     }
 
     /**
      * Hide the busy cursor and reactivate all fields that were active
      */
     static stopLookingBusy() {
-        all_fields.disabled = false;
-        body.classList.remove('busy');
+        document.querySelector("#all_fields").disabled = false;
+        document.querySelector("body").classList.remove('busy');
     }
 
     /**
      * Fill standard inputs with the data of the same id
      */
     fillAllInputs() {
-        accountForm.querySelectorAll("input")
+        document.querySelectorAll("input")
             .forEach(input => {
                 if (input.type === "checkbox" || input.type === "radio") {
                     input.checked = !!this.cc[input.id];
@@ -101,7 +112,7 @@ export class FormHandler {
      * @returns Data that will be reused in the postCloudUpdate call later
      */
     preCloudUpdate() {
-        accountForm.querySelectorAll("input")
+        document.querySelectorAll("input")
             .forEach(element => {
                 element.value = element.value.trim();
             });
@@ -124,7 +135,7 @@ export class FormHandler {
      * Copy data into the connection object
      */
     copyAllInputs() {
-        accountForm.querySelectorAll("input")
+        document.querySelectorAll("input")
             .forEach(input => {
                 if (input.type === "checkbox" || input.type === "radio") {
                     this.cc[input.id] = input.checked;
@@ -136,6 +147,3 @@ export class FormHandler {
     }
 
 }
-
-// html ids are automatic vairables
-/* globals accountForm, saveButton, resetButton, all_fields, body */
