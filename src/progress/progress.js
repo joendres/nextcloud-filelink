@@ -52,7 +52,7 @@ function updateStatusDisplay(uploads) {
     }
 
     /**
-     * @returns {Boolean} true if any of the uploads is in error state
+     * @returns {boolean} true if any of the uploads is in error state
      */
     function has_information() {
         for (const a of uploads) {

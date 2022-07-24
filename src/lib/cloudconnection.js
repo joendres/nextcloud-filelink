@@ -435,8 +435,8 @@ export class CloudConnection {
      * - Remove all unwanted parts like username, parameters, ...
      * - Convert punycode domain names to UTF-8
      * - URIencode special characters in path
-     * @param {String} url An URL that might contain illegal characters, Punycode and unwanted parameters
-     * @returns {?String} The cleaned URL or null if url is not a valid http(s) URL
+     * @param {string} url An URL that might contain illegal characters, Punycode and unwanted parameters
+     * @returns {?string} The cleaned URL or null if url is not a valid http(s) URL
      */
     _cleanUrl(url) {
         let u;

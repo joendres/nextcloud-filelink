@@ -118,7 +118,7 @@ import { Utils } from "./utils.js";
                 if (null === xmlDoc.getElementsByTagName("d:resourcetype")[0].firstChild) {
                     return {
                         mtime: (new Date(xmlDoc.getElementsByTagName("d:getlastmodified")[0].textContent)).getTime(),
-                        size: Number(xmlDoc.getElementsByTagName("d:getcontentlength")[0].textContent),
+                        size: parseInt(xmlDoc.getElementsByTagName("d:getcontentlength")[0].textContent),
                     };
                 }
             } catch (_) { }
@@ -225,7 +225,7 @@ import { Utils } from "./utils.js";
      *
      * @param {string} path the full file path of the object
      * @param {string} method the HTTP METHOD to use, default GET
-     * @param {Array} [body] Body of the request, eg. file contents
+     * @param {array} [body] Body of the request, eg. file contents
      * @param {*} [additional_headers] Additional headers to include in the request
      * @returns {Promise<Response>}  A Promise that resolves to the Response object
      */
