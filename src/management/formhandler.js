@@ -23,7 +23,11 @@ export class FormHandler {
 
         accountForm.oninput = FormHandler.updateButtons;
         accountForm.onreset = () => this.resetHandler();
-        accountForm.onsubmit = (evt) => this.submitHandler(evt);
+        // THE submit HANDLER MUST NOT BE async (Learned the hard way)
+        accountForm.onsubmit = event => {
+            this.submitHandler();
+            event.preventDefault();
+        };
 
         ExpiryFieldHandler.addListeners();
         DownloadPasswordFieldHandler.addListeners();
@@ -71,9 +75,8 @@ export class FormHandler {
 
     /**
      * Handle submit event AKA save button pressed
-     * @param {Event} evt The button press event
      */
-    async submitHandler(evt) {
+    async submitHandler() {
         /** @type {HTMLButtonElement} */
         const saveButton = document.querySelector("#saveButton");
         /** @type {HTMLButtonElement} */
@@ -82,20 +85,23 @@ export class FormHandler {
         FormHandler.lookBusy();
         saveButton.disabled = resetButton.disabled = true;
         Popup.clear();
+
         const persist = this.preCloudUpdate();
         this.copyAllInputs();
         await this.cc.updateFromCloud();
         await this.postCloudUpdate(persist);
-        this.cc.updateConfigured();
         await this.cc.store();
-        this.fillData();
-        this.updateHeader();
-        this.showErrors();
+        await Promise.all([
+            this.cc.updateConfigured(),
+            this.fillData(),
+            this.updateHeader(),
+            this.showErrors(),
+        ]);
+
         if (Popup.empty()) {
             Popup.success();
         }
         FormHandler.stopLookingBusy();
-        evt.preventDefault();
     }
 
     /**
@@ -193,7 +199,7 @@ export class FormHandler {
             Popup.warn('unsupported_cloud');
         }
     }
- 
+
     /**
      * Update the content of the page header
      */
