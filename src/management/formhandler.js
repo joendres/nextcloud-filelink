@@ -98,6 +98,7 @@ export class FormHandler {
             this.showErrors(),
         ]);
 
+        // @todo fix this, as the success popup currently appears even if there is a warning and an error, see cloudamo
         if (Popup.empty()) {
             Popup.success();
         }
