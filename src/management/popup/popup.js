@@ -7,6 +7,7 @@ export class Popup {
      * @param {string} err_id The id of te error to show a message for, eg. use the status code or error type
      */
     static async error(err_id) {
+        /** @type {HTMLDivElement} */
         const error_popup = document.querySelector("#error_popup");
 
         Popup._openPopup(error_popup,
@@ -20,6 +21,7 @@ export class Popup {
      * @param {string} messageId The id of the localized string
      */
     static async warn(messageId) {
+        /** @type {HTMLDivElement} */
         const warning_popup = document.querySelector("#warning_popup");
 
         Popup._openPopup(warning_popup,
@@ -32,6 +34,7 @@ export class Popup {
      * @param {string} [messageId] The id of the message in _locales.
      */
     static async success(messageId = "success") {
+        /** @type {HTMLDivElement} */
         const success_popup = document.querySelector("#success_popup");
 
         const p = Popup._openPopup(success_popup, browser.i18n.getMessage(messageId));
@@ -45,8 +48,10 @@ export class Popup {
      * @return {Node} The newly created popup
      */
     static _openPopup(template, message) {
+        /** @type {HTMLDivElement} */
         const msg_container = document.querySelector("#msg_container");
 
+        /** @type {HTMLDivElement} */
         const new_box = template.cloneNode(true);
         new_box.querySelector(".popup_message").textContent = message;
         new_box.hidden = false;
@@ -78,8 +83,8 @@ export class Popup {
      * @returns {boolean}
      */
     static empty() {
+        /** @type {HTMLDivElement} */
         const msg_container = document.querySelector("#msg_container");
-        return !Boolean(msg_container.firstChild);
+        return !!msg_container.firstChild;
     }
 }
-

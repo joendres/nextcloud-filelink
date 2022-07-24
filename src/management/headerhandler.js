@@ -8,6 +8,7 @@ export class HeaderHandler {
      */
     static async updateFreespace(accountId) {
         let theAccount = await messenger.cloudFile.getAccount(accountId);
+        /** @type {HTMLDivElement} */
         const freespaceinfo = document.querySelector("#freespaceinfo");
 
         freespaceinfo.hidden = true;
@@ -17,7 +18,9 @@ export class HeaderHandler {
         if (free >= 0 && full >= 0 &&
             free <= Number.MAX_SAFE_INTEGER && full <= Number.MAX_SAFE_INTEGER &&
             isFinite(free) && isFinite(full)) {
+            /** @type {HTMLLabelElement} */
             const freespacelabel = document.querySelector("#freespacelabel");
+            /** @type {HTMLMeterElement} */
             const freespace = document.querySelector("#freespace");
 
             freespacelabel.textContent = browser.i18n.getMessage("freespace", [
@@ -58,8 +61,11 @@ export class HeaderHandler {
      * open dialog
      */
     static updateCloudVersion(cc) {
+        /** @type {HTMLImageElement} */
         const logo = document.querySelector("#logo");
+        /** @type {HTMLLabelElement} */
         const label_version = document.querySelector("#label_version");
+        /** @type {HTMLHeadingElement} */
         const provider_name = document.querySelector("#provider_name");
 
         if (!!cc.cloud_type && !!cc.cloud_versionstring &&
@@ -72,6 +78,7 @@ export class HeaderHandler {
                 "Unsupported": "../../icon48.png",
             }[cc.cloud_type];
 
+            /** @type {HTMLDivElement} */
             const obsolete_string = document.querySelector("#obsolete_string");
             obsolete_string.hidden = cc.cloud_supported;
         } else {

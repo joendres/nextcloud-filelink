@@ -3,6 +3,7 @@ import { Localize } from "../lib/localize.js";
 // Establish messaging with background worker
 var port;
 
+/** @type {HTMLButtonElement} */
 const buttonClear = document.querySelector("#buttonClear");
 
 port = browser.runtime.connect();
@@ -18,8 +19,11 @@ buttonClear.addEventListener('click', () => port.postMessage('clearcomplete'));
  * @param {Map<*,Status>} uploads The Map with Status objects for all active uploads as received via message
  */
 function updateStatusDisplay(uploads) {
+    /** @type {HTMLTableElement} */
     const status_lines = document.querySelector("#status_lines");
+    /** @type {HTMLButtonElement} */
     const buttonClear = document.querySelector("#buttonClear");
+    /** @type {HTMLDivElement} */
     const no_uploads = document.querySelector("#no_uploads");
 
     // Remove extra rows
@@ -65,6 +69,7 @@ function updateStatusDisplay(uploads) {
  * @param {number} row The row number to fill
  */
 function fill_status_row(status, row) {
+    /** @type {HTMLTableElement} */
     const status_lines = document.querySelector("#status_lines");
 
     status_lines.rows[row].cells[0].textContent = status.filename;
@@ -89,6 +94,7 @@ function fill_status_row(status, row) {
         }
         progress.value = status.progress;
     } else if (status.status === 'generatedpassword') {
+        /** @type {HTMLButtonElement} */
         const buttonCopy = document.querySelector("#buttonCopy");
         status_cell.textContent = browser.i18n.getMessage('status_password', status.password);
         const copyButton = buttonCopy.cloneNode(true);

@@ -10,8 +10,11 @@ export class AccountFieldHandler {
      * @returns Persistent data, that will be used after the cloud update
      */
     static preCloudUpdate(cc) {
+        /** @type {HTMLInputElement} */
         const serverUrl = document.querySelector("#serverUrl");
+        /** @type {HTMLInputElement} */
         const password = document.querySelector("#password");
+        /** @type {HTMLInputElement} */
         const username = document.querySelector("#username");
 
         const url = new URL(serverUrl.value);

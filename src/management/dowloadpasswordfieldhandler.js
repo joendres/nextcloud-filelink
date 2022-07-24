@@ -19,7 +19,9 @@ export class DownloadPasswordFieldHandler {
      * Set state of download password input field to state of radio button
      */
     static syncInputStateToRadio() {
+        /** @type {HTMLInputElement} */
         const downloadPassword = document.querySelector("#downloadPassword");
+        /** @type {HTMLInputElement} */
         const oneDLPassword = document.querySelector("#oneDLPassword");
 
         downloadPassword.disabled = !oneDLPassword.checked;
@@ -33,10 +35,14 @@ export class DownloadPasswordFieldHandler {
      * @param {CloudConnection} cc The cloudConnection linked to the open dialog
      */
     static fillData(cc) {
+        /** @type {HTMLInputElement} */
         const useNoDlPassword = document.querySelector("#useNoDlPassword");
         if (cc.enforce_password) {
+            /** @type {HTMLInputElement} */
             const oneDLPassword = document.querySelector("#oneDLPassword");
+            /** @type {HTMLInputElement} */
             const useGeneratedDlPassword = document.querySelector("#useGeneratedDlPassword");
+            /** @type {HTMLInputElement} */
             const advanced_options = document.querySelector("#advanced_options");
 
             useNoDlPassword.disabled = true;
@@ -58,6 +64,7 @@ export class DownloadPasswordFieldHandler {
      */
     static async postCloudUpdate(cc) {
         /* Try to validate the download password against Nextcloud */
+        /** @type {HTMLInputElement} */
         const oneDLPassword = document.querySelector("#oneDLPassword");
         if (oneDLPassword.checked) {
             const result = await cc.validateDLPassword();

@@ -7,6 +7,7 @@ export class ExpiryFieldHandler {
      * Add event listeners to the form elements
      */
     static addListeners() {
+        /** @type {HTMLInputElement} */
         const useExpiry = document.querySelector("#useExpiry");
         useExpiry.oninput = ExpiryFieldHandler.syncInputStateToCheck;
     }
@@ -15,7 +16,9 @@ export class ExpiryFieldHandler {
      * Set state of number input field to state of checkbox
      */
     static syncInputStateToCheck() {
+        /** @type {HTMLInputElement} */
         const expiryDays = document.querySelector("#expiryDays");
+        /** @type {HTMLInputElement} */
         const useExpiry = document.querySelector("#useExpiry");
         expiryDays.disabled = !useExpiry.checked;
         expiryDays.required = useExpiry.checked;
@@ -25,7 +28,9 @@ export class ExpiryFieldHandler {
      * @param {CloudConnection} cc The cloudConnection linked to the open dialog
      */
     static fillData(cc) {
+        /** @type {HTMLInputElement} */
         const expiryDays = document.querySelector("#expiryDays");
+        /** @type {HTMLInputElement} */
         const useExpiry = document.querySelector("#useExpiry");
 
         if (cc.expiry_max_days) {
