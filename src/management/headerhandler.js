@@ -1,3 +1,5 @@
+import { Localize } from "../lib/localize.js";
+
 export class HeaderHandler {
 
     /**
@@ -47,8 +49,7 @@ export class HeaderHandler {
                 return "NaN";
             }
         } while (s.match(/e/));
-        // @todo set decimal point sign according to language
-        return s.replace(/(\.\d+)0$/, "$1").replace(/\.0$/, "") + units[i];
+        return s.replace(/(\.\d+)0$/, "$1").replace(/\.0$/, "").replace(/\./, Localize.decimalSeparator()) + units[i];
     }
 
     /**
