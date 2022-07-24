@@ -1,0 +1,53 @@
+{
+  "name": "filelink-nextcloud",
+  "version": "3.14.0",
+  "description": "*cloud - FileLink for Nextcloud and ownCloud",
+  "main": "src",
+  "dependencies": {
+    "punycode": "^2.1.1"
+  },
+  "scripts": {
+    "test": "npx web-ext run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/joendres/filelink-nextcloud.git"
+  },
+  "keywords": [
+    "thunderbird",
+    "filelink",
+    "cloudfile",
+    "owncloud",
+    "nextcloud"
+  ],
+  "author": "Johannes Endres <je@johannes-endres.de>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://gitlab.com/joendres/filelink-nextcloud/issues"
+  },
+  "homepage": "https://gitlab.com/joendres/filelink-nextcloud#cloud-filelink-for-nextcloud-and-owncloud",
+  "devDependencies": {
+    "jshint": "^2.13.5",
+    "web-ext": "^7.1.1"
+  },
+  "webExt": {
+    "ignoreFiles": [
+      "punycode/package.json",
+      "punycode/README.md",
+      "punycode/punycode.es6.js",
+      "punycode/scripts",
+      "punycode/tests",
+      "photon-components-web/index.js",
+      "photon-components-web/images/arrow-grey-40-*.svg",
+      "photon-components-web/images/open-in-new-16-*.svg",
+      "photon-components-web/images/searchfield-cancel-*.svg"
+    ],
+    "sourceDir": "src",
+    "run": {
+      "browserConsole": true
+    },
+    "build": {
+      "overwriteDest": true
+    }
+  }
+}
