@@ -7,6 +7,9 @@ import { FolderFieldHandler } from "./folderfieldhandler.js";
 import { Popup } from "./popup/popup.js";
 
 export class FormHandler {
+    /**
+     * @param {string} accountId The id of the account as supplied by TB
+     */
     constructor(accountId) {
         this.cc = new CloudConnection(accountId);
     }
@@ -190,7 +193,10 @@ export class FormHandler {
             Popup.warn('unsupported_cloud');
         }
     }
-
+ 
+    /**
+     * Update the content of the page header
+     */
     updateHeader() {
         HeaderHandler.updateFreespace(this.cc._accountId);
         HeaderHandler.updateCloudVersion(this.cc);
