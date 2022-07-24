@@ -17,7 +17,9 @@ export class AccountUpdater {
         const ncc = new CloudConnection(accountId);
         await ncc.load();
         AccountUpdater.upgradeOldConfiguration(ncc);
-        await ncc.updateFromCloud();
+        if (!!ncc.serverUrl && !!ncc.username && !!ncc.password) {
+            await ncc.updateFromCloud();
+        }
         ncc.updateConfigured();
         ncc.store();
     }
