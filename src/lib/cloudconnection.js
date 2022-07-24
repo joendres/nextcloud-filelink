@@ -203,7 +203,6 @@ export class CloudConnection {
                 this.cloud_supported = false;
             }
         }
-        this.store();
         return data;
     }
 
