@@ -22,6 +22,7 @@ h1 {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    font-size: large;
 }
 
 #obsolete_string {
@@ -39,6 +40,7 @@ fieldset {
     border-style: none;
     padding-left: 0;
     padding-right: 0;
+    clear: both;
 }
 
 .fullwidth {

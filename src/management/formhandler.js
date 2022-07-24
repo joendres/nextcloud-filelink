@@ -139,6 +139,9 @@ export class FormHandler {
      * @param {*} persist Data returned from preCloudUpdate earlier
      */
     async postCloudUpdate(persist) {
+        if ('undefined' === typeof this.cc.public_shares_enabled) {
+            Popup.warn('no_config_check');
+        }
         return Promise.all([
             AccountFieldHandler.postCloudUpdate(this.cc, persist.account),
             DownloadPasswordFieldHandler.postCloudUpdate(this.cc),
@@ -168,8 +171,6 @@ export class FormHandler {
             Popup.error(this.cc.laststatus);
         } else if (false === this.cc.public_shares_enabled) {
             Popup.error('sharing_off');
-        } else if ('undefined' === typeof this.cc.public_shares_enabled) {
-            Popup.warn('no_config_check');
         } else if (false === this.cc.cloud_supported) {
             Popup.warn('unsupported_cloud');
         }
