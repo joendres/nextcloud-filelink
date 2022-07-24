@@ -17,7 +17,7 @@ lint:
     - unset WEB_EXT_API_SECRET
     - npx web-ext lint
     - npx jshint src
-    - '! grep -r --exclude-dir=photon-components-web @todo src'
+    - '! grep -r @todo src'
 
 sign:
   stage: deploy
