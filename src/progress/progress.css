@@ -1,3 +1,7 @@
+.cell {
+    align-self: center;
+}
+
 .error {
     color: var(--red-60);
 }
@@ -6,11 +10,13 @@
     display: none;
 }
 
-.copy {
-    float: right;
-    margin-left: 4px;
+#status_lines {
+    display: grid;
+    grid-template-columns: repeat(3, max-content);
+    column-gap: 4px;
+    row-gap: 4px;
 }
 
-td {
-    vertical-align: text-bottom;
+progress {
+    width: 8em;
 }

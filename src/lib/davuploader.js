@@ -292,7 +292,6 @@ class DavUploader {
         });
     }
 }
-/* global MAX_FILE_SIZE */
 /* global attachmentStatus, Utils */
 /* global allAbortControllers */
 // defined in background.js
