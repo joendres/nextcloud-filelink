@@ -25,11 +25,11 @@
     ],
     "manifest_version": 2,
     "background": {
-        "page": "background.html",
+        "page": "background/background.html",
         "persistent": true
     },
     "compose_action": {
-        "default_popup": "progress/progress.html",
+        "default_popup": "compose_action/progress.html",
         "default_label": "__MSG_status_menuname__",
         "default_title": "__MSG_status_menutooltip__",
         "default_icon": "icon48.png"

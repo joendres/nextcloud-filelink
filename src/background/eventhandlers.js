@@ -1,4 +1,4 @@
-import { CloudConnection } from "./cloudconnection.js";
+import { CloudConnection } from "../common/cloudconnection.js";
 import { Status } from "./status.js";
 
 /** AbortControllers for all active uploads */

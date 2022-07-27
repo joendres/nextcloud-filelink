@@ -1,4 +1,4 @@
-import { CloudConnection } from "./cloudconnection.js";
+import { CloudConnection } from "../common/cloudconnection.js";
 
 export class AccountUpdater {
     /**

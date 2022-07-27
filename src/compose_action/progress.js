@@ -1,4 +1,4 @@
-import { Localize } from "../lib/localize.js";
+import { Localize } from "../common/localize.js";
 
 // Establish messaging with background worker
 var port;

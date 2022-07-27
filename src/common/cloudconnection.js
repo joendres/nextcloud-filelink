@@ -1,7 +1,7 @@
-import { attachmentStatus, Status } from "./status.js";
-import { DavUploader } from "./davuploader.js";
-import { PasswordGenerator } from "./passwordgenerator.js";
-import { Utils } from "./utils.js";
+import { attachmentStatus, Status } from "../background/status.js";
+import { DavUploader } from "../background/davuploader.js";
+import { PasswordGenerator } from "../background/passwordgenerator.js";
+import { Utils } from "../background/utils.js";
 
 //#region  Configurable options and useful constants
 const apiUrlBase = "ocs/v1.php";

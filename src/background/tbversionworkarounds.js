@@ -1,4 +1,4 @@
-import { Localize } from "./localize.js";
+import { Localize } from "../common/localize.js";
 
 export class TBVersionWorkarounds {
     static async apply_all() {
