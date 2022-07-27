@@ -62,7 +62,7 @@ import { Utils } from "./utils.js";
     /**
      * Create a complete folder path, returns true if that path already exists
      *
-     * @param {string} folder 
+     * @param {string} fullPath 
      * @returns {boolean} if creation succeeded
      */
     async _recursivelyCreateFolder(fullPath) {

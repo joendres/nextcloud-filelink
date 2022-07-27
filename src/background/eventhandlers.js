@@ -1,7 +1,9 @@
 import { CloudConnection } from "../common/cloudconnection.js";
 import { Status } from "./status.js";
 
-/** AbortControllers for all active uploads */
+/** AbortControllers for all active uploads
+ * @type {Map<string,XMLHttpRequest>}
+ */
 const allAbortControllers = new Map();
 
 /**

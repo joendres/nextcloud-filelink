@@ -1,6 +1,7 @@
 /**
  * Global Map to hold Status objects for all active uploads, indexed by the
  * uploadId
+ * @type {Map<string,Status>}
  */
 const attachmentStatus = new Map();
 
@@ -19,6 +20,9 @@ browser.runtime.onConnect.addListener(p => {
  * Class to hold status of one upload
  */
 class Status {
+   /**
+    * @param {string} filename The name of the file to upload
+    */
     constructor(filename) {
         this.filename = filename;
         // Define display in ../progress/progress.js
