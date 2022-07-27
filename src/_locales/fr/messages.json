@@ -32,6 +32,9 @@
   "storageFolder": {
     "message": "Chemin d'accès au dossier distant"
   },
+  "advanced_options": {
+    "message": "Options avancées"
+  },
   "storageFolder_details": {
     "message": "Indiquez le chemin qui pointe sur le dossier distant de votre serveur Cloud destiné à stocker les pièces jointes. Si le dossier indiqué n'existe pas, il sera créé automatiquement pendant le téléversement."
   },
@@ -65,6 +68,12 @@
   "expiry_details": {
     "message": "Nombre de jours durant lequel le lien de téléchargement sera valide, à partir de ce jour. "
   },
+  "noAutoDownload": {
+    "message": "Afficher les détails du fichier avant téléchargement"
+  },
+  "noAutoDownload_details": {
+    "message": "Est-ce que l'action du clic sur le lien doit afficher les détails du fichier (avec éventuellement un aperçu) ou bien démarrer immédiatement le téléchargement ?"
+  },
   "freespace": {
     "message": "Espace disponible ($FREE$ utilisés sur $FULL$)",
     "placeholders": {
@@ -77,46 +86,63 @@
     }
   },
   "success": {
+    "description": "This is displayed as a popup over the configuration page if the configuration has no errors or warnings",
     "message": "Réussi"
   },
   "error_0": {
+    "description": "This is displayed as a popup over the configuration page. $1 will be replaced with the server's error message",
     "message": "Erreur inconnue ($1)"
   },
   "error_typeerror": {
+    "description": "This is displayed as a popup over the configuration page",
     "message": "Connexion impossible. Veuillez vérifier votre connexion internet et l'adresse de votre serveur."
   },
   "error_404": {
+    "description": "This is displayed as a popup over the configuration page",
     "message": "Utilisateur inexistant ou aucun serveur Cloud compatible à cette adresse."
   },
   "warn_unsupported_cloud": {
+    "description": "This is displayed as a popup over the configuration page",
     "message": "Attention, la version d'ownCloud ou Nextcloud que vous utilisez est obsolète. Si vous continuez, vous risquez de perdre des données. Contactez l'administrateur de votre serveur pour une mise à jour."
+  },
+  "warn_nonascii_password": {
+    "description": "This is displayed as a popup over the configuration page",
+    "message": "Votre mot de passe contient des caractères qui semblent poser un problème d'identification. Veuillez utiliser plutôt un mot de passe d'application."
   },
   "obsolete_version": {
     "description": "This is displayed over the icon if the cloud version is not supported, so it should be quite short and contain at most two lines.",
     "message": "Version\nobsolète"
   },
   "error_401": {
+    "description": "This is displayed as a popup over the configuration page",
     "message": "Échec de la connexion. Vérifiez le nom d'utilisateur et le mot de passe."
   },
   "error_503": {
+    "description": "This is displayed as a popup over the configuration page",
     "message": "Maintenance du serveur en cours. Veuillez réessayer plus tard."
   },
   "error_sharing_off": {
+    "description": "This is displayed as a popup over the configuration page",
     "message": "Le partage n'est pas activé sur ce serveur Cloud. Contactez votre administrateur pour l'activer."
   },
   "error_invalid_pw": {
+    "description": "This is displayed as a popup over the configuration page. $1 will be replaced with the server's error message",
     "message": "Mot de passe de téléchargement incorrect (les téléversements échoueront). Raison communiquée par le serveur: $1"
   },
   "error_password_enforced": {
+    "description": "This is displayed as a popup over the configuration page",
     "message": "Votre serveur Cloud requiert un mot de passe de téléchargement."
   },
   "warn_expiry_too_long": {
+    "description": "This is displayed as a popup over the configuration page",
     "message": "Le temps d'expiration choisi dépasse la limite fixée par votre administrateur de serveur Cloud à $1 jour(s). La valeur a donc été ramenée à cette limite pour éviter un échec du téléversement."
   },
   "warn_no_config_check": {
+    "description": "This is displayed as a popup over the configuration page",
     "message": "Erreur de vérification du compte. Vérifiez votre connexion."
   },
   "warn_insecure_http": {
+    "description": "This is displayed as a popup over the configuration page",
     "message": "Avec l'en-tête http: vos identifiants sont communiqués au serveur sans aucun chiffrement. Utilisez https: à la place. En cas d'impossibilité, contactez l'admin du serveur."
   },
   "status_menutooltip": {
@@ -139,21 +165,23 @@
     "message": "Préparation du téléversement"
   },
   "status_creating": {
+    "description": "This will be displayed in the status popup. If this step fails this string will be combined with one indicating failure, eg 'Preparing file size failed'.",
     "message": "Création du dossier"
   },
   "status_moving": {
+    "description": "This will be displayed in the status popup. If this step fails this string will be combined with one indicating failure, eg 'Preparing file size failed'.",
     "message": "Déplacement du fichier en conflit"
   },
   "status_uploading": {
+    "description": "This will be displayed in the status popup. If this step fails this string will be combined with one indicating failure, eg 'Preparing file size failed'.",
     "message": "Téléversement du fichier"
   },
   "status_sharing": {
+    "description": "This will be displayed in the status popup. If this step fails this string will be combined with one indicating failure, eg 'Preparing file size failed'.",
     "message": "Partage du fichier"
   },
-  "status_checkingsize": {
-    "message": "Vérification de la taille maximale du fichier"
-  },
   "status_checkingspace": {
+    "description": "This will be displayed in the status popup. If this step fails this string will be combined with one indicating failure, eg 'Preparing file size failed'.",
     "message": "Vérification de l'espace disponible"
   },
   "status_error": {
@@ -161,12 +189,10 @@
     "message": "$1 : échec"
   },
   "status_password": {
+    "description": "This will be displayed in the status popup if download passwords are generated. $1 is replaced with the generated password for this file",
     "message": "mot de passe: $1"
   },
-  "warn_nonascii_password": {
-    "message": "Votre mot de passe contient des caractères qui semblent poser un problème d'identification. Veuillez utiliser plutôt un mot de passe d'application."
-  },
-  "advanced_options": {
-    "message": "Options avancées"
+  "decimal_separator": {
+    "message": ","
   }
 }
