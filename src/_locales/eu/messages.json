@@ -32,6 +32,9 @@
   "storageFolder": {
     "message": "Hodeiko biltegiratze bidea"
   },
+  "advanced_options": {
+    "message": "Aukera aurreratuak"
+  },
   "storageFolder_details": {
     "message": "Eranskinak gordeko diren hodeiko bidea. Ez bada existitzen, igotzean sortzen da."
   },
@@ -45,7 +48,7 @@
     "message": "Erabili sortutako pasahitzak"
   },
   "useGeneratedDlPassword_details": {
-    "message": "Ausazko pasahitz bat sortuko da fitxategi bakoitzeko. Egin klik eranskinen panelaren gaineko *cloud egoera botoian fitxategiak igo ondoren sortutako pasahitzak ikusi eta kopiatzeko."
+    "message": "Ausazko pasahitz bat sortuko da fitxategi bakoitzeko. Egin klik *cloud egoera botoian fitxategiak igo ondoren, sortutako pasahitzak ikusi eta kopiatzeko."
   },
   "useDlPassword": {
     "message": "Babestu deskargak pasahitzekin"
@@ -65,6 +68,12 @@
   "expiry_details": {
     "message": "Zenbat egunez egongo den deskarga bat eskuragarri, gaurkoa barne"
   },
+  "noAutoDownload": {
+    "message": "Erakutsi fitxategiaren informazioa deskargatu aurretik"
+  },
+  "noAutoDownload_details": {
+    "message": "Estekan klik egitean fitxategiari buruzko informazioa bistaratu behar da (batzuetan baita aurrebista ere) edo zuzenean deskarga hasi?"
+  },
   "freespace": {
     "message": "Leku librea ($FREE$ / $FULL$)",
     "placeholders": {
@@ -77,46 +86,63 @@
     }
   },
   "success": {
+    "description": "This is displayed as a popup over the configuration page if the configuration has no errors or warnings",
     "message": "Arrakasta"
   },
   "error_0": {
+    "description": "This is displayed as a popup over the configuration page. $1 will be replaced with the server's error message",
     "message": "Errore ezezaguna ($1)"
   },
   "error_typeerror": {
+    "description": "This is displayed as a popup over the configuration page",
     "message": "Konexiorik ez. Egiaztatu zerbitzariaren URLa eta sareko konexioa"
   },
   "error_404": {
+    "description": "This is displayed as a popup over the configuration page",
     "message": "Kontua egiaztatzeak huts egin du: erabiltzaile-izen okerra edo hodei bateraezina edo sareko errorea"
   },
   "warn_unsupported_cloud": {
+    "description": "This is displayed as a popup over the configuration page",
     "message": "Nextcloud edo ownClouden bertsio zaharkitua. Datuak galdu ditzakezu. Eskatu hodeiaren administratzaileari eguneratzeko"
+  },
+  "warn_nonascii_password": {
+    "description": "This is displayed as a popup over the configuration page",
+    "message": "Zure pasahitzak saioa hastean ziur aski arazoak emango dituzten karaktereak ditu. Erabili aplikazio token bat."
   },
   "obsolete_version": {
     "description": "This is displayed over the icon if the cloud version is not supported, so it should be quite short and contain at most two lines.",
     "message": "Bertsio\nzaharkitua"
   },
   "error_401": {
+    "description": "This is displayed as a popup over the configuration page",
     "message": "Saio hasierak huts egin du. Egiaztatu erabiltzaile-izena eta pasahitza."
   },
   "error_503": {
+    "description": "This is displayed as a popup over the configuration page",
     "message": "Zerbitzaria mantenu moduan dago. Saiatu berriz beranduago."
   },
   "error_sharing_off": {
+    "description": "This is displayed as a popup over the configuration page",
     "message": "Partekatzea desgaituta dago hodei honetan. Eskatu administratzaileari gaitzeko."
   },
   "error_invalid_pw": {
+    "description": "This is displayed as a popup over the configuration page. $1 will be replaced with the server's error message",
     "message": "Deskargarako pasahitz baliogabea (igoerek huts egingo dute). Zerbitzariak dio: $1"
   },
   "error_password_enforced": {
+    "description": "This is displayed as a popup over the configuration page",
     "message": "Zure hodeiak deskargarako pasahitza eskatzen du."
   },
   "warn_expiry_too_long": {
+    "description": "This is displayed as a popup over the configuration page",
     "message": "Zure hodeiaren administratzaileak $1 eguneko gehienezko iraungitze-denbora ezarri du. Balioa mugatu da, bestela igoerek huts egingo lukete."
   },
   "warn_no_config_check": {
+    "description": "This is displayed as a popup over the configuration page",
     "message": "Kontua egiaztatzeak huts egin du. Sareko arazoak?"
   },
   "warn_insecure_http": {
+    "description": "This is displayed as a popup over the configuration page",
     "message": "http:-rekin zure saio hasierako datuak enkriptatu gabe transferituko dira. Hobe https: erabiltzea. Ez badabil, jakinarazi zure administratzaileari."
   },
   "status_menutooltip": {
@@ -139,21 +165,23 @@
     "message": "Prestatzen"
   },
   "status_creating": {
+    "description": "This will be displayed in the status popup. If this step fails this string will be combined with one indicating failure, eg 'Preparing file size failed'.",
     "message": "Karpeta sortzen"
   },
   "status_moving": {
+    "description": "This will be displayed in the status popup. If this step fails this string will be combined with one indicating failure, eg 'Preparing file size failed'.",
     "message": "Gatazka sortzen duen fitxategia lekuz aldatzen"
   },
   "status_uploading": {
+    "description": "This will be displayed in the status popup. If this step fails this string will be combined with one indicating failure, eg 'Preparing file size failed'.",
     "message": "Igotzen"
   },
   "status_sharing": {
+    "description": "This will be displayed in the status popup. If this step fails this string will be combined with one indicating failure, eg 'Preparing file size failed'.",
     "message": "Partekatzen"
   },
-  "status_checkingsize": {
-    "message": "Fitxategiaren gehienezko tamaina egiaztatzen"
-  },
   "status_checkingspace": {
+    "description": "This will be displayed in the status popup. If this step fails this string will be combined with one indicating failure, eg 'Preparing file size failed'.",
     "message": "Leku librea egiaztatzen"
   },
   "status_error": {
@@ -161,12 +189,10 @@
     "message": "$1 huts egin du"
   },
   "status_password": {
+    "description": "This will be displayed in the status popup if download passwords are generated. $1 is replaced with the generated password for this file",
     "message": "pasahitza: $1"
   },
-  "warn_nonascii_password": {
-    "message": "Zure pasahitzak saioa hastean ziur aski arazoak emango dituzten karaktereak ditu. Erabili aplikazio token bat."
-  },
-  "advanced_options": {
-    "message": "Aukera aurreratuak"
+  "decimal_separator": {
+    "message": ","
   }
 }
