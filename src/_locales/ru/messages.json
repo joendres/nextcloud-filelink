@@ -1,6 +1,6 @@
 {
   "extensionDescription": {
-    "message": "Выгрузить вложение превышающее лимиты почты в облако и послать ссылку по почте"
+    "message": "Выгрузка вложений, превышающих ограничения почты, в облако, с вложением ссылки на них в письмо"
   },
   "extensionName": {
     "message": "*cloud - облачный провайдер FileLink для Nextcloud и ownCloud технологий"
@@ -27,10 +27,13 @@
     "message": "Токен приложения или пароль"
   },
   "password_details": {
-    "message": "Токен приложения (предпочтительнее) или пароль.\nНадстройка для Nextcloud попытается конвертировать ваш пароль в токен приложения перед его сохранением. Если это не удастся, ваш пароль будет хранится не зашифрованным."
+    "message": "Токен приложения (предпочтительнее) или пароль.\nНадстройка для Nextcloud попытается конвертировать ваш пароль в токен приложения перед его сохранением. Если это не удастся, ваш пароль будет храниться не зашифрованным."
   },
   "storageFolder": {
-    "message": "путь размещения в облаке"
+    "message": "Путь размещения в облаке"
+  },
+  "advanced_options": {
+    "message": "Расширенные опции"
   },
   "storageFolder_details": {
     "message": "Путь куда будут сохранены вложения в вашем облаке. Если он не существует, то будет создан в процессе выгрузки."
@@ -45,7 +48,7 @@
     "message": "Генерировать случайный пароль"
   },
   "useGeneratedDlPassword_details": {
-    "message": "Будет сгенерирован случайный пароль для каждого файла. Нажмите кнопку статуса с надписью *cloud над панелью вложений для просмотра и копирования сгенерированных паролей для уже выгруженных в облако файлов."
+    "message": "Случайный пароль будет сгенерирован для каждого файла. Нажмите кнопку статуса *cloud, чтобы увидеть и скопировать сгенерированные пароли после выгрузки."
   },
   "useDlPassword": {
     "message": "Защита выгрузок одним паролем"
@@ -65,6 +68,12 @@
   "expiry_details": {
     "message": "Количество дней, когда выгруженный файл будет доступен, включая сегодня"
   },
+  "noAutoDownload": {
+    "message": "Показать информацию о файле перед загрузкой"
+  },
+  "noAutoDownload_details": {
+    "message": "Должен ли щелчок по ссылке показывать информацию о файле (по возможности и предпросмотр) или незамедлительно начинать загрузку?"
+  },
   "freespace": {
     "message": "Свободное Место ($FREE$ из $FULL$)",
     "placeholders": {
@@ -77,46 +86,63 @@
     }
   },
   "success": {
+    "description": "This is displayed as a popup over the configuration page if the configuration has no errors or warnings",
     "message": "Успешно"
   },
   "error_0": {
+    "description": "This is displayed as a popup over the configuration page. $1 will be replaced with the server's error message",
     "message": "Неизвестная ошибка ($1)"
   },
   "error_typeerror": {
+    "description": "This is displayed as a popup over the configuration page",
     "message": "Нет соединения. Проверьте URL сервера или сетевое соединение"
   },
   "error_404": {
+    "description": "This is displayed as a popup over the configuration page",
     "message": "Ошибка проверки учётной записи: неправильное имя, несовместимое облако или сетевая ошибка"
   },
   "warn_unsupported_cloud": {
+    "description": "This is displayed as a popup over the configuration page",
     "message": "Устаревшая версия Nextcloud или ownCloud. Вы можете потерять данные. Попросите администратора вашег облака обновить версию"
+  },
+  "warn_nonascii_password": {
+    "description": "This is displayed as a popup over the configuration page",
+    "message": "Ваш пароль содержит символы, которые могут вызвать проблемы со входом в систему. Вместо этого используетей пароль приложения."
   },
   "obsolete_version": {
     "description": "This is displayed over the icon if the cloud version is not supported, so it should be quite short and contain at most two lines.",
     "message": "Устаревшая\nверсия"
   },
   "error_401": {
+    "description": "This is displayed as a popup over the configuration page",
     "message": "Авторизация не удалась. Проверьте имя и пароль."
   },
   "error_503": {
+    "description": "This is displayed as a popup over the configuration page",
     "message": "Сервер в режиме обслуживания. Попробуйте позже."
   },
   "error_sharing_off": {
+    "description": "This is displayed as a popup over the configuration page",
     "message": "Совемстное использование в этом облаке отключено. Попросите вашего администратора облака включить его."
   },
   "error_invalid_pw": {
+    "description": "This is displayed as a popup over the configuration page. $1 will be replaced with the server's error message",
     "message": "Неверный пароль для выгрузки (выгрузки не удались). Сервер ответил: $1"
   },
   "error_password_enforced": {
+    "description": "This is displayed as a popup over the configuration page",
     "message": "Ваше облако требует указывать пароль для скачивания выгруженных файлов."
   },
   "warn_expiry_too_long": {
+    "description": "This is displayed as a popup over the configuration page",
     "message": "Адиминистратор вашего облака установил максимальный срок хранения выгрузок $1 суток. Ваш срок хранения был обрезан до $1 суток, иначе выгрузка бы не удалась."
   },
   "warn_no_config_check": {
+    "description": "This is displayed as a popup over the configuration page",
     "message": "Не удалось подтвердить аккаунт. Сетевые проблемы ?"
   },
   "warn_insecure_http": {
+    "description": "This is displayed as a popup over the configuration page",
     "message": "С  http: префиксом в URL адресе ваши данные авторизации будут передаваться в незашифрованном виде. Используйте https: префикс в URL адресе. Если это не работает, уточните у вашего администратора облака."
   },
   "status_menutooltip": {
@@ -139,21 +165,23 @@
     "message": "Подготовка"
   },
   "status_creating": {
+    "description": "This will be displayed in the status popup. If this step fails this string will be combined with one indicating failure, eg 'Preparing file size failed'.",
     "message": "Создание папки"
   },
   "status_moving": {
+    "description": "This will be displayed in the status popup. If this step fails this string will be combined with one indicating failure, eg 'Preparing file size failed'.",
     "message": "Перемещение конфликтного файла"
   },
   "status_uploading": {
+    "description": "This will be displayed in the status popup. If this step fails this string will be combined with one indicating failure, eg 'Preparing file size failed'.",
     "message": "Выгрузка"
   },
   "status_sharing": {
+    "description": "This will be displayed in the status popup. If this step fails this string will be combined with one indicating failure, eg 'Preparing file size failed'.",
     "message": "Совместное использование"
   },
-  "status_checkingsize": {
-    "message": "Проверка максимального размера файла"
-  },
   "status_checkingspace": {
+    "description": "This will be displayed in the status popup. If this step fails this string will be combined with one indicating failure, eg 'Preparing file size failed'.",
     "message": "Проверка свободного места"
   },
   "status_error": {
@@ -161,12 +189,10 @@
     "message": "$1 не удалась(сбой)"
   },
   "status_password": {
+    "description": "This will be displayed in the status popup if download passwords are generated. $1 is replaced with the generated password for this file",
     "message": "пароль: $1"
   },
-  "warn_nonascii_password": {
-    "message": "Ваш пароль содержит символы, которые могут вызвать проблемы со входом в систему. Вместо этого используетей пароль приложения."
-  },
-  "advanced_options": {
-    "message": "Расширенные опции"
+  "decimal_separator": {
+    "message": ","
   }
 }
