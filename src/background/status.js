@@ -3,6 +3,7 @@
  * uploadId
  * @type {Map<string,Status>}
  */
+/** @type {Map<string,Status>} */
 const attachmentStatus = new Map();
 
 /**
@@ -10,10 +11,10 @@ const attachmentStatus = new Map();
  */
 let port = null;
 browser.runtime.onConnect.addListener(p => {
-    p.postMessage(attachmentStatus);
     port = p;
     port.onDisconnect.addListener(() => port = null);
     port.onMessage.addListener(MsgHandler.dispatch);
+    port.postMessage(attachmentStatus);
 });
 
 /**

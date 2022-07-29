@@ -10,9 +10,15 @@
 
 <body>
     <div id="no_uploads" data-message="status_no_uploads"></div>
-    <table id="status_lines"></table>
-    <button id="buttonClear" class="button--primary button--micro hidden" data-message="status_button_clear"></button>
-    <button id="buttonCopy" class="button--micro copy hidden"><img src="Copy.svg"></button>
+    <div id="status_lines"> </div>
+    <button id="button_clear" class="button--primary button--micro hidden" data-message="status_button_clear"></button>
+
+    <div id="templates" hidden>
+        <div class="cell"></div>
+        <div class="copy">
+            <button class="button--micro hidden" ><img src="Copy.svg"></button>
+        </div>
+    </div>
 </body>
 
 </html>

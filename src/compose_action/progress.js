@@ -4,51 +4,45 @@ import { Localize } from "../common/localize.js";
 var port;
 
 /** @type {HTMLButtonElement} */
-const buttonClear = document.querySelector("#buttonClear");
+const button_clear = document.querySelector("#button_clear");
+/** @type {HTMLDivElement} */
+const status_lines = document.querySelector("#status_lines");
+/** @type {HTMLDivElement} */
+const no_uploads = document.querySelector("#no_uploads");
+/** @type {HTMLDivElement} */
+const template_copy = document.querySelector("#templates>.copy");
+/** @type {HTMLDivElement} */
+const template_cell = document.querySelector("#templates>.cell");
 
 port = browser.runtime.connect();
 port.onMessage.addListener(updateStatusDisplay);
 
 Localize.addLocalizedLabels();
 // Unsuccessful uploads remain in the popup window until this button is pressed
-buttonClear.addEventListener('click', () => port.postMessage('clearcomplete'));
+button_clear.addEventListener('click', () => port.postMessage('clearcomplete'));
 
 /**
  * Fills the status popup with content
  * 
- * @param {Map<*,Status>} uploads The Map with Status objects for all active uploads as received via message
+ * @param {Map<string,Status>} uploads The Map with Status objects for all active uploads as received via message
  */
 function updateStatusDisplay(uploads) {
-    /** @type {HTMLTableElement} */
-    const status_lines = document.querySelector("#status_lines");
-    /** @type {HTMLButtonElement} */
-    const buttonClear = document.querySelector("#buttonClear");
-    /** @type {HTMLDivElement} */
-    const no_uploads = document.querySelector("#no_uploads");
-
-    // Remove extra rows
-    while (status_lines.rows.length > uploads.size) {
-        status_lines.deleteRow(-1);
+    // Empty the grid
+    while (status_lines.firstChild) {
+        status_lines.firstChild.remove();
     }
 
-    buttonClear.classList.add('hidden');
+    button_clear.classList.add('hidden');
     if (uploads.size === 0) {
         no_uploads.hidden = false;
     } else {
         no_uploads.hidden = true;
         if (has_information()) {
-            buttonClear.classList.remove('hidden');
-        }
-        // Make sure, we have enough lines for all uploads
-        while (status_lines.rows.length < uploads.size) {
-            const line = status_lines.insertRow();
-            line.insertCell(0);
-            line.insertCell(1);
+            button_clear.classList.remove('hidden');
         }
         // Fill the rows of the table
         // CAUTION: For a Map, the second argument to the callback is the key, not a number as in an array
-        let row = 0;
-        uploads.forEach(upload => fill_status_row(upload, row++));
+        uploads.forEach(upload => fill_status_row(upload));
     }
 
     /**
@@ -66,44 +60,37 @@ function updateStatusDisplay(uploads) {
  * Fill one row of the table with information from a Status object
  * 
  * @param {Status} status The Status object to display
- * @param {number} row The row number to fill
  */
-function fill_status_row(status, row) {
-    /** @type {HTMLTableElement} */
-    const status_lines = document.querySelector("#status_lines");
+function fill_status_row(status) {
+    // Append the file name
+    let div = template_cell.cloneNode(true);
+    div.textContent = status.filename;
+    status_lines.appendChild(div);
 
-    status_lines.rows[row].cells[0].textContent = status.filename;
-
-    const status_cell = status_lines.rows[row].cells[1];
+    // Add the middle field 
+    div = template_cell.cloneNode(true);
     if (status.error) {
-        status_cell.classList.add('error');
-        status_cell.textContent =
+        div.classList.add('error');
+        div.textContent =
             browser.i18n.getMessage('status_error',
                 browser.i18n.getMessage(`status_${status.status}`));
     } else if (status.status === 'uploading') {
-        let progress;
-        if (status_cell.firstChild instanceof HTMLProgressElement) {
-            progress = status_cell.firstChild;
-        } else {
-            progress = document.createElement('progress');
-            if (status_cell.firstChild) {
-                status_cell.replaceChild(progress, status_cell.firstChild);
-            } else {
-                status_cell.appendChild(progress);
-            }
-        }
+        let progress = document.createElement('progress');
         progress.value = status.progress;
+        div.appendChild(progress);
     } else if (status.status === 'generatedpassword') {
-        /** @type {HTMLButtonElement} */
-        const buttonCopy = document.querySelector("#buttonCopy");
-        status_cell.textContent = browser.i18n.getMessage('status_password', status.password);
-        const copyButton = buttonCopy.cloneNode(true);
-        copyButton.addEventListener('click', () => navigator.clipboard.writeText(status.password));
-        copyButton.removeAttribute('id');
-        copyButton.classList.remove('hidden');
-        status_cell.appendChild(copyButton);
+        div.textContent = browser.i18n.getMessage('status_password', status.password);
     } else {
-        status_cell.classList.remove('error');
-        status_cell.textContent = browser.i18n.getMessage(`status_${status.status}`);
+        div.textContent = browser.i18n.getMessage(`status_${status.status}`);
     }
+    status_lines.appendChild(div);
+
+    // Add the copy button as a placeholder
+    div = template_copy.cloneNode(true);
+    if (status.status === 'generatedpassword') {
+        const button = div.querySelector("button");
+        button.addEventListener('click', () => navigator.clipboard.writeText(status.password));
+        button.classList.remove("hidden");
+    }
+    status_lines.appendChild(div);
 }
