@@ -85,6 +85,6 @@ export class Popup {
     static empty() {
         /** @type {HTMLDivElement} */
         const msg_container = document.querySelector("#msg_container");
-        return !!msg_container.firstChild;
+        return !msg_container.firstChild;
     }
 }
