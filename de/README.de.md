@@ -1,4 +1,4 @@
-# __*cloud__ - FileLink für Nextcloud und ownCloud
+# *cloud - FileLink für Nextcloud und ownCloud
 
 Eine MailExtension für Thunderbird (68+), die große Attachments in die Cloud
 hochlädt und dann einen Download-Link in die Mail einfügt.
@@ -29,8 +29,7 @@ hochlädt und dann einen Download-Link in die Mail einfügt.
 ### Variante
 
 __*cloud__ gibt es auch in der Addon-Sammlung von Thunderbird:
-
-[![Hol dir das Addon](https://addons.cdn.mozilla.net/static/img/addons-buttons/TB-AMO-button_1.png)](https://addons.thunderbird.net/thunderbird/addon/filelink-nextcloud-owncloud/).
+[*cloud - FileLink für Nextcloud und ownCloud](https://addons.thunderbird.net/thunderbird/addon/filelink-nextcloud-owncloud/).
 
 ## Benutzung
 
@@ -53,7 +52,7 @@ drei Möglichkeiten, den Upload zu starten:
 ### Du möchtest den Text ändern, den Thunderbird mit dem Link in die Mail einbaut
 
 Viele Benutzer möchten einen anderen Text mit der Download-URL in die Nachricht
-eingefügen, z.B. das Ablaufdatum einfügen, den Link zum Cloud-Dienst ändern,
+einfügen, z.B. das Ablaufdatum einfügen, den Link zum Cloud-Dienst ändern,
 einen Teil des Textes entfernen oder den HTML-Code weniger prominent gestalten.
 Doch leider haben Addons wie __*cloud__ keine Chance dazu, da der Vorlagentext
 ein Teil von Thunderbird ist. Das Addon liefert nur die URL; Thunderbird steckt
