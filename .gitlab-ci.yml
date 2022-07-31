@@ -22,7 +22,7 @@ lint:
 sign:
   stage: deploy
   before_script:
-    - npm install --loglevel error web-ext
+    - npm install --loglevel error web-ext node-fetch
     - git submodule update --init
   script:
     # web-ext sign always fails (as documented), so manipulate the return code
@@ -36,3 +36,12 @@ sign:
   only:
     # Only sign tagged releases
     - /^v\d+\.\d+\.\d+$/
+
+pages:
+  stage: deploy
+  script:
+  - node --experimental-fetch build-tools/build-pages.mjs
+  artifacts:
+    paths:
+    - public
+
