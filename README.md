@@ -242,6 +242,14 @@ Some settings in Nextcloud/ownCloud are relevant for this Add-On:
   part of the Administrator's settings, in Nextcloud it's accessible directly
   from the Admin's profile menu.
 
+### Apache and mod_rewrite
+
+[Nextcloud](https://docs.nextcloud.com/server/latest/admin_manual/installation/source_installation.html#additional-apache-configurations)
+and [ownCloud](https://doc.owncloud.com/server/next/admin_manual/installation/manual_installation/manual_installation_apache.html#additional-apache-configurations)
+both require mod_rewrite to be active in the Apache http server. Without
+mod_rewrite __*cloud__ fails with different error scenarios depending on other
+details of the configuration.
+
 ### Redirects
 
 In some configurations a start url like `https://cloud.example.com` is
@@ -264,14 +272,6 @@ By default Thunderbird (not __*cloud__) refuses https connections using
 self-signed certificates. It's a lot easier for your users, if you install a
 [Let's encrypt](https://letsencrypt.org/getting-started/) certificate. There are
 great How-tos on their site.
-
-### Apache and mod_rewrite
-
-[Nextcloud](https://docs.nextcloud.com/server/latest/admin_manual/installation/source_installation.html#additional-apache-configurations)
-and[ownCloud](https://doc.owncloud.com/server/next/admin_manual/installation/manual_installation/manual_installation_apache.html#additional-apache-configurations)
-both require mod_rewrite to be active if run in the Apache http server. Without
-mod_rewrite __*cloud__ fails with different error scenarios depending on other
-details of the configuration.
 
 ## Contributing
 
