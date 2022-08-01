@@ -1,6 +1,6 @@
-# __*cloud__ - FileLink for Nextcloud and ownCloud
+# *cloud - FileLink for Nextcloud and ownCloud
 
-[Deutsche Dokumentation](doc/README.de.md)
+[Deutsche Dokumentation](de/README.de.md)
 
 A MailExtension for Thunderbird (68+) that uploads large attachments to your
 Cloud and generates a link you can send by mail instead of the file.
@@ -35,9 +35,8 @@ Cloud and generates a link you can send by mail instead of the file.
    * App token or password
 
 __*cloud__ is also available via Thunderbird's Add-on
-repository:
-
-[![Get the Addon](https://addons.cdn.mozilla.net/static/img/addons-buttons/TB-AMO-button_1.png)](https://addons.thunderbird.net/thunderbird/addon/filelink-nextcloud-owncloud/).
+repository: 
+[*cloud - FileLink for Nextcloud and ownCloud ](https://addons.thunderbird.net/thunderbird/addon/filelink-nextcloud-owncloud/).
 
 ### Usage
 
@@ -242,6 +241,14 @@ Some settings in Nextcloud/ownCloud are relevant for this Add-On:
   part of the Administrator's settings, in Nextcloud it's accessible directly
   from the Admin's profile menu.
 
+### Apache and mod_rewrite
+
+[Nextcloud](https://docs.nextcloud.com/server/latest/admin_manual/installation/source_installation.html#additional-apache-configurations)
+and [ownCloud](https://doc.owncloud.com/server/next/admin_manual/installation/manual_installation/manual_installation_apache.html#additional-apache-configurations)
+both require mod_rewrite to be active in the Apache http server. Without
+mod_rewrite __*cloud__ fails with different error scenarios depending on other
+details of the configuration.
+
 ### Redirects
 
 In some configurations a start url like `https://cloud.example.com` is
@@ -264,14 +271,6 @@ By default Thunderbird (not __*cloud__) refuses https connections using
 self-signed certificates. It's a lot easier for your users, if you install a
 [Let's encrypt](https://letsencrypt.org/getting-started/) certificate. There are
 great How-tos on their site.
-
-### Apache and mod_rewrite
-
-[Nextcloud](https://docs.nextcloud.com/server/latest/admin_manual/installation/source_installation.html#additional-apache-configurations)
-and[ownCloud](https://doc.owncloud.com/server/next/admin_manual/installation/manual_installation/manual_installation_apache.html#additional-apache-configurations)
-both require mod_rewrite to be active if run in the Apache http server. Without
-mod_rewrite __*cloud__ fails with different error scenarios depending on other
-details of the configuration.
 
 ## Contributing
 
@@ -374,14 +373,14 @@ If you'd like to fix a bug or implement a feature
 ## Contributions
 
 * [Johannes Endres](@joendres), initial implementation, maintainer
-* [Josep Manel Mendoza](@josepmanel), catalan and spanish localizations
+* [Josep Manel Mendoza](@josepmanel), Catalan and Spanish localizations
 * [Gorom](@Go-rom), french localization
 * [Jun Futagawa](@jfut), implementation of generated random passwords
 * [Lionel Elie Mamane](@lmamane), solution of the LDAP/getapppassword problem
-* [Óvári](@ovari1), hungarian localization
-* [Pietro Federico Sacchi](https://crowdin.com/profile/sacchi.pietro), italian localization
+* [Óvári](@ovari1), Hungarian localization
+* [Pietro Federico Sacchi](https://crowdin.com/profile/sacchi.pietro), Italian localization
 * [Asier Iturralde Sarasola](@aldatsa), basque localization
-* [Anatolii Balbutckii](@abalbuc), russian localization
+* [Anatolii Balbutckii](@abalbuc), Russian localization
 * Based on [FileLink Provider for
   Dropbox](https://github.com/darktrojan/dropbox) by [Geoff
   Lankow](https://darktrojan.github.io/)
