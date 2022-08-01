@@ -21,6 +21,8 @@ Localize.addLocalizedLabels();
 // Unsuccessful uploads remain in the popup window until this button is pressed
 button_clear.addEventListener('click', () => port.postMessage('clearcomplete'));
 
+port.postMessage("sendstatus");
+
 /**
  * Fills the status popup with content
  * 
