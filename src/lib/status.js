@@ -1,6 +1,7 @@
 /**
  * Global Map to hold Status objects for all active uploads, indexed by the uploadId created in background.js
  */
+/** @type {Map<string,Status>} */
 const attachmentStatus = new Map();
 
 /**
@@ -8,10 +9,10 @@ const attachmentStatus = new Map();
  */
 let port = null;
 browser.runtime.onConnect.addListener(p => {
-    p.postMessage(attachmentStatus);
     port = p;
     port.onDisconnect.addListener(() => port = null);
     port.onMessage.addListener(MsgHandler.dispatch);
+    port.postMessage(attachmentStatus);
 });
 
 /**
