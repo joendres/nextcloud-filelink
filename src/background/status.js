@@ -14,16 +14,15 @@ browser.runtime.onConnect.addListener(p => {
     port = p;
     port.onDisconnect.addListener(() => port = null);
     port.onMessage.addListener(MsgHandler.dispatch);
-    port.postMessage(attachmentStatus);
 });
 
 /**
  * Class to hold status of one upload
  */
 class Status {
-   /**
-    * @param {string} filename The name of the file to upload
-    */
+    /**
+     * @param {string} filename The name of the file to upload
+     */
     constructor(filename) {
         this.filename = filename;
         // Define display in ../progress/progress.js
@@ -98,7 +97,16 @@ class MsgHandler {
      * Remove all Status objects from attachmentStatus that are in error state
      */
     static clearcomplete() {
-        attachmentStatus.forEach((v, k, m) => { if (true === v.error || 'generatedpassword' === v.status) { m.delete(k); } });
+        attachmentStatus.forEach(
+            (v, k, m) => {
+                if (true === v.error || 'generatedpassword' === v.status) {
+                    m.delete(k);
+                }
+            });
+        Status.update();
+    }
+
+    static sendstatus() {
         Status.update();
     }
 }

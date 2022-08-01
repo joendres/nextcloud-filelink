@@ -35,7 +35,6 @@ export class ExpiryFieldHandler {
 
         if (cc.expiry_max_days) {
             expiryDays.max = cc.expiry_max_days;
-            // @todo this seems wrong. How do we know that expiry is enforced?
             cc.expiryDays = useExpiry.checked ? Math.min(expiryDays.value, cc.expiry_max_days) : cc.expiry_max_days;
             expiryDays.value = cc.expiryDays;
             useExpiry.checked = true;
@@ -45,6 +44,5 @@ export class ExpiryFieldHandler {
             useExpiry.disabled = false;
         }
         ExpiryFieldHandler.syncInputStateToCheck();
-        // @todo Warn about enforced expiry
     }
 }
