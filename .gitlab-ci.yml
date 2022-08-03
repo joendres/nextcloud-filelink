@@ -9,13 +9,9 @@ before_script:
   - npm install --loglevel error 
   - git submodule update --init
 
-
 lint:
   stage: test
   script:
-    # web-ext fails if parameters of different run modes are set
-    - unset WEB_EXT_API_KEY
-    - unset WEB_EXT_API_SECRET
     - npx web-ext lint
     - npx jshint src
     - '! grep -r @todo src'
@@ -25,9 +21,6 @@ sign:
   script:
     # web-ext sign always fails (as documented), so manipulate the return code
     - 'npx web-ext sign --channel=listed --api-url-prefix=https://addons.thunderbird.net/api/v3 || true'
-  artifacts:
-    paths:
-      - web-ext-artifacts/*.xpi
   environment:
     name: production
     url: https://addons.thunderbird.net/de/thunderbird/addon/filelink-nextcloud-owncloud/
@@ -42,4 +35,3 @@ pages:
   artifacts:
     paths:
     - public
-
