@@ -5,12 +5,13 @@ cache:
   paths:
     - node_modules/
 
+before_script:
+  - npm install --loglevel error 
+  - git submodule update --init
+
+
 lint:
   stage: test
-  before_script:
-    - npm install --loglevel error web-ext
-    - npm install --loglevel error jshint
-    - git submodule update --init
   script:
     # web-ext fails if parameters of different run modes are set
     - unset WEB_EXT_API_KEY
@@ -21,9 +22,6 @@ lint:
 
 sign:
   stage: deploy
-  before_script:
-    - npm install --loglevel error web-ext node-fetch
-    - git submodule update --init
   script:
     # web-ext sign always fails (as documented), so manipulate the return code
     - 'npx web-ext sign --channel=listed --api-url-prefix=https://addons.thunderbird.net/api/v3 || true'
