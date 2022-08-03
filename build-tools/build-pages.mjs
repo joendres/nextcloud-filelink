@@ -1,13 +1,16 @@
-import { readFileSync, writeFileSync } from "fs";
+import { readFileSync, writeFileSync, mkdirSync, copyFile } from "fs";
 import { dirname, normalize } from "path";
+import pkg from 'glob';
+const { glob } = pkg;
 
 const url = "https://gitlab.com/api/v4/markdown";
 const out_dir = "./public/";
 
 async function convert_file(filename) {
     let lang = dirname(normalize(filename));
-    lang = lang.match(/\w{2,5}/) ? lang : "en";
+    lang = lang.match(/^\w\w(_\w\w)?$/) ? lang : "en";
     const htmlhead = `<!DOCTYPE html><html lang="${lang}"><meta charset="UTF-8"><link rel="stylesheet" href="style.css">`;
+    const lang_dir = out_dir + (lang === "en" ? "" : lang + "/");
 
     const text = readFileSync(filename, "utf-8");
 
@@ -28,10 +31,16 @@ async function convert_file(filename) {
     const json = await response.json();
     const html = json.html
         .replace(/user-content-/g, "")
-        .replace(/\/joendres\/filelink-nextcloud\/-\/blob\/master\/de\/README.de.md/, "de/");
+        .replace(/\/joendres\/filelink-nextcloud\/-\/blob\/master\/(\w\w(_\w\w)?\/)README.\w\w(_\w\w)?.md/, "$1");
 
-    writeFileSync(out_dir + dirname(normalize(filename)) + "/index.html",
+    try {
+        mkdirSync(lang_dir);
+    } catch (_) { }
+    ["logo.png", "style.css"].forEach(f => copyFile(out_dir + f, lang_dir + f, () => { }));
+
+    writeFileSync(lang_dir + "/index.html",
         htmlhead + "<title>" + title + "</title>" + html);
 }
 
-["./README.md", "./de/README.de.md"].forEach(convert_file);
+convert_file("./README.md");
+glob.sync("*/README*.md").forEach(convert_file);

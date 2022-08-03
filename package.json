@@ -27,6 +27,7 @@
   },
   "homepage": "https://gitlab.com/joendres/filelink-nextcloud#cloud-filelink-for-nextcloud-and-owncloud",
   "devDependencies": {
+    "glob": "^8.0.3",
     "jshint": "^2.13.5",
     "web-ext": "^7.1.1"
   },
