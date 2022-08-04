@@ -2,7 +2,6 @@
   "name": "filelink-nextcloud",
   "version": "3.14.0",
   "description": "*cloud - FileLink for Nextcloud and ownCloud",
-  "main": "src",
   "dependencies": {
     "punycode": "^2.1.1"
   },
@@ -20,17 +19,26 @@
     "owncloud",
     "nextcloud"
   ],
-  "author": "Johannes Endres <je@johannes-endres.de>",
+  "author": {
+    "name": "Johannes Endres",
+    "email": "je@johannes-endres.de",
+    "url": "https: //gitlab.com/joendres"
+  },
   "license": "MIT",
   "bugs": {
-    "url": "https://gitlab.com/joendres/filelink-nextcloud/issues"
+    "url": "https://gitlab.com/joendres/filelink-nextcloud/issues",
+    "email": "cloud@johannes-endres.de"
   },
-  "homepage": "https://gitlab.com/joendres/filelink-nextcloud#cloud-filelink-for-nextcloud-and-owncloud",
+  "homepage": "https://joendres.gitlab.io/filelink-nextcloud/",
   "devDependencies": {
     "glob": "^8.0.3",
     "jshint": "^2.13.5",
     "web-ext": "^7.1.1"
   },
+  "private": true,
+  "files": [
+    "./src"
+  ],
   "webExt": {
     "ignoreFiles": [
       "punycode/package.json",
