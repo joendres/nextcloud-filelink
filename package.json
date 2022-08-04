@@ -27,9 +27,11 @@
   },
   "homepage": "https://gitlab.com/joendres/filelink-nextcloud#cloud-filelink-for-nextcloud-and-owncloud",
   "devDependencies": {
+    "@types/firefox-webext-browser": "^70",
     "glob": "^8.0.3",
     "jshint": "^2.13.5",
-    "web-ext": "^7.1.1"
+    "thunderbird-web-ext-types": "^1.0.0",
+    "web-ext": "latest"
   },
   "webExt": {
     "ignoreFiles": [

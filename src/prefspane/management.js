@@ -72,7 +72,7 @@ async function updateGauge() {
     freespaceGauge.style.visibility = "hidden";
     // Only show gauge if relevant form data match the account data
     if (username.value === ncc.username && serverUrl.value === ncc.serverUrl) {
-        let theAccount = await messenger.cloudFile.getAccount(accountId);
+        let theAccount = await browser.cloudFile.getAccount(accountId);
         // Update the free space gauge
         const free = parseInt(theAccount.spaceRemaining);
         const full = free + parseInt(theAccount.spaceUsed);
