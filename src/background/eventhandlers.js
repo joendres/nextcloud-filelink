@@ -1,6 +1,14 @@
-/** AbortControllers for all active uploads */
+import { CloudConnection } from "../common/cloudconnection.js";
+import { Status } from "./status.js";
+
+/** AbortControllers for all active uploads
+ * @type {Map<string,XMLHttpRequest>}
+ */
 const allAbortControllers = new Map();
 
+/**
+ * High level handlers for the cloudFile events
+ */
 class EventHandlers {
     /**
      * Called when a file should be uploaded to the cloud file provider
@@ -40,6 +48,19 @@ class EventHandlers {
     }
 
     /**
+     * Called when a cloud file account of this add-on was created
+     * @param {CloudFileAccount} account The created account
+     */
+    static async onAccountAdded(account) {
+        const ncc = new CloudConnection(account.id);
+        ncc.storageFolder = "/mail-attachments";
+        ncc.expiryDays = 7;
+        ncc.useNoDlPassword = true;
+
+        await ncc.store();
+    }
+
+    /**
      * Called when a cloud file account of this add-on was deleted
      * @param {string} accountId The id of the removed account
      */
@@ -59,6 +80,4 @@ class EventHandlers {
     }
 }
 
-/* Make jshint happy */
-/* global CloudConnection, Status */
-/* exported Listeners */
+export { EventHandlers, allAbortControllers };

@@ -1,4 +1,4 @@
-class PasswordGenerator {
+export class PasswordGenerator {
     /**
      * Generates a password
      *
@@ -46,5 +46,3 @@ class PasswordGenerator {
         }
     }
 }
-
-/* exported PasswordGenerator */

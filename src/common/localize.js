@@ -1,4 +1,4 @@
-class Localize {
+export class Localize {
     /**
      * Set all the labels to localized strings
      */
@@ -20,6 +20,8 @@ class Localize {
                 return browser.i18n.getMessage(key) || matched;
             });
     }
-}
 
-/* exported Localize */
+    static decimalSeparator() {
+        return browser.i18n.getMessage("decimal_separator");
+    }
+}

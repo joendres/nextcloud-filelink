@@ -1,0 +1,88 @@
+@import url("../photon-components-web/index.css");
+@import url("./popup/popup.css");
+
+/* Fix a problem with some dark themes */
+.input__filed:active {
+    background-color: white;
+}
+
+/* Header */
+#header_right {
+    float: right;
+    text-align: center;
+}
+
+#logo {
+    width: 48px;
+    display: block;
+}
+
+h1 {
+    margin-top: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: large;
+}
+
+#obsolete_string {
+    color: var(--red-50);
+    font-weight: bolder;
+    position: absolute;
+    top: 8px;
+    right: 4px;
+    white-space: pre-line;
+    background-color: var(--grey-10-a60);
+}
+
+/* The Form */
+fieldset {
+    border-style: none;
+    padding: 8px 0 8px 0;
+    padding-right: 0;
+    clear: both;
+}
+
+.labelline,
+.optionline {
+    padding-top: 4px;
+}
+
+.fullwidth {
+    width: 100%;
+}
+
+.three_digits {
+    width: 5em;
+}
+
+/* The help button for inputs */
+.helpbutton {
+    float: right;
+    width: 16px;
+    height: 16px;
+    background-image: url(images/Help.svg);
+}
+
+.helpbutton>.card {
+    position: absolute;
+    right: 1em;
+    visibility: hidden;
+    max-width: 75%;
+    z-index: 5;
+    white-space: pre-line;
+}
+
+.helpbutton:hover>.card {
+    visibility: visible;
+}
+
+#buttons {
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Set the busy cursor */
+.busy * {
+    cursor: progress;
+}

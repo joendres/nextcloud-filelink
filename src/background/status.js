@@ -1,5 +1,7 @@
 /**
- * Global Map to hold Status objects for all active uploads, indexed by the uploadId created in background.js
+ * Global Map to hold Status objects for all active uploads, indexed by the
+ * uploadId
+ * @type {Map<string,Status>}
  */
 /** @type {Map<string,Status>} */
 const attachmentStatus = new Map();
@@ -12,13 +14,15 @@ browser.runtime.onConnect.addListener(p => {
     port = p;
     port.onDisconnect.addListener(() => port = null);
     port.onMessage.addListener(MsgHandler.dispatch);
-    port.postMessage(attachmentStatus);
 });
 
 /**
  * Class to hold status of one upload
  */
 class Status {
+    /**
+     * @param {string} filename The name of the file to upload
+     */
     constructor(filename) {
         this.filename = filename;
         // Define display in ../progress/progress.js
@@ -93,10 +97,18 @@ class MsgHandler {
      * Remove all Status objects from attachmentStatus that are in error state
      */
     static clearcomplete() {
-        attachmentStatus.forEach((v, k, m) => { if (true === v.error || 'generatedpassword' === v.status) { m.delete(k); } });
+        attachmentStatus.forEach(
+            (v, k, m) => {
+                if (true === v.error || 'generatedpassword' === v.status) {
+                    m.delete(k);
+                }
+            });
+        Status.update();
+    }
+
+    static sendstatus() {
         Status.update();
     }
 }
 
-/* Make jshint happy */
-/* exported attachmentStatus, Status */
+export { Status, attachmentStatus };

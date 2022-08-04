@@ -1,4 +1,4 @@
-class Utils {
+export class Utils {
     /**
      * Encode everything that might need encoding in pathnames, including those
      * chars encodeURIComponent leaves as is
@@ -22,5 +22,3 @@ class Utils {
         });
     }
 }
-
-/* exported Utils */

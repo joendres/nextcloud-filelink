@@ -1,3 +1,8 @@
+import { attachmentStatus, Status } from "../background/status.js";
+import { DavUploader } from "../background/davuploader.js";
+import { PasswordGenerator } from "../background/passwordgenerator.js";
+import { Utils } from "../background/utils.js";
+
 //#region  Configurable options and useful constants
 const apiUrlBase = "ocs/v1.php";
 const apiUrlUserInfo = "/cloud/users/";
@@ -14,7 +19,7 @@ const ocMinimalVersion = 10 * 10000 + 0 * 100 + 10;
  * This class encapsulates all calls to the Nextcloud or ownCloud web services
  * (API and DAV)
  */
-class CloudConnection {
+export class CloudConnection {
     //#region Constructors, load & store
     /**
      * @param {string} accountId Whatever Thunderbird uses as an account identifier
@@ -124,20 +129,11 @@ class CloudConnection {
     }
 
     /**
-     * Delete all the properties that are read from the server's capabilities to clean out old values
-     */
-    forgetCapabilities() {
-        ['_password_validate_url', '_password_generate_url', 'api_enabled',
-            'public_shares_enabled', 'enforce_password', 'expiry_max_days',
-            'cloud_versionstring', 'cloud_productname', 'cloud_type', 'cloud_supported',]
-            .forEach(p => delete this[p]);
-    }
-
-    /**
      * Get useful information from the server and store it as properties
      */
     async updateCapabilities() {
         const data = await this._doApiCall(apiUrlCapabilities);
+
         if (!data._failed && data.capabilities) {
             // Don't test data.capabilities.files_sharing.api_enabled because the next line contains it all
             // Is public sharing enabled?
@@ -145,6 +141,7 @@ class CloudConnection {
                 !!data.capabilities.files_sharing.public && !!data.capabilities.files_sharing.public.enabled;
             if (this.public_shares_enabled) {
                 // Remember if a download password is required
+                this.enforce_password = false;
                 if (data.capabilities.files_sharing.public.password) {
                     if (data.capabilities.files_sharing.public.password.enforced_for &&
                         'boolean' === typeof data.capabilities.files_sharing.public.password.enforced_for.read_only) {
@@ -166,6 +163,8 @@ class CloudConnection {
             }
 
             // Remember password policy urls if they are present (AFAIK only in NC 17+)
+            delete this._password_validate_url;
+            delete this._password_generate_url;
             if (data.capabilities.password_policy && data.capabilities.password_policy.api) {
                 try {
                     const u = new URL(data.capabilities.password_policy.api.validate);
@@ -182,6 +181,7 @@ class CloudConnection {
             }
 
             // Take version from capabilities
+            this.cloud_productname = "*cloud";
             this.cloud_versionstring = data.version.string;
             // Take name & type from capabilities
             if (data.capabilities.theming && data.capabilities.theming.name) {
@@ -195,7 +195,7 @@ class CloudConnection {
                     parseInt(data.version.minor) * 100 +
                     parseInt(data.version.micro) >= ocMinimalVersion;
             } else if (data.version.major >= ncMinimalVersion) {
-                this.cloud_productname = 'Nextcloud';
+                this.cloud_productname = "Nextcloud";
                 this.cloud_type = "Nextcloud";
                 this.cloud_supported = true;
             } else {
@@ -203,7 +203,6 @@ class CloudConnection {
                 this.cloud_supported = false;
             }
         }
-        this.store();
         return data;
     }
 
@@ -215,15 +214,17 @@ class CloudConnection {
         browser.cloudFile.updateAccount(this._accountId, {
             configured:
                 this.public_shares_enabled !== false &&
-                Boolean(this.serverUrl) &&
-                Boolean(this.username) &&
-                Boolean(this.userId) &&
-                Boolean(this.password) &&
-                Boolean(this.storageFolder) &&
-                !(this.enforce_password && !this.useDlPassword) &&
-                (!this.useDlPassword || this.useGeneratedDlPassword || Boolean(this.downloadPassword)) &&
-                !(this.useExpiry && !Boolean(this.expiryDays)) &&
-                !(Boolean(this.expiry_max_days) && this.useExpiry && this.expiry_max_days < this.expiryDays),
+                !!this.serverUrl &&
+                !!this.username &&
+                !!this.userId &&
+                !!this.password &&
+                !!this.storageFolder &&
+                // If download password is enforced, a password option is active
+                !(this.enforce_password && !this.useGeneratedDlPassword && !this.oneDLPassword) &&
+                // If "one password" is selected, it has to be present 
+                !(this.oneDLPassword && !this.downloadPassword) &&
+                !(this.useExpiry && !this.expiryDays) &&
+                !(!!this.expiry_max_days && this.useExpiry && this.expiry_max_days < this.expiryDays),
         });
     }
 
@@ -250,8 +251,33 @@ class CloudConnection {
     }
 
     /**
-     * Fetches a new app password from the Nextcloud/ownCloud web service and
+     * Update the state of the CloudConnection object with relevant information
+     * available from the cloud eg free space, capabilities, userid
+     */
+    async updateFromCloud() {
+        let answer = await this.updateUserId();
+        this.laststatus = null;
+        if (answer._failed && this.username) {
+            // If login failed, we might be using an app token which requires a lowercase user name
+            const oldname = this.username;
+            this.username = this.username.toLowerCase();
+            answer = await this.updateUserId();
+            if (answer._failed) {
+                // Nope, it's not the case, restore username
+                this.username = oldname;
+            }
+        }
+        if (answer._failed) {
+            this.laststatus = answer.status;
+        } else {
+            await Promise.all([this.updateFreeSpaceInfo(), this.updateCapabilities(),]);
+        }
+    }
+
+    /**
+     * Fetches a new app password from the Nextcloud web service and
      * replaces the current password with it
+     * @return {boolean} Was a new app password set?
      */
     async convertToApppassword() {
         const data = await this._doApiCall(apiUrlGetApppassword);
@@ -276,19 +302,16 @@ class CloudConnection {
      */
     async validateDLPassword() {
         if (this._password_validate_url) {
-            const data = this._doApiCall(this._password_validate_url, 'POST',
+            const data = await this._doApiCall(this._password_validate_url, 'POST',
                 { "Content-Type": "application/x-www-form-urlencoded", },
                 'password=' + encodeURIComponent(this.downloadPassword));
             data.passed = !!data.passed;
             return data;
-        } else if (!this.downloadPassword) {
-            return { passed: false, reason: 'Password must not be empty.', };
         } else {
             return {
+                // Probably not a Nextcloud instance, accept any password
                 passed: true,
-                _failed: true,
-                status: 'not_nc',
-                statusText: 'Cloud does not validate passwords, probably not a Nextcloud instance.',
+
             };
         }
     }
@@ -324,7 +347,7 @@ class CloudConnection {
         const expireDate = this.useExpiry ? daysFromTodayIso(this.expiryDays) : undefined;
 
         // It's not possible to retreive an display the password for an existing share
-        if (!this.useDlPassword) {
+        if (!this.oneDLPassword && !this.useGeneratedDlPassword) {
             //  Check if the file is already shared ...
             const existingShare = await this._findExistingShare(path_to_share, expireDate);
             if (existingShare && existingShare.url) {
@@ -384,10 +407,10 @@ class CloudConnection {
         let shareFormData = "path=" + path_to_share;
         shareFormData += "&shareType=3"; // 3 = public share
 
-        if (this.useDlPassword) {
-            if (this.useGeneratedDlPassword) {
-                this.downloadPassword = await this.generateDLPassword();
-            }
+        if (this.oneDLPassword) {
+            shareFormData += "&password=" + encodeURIComponent(this.downloadPassword);
+        } else if (this.useGeneratedDlPassword) {
+            this.downloadPassword = await this.generateDLPassword();
             shareFormData += "&password=" + encodeURIComponent(this.downloadPassword);
         }
 
@@ -398,7 +421,7 @@ class CloudConnection {
         const data = await this._doApiCall(apiUrlShares, 'POST', { "Content-Type": "application/x-www-form-urlencoded", }, shareFormData);
 
         if (data && data.url) {
-            if (this.useDlPassword && this.useGeneratedDlPassword) {
+            if (this.useGeneratedDlPassword) {
                 const status = attachmentStatus.get(uploadId);
                 status.password = this.downloadPassword;
                 status.set_status('generatedpassword');
@@ -412,8 +435,8 @@ class CloudConnection {
      * - Remove all unwanted parts like username, parameters, ...
      * - Convert punycode domain names to UTF-8
      * - URIencode special characters in path
-     * @param {String} url An URL that might contain illegal characters, Punycode and unwanted parameters
-     * @returns {?String} The cleaned URL or null if url is not a valid http(s) URL
+     * @param {string} url An URL that might contain illegal characters, Punycode and unwanted parameters
+     * @returns {?string} The cleaned URL or null if url is not a valid http(s) URL
      */
     _cleanUrl(url) {
         let u;
@@ -493,10 +516,4 @@ class CloudConnection {
     //#endregion
 }
 
-/* global Utils*/
-/* global DavUploader  */
 /* global punycode */
-/* global Status */
-/* global attachmentStatus */
-/* global PasswordGenerator */
-/* exported CloudConnection */

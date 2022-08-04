@@ -60,5 +60,22 @@
     "build": {
       "overwriteDest": true
     }
+  },
+  "jshintConfig": {
+    "moz": true,
+    "esversion": 9,
+    "browser": true,
+    "predef": [
+      "browser",
+      "messenger"
+    ],
+    "curly": true,
+    "eqeqeq": true,
+    "futurehostile": true,
+    "nocomma": true,
+    "strict": "implied",
+    "trailingcomma": true,
+    "undef": true,
+    "unused": true
   }
 }
