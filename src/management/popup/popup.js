@@ -1,12 +1,15 @@
 /**
  * Static class that contains all the methods for handling message popups in the management pane
  */
-class Popup {
+export class Popup {
     /**
      * Show an error
      * @param {string} err_id The id of te error to show a message for, eg. use the status code or error type
      */
     static async error(err_id) {
+        /** @type {HTMLDivElement} */
+        const error_popup = document.querySelector("#error_popup");
+
         Popup._openPopup(error_popup,
             browser.i18n.getMessage(`error_${err_id}`, Array.from(arguments).slice(1)) ||
             // No message for this error, show the default one
@@ -18,7 +21,11 @@ class Popup {
      * @param {string} messageId The id of the localized string
      */
     static async warn(messageId) {
-        Popup._openPopup(warning_popup, browser.i18n.getMessage(`warn_${messageId}`, Array.from(arguments).slice(1)));
+        /** @type {HTMLDivElement} */
+        const warning_popup = document.querySelector("#warning_popup");
+
+        Popup._openPopup(warning_popup,
+            browser.i18n.getMessage(`warn_${messageId}`, Array.from(arguments).slice(1)));
     }
 
     /**
@@ -27,6 +34,9 @@ class Popup {
      * @param {string} [messageId] The id of the message in _locales.
      */
     static async success(messageId = "success") {
+        /** @type {HTMLDivElement} */
+        const success_popup = document.querySelector("#success_popup");
+
         const p = Popup._openPopup(success_popup, browser.i18n.getMessage(messageId));
         setTimeout(() => p.remove(), 3000);
     }
@@ -38,6 +48,10 @@ class Popup {
      * @return {Node} The newly created popup
      */
     static _openPopup(template, message) {
+        /** @type {HTMLDivElement} */
+        const msg_container = document.querySelector("#msg_container");
+
+        /** @type {HTMLDivElement} */
         const new_box = template.cloneNode(true);
         new_box.querySelector(".popup_message").textContent = message;
         new_box.hidden = false;
@@ -57,6 +71,8 @@ class Popup {
      * Close all popups that might be open
      */
     static async clear() {
+        const msg_container = document.querySelector("#msg_container");
+
         while (msg_container.firstChild) {
             msg_container.firstChild.remove();
         }
@@ -67,11 +83,8 @@ class Popup {
      * @returns {boolean}
      */
     static empty() {
-        return !Boolean(msg_container.firstChild);
+        /** @type {HTMLDivElement} */
+        const msg_container = document.querySelector("#msg_container");
+        return !msg_container.firstChild;
     }
 }
-
-/* Make jshint happy */
-/* exported Popup */
-// Defined as ids in management.html
-/* global msg_container, error_popup, warning_popup, success_popup */

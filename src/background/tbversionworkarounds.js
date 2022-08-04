@@ -1,4 +1,6 @@
-class TBVersionWorkarounds {
+import { Localize } from "../common/localize.js";
+
+export class TBVersionWorkarounds {
     static async apply_all() {
         TBVersionWorkarounds.workaroundRedefinedManifestKeys();
     }
@@ -21,6 +23,3 @@ class TBVersionWorkarounds {
         }
     }
 }
-
-/* exported TBVersionWorkarounds */
-/* global Localize */

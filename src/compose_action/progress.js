@@ -1,3 +1,5 @@
+import { Localize } from "../common/localize.js";
+
 // Establish messaging with background worker
 var port;
 
@@ -18,6 +20,8 @@ port.onMessage.addListener(updateStatusDisplay);
 Localize.addLocalizedLabels();
 // Unsuccessful uploads remain in the popup window until this button is pressed
 button_clear.addEventListener('click', () => port.postMessage('clearcomplete'));
+
+port.postMessage("sendstatus");
 
 /**
  * Fills the status popup with content
@@ -44,7 +48,7 @@ function updateStatusDisplay(uploads) {
     }
 
     /**
-     * @returns {Boolean} true if any of the uploads is in error state
+     * @returns {boolean} true if any of the uploads is in error state
      */
     function has_information() {
         for (const a of uploads) {
@@ -92,5 +96,3 @@ function fill_status_row(status) {
     }
     status_lines.appendChild(div);
 }
-
-/* global Localize */

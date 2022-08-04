@@ -191,5 +191,8 @@
   "status_password": {
     "description": "This will be displayed in the status popup if download passwords are generated. $1 is replaced with the generated password for this file",
     "message": "password: $1"
+  },
+  "decimal_separator": {
+    "message": "."
   }
 }

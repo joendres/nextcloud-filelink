@@ -1,7 +1,11 @@
+import { allAbortControllers } from "./eventhandlers.js";
+import { attachmentStatus } from "./status.js";
+import { Utils } from "./utils.js";
+
 /**
  * This class encapsulates communication with a WebDAV service
  */
-class DavUploader {
+ export class DavUploader {
     /**
      *
      * @param {string} server_url The URL of the server
@@ -58,7 +62,7 @@ class DavUploader {
     /**
      * Create a complete folder path, returns true if that path already exists
      *
-     * @param {string} folder 
+     * @param {string} fullPath 
      * @returns {boolean} if creation succeeded
      */
     async _recursivelyCreateFolder(fullPath) {
@@ -114,7 +118,7 @@ class DavUploader {
                 if (null === xmlDoc.getElementsByTagName("d:resourcetype")[0].firstChild) {
                     return {
                         mtime: (new Date(xmlDoc.getElementsByTagName("d:getlastmodified")[0].textContent)).getTime(),
-                        size: Number(xmlDoc.getElementsByTagName("d:getcontentlength")[0].textContent),
+                        size: parseInt(xmlDoc.getElementsByTagName("d:getcontentlength")[0].textContent),
                     };
                 }
             } catch (_) { }
@@ -221,7 +225,7 @@ class DavUploader {
      *
      * @param {string} path the full file path of the object
      * @param {string} method the HTTP METHOD to use, default GET
-     * @param {Array} [body] Body of the request, eg. file contents
+     * @param {array} [body] Body of the request, eg. file contents
      * @param {*} [additional_headers] Additional headers to include in the request
      * @returns {Promise<Response>}  A Promise that resolves to the Response object
      */
@@ -292,7 +296,3 @@ class DavUploader {
         });
     }
 }
-/* global attachmentStatus, Utils */
-/* global allAbortControllers */
-// defined in background.js
-/* exported DavUploader */

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="./management.css">
+    <script type="module" src="./management.js"></script>
+</head>
+
+<body>
+    <div id="msg_container"></div>
+
+    <header>
+        <div id="header_right">
+            <img src="../icon48.png" id="logo">
+            <label for="logo" id="label_version"></label>
+            <div id="obsolete_string" hidden data-message="obsolete_version"></div>
+        </div>
+        <div id="header_left">
+            <h1 id="provider_name">*cloud</h1>
+            <div id="freespaceinfo" hidden>
+                <label for="freespace" id="freespacelabel"></label>
+                <meter id="freespace"></meter>
+            </div>
+        </div>
+    </header>
+
+    <form id="accountForm">
+        <fieldset id="all_fields">
+            <fieldset>
+                <div class="labelline">
+                    <label for="serverUrl" data-message="serverUrl"></label>
+                    <div class="helpbutton">
+                        <div class="card" data-message="serverUrl_details"></div>
+                    </div>
+                </div>
+                <input id="serverUrl" type="url" pattern="https?://.*" required placeholder="https://example.com"
+                    class="input__field fullwidth" />
+
+                <div class="labelline">
+                    <label for="username" data-message="username"></label>
+                    <div class="helpbutton">
+                        <div class="card" data-message="username_details"></div>
+                    </div>
+                </div>
+                <input id="username" type="text" required class="input__field fullwidth" />
+
+                <div class="labelline">
+                    <label for="password" data-message="password"></label>
+                    <div class="helpbutton">
+                        <div class="card" data-message="username_details"></div>
+                    </div>
+                </div>
+                <input id="password" type="password" required class="input__field fullwidth" />
+            </fieldset>
+
+            <details id="advanced_options">
+                <summary data-message="advanced_options"></summary>
+
+                <fieldset>
+                    <div class="optionline">
+                        <input type="checkbox" id="useExpiry" class="checkbox">
+                        <label for="useExpiry" data-message="expiryDaysBefore"></label>
+                        <input type="number" id="expiryDays" min="1" step="1" maxlength="3" disabled
+                            class="input__field three_digits">
+                        <label data-message="expiryDaysAfter"></label>
+                        <div class="helpbutton">
+                            <div class="card" data-message="expiry_details"></div>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <div class="labelline">
+                        <label data-message="useDlPassword"></label>
+                    </div>
+                    <div class="optionline">
+                        <input type="radio" id="useNoDlPassword" name="DownloadPasswordRadio" class="radio">
+                        <label for="useNoDlPassword" data-message="useNoDlPassword"></label>
+                        <div class="helpbutton">
+                            <div class="card" data-message="useNoDlPassword_details"></div>
+                        </div>
+                    </div>
+                    <div class="optionline">
+                        <input type="radio" id="useGeneratedDlPassword" name="DownloadPasswordRadio" class="radio">
+                        <label for="useGeneratedDlPassword" data-message="useGeneratedDlPassword"></label>
+                        <div class="helpbutton">
+                            <div class="card" data-message="useGeneratedDlPassword_details"></div>
+                        </div>
+                    </div>
+                    <div class="optionline">
+                        <input type="radio" id="oneDLPassword" name="DownloadPasswordRadio" class="radio">
+                        <label for="oneDLPassword" data-message="oneDLPassword"></label>
+                        <div class="helpbutton">
+                            <div class="card" data-message="useDLPassword_details"></div>
+                        </div>
+                        <input type="text" id="downloadPassword" disabled class="input__field">
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <div class="optionline">
+                        <input type="checkbox" id="noAutoDownload" class="checkbox">
+                        <label for="noAutoDownload" data-message="noAutoDownload"></label>
+                        <div class="helpbutton">
+                            <div class="card" data-message="noAutoDownload_details"></div>
+                        </div>
+                    </div>
+                </fieldset>
+
+                <fieldset>
+                    <label for="storageFolder" data-message="storageFolder"></label>
+                    <div class="helpbutton">
+                        <div class="card" data-message="storageFolder_details"></div>
+                    </div>
+                    </div>
+                    <input id="storageFolder" type="text" required class="input__field fullwidth" />
+                </fieldset>
+            </details>
+
+            <fieldset id="buttons">
+                <button id="saveButton" class="button button--primary" type="submit" disabled
+                    data-message="saveButton"></button>
+                <button id="resetButton" class="button" type="reset" disabled data-message="resetButton"></button>
+            </fieldset>
+        </fieldset>
+    </form>
+
+    <!-- Message bar templates -->
+    <div id="success_popup" class="msg_bar success_bar" hidden>
+        <span class="msg_bar_icon"> </span>
+        <span class="msg_bar_closebtn"></span>
+        <span class="popup_message"></span>
+    </div>
+
+    <div id="warning_popup" class="msg_bar warning_bar" hidden>
+        <span class="msg_bar_icon"> </span>
+        <span class="msg_bar_closebtn"></span>
+        <span class="popup_message"></span>
+    </div>
+
+    <div id="error_popup" class="msg_bar error_bar" hidden>
+        <span class="msg_bar_icon"> </span>
+        <span class="msg_bar_closebtn"></span>
+        <span class="popup_message"></span>
+    </div>
+</body>
+
+</html>

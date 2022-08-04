@@ -1,4 +1,6 @@
-class AccountUpdater {
+import { CloudConnection } from "../common/cloudconnection.js";
+
+export class AccountUpdater {
     /**
      * Get all accounts from Thunderbird and update each one
      */
@@ -15,17 +17,10 @@ class AccountUpdater {
         const ncc = new CloudConnection(accountId);
         await ncc.load();
         AccountUpdater.upgradeOldConfiguration(ncc);
-
-        // Check if login works
-        const answer = await ncc.updateUserId();
-        ncc.laststatus = null;
-        if (answer._failed) {
-            ncc.laststatus = answer.status;
-        } else {
-            await Promise.all([ncc.updateFreeSpaceInfo(), ncc.updateCapabilities(),]);
-            // Needs result of updateCapabilities
-            await ncc.updateConfigured();
+        if (!!ncc.serverUrl && !!ncc.username && !!ncc.password) {
+            await ncc.updateFromCloud();
         }
+        ncc.updateConfigured();
         ncc.store();
     }
 
@@ -41,7 +36,3 @@ class AccountUpdater {
         }
     }
 }
-
-/* Make jshint happy */
-/* global CloudConnection */
-/* exported AccountUpdater */
