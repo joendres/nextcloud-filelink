@@ -3,7 +3,7 @@ class AccountUpdater {
      * Get all accounts from Thunderbird and update each one
      */
     static async update_all() {
-        (await messenger.cloudFile.getAllAccounts())
+        (await browser.cloudFile.getAllAccounts())
             .forEach(account => AccountUpdater._update(account.id));
     }
 

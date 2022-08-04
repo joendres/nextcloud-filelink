@@ -3,9 +3,7 @@
     "esversion": 9,
     "browser": true,
     "predef": [
-        "browser",
-        "AbortController",
-        "messenger"
+        "browser"
     ],
     "curly": true,
     "eqeqeq": true,
