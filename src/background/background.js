@@ -8,5 +8,5 @@ TBVersionWorkarounds.apply_all();
 browser.cloudFile.onFileUpload.addListener(EventHandlers.onFileUpload);
 browser.cloudFile.onFileUploadAbort.addListener(EventHandlers.onFileUploadAbort);
 browser.cloudFile.onFileDeleted.addListener(EventHandlers.onFileDeleted);
-// browser.cloudFile.onAccountAdded.addListener( /* Nothing to do, don't add a handler*/
+browser.cloudFile.onAccountAdded.addListener(EventHandlers.onAccountAdded);
 browser.cloudFile.onAccountDeleted.addListener(EventHandlers.onAccountDeleted);
