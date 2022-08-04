@@ -1,4 +1,5 @@
 import { Localize } from "../common/localize.js";
+import { CloudConnection } from "../common/cloudconnection.js";
 
 export class HeaderHandler {
 
@@ -7,13 +8,13 @@ export class HeaderHandler {
      * @param {string} accountId The id of the account the dialog is handling, as supplied by TB
      */
     static async updateFreespace(accountId) {
-        let theAccount = await messenger.cloudFile.getAccount(accountId);
+        const cc = new CloudConnection(accountId);
         /** @type {HTMLDivElement} */
         const freespaceinfo = document.querySelector("#freespaceinfo");
 
         freespaceinfo.hidden = true;
-        const free = parseInt(theAccount.spaceRemaining);
-        const full = free + parseInt(theAccount.spaceUsed);
+        const free = cc.spaceRemaining;
+        const full = free + cc.spaceUsed;
 
         if (free >= 0 && full >= 0 &&
             free <= Number.MAX_SAFE_INTEGER && full <= Number.MAX_SAFE_INTEGER &&
