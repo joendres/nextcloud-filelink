@@ -13,10 +13,10 @@ export class TBVersionWorkarounds {
      */
     static async workaroundRedefinedManifestKeys() {
         // setLabel was introduced in the same changeset
-        if (!messenger.composeAction.setLabel) {
+        if (!browser.composeAction.setLabel) {
             const manifest = browser.runtime.getManifest();
             if (manifest.compose_action && manifest.compose_action.default_label) {
-                messenger.composeAction.setTitle({
+                browser.composeAction.setTitle({
                     title: Localize.localizeMSGString(manifest.compose_action.default_label),
                 });
             }

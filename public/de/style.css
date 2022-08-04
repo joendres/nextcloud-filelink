@@ -1,8 +1,0 @@
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  padding-left: 2em;
-}
-
-h1::before {
-  content: url("./logo.png");
-}

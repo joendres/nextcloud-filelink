@@ -37,7 +37,7 @@ class Status {
      */
     static async update() {
         const messages = attachmentStatus.size.toString();
-        messenger.composeAction.setBadgeText({ text: messages !== "0" ? messages : null, });
+        browser.composeAction.setBadgeText({ text: messages !== "0" ? messages : null, });
         if (port) {
             port.postMessage(attachmentStatus);
         }

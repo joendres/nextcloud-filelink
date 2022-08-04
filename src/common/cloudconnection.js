@@ -123,7 +123,7 @@ export class CloudConnection {
             }
         }
 
-        await messenger.cloudFile.updateAccount(this._accountId, { spaceRemaining, spaceUsed, uploadSizeLimit: -1, });
+        await browser.cloudFile.updateAccount(this._accountId, { spaceRemaining, spaceUsed, uploadSizeLimit: -1, });
 
         return spaceRemaining;
     }
@@ -211,7 +211,7 @@ export class CloudConnection {
      * to true if it is usable
      */
     async updateConfigured() {
-        messenger.cloudFile.updateAccount(this._accountId, {
+        browser.cloudFile.updateAccount(this._accountId, {
             configured:
                 this.public_shares_enabled !== false &&
                 !!this.serverUrl &&
