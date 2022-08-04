@@ -9,6 +9,7 @@ export class HeaderHandler {
      */
     static async updateFreespace(accountId) {
         const cc = new CloudConnection(accountId);
+        cc.load();
         /** @type {HTMLDivElement} */
         const freespaceinfo = document.querySelector("#freespaceinfo");
 
