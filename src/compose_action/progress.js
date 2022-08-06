@@ -13,7 +13,7 @@ const template_cell = document.querySelector("#templates>.cell");
 
 /** Establish messaging with background worker
  * @type {browser.runtime.Port} */
-var port = browser.runtime.connect();
+const port = browser.runtime.connect();
 port.onMessage.addListener(updateStatusDisplay);
 port.postMessage("update");
 

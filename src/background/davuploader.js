@@ -52,7 +52,7 @@ export class DavUploader {
                 return { ok: true, };
             } else {
                 // It's different, move it out of the way
-                await this._moveFileToDir(uploadId, fileName, "old_shares/" + (stat.mtime / 1000 | 0));
+                await this._moveFileToDir(uploadId, fileName, "old_shares/" + Math.floor(stat.mtime / 1000));
                 return this._doUpload(uploadId, fileName, fileObject);
             }
         }
@@ -198,7 +198,7 @@ export class DavUploader {
         let response;
         try {
             response = await this._xhrUpload(uploadId, this._storageFolder + '/' + fileName, fileObject);
-            this._setMtime(fileName, fileObject.lastModified / 1000 | 0);
+            this._setMtime(fileName, Math.floor(fileObject.lastModified / 1000));
             // Handle errors that don't throw an exception
             if (response.status < 300) {
                 response.ok = true;
