@@ -1,15 +1,12 @@
 import { Localize } from "../common/localize.js";
-import { CloudConnection } from "../common/cloudconnection.js";
 
 export class HeaderHandler {
 
     /**
      * Update the free space info
-     * @param {string} accountId The id of the account the dialog is handling, as supplied by TB
+     * @param {CloudConnection} cc The CloudConnection object containing the free space info
      */
-    static async updateFreespace(accountId) {
-        const cc = new CloudConnection(accountId);
-        cc.load();
+    static async updateFreespace(cc) {
         /** @type {HTMLDivElement} */
         const freespaceinfo = document.querySelector("#freespaceinfo");
 

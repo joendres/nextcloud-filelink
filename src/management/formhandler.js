@@ -204,7 +204,7 @@ export class FormHandler {
      * Update the content of the page header
      */
     updateHeader() {
-        HeaderHandler.updateFreespace(this.cc._accountId);
+        HeaderHandler.updateFreespace(this.cc);
         HeaderHandler.updateCloudVersion(this.cc);
     }
 }
