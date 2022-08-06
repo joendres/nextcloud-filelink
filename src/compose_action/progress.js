@@ -1,8 +1,5 @@
 import { Localize } from "../common/localize.js";
 
-// Establish messaging with background worker
-var port;
-
 /** @type {HTMLButtonElement} */
 const button_clear = document.querySelector("#button_clear");
 /** @type {HTMLDivElement} */
@@ -14,19 +11,20 @@ const template_copy = document.querySelector("#templates>.copy");
 /** @type {HTMLDivElement} */
 const template_cell = document.querySelector("#templates>.cell");
 
-port = browser.runtime.connect();
+/** Establish messaging with background worker
+ * @type {browser.runtime.Port} */
+const port = browser.runtime.connect();
 port.onMessage.addListener(updateStatusDisplay);
+port.postMessage("update");
 
 Localize.addLocalizedLabels();
 // Unsuccessful uploads remain in the popup window until this button is pressed
 button_clear.addEventListener('click', () => port.postMessage('clearcomplete'));
 
-port.postMessage("sendstatus");
-
 /**
  * Fills the status popup with content
  * 
- * @param {Map<string,Status>} uploads The Map with Status objects for all active uploads as received via message
+ * @param {Map<string,UploadStatus>} uploads The Map with UploadStatus objects for all active uploads as received via message
  */
 function updateStatusDisplay(uploads) {
     // Empty the grid
@@ -56,43 +54,42 @@ function updateStatusDisplay(uploads) {
         }
         return false;
     }
-}
 
-/**
- * Fill one row of the table with information from a Status object
- * 
- * @param {Status} status The Status object to display
- */
-function fill_status_row(status) {
-    // Append the file name
-    let div = template_cell.cloneNode(true);
-    div.textContent = status.filename;
-    status_lines.appendChild(div);
+    /**
+     * Fill one row of the grid with information from an UploadStatus object
+     * @param {UploadStatus} status The UploadStatus object to display
+     */
+    function fill_status_row(status) {
+        // Append the file name
+        let div = template_cell.cloneNode(true);
+        div.textContent = status.filename;
+        status_lines.appendChild(div);
 
-    // Add the middle field 
-    div = template_cell.cloneNode(true);
-    if (status.error) {
-        div.classList.add('error');
-        div.textContent =
-            browser.i18n.getMessage('status_error',
-                browser.i18n.getMessage(`status_${status.status}`));
-    } else if (status.status === 'uploading') {
-        let progress = document.createElement('progress');
-        progress.value = status.progress;
-        div.appendChild(progress);
-    } else if (status.status === 'generatedpassword') {
-        div.textContent = browser.i18n.getMessage('status_password', status.password);
-    } else {
-        div.textContent = browser.i18n.getMessage(`status_${status.status}`);
+        // Add the middle field 
+        div = template_cell.cloneNode(true);
+        if (status.error) {
+            div.classList.add('error');
+            div.textContent =
+                browser.i18n.getMessage('status_error',
+                    browser.i18n.getMessage(`status_${status.status}`));
+        } else if (status.status === 'uploading') {
+            let progress = document.createElement('progress');
+            progress.value = status.progress;
+            div.appendChild(progress);
+        } else if (status.status === 'generatedpassword') {
+            div.textContent = browser.i18n.getMessage('status_password', status.password);
+        } else {
+            div.textContent = browser.i18n.getMessage(`status_${status.status}`);
+        }
+        status_lines.appendChild(div);
+
+        // Add the copy button as a placeholder
+        div = template_copy.cloneNode(true);
+        if (status.status === 'generatedpassword') {
+            const button = div.querySelector("button");
+            button.addEventListener('click', () => navigator.clipboard.writeText(status.password));
+            button.classList.remove("hidden");
+        }
+        status_lines.appendChild(div);
     }
-    status_lines.appendChild(div);
-
-    // Add the copy button as a placeholder
-    div = template_copy.cloneNode(true);
-    if (status.status === 'generatedpassword') {
-        const button = div.querySelector("button");
-        button.addEventListener('click', () => navigator.clipboard.writeText(status.password));
-        button.classList.remove("hidden");
-    }
-    status_lines.appendChild(div);
 }

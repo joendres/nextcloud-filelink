@@ -3,7 +3,13 @@
 
 /* Fix a problem with some dark themes */
 .input__filed:active {
-    background-color: white;
+    background-color: var(--white-100);
+}
+
+/* Add missing disabled style */
+.input__field:disabled {
+    opacity: .4;
+    background-color: var(--grey-90-a10);
 }
 
 /* Header */
@@ -61,7 +67,7 @@ fieldset {
     float: right;
     width: 16px;
     height: 16px;
-    background-image: url(images/Help.svg);
+    background-image: url(./images/Help.svg);
 }
 
 .helpbutton>.card {
