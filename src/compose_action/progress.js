@@ -12,8 +12,7 @@ const template_copy = document.querySelector("#templates>.copy");
 const template_cell = document.querySelector("#templates>.cell");
 
 /** Establish messaging with background worker
- * @type {browser.runtime.Port}
- */
+ * @type {browser.runtime.Port} */
 var port = browser.runtime.connect();
 port.onMessage.addListener(updateStatusDisplay);
 port.postMessage("update");
@@ -57,8 +56,7 @@ function updateStatusDisplay(uploads) {
     }
 
     /**
-     * Fill one row of the table with information from a UploadStatus object
-     * 
+     * Fill one row of the grid with information from an UploadStatus object
      * @param {UploadStatus} status The UploadStatus object to display
      */
     function fill_status_row(status) {

@@ -1,13 +1,11 @@
 import { UploadStatus } from "./uploadstatus.js";
 
 export class Status {
-    static setup() {
+    // @todo document
+    static add(uploadId, fileName) {
         if (!Status.attachmentStatus) {
             Status.attachmentStatus = new Map();
         }
-    }
-
-    static add(uploadId, fileName) {
         Status.attachmentStatus.set(uploadId, new UploadStatus(fileName));
     }
 
@@ -17,6 +15,7 @@ export class Status {
      * @param {string} s The new status
      */
     static set_status(uploadId, s) {
+        // @todo better check if get returned something
         Status.attachmentStatus.get(uploadId).status = s;
         Status.update();
     }
@@ -83,5 +82,3 @@ export class Status {
     }
 
 }
-
-Status.setup();
