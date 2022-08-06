@@ -1,5 +1,4 @@
 import { Status } from "../background/status.js";
-import { UploadStatus } from "../background/uploadstatus.js";
 import { DavUploader } from "../background/davuploader.js";
 import { PasswordGenerator } from "../background/passwordgenerator.js";
 import { Utils } from "../background/utils.js";
@@ -65,10 +64,9 @@ export class CloudConnection {
      * @param {File} fileObject the local file as a File object
      */
     async uploadFile(uploadId, fileName, fileObject) {
-        const upload_status = new UploadStatus(fileName);
-        Status.set(uploadId, upload_status);
+        Status.add(uploadId, fileName);
 
-        upload_status.set_status('preparing');
+        Status.set_status(uploadId, 'preparing');
 
         const uploader = new DavUploader(
             this.serverUrl, this.username, this.password, davUrlBase + this.userId, this.storageFolder,
@@ -79,18 +77,16 @@ export class CloudConnection {
         if (response.aborted) {
             return response;
         } else if (response.ok) {
-            upload_status.set_status('sharing');
+            Status.set_status(uploadId, 'sharing');
             this.updateFreeSpaceInfo();
             let url = this._cleanUrl(await this._getShareLink(fileName, uploadId));
             if (url) {
-                if (upload_status.status !== 'generatedpassword') {
-                    Status.remove(uploadId);
-                }
+                Status.done(uploadId);
                 return { url, aborted: false, };
             }
         }
 
-        upload_status.fail();
+        Status.fail(uploadId);
         throw new Error("Upload failed.");
     }
 
@@ -423,9 +419,8 @@ export class CloudConnection {
 
         if (data && data.url) {
             if (this.useGeneratedDlPassword) {
-                const status = Status.get(uploadId);
-                status.password = this.downloadPassword;
-                status.set_status('generatedpassword');
+                Status.set_password(uploadId, this.downloadPassword);
+                Status.set_status(uploadId, 'generatedpassword');
             }
             return data.url;
         }

@@ -5,7 +5,7 @@ import { Utils } from "./utils.js";
 /**
  * This class encapsulates communication with a WebDAV service
  */
- export class DavUploader {
+export class DavUploader {
     /**
      *
      * @param {string} server_url The URL of the server
@@ -136,7 +136,7 @@ import { Utils } from "./utils.js";
      * @throws If any problem occurs
      */
     async _moveFileToDir(uploadId, fileName, newPath) {
-        Status.get(uploadId).set_status('moving');
+        Status.set_status(uploadId, 'moving');
         const dest_header = {
             "Destination":
                 this._davUrl + Utils.encodepath(this._storageFolder + "/" + newPath + "/" + fileName),
@@ -147,7 +147,7 @@ import { Utils } from "./utils.js";
                 return retval;
             }
         }
-        Status.get(uploadId).fail();
+        Status.fail(uploadId);
         throw new Error("Couldn't move file.");
     }
 
@@ -180,18 +180,18 @@ import { Utils } from "./utils.js";
      */
     async _doUpload(uploadId, fileName, fileObject) {
         // Check it there is enough free space
-        Status.get(uploadId).set_status('checkingspace');
+        Status.set_status(uploadId, 'checkingspace');
         if (this._freeSpace !== -1 && this._freeSpace < fileObject.size) {
-            Status.get(uploadId).fail();
+            Status.fail(uploadId);
             return { ok: false, };
         }
 
         // Make sure storageFolder exists. Creation implicitly checks for
         // existence of folder, so the extra webservice call for checking first
         // isn't necessary.
-        Status.get(uploadId).set_status('creating');
+        Status.set_status(uploadId, 'creating');
         if (!(await this._recursivelyCreateFolder(this._storageFolder))) {
-            Status.get(uploadId).fail();
+            Status.fail(uploadId);
             throw new Error("Upload failed: Can't create folder");
         }
 
@@ -208,7 +208,7 @@ import { Utils } from "./utils.js";
                 response = { aborted: true, url: "", };
             }
             else {
-                Status.get(uploadId).fail();
+                Status.fail(uploadId);
                 console.error(error); // jshint ignore: line
                 if (!response) {
                     response = {};
@@ -281,9 +281,9 @@ import { Utils } from "./utils.js";
             uploadRequest.addEventListener("abort", reject);
             uploadRequest.addEventListener("timeout", reject);
 
-            uploadRequest.addEventListener("loadstart", () => Status.get(uploadId).set_status('uploading'));
+            uploadRequest.addEventListener("loadstart", () => Status.set_status(uploadId, 'uploading'));
             uploadRequest.upload.addEventListener("progress", e => {
-                Status.get(uploadId).set_progress(e.total ? e.loaded * 1.0 / e.total : 0);
+                Status.set_progress(uploadId, e.total ? e.loaded * 1.0 / e.total : 0);
             });
 
             uploadRequest.open("PUT", url);
