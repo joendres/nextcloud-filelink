@@ -105,24 +105,25 @@ export class CloudConnection {
      * @returns {number} The amount of free space available to the user in bytes or -1
      */
     async updateFreeSpaceInfo() {
-        let spaceRemaining = -1;
-        let spaceUsed = -1;
+        this.free = -1;
+        this.total = -1;
 
         const data = await this._doApiCall(apiUrlUserInfo + this.userId);
         if (data && data.quota) {
             if ("free" in data.quota) {
                 const free = parseInt(data.quota.free);
-                spaceRemaining = free >= 0 && free <= Number.MAX_SAFE_INTEGER ? free : -1;
+                this.free = free >= 0 && free <= Number.MAX_SAFE_INTEGER ? free : -1;
             }
-            if ("used" in data.quota) {
+            if ("total" in data.quota) {
+                const total = parseInt(data.quota.total);
+                this.total = total >= 0 && total <= Number.MAX_SAFE_INTEGER ? total : -1;
+            } else if ("used" in data.quota && this.free >= 0) {
                 const used = parseInt(data.quota.used);
-                spaceUsed = used >= 0 && used <= Number.MAX_SAFE_INTEGER ? used : -1;
+                this.total = used >= 0 && used <= Number.MAX_SAFE_INTEGER ? used + this.free : -1;
             }
         }
 
-        await browser.cloudFile.updateAccount(this._accountId, { spaceRemaining, spaceUsed, uploadSizeLimit: -1, });
-
-        return spaceRemaining;
+        this.store();
     }
 
     /**
