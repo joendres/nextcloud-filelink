@@ -1,7 +1,11 @@
 import { UploadStatus } from "./uploadstatus.js";
 
 export class Status {
-    // @todo document
+    /**
+     * Add a new upload to the list
+     * @param {string} uploadId The id of the upload
+     * @param {string} fileName The name of the file that is uploaded
+     */
     static add(uploadId, fileName) {
         if (!Status.attachmentStatus) {
             Status.attachmentStatus = new Map();
@@ -15,9 +19,11 @@ export class Status {
      * @param {string} s The new status
      */
     static set_status(uploadId, s) {
-        // @todo better check if get returned something
-        Status.attachmentStatus.get(uploadId).status = s;
-        Status.update();
+        const upload = Status.attachmentStatus.get(uploadId);
+        if (upload) {
+            upload.status = s;
+            Status.update();
+        }
     }
 
     /**
@@ -25,8 +31,11 @@ export class Status {
      * @param {string} uploadId The id of the upload that changed its status
      */
     static fail(uploadId) {
-        Status.attachmentStatus.get(uploadId).error = true;
-        Status.update();
+        const upload = Status.attachmentStatus.get(uploadId);
+        if (upload) {
+            upload.error = true;
+            Status.update();
+        }
     }
 
     /**
@@ -35,15 +44,30 @@ export class Status {
      * @param {string} uploadId The id of the upload that changed its status
      */
     static set_progress(uploadId, p) {
-        Status.attachmentStatus.get(uploadId).progress = p;
-        Status.update();
+        const upload = Status.attachmentStatus.get(uploadId);
+        if (upload) {
+            upload.progress = p;
+            Status.update();
+        }
     }
 
+    /**
+     * Store the download password for this file in the status list
+     * @param {string} uploadId The id of the upload that changed its status
+     * @param {string} pw The download password
+     */
     static set_password(uploadId, pw) {
-        Status.attachmentStatus.get(uploadId).password = pw;
-        Status.update();
+        const upload = Status.attachmentStatus.get(uploadId);
+        if (upload) {
+            upload.password = pw;
+            Status.update();
+        }
     }
 
+    /**
+     * The upload is done. If it didn't fail or has a download password, remove it from the list
+     * @param {string} uploadId The id of the upload that changed its status
+     */
     static done(uploadId) {
         const upload = Status.attachmentStatus.get(uploadId);
         if (true !== upload.error && 'generatedpassword' !== upload.status) {
@@ -71,6 +95,9 @@ export class Status {
         Status.update();
     }
 
+    /**
+     * Remove all uploads from the list, that are done, didn't fail and don't have a download password
+     */
     static clearcomplete() {
         Status.attachmentStatus.forEach(
             (v, k, m) => {
