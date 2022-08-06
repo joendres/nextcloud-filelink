@@ -80,5 +80,4 @@ export class Status {
             });
         Status.update();
     }
-
 }
