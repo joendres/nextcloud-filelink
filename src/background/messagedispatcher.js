@@ -1,9 +1,9 @@
 import { Status } from "./status.js";
 
-export class MsgHandler {
+export class MessageDispatcher {
     static installHandler() {
-        if (!browser.runtime.onConnect.hasListener(MsgHandler.connectHandler)) {
-            browser.runtime.onConnect.addListener(MsgHandler.connectHandler);
+        if (!browser.runtime.onConnect.hasListener(MessageDispatcher.connectHandler)) {
+            browser.runtime.onConnect.addListener(MessageDispatcher.connectHandler);
         }
     }
 
@@ -14,7 +14,7 @@ export class MsgHandler {
     static connectHandler(p) {
         Status.port = p;
         Status.port.onDisconnect.addListener(() => Status.port = null);
-        Status.port.onMessage.addListener(MsgHandler.dispatch);
+        Status.port.onMessage.addListener(MessageDispatcher.dispatch);
     }
 
     /**

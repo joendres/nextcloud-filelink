@@ -1,7 +1,7 @@
 import { AccountUpdater } from "./accountupdater.js";
 import { EventHandlers } from "./eventhandlers.js";
 import { TBVersionWorkarounds } from "./tbversionworkarounds.js";
-import { MsgHandler } from "./msghandler.js";
+import { MessageDispatcher } from "./messagedispatcher.js";
 
 AccountUpdater.update_all();
 TBVersionWorkarounds.apply_all();
@@ -12,4 +12,4 @@ messenger.cloudFile.onFileDeleted.addListener(EventHandlers.onFileDeleted);
 messenger.cloudFile.onAccountAdded.addListener(EventHandlers.onAccountAdded);
 messenger.cloudFile.onAccountDeleted.addListener(EventHandlers.onAccountDeleted);
 
-MsgHandler.installHandler();
+MessageDispatcher.installHandler();
