@@ -105,14 +105,14 @@ export class CloudConnection {
      * @returns {number} The amount of free space available to the user in bytes or -1
      */
     async updateFreeSpaceInfo() {
-        this.spaceRemaining = -1;
+        this.free = -1;
         this.spaceUsed = -1;
 
         const data = await this._doApiCall(apiUrlUserInfo + this.userId);
         if (data && data.quota) {
             if ("free" in data.quota) {
                 const free = parseInt(data.quota.free);
-                this.spaceRemaining = free >= 0 && free <= Number.MAX_SAFE_INTEGER ? free : -1;
+                this.free = free >= 0 && free <= Number.MAX_SAFE_INTEGER ? free : -1;
             }
             if ("used" in data.quota) {
                 const used = parseInt(data.quota.used);
@@ -122,7 +122,7 @@ export class CloudConnection {
 
         this.store();
 
-        return this.spaceRemaining;
+        return this.free;
     }
 
     /**
