@@ -3,13 +3,13 @@
  * uploadId
  * @type {Map<string,Status>}
  */
-/** @type {Map<string,Status>} */
 const attachmentStatus = new Map();
 
 /**
  * Wait for messaging connection, opened when status popup is opened
+ * @type {browser.runtime.Port} The port to communicate with the status popup
  */
-let port = null;
+var port = null;
 browser.runtime.onConnect.addListener(p => {
     port = p;
     port.onDisconnect.addListener(() => port = null);
