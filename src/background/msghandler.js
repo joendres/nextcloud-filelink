@@ -22,29 +22,12 @@ export class MsgHandler {
      * @param {string} msg The command as received as a message
      */
     static dispatch(msg) {
-        // Check if it's defined within this class as a static method
-        if (msg.match(/^\w+$/) &&
-            msg !== "dispatch" &&
-            Object.hasOwn(MsgHandler, msg) &&
-            "function" === typeof MsgHandler[msg]
-        ) {
-            MsgHandler[msg]();
+        const legal_calls = ["update", "clearcomplete",];
+
+        if (legal_calls.includes(msg)) {
+            Status[msg]();
         } else {
             throw ReferenceError('No handler for ' + msg);
         }
-    }
-
-    /**
-     * Remove all Status objects from attachmentStatus that are in error state
-     */
-    static clearcomplete() {
-        Status.clearcomplete();
-    }
-
-    /**
-     * Send an update
-     */
-    static sendstatus() {
-        Status.update();
     }
 }

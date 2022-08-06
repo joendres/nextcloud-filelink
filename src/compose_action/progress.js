@@ -1,6 +1,5 @@
 import { Localize } from "../common/localize.js";
 /** @todo define the type instead */
-import { UploadStatus } from "../background/uploadstatus.js";
 
 // Establish messaging with background worker
 var port;
@@ -23,7 +22,7 @@ Localize.addLocalizedLabels();
 // Unsuccessful uploads remain in the popup window until this button is pressed
 button_clear.addEventListener('click', () => port.postMessage('clearcomplete'));
 
-port.postMessage("sendstatus");
+port.postMessage("update");
 
 /**
  * Fills the status popup with content
