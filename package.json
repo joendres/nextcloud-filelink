@@ -51,20 +51,29 @@
     }
   },
   "jshintConfig": {
-    "moz": true,
-    "esversion": 9,
-    "browser": true,
-    "predef": [
-      "browser",
-      "messenger"
-    ],
+    "bitwise": true,
     "curly": true,
     "eqeqeq": true,
+    "esversion": 9,
     "futurehostile": true,
+    "latedef": "nofunc",
+    "leanswitch": true,
+    "maxcomplexity": 25,
+    "maxdepth": 4,
     "nocomma": true,
+    "nonew": true,
+    "predef": [
+      "browser"
+    ],
+    "shadow": "outer",
+    "singleGroups": false,
     "strict": "implied",
     "trailingcomma": true,
     "undef": true,
-    "unused": true
+    "unused": true,
+    "varstmt": true,
+    "moz": true,
+    "browser": true,
+    "module": true
   }
 }
