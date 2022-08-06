@@ -4,32 +4,30 @@ export class HeaderHandler {
 
     /**
      * Update the free space info
-     * @param {string} accountId The id of the account the dialog is handling, as supplied by TB
+     * @param {CloudConnection} cc The CloudConnection object containing the free space info
      */
-    static async updateFreespace(accountId) {
-        let theAccount = await browser.cloudFile.getAccount(accountId);
+    static async updateFreespace(cc) {
         /** @type {HTMLDivElement} */
         const freespaceinfo = document.querySelector("#freespaceinfo");
 
         freespaceinfo.hidden = true;
-        const free = parseInt(theAccount.spaceRemaining);
-        const full = free + parseInt(theAccount.spaceUsed);
 
-        if (free >= 0 && full >= 0 &&
-            free <= Number.MAX_SAFE_INTEGER && full <= Number.MAX_SAFE_INTEGER &&
-            isFinite(free) && isFinite(full)) {
+        if (cc.free >= 0 && cc.total >= 0 &&
+            cc.free <= Number.MAX_SAFE_INTEGER && cc.total <= Number.MAX_SAFE_INTEGER &&
+            isFinite(cc.free) && isFinite(cc.total)) {
+
             /** @type {HTMLLabelElement} */
             const freespacelabel = document.querySelector("#freespacelabel");
+            freespacelabel.textContent = browser.i18n.getMessage("freespace", [
+                HeaderHandler.humanReadable(cc.free),
+                HeaderHandler.humanReadable(cc.total),]);
+
             /** @type {HTMLMeterElement} */
             const freespace = document.querySelector("#freespace");
+            freespace.max = cc.total;
+            freespace.value = cc.free;
+            freespace.low = Math.floor(cc.total / 20);
 
-            freespacelabel.textContent = browser.i18n.getMessage("freespace", [
-                HeaderHandler.humanReadable(free),
-                HeaderHandler.humanReadable(full),]);
-
-            freespace.max = full;
-            freespace.value = free;
-            freespace.low = Math.floor(full / 20);
             freespaceinfo.hidden = false;
         }
     }
