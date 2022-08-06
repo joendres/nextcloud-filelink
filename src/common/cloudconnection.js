@@ -119,8 +119,7 @@ export class CloudConnection {
                 this.total = total >= 0 && total <= Number.MAX_SAFE_INTEGER ? total : -1;
             } else if ("used" in data.quota && this.free >= 0) {
                 const used = parseInt(data.quota.used);
-                let total = used >= 0 && used <= Number.MAX_SAFE_INTEGER ? used : -1;
-                this.total = total >= 0 ? total + this.free : -1;
+                this.total = used >= 0 && used <= Number.MAX_SAFE_INTEGER ? used + this.free : -1;
             }
         }
 
