@@ -1,5 +1,4 @@
 import { Localize } from "../common/localize.js";
-/** @todo define the type instead */
 
 // Establish messaging with background worker
 var port;
