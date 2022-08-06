@@ -5,6 +5,8 @@ import { Localize } from "../common/localize.js";
  * @type {browser.runtime.Port} The port to communicate with the status backend
  */
 var port;
+port = browser.runtime.connect();
+port.onMessage.addListener(updateStatusDisplay);
 
 /** @type {HTMLButtonElement} */
 const button_clear = document.querySelector("#button_clear");
@@ -16,9 +18,6 @@ const no_uploads = document.querySelector("#no_uploads");
 const template_copy = document.querySelector("#templates>.copy");
 /** @type {HTMLDivElement} */
 const template_cell = document.querySelector("#templates>.cell");
-
-port = browser.runtime.connect();
-port.onMessage.addListener(updateStatusDisplay);
 
 Localize.addLocalizedLabels();
 // Unsuccessful uploads remain in the popup window until this button is pressed
