@@ -50,7 +50,11 @@ class MsgHandler {
      */
     static dispatch(msg) {
         // Check if it's defined within this class as a static method
-        if ('function' === typeof MsgHandler[msg]) {
+        if (msg.match(/^\w+$/) &&
+            msg !== "dispatch" &&
+            Object.hasOwn(MsgHandler, msg) &&
+            "function" === typeof MsgHandler[msg]
+        ) {
             MsgHandler[msg]();
         } else {
             throw ReferenceError('No handler for ' + msg);
@@ -70,6 +74,9 @@ class MsgHandler {
         Status.update();
     }
 
+    /**
+     * Send an update
+     */
     static sendstatus() {
         Status.update();
     }
