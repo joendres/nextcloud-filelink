@@ -1,4 +1,5 @@
 import { attachmentStatus, Status } from "../background/status.js";
+import { UploadStatus } from "../background/uploadstatus.js";
 import { DavUploader } from "../background/davuploader.js";
 import { PasswordGenerator } from "../background/passwordgenerator.js";
 import { Utils } from "../background/utils.js";
@@ -64,7 +65,7 @@ export class CloudConnection {
      * @param {File} fileObject the local file as a File object
      */
     async uploadFile(uploadId, fileName, fileObject) {
-        const upload_status = new Status(fileName);
+        const upload_status = new UploadStatus(fileName);
         attachmentStatus.set(uploadId, upload_status);
 
         upload_status.set_status('preparing');

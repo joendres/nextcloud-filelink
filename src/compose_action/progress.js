@@ -1,4 +1,6 @@
 import { Localize } from "../common/localize.js";
+/** @todo define the type instead */
+import { UploadStatus } from "../background/uploadstatus.js";
 
 // Establish messaging with background worker
 var port;
@@ -26,7 +28,7 @@ port.postMessage("sendstatus");
 /**
  * Fills the status popup with content
  * 
- * @param {Map<string,Status>} uploads The Map with Status objects for all active uploads as received via message
+ * @param {Map<string,UploadStatus>} uploads The Map with UploadStatus objects for all active uploads as received via message
  */
 function updateStatusDisplay(uploads) {
     // Empty the grid
@@ -59,9 +61,9 @@ function updateStatusDisplay(uploads) {
 }
 
 /**
- * Fill one row of the table with information from a Status object
+ * Fill one row of the table with information from a UploadStatus object
  * 
- * @param {Status} status The Status object to display
+ * @param {UploadStatus} status The UploadStatus object to display
  */
 function fill_status_row(status) {
     // Append the file name
