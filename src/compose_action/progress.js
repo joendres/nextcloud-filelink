@@ -1,6 +1,9 @@
 import { Localize } from "../common/localize.js";
 
-// Establish messaging with background worker
+/**
+ * Establish messaging with background worker
+ * @type {browser.runtime.Port} The port to communicate with the status backend
+ */
 var port;
 
 /** @type {HTMLButtonElement} */
