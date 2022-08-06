@@ -6,10 +6,10 @@ import { MessageDispatcher } from "./messagedispatcher.js";
 AccountUpdater.update_all();
 TBVersionWorkarounds.apply_all();
 
-messenger.cloudFile.onFileUpload.addListener(EventHandlers.onFileUpload);
-messenger.cloudFile.onFileUploadAbort.addListener(EventHandlers.onFileUploadAbort);
-messenger.cloudFile.onFileDeleted.addListener(EventHandlers.onFileDeleted);
-messenger.cloudFile.onAccountAdded.addListener(EventHandlers.onAccountAdded);
-messenger.cloudFile.onAccountDeleted.addListener(EventHandlers.onAccountDeleted);
+browser.cloudFile.onFileUpload.addListener(EventHandlers.onFileUpload);
+browser.cloudFile.onFileUploadAbort.addListener(EventHandlers.onFileUploadAbort);
+browser.cloudFile.onFileDeleted.addListener(EventHandlers.onFileDeleted);
+browser.cloudFile.onAccountAdded.addListener(EventHandlers.onAccountAdded);
+browser.cloudFile.onAccountDeleted.addListener(EventHandlers.onAccountDeleted);
 
 MessageDispatcher.installHandler();

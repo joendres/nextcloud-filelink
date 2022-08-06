@@ -7,7 +7,7 @@ export class HeaderHandler {
      * @param {string} accountId The id of the account the dialog is handling, as supplied by TB
      */
     static async updateFreespace(accountId) {
-        let theAccount = await messenger.cloudFile.getAccount(accountId);
+        let theAccount = await browser.cloudFile.getAccount(accountId);
         /** @type {HTMLDivElement} */
         const freespaceinfo = document.querySelector("#freespaceinfo");
 
