@@ -15,16 +15,16 @@
     "message": "Kiszolgáló URL-címe"
   },
   "serverUrl_details": {
-    "message": "A felhő kiszolgáló alap URL-jének http vagy https-rel kell kezdődnie.\nHa a kiszolgáló nem szabványos kikötőn fut, írja be az URL-be."
+    "message": "A felhőkiszolgáló alap URL-címének http vagy https előtaggal kell kezdődnie.\nHa a kiszolgáló nem szabványos porton fut, helyezze be az URL-címbe."
   },
   "username": {
     "message": "Felhasználónév"
   },
   "username_details": {
-    "message": "A felhasználóneved a felhő kiszolgálón"
+    "message": "Felhasználóneve a felhőkiszolgálón"
   },
   "password": {
-    "message": "Alkalmazás vezérjel vagy jelszó"
+    "message": "Alkalmazás-vezérjel vagy jelszó"
   },
   "password_details": {
     "message": "Alkalmazás vezérjel (előnyben részesít) vagy jelszó.\nA Nextcloud használatával csak a kiegészítő megpróbálja átalakítani a felhasználói jelszavakat alkalmazás tokenekké, mielőtt tárolná azokat. De ha ez nem sikerül, akkor a jelszavát titkosítatlanul tárolja."
