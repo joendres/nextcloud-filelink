@@ -66,8 +66,7 @@
     "esversion": 9,
     "browser": true,
     "predef": [
-      "browser",
-      "messenger"
+      "browser"
     ],
     "curly": true,
     "eqeqeq": true,
