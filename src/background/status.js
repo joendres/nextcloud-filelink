@@ -1,25 +1,29 @@
-/**
- * Global Map to hold Status objects for all active uploads, indexed by the
- * uploadId
- * @type {Map<string,UploadStatus>}
- */
-const attachmentStatus = new Map();
-
-class Status {
+export class Status {
     static setup() {
         if (!browser.runtime.onConnect.hasListener(Status.connectHandler)) {
             browser.runtime.onConnect.addListener(Status.connectHandler);
         }
+        if (!Status.attachmentStatus) {
+            Status.attachmentStatus = new Map();
+        }
+    }
+
+    static get(key) {
+        return Status.attachmentStatus.get(key);
+    }
+
+    static set(key, value) {
+        Status.attachmentStatus.set(key, value);
     }
 
     /**
      * Update badge and send status to status popup, if it's listening (open)
      */
     static async update() {
-        const messages = attachmentStatus.size.toString();
+        const messages = Status.attachmentStatus.size.toString();
         messenger.composeAction.setBadgeText({ text: messages !== "0" ? messages : null, });
         if (Status.port) {
-            Status.port.postMessage(attachmentStatus);
+            Status.port.postMessage(Status.attachmentStatus);
         }
     }
 
@@ -28,7 +32,7 @@ class Status {
      * @param {string} uploadId The id of the upload created in background.js
      */
     static async remove(uploadId) {
-        attachmentStatus.delete(uploadId);
+        Status.attachmentStatus.delete(uploadId);
         Status.update();
     }
 
@@ -65,7 +69,7 @@ class MsgHandler {
      * Remove all Status objects from attachmentStatus that are in error state
      */
     static clearcomplete() {
-        attachmentStatus.forEach(
+        Status.attachmentStatus.forEach(
             (v, k, m) => {
                 if (true === v.error || 'generatedpassword' === v.status) {
                     m.delete(k);
@@ -83,5 +87,3 @@ class MsgHandler {
 }
 
 Status.setup();
-
-export { Status, attachmentStatus };

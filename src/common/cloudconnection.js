@@ -1,4 +1,4 @@
-import { attachmentStatus, Status } from "../background/status.js";
+import { Status } from "../background/status.js";
 import { UploadStatus } from "../background/uploadstatus.js";
 import { DavUploader } from "../background/davuploader.js";
 import { PasswordGenerator } from "../background/passwordgenerator.js";
@@ -66,7 +66,7 @@ export class CloudConnection {
      */
     async uploadFile(uploadId, fileName, fileObject) {
         const upload_status = new UploadStatus(fileName);
-        attachmentStatus.set(uploadId, upload_status);
+        Status.set(uploadId, upload_status);
 
         upload_status.set_status('preparing');
 
@@ -423,7 +423,7 @@ export class CloudConnection {
 
         if (data && data.url) {
             if (this.useGeneratedDlPassword) {
-                const status = attachmentStatus.get(uploadId);
+                const status = Status.get(uploadId);
                 status.password = this.downloadPassword;
                 status.set_status('generatedpassword');
             }
