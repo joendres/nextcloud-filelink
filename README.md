@@ -35,8 +35,8 @@ Cloud and generates a link you can send by mail instead of the file.
    * App token or password
 
 __*cloud__ is also available via Thunderbird's Add-on
-repository: 
-[*cloud - FileLink for Nextcloud and ownCloud ](https://addons.thunderbird.net/thunderbird/addon/filelink-nextcloud-owncloud/).
+repository:
+[*cloud - FileLink for Nextcloud and ownCloud](https://addons.thunderbird.net/thunderbird/addon/filelink-nextcloud-owncloud/).
 
 ### Usage
 
@@ -73,13 +73,13 @@ There is a feature suggestion for Thunderbird, to [make this template
 editable](https://bugzilla.mozilla.org/show_bug.cgi?id=1643729). You might
 consider backing this suggestion with your vote or a helpful comment.
 
-#### Files from network shares uploaded to cloud *and* attached
+#### Files from network shares uploaded to cloud _and_ attached
 
 There was a [bug in
 Thunderbird](https://bugzilla.mozilla.org/show_bug.cgi?id=793118): If you
 attached a file from a network share, it was uploaded to the cloud and the share
-link was inserted into your mail, but the file was *also attached to the
-message*. This was fixed in Thunderbird 68.11.0 and 78.0.1. If you're still
+link was inserted into your mail, but the file was _also attached to the
+message_. This was fixed in Thunderbird 68.11.0 and 78.0.1. If you're still
 experiencing this issue, update Thunderbird.
 
 #### URL works in browser but not in *cloud
@@ -128,8 +128,8 @@ solutions:
 
 #### Upload problems
 
-The *download* password has to comply with *all* the rules for passwords on
-your cloud, otherwise the *upload* will fail. There are default rules of
+The _download_ password has to comply with _all_ the rules for passwords on
+your cloud, otherwise the _upload_ will fail. There are default rules of
 Nextcloud and ownCloud, and your admin might have configured some different
 rules.
 
@@ -164,9 +164,9 @@ account name and choose "Rename" from the context menu.
 
 #### Download passwords
 
-**If you use download passwords, _never_ put them into an email, but give them
+__If you use download passwords, _never_ put them into an email, but give them
 to the recipient via a separate, secure channel eg a messenger or a telephone
-call.**
+call.__
 
 Why? As a security measure the generated download links contain a long, almost
 random part. So an attacker (let's call her Eve) can't guess the link for a file
@@ -178,7 +178,7 @@ technical details, read this
 So the links are fairly secure by themselves and quite comfortable for the
 recipient, because she only has to click the link.
 
-If you use download passwords, *never* put them into the same email as the link.
+If you use download passwords, _never_ put them into the same email as the link.
 Because if Eve can read the link, she can also read the password. So a download
 password in the same email doesn't make the transfer more secure, but only more
 complicated for the recipient. The same goes for a separate email with the
@@ -190,24 +190,24 @@ probably also able to intercept the second email.
 Instead of storing your password it's more secure to use an "App Token" with
 __*cloud__. There are two ways to get such a token:
 
-* *If you are using Nextcloud or ownCloud:* Open your account in the browser and
+* _If you are using Nextcloud or ownCloud:_ Open your account in the browser and
   go to Settings -> Security -> App Token and at the bottom of the page generate
   a new token. Copy&paste it into the "App token" field of the Attachments
   preferences page in Thunderbird.
 
-* *Only if you are using Nextcloud:* Type your user password into the
+* _Only if you are using Nextcloud:_ Type your user password into the
   Attachments/Outgoing preferences page in Thunderbird. Upon saving, the Add-On will
-  *try* to get a token from your Nextcloud and use it instead of your password.
+  _try_ to get a token from your Nextcloud and use it instead of your password.
   You will notice the change, because afterwards the password field is filled
   with dots completely (app tokens are quite long).\
-  **BUT!** if getting the token fails for any reason (e.g. your Nextcloud is not
-  reachable, timeout, wrong username, ...), the Add-On will *store your password
-  unencrypted*.
+  __BUT!__ if getting the token fails for any reason (e.g. your Nextcloud is not
+  reachable, timeout, wrong username, ...), the Add-On will _store your password
+  unencrypted_.
 
 #### Handling of existing files
 
 If you attach a file that's already in the attachments folder in your cloud
-*with identical contents*, that file is not uploaded again. Instead the
+_with identical contents_, that file is not uploaded again. Instead the
 existing file is shared.
 
 To make this possible, __*cloud__ never deletes files in your cloud. Over time
@@ -235,9 +235,9 @@ identical.
 
 Some settings in Nextcloud/ownCloud are relevant for this Add-On:
 
-* **Settings -> Sharing -> Allow apps to use the Share API** has to be enabled
-* **Settings -> Sharing -> Allow users to share via link** has to be enabled
-* **The app "Share Files" has to be active.** In ownCloud the Apps management is
+* __Settings -> Sharing -> Allow apps to use the Share API__ has to be enabled
+* __Settings -> Sharing -> Allow users to share via link__ has to be enabled
+* __The app "Share Files" has to be active.__ In ownCloud the Apps management is
   part of the Administrator's settings, in Nextcloud it's accessible directly
   from the Admin's profile menu.
 
@@ -316,22 +316,13 @@ above](#reporting-bugs-and-suggesting-features) to report it.
 
 ### Localization / Translation
 
-If you'd like to help translate __*cloud__ into your language:
+Localization of __*cloud__ happens on
+[Crowdin](https://crwd.in/filelink-nextcloud). If you'd like to help translate
+__*cloud__ into your language, just click on the link and go ahead.
 
-   1. Just download the [english strings
-      file](https://gitlab.com/joendres/filelink-nextcloud/-/raw/master/src/_locales/en/messages.json)
-   1. Translate the `message`s in that file
-      * Do not translate the `description`; they don't show up anywhere, they're just in there for your reference.
-      * If you're not sure about a string's context, just put all your questions in an email or an issue. I'll be glad to clarify.
-   1. Mail it to [me](mailto:cloud@johannes-endres.de) or put it into an
-      [issue](https://gitlab.com/joendres/filelink-nextcloud/-/issues) stating
-      the language
-
-Alternatively, if you know how to use gitlab.com and how [Internationalization
-in Mozilla
-WebExtensions](https://developer.mozilla.org/docs/Mozilla/Add-ons/WebExtensions/Internationalization)
-works, you may of course just add a new locale in the correct folder and create
-a merge request.
+If Crowdin seems too complicated or if you are more familiar with another method
+of translation, just send [me an email](mailto:cloud@johannes-endres.de) or open
+an [issue](https://gitlab.com/joendres/filelink-nextcloud/-/issues).
 
 ### Code
 
@@ -339,10 +330,8 @@ If you'd like to fix a bug or implement a feature
 
 * Just branch from the latest Release-x.y or Bugfix-x.y.z branch
 * Use [jshint](https://jshint.com/) to check your code.
-* Optional: When your code is ready, `git merge` the original branch and resolve
-  conflicts. I'll handle all conflicts that arise later.
 * If you add strings, just add them to the english locales (and any other
-  language you are fluent in), *don't* add english strings to other locales
+  language you are fluent in), _don't_ add english strings to other locales
 
 ### Dev resources
 
