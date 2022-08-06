@@ -6,6 +6,12 @@
 const attachmentStatus = new Map();
 
 class Status {
+    static setup() {
+        if (!browser.runtime.onConnect.hasListener(Status.connectHandler)) {
+            browser.runtime.onConnect.addListener(Status.connectHandler);
+        }
+    }
+
     /**
      * Update badge and send status to status popup, if it's listening (open)
      */
@@ -27,8 +33,8 @@ class Status {
     }
 
     /**
-     * 
-     * @param {browser.runtime.Port} p 
+     * Handle the browser.runtime.onConnect event
+     * @param {browser.runtime.Port} p The Port object for the connection
      */
     static connectHandler(p) {
         Status.port = p;
@@ -69,9 +75,6 @@ class MsgHandler {
     }
 }
 
-/**
- * Wait for messaging connection, opened when status popup is opened
- */
-browser.runtime.onConnect.addListener(Status.connectHandler);
+Status.setup();
 
 export { Status, attachmentStatus };
