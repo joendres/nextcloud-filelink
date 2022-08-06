@@ -12,7 +12,7 @@
     "message": "Visszaállítás"
   },
   "serverUrl": {
-    "message": "Kiszolgáló URL"
+    "message": "Kiszolgáló URL-címe"
   },
   "serverUrl_details": {
     "message": "A felhő kiszolgáló alap URL-jének http vagy https-rel kell kezdődnie.\nHa a kiszolgáló nem szabványos kikötőn fut, írja be az URL-be."
@@ -31,6 +31,9 @@
   },
   "storageFolder": {
     "message": "Tárolási út a felhőben"
+  },
+  "advanced_options": {
+    "message": "Haladó beállítások"
   },
   "storageFolder_details": {
     "message": "Az az útvonal, ahova a mellékleteket a saját felhőben tárolja. Ha nem létezik, akkor a feltöltés során lesz létrehozva."
@@ -65,6 +68,12 @@
   "expiry_details": {
     "message": "A napok száma a letöltés elérhető lesz, a mai napot is beleértve."
   },
+  "noAutoDownload": {
+    "message": "Fájl adatainak megjelenítése letöltés előtt"
+  },
+  "noAutoDownload_details": {
+    "message": "A hivatkozásra kattintva megjelenítheti a fájl adatait (és esetleg előnézetét), vagy azonnal elindíthatja a letöltést?"
+  },
   "freespace": {
     "message": "Szabad hely ($FREE$/$FULL$)",
     "placeholders": {
@@ -77,46 +86,63 @@
     }
   },
   "success": {
+    "description": "This is displayed as a popup over the configuration page if the configuration has no errors or warnings",
     "message": "Sikerült!"
   },
   "error_0": {
+    "description": "This is displayed as a popup over the configuration page. $1 will be replaced with the server's error message",
     "message": "Ismeretlen hiba ($1)"
   },
   "error_typeerror": {
+    "description": "This is displayed as a popup over the configuration page",
     "message": "Nincs kapcsolat. Ellenőrizze a kiszolgáló URL-jét és a hálózati kapcsolatot."
   },
   "error_404": {
+    "description": "This is displayed as a popup over the configuration page",
     "message": "Fiók ellenőrzése sikertelen: helytelen felhasználónév, nem összeegyeztethetetlen felhő vagy hálózati hiba."
   },
   "warn_unsupported_cloud": {
+    "description": "This is displayed as a popup over the configuration page",
     "message": "A Nextcloud vagy a ownCloud elavult verziója. Elveszítheti az adatokat. Kérje meg a felhőrendszergazdát, hogy frissítse."
+  },
+  "warn_nonascii_password": {
+    "description": "This is displayed as a popup over the configuration page",
+    "message": "Jelszava olyan karaktereket tartalmaz, amelyek valószínűleg bejelentkezési problémákat okoznak. Ehelyett használjon alkalmazásjelszót."
   },
   "obsolete_version": {
     "description": "This is displayed over the icon if the cloud version is not supported, so it should be quite short and contain at most two lines.",
     "message": "Elavult\nverzió"
   },
   "error_401": {
+    "description": "This is displayed as a popup over the configuration page",
     "message": "Bejelentkezés sikertelen. Ellenőrizze a felhasználónevet és a jelszót."
   },
   "error_503": {
+    "description": "This is displayed as a popup over the configuration page",
     "message": "Kiszolgáló karbantartási módban van. Próbálkozzon újra később."
   },
   "error_sharing_off": {
+    "description": "This is displayed as a popup over the configuration page",
     "message": "Felhő megosztása letiltva. Kérdezze meg rendszergazdáját, hogy engedélyezze a megosztást."
   },
   "error_invalid_pw": {
+    "description": "This is displayed as a popup over the configuration page. $1 will be replaced with the server's error message",
     "message": "Érvénytelen letöltési jelszó (feltöltések sikertelen lesznek). Kiszolgálóválasz: $1"
   },
   "error_password_enforced": {
+    "description": "This is displayed as a popup over the configuration page",
     "message": "Letöltési jelszó szükséges a felhőhöz."
   },
   "warn_expiry_too_long": {
+    "description": "This is displayed as a popup over the configuration page",
     "message": "A felhőrendszergazda a leghosszabb lejárati időt, $1 napot állította be. Az értéket csökkentették, különben a feltöltés sikertelen lesz."
   },
   "warn_no_config_check": {
+    "description": "This is displayed as a popup over the configuration page",
     "message": "Fiókellenőrzés sikertelen. Hálózati problémák?"
   },
   "warn_insecure_http": {
+    "description": "This is displayed as a popup over the configuration page",
     "message": "A bejelentkezési adatokat titkosítatlanul továbbítják a HTTP-kapcsolat használatával. A bejelentkezéshez használja a HTTPS-kapcsolatot. Ha ez nem sikerül, kérje a rendszergazdák segítségét."
   },
   "status_menutooltip": {
@@ -139,21 +165,23 @@
     "message": "Előkészítés"
   },
   "status_creating": {
+    "description": "This will be displayed in the status popup. If this step fails this string will be combined with one indicating failure, eg 'Preparing file size failed'.",
     "message": "Mappa létrehozása"
   },
   "status_moving": {
+    "description": "This will be displayed in the status popup. If this step fails this string will be combined with one indicating failure, eg 'Preparing file size failed'.",
     "message": "Az ütköző fájl áthelyezése"
   },
   "status_uploading": {
+    "description": "This will be displayed in the status popup. If this step fails this string will be combined with one indicating failure, eg 'Preparing file size failed'.",
     "message": "Feltöltés"
   },
   "status_sharing": {
+    "description": "This will be displayed in the status popup. If this step fails this string will be combined with one indicating failure, eg 'Preparing file size failed'.",
     "message": "Megosztás"
   },
-  "status_checkingsize": {
-    "message": "Maximális fájlméret ellenőrzése"
-  },
   "status_checkingspace": {
+    "description": "This will be displayed in the status popup. If this step fails this string will be combined with one indicating failure, eg 'Preparing file size failed'.",
     "message": "Szabad hely ellenőrzése"
   },
   "status_error": {
@@ -161,12 +189,10 @@
     "message": "$1 sikertelen"
   },
   "status_password": {
+    "description": "This will be displayed in the status popup if download passwords are generated. $1 is replaced with the generated password for this file",
     "message": "jelszó: $1"
   },
-  "warn_nonascii_password": {
-    "message": "Jelszava olyan karaktereket tartalmaz, amelyek valószínűleg bejelentkezési problémákat okoznak. Ehelyett használjon alkalmazásjelszót."
-  },
-  "advanced_options": {
-    "message": "Haladó beállítások"
+  "decimal_separator": {
+    "message": ","
   }
 }
