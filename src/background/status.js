@@ -5,17 +5,6 @@
  */
 const attachmentStatus = new Map();
 
-/**
- * Wait for messaging connection, opened when status popup is opened
- */
-let port = null;
-browser.runtime.onConnect.addListener(p => {
-    port = p;
-    port.onDisconnect.addListener(() => port = null);
-    port.onMessage.addListener(MsgHandler.dispatch);
-});
-
-
 class Status {
     /**
      * Update badge and send status to status popup, if it's listening (open)
@@ -23,8 +12,8 @@ class Status {
     static async update() {
         const messages = attachmentStatus.size.toString();
         messenger.composeAction.setBadgeText({ text: messages !== "0" ? messages : null, });
-        if (port) {
-            port.postMessage(attachmentStatus);
+        if (Status.port) {
+            Status.port.postMessage(attachmentStatus);
         }
     }
 
@@ -35,6 +24,16 @@ class Status {
     static async remove(uploadId) {
         attachmentStatus.delete(uploadId);
         Status.update();
+    }
+
+    /**
+     * 
+     * @param {browser.runtime.Port} p 
+     */
+    static connectHandler(p) {
+        Status.port = p;
+        Status.port.onDisconnect.addListener(() => Status.port = null);
+        Status.port.onMessage.addListener(MsgHandler.dispatch);
     }
 }
 
@@ -69,5 +68,10 @@ class MsgHandler {
         Status.update();
     }
 }
+
+/**
+ * Wait for messaging connection, opened when status popup is opened
+ */
+browser.runtime.onConnect.addListener(Status.connectHandler);
 
 export { Status, attachmentStatus };
