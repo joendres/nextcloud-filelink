@@ -5,3 +5,4 @@ tests/filenames/x["?:\\|*]x.txt
 .dccache
 public/**/index.html
 public/*/*
+/.vscode/launch.json
