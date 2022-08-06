@@ -32,6 +32,7 @@
   "homepage": "https://joendres.gitlab.io/filelink-nextcloud/",
   "devDependencies": {
     "@types/firefox-webext-browser": "^70",
+    "eslint": "^8.21.0",
     "glob": "^8.0.3",
     "jshint": "^2.13.5",
     "thunderbird-web-ext-types": "^1.0.0",
