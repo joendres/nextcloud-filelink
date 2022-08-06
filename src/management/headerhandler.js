@@ -11,23 +11,23 @@ export class HeaderHandler {
         const freespaceinfo = document.querySelector("#freespaceinfo");
 
         freespaceinfo.hidden = true;
-        const full = cc.free + cc.spaceUsed;
 
-        if (cc.free >= 0 && full >= 0 &&
-            cc.free <= Number.MAX_SAFE_INTEGER && full <= Number.MAX_SAFE_INTEGER &&
-            isFinite(cc.free) && isFinite(full)) {
+        if (cc.free >= 0 && cc.total >= 0 &&
+            cc.free <= Number.MAX_SAFE_INTEGER && cc.total <= Number.MAX_SAFE_INTEGER &&
+            isFinite(cc.free) && isFinite(cc.total)) {
+
             /** @type {HTMLLabelElement} */
             const freespacelabel = document.querySelector("#freespacelabel");
-            /** @type {HTMLMeterElement} */
-            const freespace = document.querySelector("#freespace");
-
             freespacelabel.textContent = browser.i18n.getMessage("freespace", [
                 HeaderHandler.humanReadable(cc.free),
-                HeaderHandler.humanReadable(full),]);
+                HeaderHandler.humanReadable(cc.total),]);
 
-            freespace.max = full;
+            /** @type {HTMLMeterElement} */
+            const freespace = document.querySelector("#freespace");
+            freespace.max = cc.total;
             freespace.value = cc.free;
-            freespace.low = Math.floor(full / 20);
+            freespace.low = Math.floor(cc.total / 20);
+
             freespaceinfo.hidden = false;
         }
     }

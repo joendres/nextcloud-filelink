@@ -106,7 +106,7 @@ export class CloudConnection {
      */
     async updateFreeSpaceInfo() {
         this.free = -1;
-        this.spaceUsed = -1;
+        this.total = -1;
 
         const data = await this._doApiCall(apiUrlUserInfo + this.userId);
         if (data && data.quota) {
@@ -114,15 +114,17 @@ export class CloudConnection {
                 const free = parseInt(data.quota.free);
                 this.free = free >= 0 && free <= Number.MAX_SAFE_INTEGER ? free : -1;
             }
-            if ("used" in data.quota) {
+            if ("total" in data.quota) {
+                const total = parseInt(data.quota.total);
+                this.total = total >= 0 && total <= Number.MAX_SAFE_INTEGER ? total : -1;
+            } else if ("used" in data.quota && this.free >= 0) {
                 const used = parseInt(data.quota.used);
-                this.spaceUsed = used >= 0 && used <= Number.MAX_SAFE_INTEGER ? used : -1;
+                let total = used >= 0 && used <= Number.MAX_SAFE_INTEGER ? used : -1;
+                this.total = total >= 0 ? total + this.free : -1;
             }
         }
 
         this.store();
-
-        return this.free;
     }
 
     /**
