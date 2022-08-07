@@ -1,4 +1,5 @@
 import { CloudConnection } from "../common/cloudconnection.js";
+import { CloudUploader } from "./clouduploader.js";
 import { Status } from "./status.js";
 
 /** AbortControllers for all active uploads
@@ -19,7 +20,7 @@ class EventHandlers {
      * the user
      */
     static async onFileUpload(account, { id, name, data }) {
-        const ncc = new CloudConnection(account.id);
+        const ncc = new CloudUploader(account.id);
         await ncc.load();
         return ncc.uploadFile(EventHandlers._makeUploadId(account, id), name, data);
     }
