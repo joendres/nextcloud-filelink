@@ -1,5 +1,5 @@
 import { CloudAPI } from "../common/cloudapi.js";
-import { CloudConnection } from "../common/cloudconnection.js";
+import { CloudAccount } from "../common/cloudaccount.js";
 import { DavUploader } from "../background/davuploader.js";
 import { PasswordGenerator } from "./passwordgenerator.js";
 import { Status } from "./status.js";
@@ -8,7 +8,7 @@ import { Utils } from "./utils.js";
 const apiUrlShares = "/apps/files_sharing/api/v1/shares";
 const davUrlBase = "remote.php/dav/files/";
 
-export class CloudUploader extends CloudConnection {
+export class CloudUploader extends CloudAccount {
     /**
      * Upload a single file
      *
