@@ -1,5 +1,5 @@
-import { readFileSync, writeFileSync, mkdirSync, copyFile } from "fs";
-import { dirname, normalize } from "path";
+import { readFileSync, writeFileSync, mkdirSync, copyFile, copyFileSync } from "fs";
+import { dirname, normalize, basename } from "path";
 import pkg from 'glob';
 const { glob } = pkg;
 
@@ -41,6 +41,11 @@ async function convert_file(filename) {
     writeFileSync(lang_dir + "/index.html",
         htmlhead + "<title>" + title + "</title>" + html);
 }
+
+try {
+    mkdirSync(out_dir);
+} catch (_) { /* ignore */ }
+glob.sync("./build-tools/public-template/*").forEach(f => copyFileSync(f, out_dir + basename(f)));
 
 convert_file("./README.md");
 glob.sync("*/README*.md").forEach(convert_file);
