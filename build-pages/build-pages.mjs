@@ -45,7 +45,7 @@ async function convert_file(filename) {
 try {
     mkdirSync(out_dir);
 } catch (_) { /* ignore */ }
-glob.sync("./build-tools/public-template/*").forEach(f => copyFileSync(f, out_dir + basename(f)));
+glob.sync("./build-pages/public-template/*").forEach(f => copyFileSync(f, out_dir + basename(f)));
 
 convert_file("./README.md");
 glob.sync("*/README*.md").forEach(convert_file);
