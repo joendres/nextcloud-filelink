@@ -2,9 +2,9 @@ import { Status } from "../background/status.js";
 import { DavUploader } from "../background/davuploader.js";
 import { PasswordGenerator } from "../background/passwordgenerator.js";
 import { Utils } from "../background/utils.js";
+import { CloudAPI } from "./cloudapi.js";
 
 //#region  Configurable options and useful constants
-const apiUrlBase = "ocs/v1.php";
 const apiUrlUserInfo = "/cloud/users/";
 const apiUrlUserID = "/cloud/user";
 const apiUrlShares = "/apps/files_sharing/api/v1/shares";
@@ -27,11 +27,6 @@ export class CloudConnection {
     constructor(accountId) {
         this._accountId = accountId;
 
-        const manifest = browser.runtime.getManifest();
-        this._apiHeaders = {
-            "OCS-APIREQUEST": "true",
-            "User-Agent": "Filelink for *cloud/" + manifest.version,
-        };
         this.laststatus = null;
     }
 
@@ -108,7 +103,7 @@ export class CloudConnection {
         this.free = -1;
         this.total = -1;
 
-        const data = await this._doApiCall(apiUrlUserInfo + this.userId);
+        const data = await CloudAPI.doApiCall(this, apiUrlUserInfo + this.userId);
         if (data && data.quota) {
             if ("free" in data.quota) {
                 const free = parseInt(data.quota.free);
@@ -130,7 +125,7 @@ export class CloudConnection {
      * Get useful information from the server and store it as properties
      */
     async updateCapabilities() {
-        const data = await this._doApiCall(apiUrlCapabilities);
+        const data = await CloudAPI.doApiCall(this, apiUrlCapabilities);
 
         if (!data._failed && data.capabilities) {
             // Don't test data.capabilities.files_sharing.api_enabled because the next line contains it all
@@ -231,7 +226,7 @@ export class CloudConnection {
      * @returns An object w/ the data from the response or error information
      */
     async updateUserId() {
-        const data = await this._doApiCall(apiUrlUserID);
+        const data = await CloudAPI.doApiCall(this, apiUrlUserID);
         if (data.id) {
             // Nextcloud and ownCloud use this RE to check usernames created manually
             if (data.id.match(/^[a-zA-Z0-9 _\.@\-']+$/)) {
@@ -278,12 +273,12 @@ export class CloudConnection {
      * @return {boolean} Was a new app password set?
      */
     async convertToApppassword() {
-        const data = await this._doApiCall(apiUrlGetApppassword);
+        const data = await CloudAPI.doApiCall(this, apiUrlGetApppassword);
         if (data && data.apppassword) {
             // Test if the apppassword really works with the given username
             const oldpassword = this.password;
             this.password = data.apppassword;
-            const r = await this._doApiCall(apiUrlUserID);
+            const r = await CloudAPI.doApiCall(this, apiUrlUserID);
             if (r._failed || r.status >= 900) {
                 this.password = oldpassword;
             } else {
@@ -300,7 +295,7 @@ export class CloudConnection {
      */
     async validateDLPassword() {
         if (this._password_validate_url) {
-            const data = await this._doApiCall(this._password_validate_url, 'POST',
+            const data = await CloudAPI.doApiCall(this, this._password_validate_url, 'POST',
                 { "Content-Type": "application/x-www-form-urlencoded", },
                 'password=' + encodeURIComponent(this.downloadPassword));
             data.passed = !!data.passed;
@@ -320,7 +315,7 @@ export class CloudConnection {
     async generateDLPassword() {
         let pw;
         if (this._password_generate_url) {
-            const data = await this._doApiCall(this._password_generate_url);
+            const data = await CloudAPI.doApiCall(this, this._password_generate_url);
             if (data.password) {
                 // This needs no sanitization because it is only displayed, using textContent
                 pw = data.password;
@@ -373,7 +368,7 @@ export class CloudConnection {
      * @returns {*} The existing share or undefined
      */
     async _findExistingShare(path_to_share, expireDate) {
-        const shareinfo = await this._doApiCall(apiUrlShares + "?path=" + path_to_share);
+        const shareinfo = await CloudAPI.doApiCall(this, apiUrlShares + "?path=" + path_to_share);
 
         // If we the ApiCall fails, the result is not an Array. So make sure, we can call find() before we do
         // Check for every existing share, if it meets our requirements:
@@ -416,7 +411,7 @@ export class CloudConnection {
             shareFormData += "&expireDate=" + expireDate;
         }
 
-        const data = await this._doApiCall(apiUrlShares, 'POST', { "Content-Type": "application/x-www-form-urlencoded", }, shareFormData);
+        const data = await CloudAPI.doApiCall(this, apiUrlShares, 'POST', { "Content-Type": "application/x-www-form-urlencoded", }, shareFormData);
 
         if (data && data.url) {
             if (this.useGeneratedDlPassword) {
@@ -456,60 +451,6 @@ export class CloudConnection {
     //#endregion
 
     //#region Wrapper for web service calls
-    /**
-     * Call a function of the Nextcloud/ownCloud web service API
-     *
-     * @param {string} suburl The function's URL relative to the API base URL or a full url
-     * @param {string} [method='GET'] HTTP method of the function, default GET
-     * @param {*} [additional_headers] Additional Headers this function needs
-     * @param {string} [body] Request body if the function needs it
-     * @returns {*} A Promise that resolves to the data element of the response
-     */
-    async _doApiCall(suburl, method = 'GET', additional_headers = undefined, body = undefined) {
-        let url;
-        if (suburl.startsWith(this.serverUrl)) {
-            url = suburl;
-        } else {
-            url = this.serverUrl;
-            url += apiUrlBase;
-            url += suburl;
-        }
-        url += (suburl.includes('?') ? '&' : '?') + "format=json";
-
-        let headers = this._apiHeaders;
-        headers.Authorization = "Basic " + btoa(this.username + ':' + this.password);
-
-        if (additional_headers) {
-            headers = { ...headers, ...additional_headers, };
-        }
-
-        const fetchInfo = {
-            method,
-            headers,
-            credentials: "omit",
-        };
-        if (undefined !== body) {
-            fetchInfo.body = body;
-        }
-
-        try {
-            // deepcode ignore Ssrf: The input is checked, but Snyk can't see that.
-            const response = await fetch(url, fetchInfo);
-            if (!response.ok) {
-                return { _failed: true, status: response.status, statusText: response.statusText, };
-            }
-            const parsed = await response.json();
-            if (!parsed || !parsed.ocs || !parsed.ocs.meta || !isFinite(parsed.ocs.meta.statuscode)) {
-                return { _failed: true, status: 'invalid_json', statusText: "No valid data in json", };
-            } else if (parsed.ocs.meta.statuscode >= 300) {
-                return { _failed: true, status: parsed.ocs.meta.statuscode, statusText: parsed.ocs.meta.message, };
-            } else {
-                return parsed.ocs.data;
-            }
-        } catch (error) {
-            return { _failed: true, status: error.name, statusText: error.message, };
-        }
-    }
     //#endregion
 }
 
