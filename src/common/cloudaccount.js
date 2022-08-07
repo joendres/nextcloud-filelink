@@ -1,7 +1,6 @@
 import { CloudAPI } from "./cloudapi.js";
 
 //#region  Configurable options and useful constants
-const apiUrlUserInfo = "/cloud/users/";
 const apiUrlUserID = "/cloud/user";
 const apiUrlGetApppassword = "/core/getapppassword";
 const apiUrlCapabilities = "/cloud/capabilities";
@@ -63,7 +62,7 @@ export class CloudAccount {
         this.free = -1;
         this.total = -1;
 
-        const data = await CloudAPI.doApiCall(this, apiUrlUserInfo + this.userId);
+        const data = await CloudAPI.getUserInfo(this);
         if (data && data.quota) {
             if ("free" in data.quota) {
                 const free = parseInt(data.quota.free);

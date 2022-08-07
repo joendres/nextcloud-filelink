@@ -1,13 +1,22 @@
 const apiUrlBase = "ocs/v1.php";
+const apiUrlUserInfo = "/cloud/users/";
 
 export class CloudAPI {
     /**
+     * 
+     * @param {CloudAccount} account The account to query
+     * @returns {Promise<*?>} The UserInfo object returned by the cloud
+     */
+    static async getUserInfo(account) {
+        return CloudAPI.doApiCall(account, apiUrlUserInfo + account.userId);
+    }
+
+    /**
      * Call a function of the Nextcloud/ownCloud web service API
-     *
      * @param {CloudAccount} account The account to use for the call
      * @param {string} suburl The function's URL relative to the API base URL or a full url
      * @param {string} [method='GET'] HTTP method of the function, default GET
-     * @param {*} [additional_headers] Additional Headers this function needs
+     * @param {Object<string,string>} [additional_headers] Additional Headers this function needs
      * @param {string} [body] Request body if the function needs it
      * @returns {*} A Promise that resolves to the data element of the response
      */
