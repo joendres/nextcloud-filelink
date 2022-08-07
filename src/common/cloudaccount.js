@@ -189,7 +189,7 @@ export class CloudAccount {
         const data = await CloudAPI.doApiCall(this, apiUrlUserID);
         if (data.id) {
             // Nextcloud and ownCloud use this RE to check usernames created manually
-            if (data.id.match(/^[a-zA-Z0-9 _\.@\-']+$/)) {
+            if (data.id.match(/^[-a-zA-Z0-9 _.@']+$/)) {
                 this.userId = data.id;
             } else {
                 /* The userid contains characters that ownCloud and Nextcloud

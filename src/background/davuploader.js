@@ -121,7 +121,7 @@ export class DavUploader {
                         size: parseInt(xmlDoc.getElementsByTagName("d:getcontentlength")[0].textContent),
                     };
                 }
-            } catch (_) { }
+            } catch (_) { /* ignore */ }
         }
         return null;
     }

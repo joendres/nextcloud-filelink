@@ -47,6 +47,5 @@
     "cSpell.allowCompoundWords": true,
     "git.fetchOnPull": true,
     "git.untrackedChanges": "separate",
-    "gitlab.enableExperimentalFeatures": true,
-    "gitlab.showPipelineUpdateNotifications": true
+    "gitlab.showPipelineUpdateNotifications": false
 }
