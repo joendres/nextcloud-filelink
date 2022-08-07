@@ -14,25 +14,25 @@ export class AccountUpdater {
      * @param {string} accountId The id of the account as supplied by Thunderbird
      */
     static async _update(accountId) {
-        const ncc = new CloudAccount(accountId);
-        await ncc.load();
-        AccountUpdater.upgradeOldConfiguration(ncc);
-        if (!!ncc.serverUrl && !!ncc.username && !!ncc.password) {
-            await ncc.updateFromCloud();
+        const cloud_account = new CloudAccount(accountId);
+        await cloud_account.load();
+        AccountUpdater.upgradeOldConfiguration(cloud_account);
+        if (!!cloud_account.serverUrl && !!cloud_account.username && !!cloud_account.password) {
+            await cloud_account.updateFromCloud();
         }
-        ncc.updateConfigured();
-        ncc.store();
+        cloud_account.updateConfigured();
+        cloud_account.store();
     }
 
     /**
      * Older versions of the Add-on might have stored the configuration
      * differently, fix such broken configurations
-     * @param {CloudAccount} ncc The CloudAccount that might have old
+     * @param {CloudAccount} cloud_account The CloudAccount that might have old
      * configuration options
      */
-    static upgradeOldConfiguration(ncc) {
-        if (ncc.serverUrl && !ncc.serverUrl.endsWith('/')) {
-            ncc.serverUrl += '/';
+    static upgradeOldConfiguration(cloud_account) {
+        if (cloud_account.serverUrl && !cloud_account.serverUrl.endsWith('/')) {
+            cloud_account.serverUrl += '/';
         }
     }
 }

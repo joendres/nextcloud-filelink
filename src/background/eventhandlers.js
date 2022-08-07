@@ -20,9 +20,9 @@ class EventHandlers {
      * the user
      */
     static async onFileUpload(account, { id, name, data }) {
-        const ncc = new CloudUploader(account.id);
-        await ncc.load();
-        return ncc.uploadFile(EventHandlers._makeUploadId(account, id), name, data);
+        const uploader = new CloudUploader(account.id);
+        await uploader.load();
+        return uploader.uploadFile(EventHandlers._makeUploadId(account, id), name, data);
     }
 
     /**
@@ -54,12 +54,12 @@ class EventHandlers {
      */
     static async onAccountAdded(account) {
         // @todo This belongs into CloudAccount
-        const ncc = new CloudAccount(account.id);
-        ncc.storageFolder = "/mail-attachments";
-        ncc.expiryDays = 7;
-        ncc.useNoDlPassword = true;
+        const cloud_account = new CloudAccount(account.id);
+        cloud_account.storageFolder = "/mail-attachments";
+        cloud_account.expiryDays = 7;
+        cloud_account.useNoDlPassword = true;
 
-        await ncc.store();
+        await cloud_account.store();
     }
 
     /**
@@ -67,8 +67,8 @@ class EventHandlers {
      * @param {string} accountId The id of the removed account
      */
     static onAccountDeleted(accountId) {
-        const ncc = new CloudAccount(accountId);
-        ncc.deleteAccount();
+        const cloud_account = new CloudAccount(accountId);
+        cloud_account.deleteAccount();
     }
 
     /**
