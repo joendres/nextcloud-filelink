@@ -53,6 +53,7 @@ class EventHandlers {
      * @param {CloudFileAccount} account The created account
      */
     static async onAccountAdded(account) {
+        // @todo This belongs into CloudAccount
         const ncc = new CloudAccount(account.id);
         ncc.storageFolder = "/mail-attachments";
         ncc.expiryDays = 7;
