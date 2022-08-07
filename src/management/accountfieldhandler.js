@@ -6,7 +6,7 @@ import { Popup } from "./popup/popup.js";
 export class AccountFieldHandler {
     /**
      * Sanitize input data according to local rules
-     * @param {CloudConnection} cc The CloudConnection linked to the open form
+     * @param {CloudAccount} cc The CloudAccount linked to the open form
      * @returns Persistent data, that will be used after the cloud update
      */
     static preCloudUpdate(cc) {
@@ -54,7 +54,7 @@ export class AccountFieldHandler {
 
     /**
      * 
-     * @param {CloudConnection} cc The CloudConnection linked to the open form
+     * @param {CloudAccount} cc The CloudAccount linked to the open form
      * @param {*} persist Persistent data as returned by preCloudUpdate
      */
     static async postCloudUpdate(cc, persist) {

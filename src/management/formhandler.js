@@ -1,5 +1,5 @@
 import { HeaderHandler } from "./headerhandler.js";
-import { CloudConnection } from "../common/cloudconnection.js";
+import { CloudAccount } from "../common/cloudconnection.js";
 import { AccountFieldHandler } from "./accountfieldhandler.js";
 import { DownloadPasswordFieldHandler } from "./dowloadpasswordfieldhandler.js";
 import { ExpiryFieldHandler } from "./expiryfieldhandler.js";
@@ -11,7 +11,7 @@ export class FormHandler {
      * @param {string} accountId The id of the account as supplied by TB
      */
     constructor(accountId) {
-        this.cc = new CloudConnection(accountId);
+        this.cc = new CloudAccount(accountId);
     }
 
     /**
@@ -158,7 +158,7 @@ export class FormHandler {
     }
 
     /**
-     * Do whatever is necessary after the CloudConnection state is update from the cloud
+     * Do whatever is necessary after the CloudAccount state is update from the cloud
      * @param {*} persist Data returned from preCloudUpdate earlier
      */
     async postCloudUpdate(persist) {
