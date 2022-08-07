@@ -1,16 +1,10 @@
-import { Status } from "../background/status.js";
-import { DavUploader } from "../background/davuploader.js";
-import { PasswordGenerator } from "../background/passwordgenerator.js";
-import { Utils } from "../background/utils.js";
 import { CloudAPI } from "./cloudapi.js";
 
 //#region  Configurable options and useful constants
 const apiUrlUserInfo = "/cloud/users/";
 const apiUrlUserID = "/cloud/user";
-const apiUrlShares = "/apps/files_sharing/api/v1/shares";
 const apiUrlGetApppassword = "/core/getapppassword";
 const apiUrlCapabilities = "/cloud/capabilities";
-const davUrlBase = "remote.php/dav/files/";
 const ncMinimalVersion = 23;
 const ocMinimalVersion = 10 * 10000 + 0 * 100 + 10;
 //#endregion
@@ -51,40 +45,6 @@ export class CloudAccount {
     //#endregion
 
     //#region Event Handlers
-    /**
-     * Upload a single file
-     *
-     * @param {string} uploadId The id of the upload created in background.js
-     * @param {string} fileName w/o path
-     * @param {File} fileObject the local file as a File object
-     */
-    async uploadFile(uploadId, fileName, fileObject) {
-        Status.add(uploadId, fileName);
-
-        Status.set_status(uploadId, 'preparing');
-
-        const uploader = new DavUploader(
-            this.serverUrl, this.username, this.password, davUrlBase + this.userId, this.storageFolder,
-            await this.updateFreeSpaceInfo());
-
-        const response = await uploader.uploadFile(uploadId, fileName, fileObject);
-
-        if (response.aborted) {
-            return response;
-        } else if (response.ok) {
-            Status.set_status(uploadId, 'sharing');
-            this.updateFreeSpaceInfo();
-            let url = this._cleanUrl(await this._getShareLink(fileName, uploadId));
-            if (url) {
-                Status.done(uploadId);
-                return { url, aborted: false, };
-            }
-        }
-
-        Status.fail(uploadId);
-        throw new Error("Upload failed.");
-    }
-
     /**
      * Clean up if an account is deleted
      */
@@ -308,150 +268,5 @@ export class CloudAccount {
             };
         }
     }
-    /**
-     * Generate a download password using the NC web service if its present or a local generator otherwise
-     * @returns {string} A most probably valid password
-     */
-    async generateDLPassword() {
-        let pw;
-        if (this._password_generate_url) {
-            const data = await CloudAPI.doApiCall(this, this._password_generate_url);
-            if (data.password) {
-                // This needs no sanitization because it is only displayed, using textContent
-                pw = data.password;
-            }
-        }
-        /* If we generate a password locally, the generation via web service didn't work. In that case
-        validation also doesn't work, so the locally generateed password cannot be validated. */
-        return pw ? pw : PasswordGenerator.generate(16);
-    }
-    //#endregion
-
-    //#region Internal helpers
-    /**
-     * Get a share link for the file, reusing an existing one with the same
-     * parameters
-     * @param {string} fileName The name of the file to share
-     * @param {string} uploadId The id of the upload created in background.js
-     * @returns {string} The share link as returned by the OCS API
-     */
-    async _getShareLink(fileName, uploadId) {
-        const path_to_share = Utils.encodepath(this.storageFolder + "/" + fileName);
-        const expireDate = this.useExpiry ? daysFromTodayIso(this.expiryDays) : undefined;
-
-        // It's not possible to retreive an display the password for an existing share
-        if (!this.oneDLPassword && !this.useGeneratedDlPassword) {
-            //  Check if the file is already shared ...
-            const existingShare = await this._findExistingShare(path_to_share, expireDate);
-            if (existingShare && existingShare.url) {
-                return existingShare.url;
-            }
-        }
-        return this._makeNewShare(path_to_share, expireDate, uploadId);
-
-        /**
-         * Adds the given number of days to the current date and returns an ISO sting of
-         * that date
-         * @param {number} days Number of days to add
-         */
-        function daysFromTodayIso(days) {
-            const d = new Date();
-            d.setDate(d.getDate() + parseInt(days));
-            return d.toISOString().slice(0, 10);
-        }
-    }
-
-    /**
-     * Check if the file is already shared with the same parameters
-     * @param {string} path_to_share The encoded path of the file
-     * @param {string} expireDate The expiry date, encoded as ISO
-     * @returns {*} The existing share or undefined
-     */
-    async _findExistingShare(path_to_share, expireDate) {
-        const shareinfo = await CloudAPI.doApiCall(this, apiUrlShares + "?path=" + path_to_share);
-
-        // If we the ApiCall fails, the result is not an Array. So make sure, we can call find() before we do
-        // Check for every existing share, if it meets our requirements:
-        return !shareinfo.find ? undefined : shareinfo.find(share =>
-            // It's a public share ...
-            (share.share_type === 3) &&
-            /* If a password is set, share_with is not empty in both cloud
-            flavors. Since we have no chance to retreive the share password, we
-            use this to ignore shares with passwords. But Nextcloud might "fix"
-            this, so we also check for password to make sure we are still fine
-            if that happens.*/
-            // ... and it has no password ...
-            !share.share_with && !share.password &&
-            // ... and the same expiration date
-            (
-                (!this.useExpiry && share.expiration === null) ||
-                (this.useExpiry && share.expiration !== null && share.expiration.startsWith(expireDate))
-            ));
-    }
-
-    /**
-     * Share the file
-     * @param {string} path_to_share The encoded path of the file
-     * @param {string} expireDate The expiry date, encoded as ISO
-     * @param {string} uploadId The id of the upload created in background.js
-     * @returns {string} The new share url or null
-     */
-    async _makeNewShare(path_to_share, expireDate, uploadId) {
-        let shareFormData = "path=" + path_to_share;
-        shareFormData += "&shareType=3"; // 3 = public share
-
-        if (this.oneDLPassword) {
-            shareFormData += "&password=" + encodeURIComponent(this.downloadPassword);
-        } else if (this.useGeneratedDlPassword) {
-            this.downloadPassword = await this.generateDLPassword();
-            shareFormData += "&password=" + encodeURIComponent(this.downloadPassword);
-        }
-
-        if (this.useExpiry) {
-            shareFormData += "&expireDate=" + expireDate;
-        }
-
-        const data = await CloudAPI.doApiCall(this, apiUrlShares, 'POST', { "Content-Type": "application/x-www-form-urlencoded", }, shareFormData);
-
-        if (data && data.url) {
-            if (this.useGeneratedDlPassword) {
-                Status.set_password(uploadId, this.downloadPassword);
-                Status.set_status(uploadId, 'generatedpassword');
-            }
-            return data.url;
-        }
-        return null;
-    }
-
-    /**
-     * - Remove all unwanted parts like username, parameters, ...
-     * - Convert punycode domain names to UTF-8
-     * - URIencode special characters in path
-     * @param {string} url An URL that might contain illegal characters, Punycode and unwanted parameters
-     * @returns {?string} The cleaned URL or null if url is not a valid http(s) URL
-     */
-    _cleanUrl(url) {
-        let u;
-        try {
-            u = new URL(url);
-        } catch (_) {
-            return null;
-        }
-        if (!u.protocol.match(/^https?:$/)) {
-            return null;
-        }
-        let encoderUrl = u.origin.replace(u.hostname, punycode.toUnicode(u.hostname)) +
-            Utils.encodepath(u.pathname);
-
-        if (!this.noAutoDownload) {
-            encoderUrl += (encoderUrl.endsWith("/") ? "" : "/") + "download";
-        }
-        return encoderUrl;
-    }
-    //#endregion
-
-    //#region Wrapper for web service calls
     //#endregion
 }
-
-/* global punycode */
