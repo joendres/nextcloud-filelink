@@ -55,7 +55,7 @@ export class HeaderHandler {
 
     /**
      * Show the name, type and version of the cloud
-     * @param {CloudAccount} cc The Cloudconnection linked to the currently
+     * @param {CloudAccount} cc The CloudAccount linked to the currently
      * open dialog
      */
     static updateCloudVersion(cc) {

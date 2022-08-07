@@ -24,8 +24,8 @@ export class ExpiryFieldHandler {
         expiryDays.required = useExpiry.checked;
     }
     /**
-     * Fill in data from the cloudConnection object that is not yet handled
-     * @param {CloudAccount} cc The cloudConnection linked to the open dialog
+     * Fill in data from the CloudAccount object that is not yet handled
+     * @param {CloudAccount} cc The CloudAccount linked to the open dialog
      */
     static fillData(cc) {
         /** @type {HTMLInputElement} */

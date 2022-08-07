@@ -31,8 +31,8 @@ export class DownloadPasswordFieldHandler {
     }
 
     /**
-     * Fill in data from the cloudConnection object that is not yet handled
-     * @param {CloudAccount} cc The cloudConnection linked to the open dialog
+     * Fill in data from the CloudAccount object that is not yet handled
+     * @param {CloudAccount} cc The CloudAccount linked to the open dialog
      */
     static fillData(cc) {
         /** @type {HTMLInputElement} */
@@ -60,7 +60,7 @@ export class DownloadPasswordFieldHandler {
 
     /**
      * Currently only validates a download password if that is selected
-     * @param {CloudAccount} cc The cloudConnection linked to the open dialog
+     * @param {CloudAccount} cc The CloudAccount linked to the open dialog
      */
     static async postCloudUpdate(cc) {
         /* Try to validate the download password against Nextcloud */
