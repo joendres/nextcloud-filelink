@@ -1,5 +1,3 @@
-import { Localize } from "../common/localize.js";
-
 export class HeaderHandler {
 
     /**
@@ -33,24 +31,22 @@ export class HeaderHandler {
     }
 
     /**
-     * Turn a number of bytes into a human readable string like 1.5MB
-     * @param {number} bytes The number to display
-     * @returns {string}
+     * Turn a number of bytes into a human readable string like 1.5 MB
+     * @param {number} bytes A positive safe number
+     * @returns {string} A string with locale decimal separator and maximum 3 significant digits
+     * @throws {RangeError} If the bytes is below 0 or too big to handle
      */
     static humanReadable(bytes) {
-        const units = ["B", "kB", "MB", "GB", "TB", "PB", "EB",];
-        let n = bytes;
-        let s = "";
-        let i = -1;
-        do {
-            s = n.toPrecision(3);
-            n /= 1000;
-            if (i++ >= units.length) {
-                // Should never happen as log10(MAX_SAFE_INTEGER) < 16
-                return "NaN";
-            }
-        } while (s.match(/e/));
-        return s.replace(/(\.\d+)0$/, "$1").replace(/\.0$/, "").replace(/\./, Localize.decimalSeparator()) + units[i];
+        if (bytes < 0 || bytes > Number.MAX_SAFE_INTEGER) {
+            throw new RangeError();
+        }
+        const units = ["EB", "PB", "TB", "GB", "MB", "KB", "B",];
+        let unit = units.pop();
+        while (bytes >= 1000) {
+            bytes /= 1000;
+            unit = units.pop();
+        }
+        return bytes.toLocaleString(undefined, { maximumSignificantDigits: 3, }) +  unit;
     }
 
     /**

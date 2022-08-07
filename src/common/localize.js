@@ -27,8 +27,4 @@ export class Localize {
             return browser.i18n.getMessage(key) || matched;
         }
     }
-
-    static decimalSeparator() {
-        return browser.i18n.getMessage("decimal_separator");
-    }
 }
