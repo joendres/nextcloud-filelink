@@ -4,7 +4,7 @@ export class HeaderHandler {
 
     /**
      * Update the free space info
-     * @param {CloudConnection} cc The CloudConnection object containing the free space info
+     * @param {CloudAccount} cc The CloudAccount object containing the free space info
      */
     static async updateFreespace(cc) {
         /** @type {HTMLDivElement} */
@@ -55,7 +55,7 @@ export class HeaderHandler {
 
     /**
      * Show the name, type and version of the cloud
-     * @param {CloudConnection} cc The Cloudconnection linked to the currently
+     * @param {CloudAccount} cc The Cloudconnection linked to the currently
      * open dialog
      */
     static updateCloudVersion(cc) {

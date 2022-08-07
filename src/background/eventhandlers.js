@@ -1,4 +1,4 @@
-import { CloudConnection } from "../common/cloudconnection.js";
+import { CloudAccount } from "../common/cloudaccount.js";
 import { CloudUploader } from "./clouduploader.js";
 import { Status } from "./status.js";
 
@@ -53,7 +53,7 @@ class EventHandlers {
      * @param {CloudFileAccount} account The created account
      */
     static async onAccountAdded(account) {
-        const ncc = new CloudConnection(account.id);
+        const ncc = new CloudAccount(account.id);
         ncc.storageFolder = "/mail-attachments";
         ncc.expiryDays = 7;
         ncc.useNoDlPassword = true;
@@ -66,7 +66,7 @@ class EventHandlers {
      * @param {string} accountId The id of the removed account
      */
     static onAccountDeleted(accountId) {
-        const ncc = new CloudConnection(accountId);
+        const ncc = new CloudAccount(accountId);
         ncc.deleteAccount();
     }
 

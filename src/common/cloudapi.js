@@ -4,7 +4,7 @@ export class CloudAPI {
     /**
      * Call a function of the Nextcloud/ownCloud web service API
      *
-     * @param {CloudConnection} account The account to use for the call
+     * @param {CloudAccount} account The account to use for the call
      * @param {string} suburl The function's URL relative to the API base URL or a full url
      * @param {string} [method='GET'] HTTP method of the function, default GET
      * @param {*} [additional_headers] Additional Headers this function needs

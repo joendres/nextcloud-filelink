@@ -25,7 +25,7 @@ export class ExpiryFieldHandler {
     }
     /**
      * Fill in data from the cloudConnection object that is not yet handled
-     * @param {CloudConnection} cc The cloudConnection linked to the open dialog
+     * @param {CloudAccount} cc The cloudConnection linked to the open dialog
      */
     static fillData(cc) {
         /** @type {HTMLInputElement} */

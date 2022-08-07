@@ -1,4 +1,4 @@
-import { CloudConnection } from "../common/cloudconnection.js";
+import { CloudAccount } from "../common/cloudaccount.js";
 
 export class AccountUpdater {
     /**
@@ -14,7 +14,7 @@ export class AccountUpdater {
      * @param {string} accountId The id of the account as supplied by Thunderbird
      */
     static async _update(accountId) {
-        const ncc = new CloudConnection(accountId);
+        const ncc = new CloudAccount(accountId);
         await ncc.load();
         AccountUpdater.upgradeOldConfiguration(ncc);
         if (!!ncc.serverUrl && !!ncc.username && !!ncc.password) {
@@ -27,7 +27,7 @@ export class AccountUpdater {
     /**
      * Older versions of the Add-on might have stored the configuration
      * differently, fix such broken configurations
-     * @param {CloudConnection} ncc The CloudConnection that might have old
+     * @param {CloudAccount} ncc The CloudAccount that might have old
      * configuration options
      */
     static upgradeOldConfiguration(ncc) {
