@@ -1,7 +1,7 @@
 import { HeaderHandler } from "./headerhandler.js";
 import { CloudConnection } from "../common/cloudconnection.js";
 import { AccountFieldHandler } from "./accountfieldhandler.js";
-import { DownloadPasswordFieldHandler } from "./dowloadpasswordfieldhandler.js";
+import { DownloadPasswordFieldHandler } from "./downloadpasswordfieldhandler.js";
 import { ExpiryFieldHandler } from "./expiryfieldhandler.js";
 import { FolderFieldHandler } from "./folderfieldhandler.js";
 import { Popup } from "./popup/popup.js";
