@@ -1,9 +1,7 @@
 import { CloudAPI } from "./cloudapi.js";
 
 //#region  Configurable options and useful constants
-const apiUrlUserID = "/cloud/user";
-const apiUrlGetApppassword = "/core/getapppassword";
-const apiUrlCapabilities = "/cloud/capabilities";
+// @todo move this to headerhandler?
 const ncMinimalVersion = 23;
 const ocMinimalVersion = 10 * 10000 + 0 * 100 + 10;
 //#endregion
@@ -84,7 +82,7 @@ export class CloudAccount {
      * Get useful information from the server and store it as properties
      */
     async updateCapabilities() {
-        const data = await CloudAPI.doApiCall(this, apiUrlCapabilities);
+        const data = await CloudAPI.getCapabilities(this);
 
         if (!data._failed && data.capabilities) {
             // Don't test data.capabilities.files_sharing.api_enabled because the next line contains it all
@@ -115,13 +113,13 @@ export class CloudAccount {
             }
 
             // Remember password policy urls if they are present (AFAIK only in NC 17+)
-            delete this._password_validate_url;
+            delete this.password_validate_url;
             delete this._password_generate_url;
             if (data.capabilities.password_policy && data.capabilities.password_policy.api) {
                 try {
                     const u = new URL(data.capabilities.password_policy.api.validate);
                     if (u.host === (new URL(this.serverUrl)).host) {
-                        this._password_validate_url = u.origin + u.pathname;
+                        this.password_validate_url = u.origin + u.pathname;
                     }
                 } catch (_) { /* Error just means there is no url */ }
                 try {
@@ -185,7 +183,7 @@ export class CloudAccount {
      * @returns An object w/ the data from the response or error information
      */
     async updateUserId() {
-        const data = await CloudAPI.doApiCall(this, apiUrlUserID);
+        const data = await CloudAPI.getUser(this);
         if (data.id) {
             // Nextcloud and ownCloud use this RE to check usernames created manually
             if (data.id.match(/^[-a-zA-Z0-9 _.@']+$/)) {
@@ -232,12 +230,12 @@ export class CloudAccount {
      * @return {boolean} Was a new app password set?
      */
     async convertToApppassword() {
-        const data = await CloudAPI.doApiCall(this, apiUrlGetApppassword);
+        const data = await CloudAPI.getAppPassword(this);
         if (data && data.apppassword) {
             // Test if the apppassword really works with the given username
             const oldpassword = this.password;
             this.password = data.apppassword;
-            const r = await CloudAPI.doApiCall(this, apiUrlUserID);
+            const r = await CloudAPI.getUser(this);
             if (r._failed || r.status >= 900) {
                 this.password = oldpassword;
             } else {
@@ -253,10 +251,8 @@ export class CloudAccount {
      * @returns {*} An object containing either the validation status (and reason for failure) or error information if web service failed
      */
     async validateDLPassword() {
-        if (this._password_validate_url) {
-            const data = await CloudAPI.doApiCall(this, this._password_validate_url, 'POST',
-                { "Content-Type": "application/x-www-form-urlencoded", },
-                'password=' + encodeURIComponent(this.downloadPassword));
+        if (this.password_validate_url) {
+            const data = await CloudAPI.validateDownloadPassword(this, this.downloadPassword);
             data.passed = !!data.passed;
             return data;
         } else {

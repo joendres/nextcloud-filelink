@@ -1,14 +1,53 @@
-const apiUrlBase = "ocs/v1.php";
-const apiUrlUserInfo = "/cloud/users/";
-
 export class CloudAPI {
     /**
      * 
      * @param {CloudAccount} account The account to query
-     * @returns {Promise<*?>} The UserInfo object returned by the cloud
+     * @returns {Promise<*?>} The UserInfo object returned by the cloud or null on error
      */
     static async getUserInfo(account) {
+        const apiUrlUserInfo = "/cloud/users/";
         return CloudAPI.doApiCall(account, apiUrlUserInfo + account.userId);
+    }
+
+    /**
+     * 
+     * @param {CloudAccount} account The account to query
+     * @returns {Promise<*?>} The Capabilities object returned by the cloud or null on error
+     */
+    static async getCapabilities(account) {
+        const apiUrlCapabilities = "/cloud/capabilities";
+        return CloudAPI.doApiCall(account, apiUrlCapabilities);
+    }
+
+    /**
+     * 
+     * @param {CloudAccount} account The account to query
+     * @returns {Promise<*?>} The User object returned by the cloud or null on error
+     */
+    static async getUser(account) {
+        const apiUrlUserID = "/cloud/user";
+        return CloudAPI.doApiCall(account, apiUrlUserID);
+    }
+
+    /**
+     * 
+     * @param {CloudAccount} account The account to query
+     * @returns {Promise<*?>} The AppPassword object returned by the cloud or null on error
+     */
+    static async getAppPassword(account) {
+        const apiUrlGetApppassword = "/core/getapppassword";
+        CloudAPI.doApiCall(account, apiUrlGetApppassword);
+    }
+
+    /**
+     * 
+     * @param {CloudAccount} account The account to query
+     * @param {string} downloadPassword The password to check
+     */
+    static async validateDownloadPassword(account, downloadPassword) {
+        CloudAPI.doApiCall(account, account.password_validate_url, 'POST',
+            { "Content-Type": "application/x-www-form-urlencoded", },
+            'password=' + encodeURIComponent(downloadPassword));
     }
 
     /**
@@ -21,6 +60,8 @@ export class CloudAPI {
      * @returns {*} A Promise that resolves to the data element of the response
      */
     static async doApiCall(account, suburl, method = 'GET', additional_headers = undefined, body = undefined) {
+        const apiUrlBase = "ocs/v1.php";
+
         let url;
         if (suburl.startsWith(account.serverUrl)) {
             url = suburl;
