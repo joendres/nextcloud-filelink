@@ -32,12 +32,12 @@ export class DownloadPasswordFieldHandler {
 
     /**
      * Fill in data from the CloudAccount object that is not yet handled
-     * @param {CloudAccount} cc The CloudAccount linked to the open dialog
+     * @param {CloudAccount} account The CloudAccount linked to the open dialog
      */
-    static fillData(cc) {
+    static fillData(account) {
         /** @type {HTMLInputElement} */
         const useNoDlPassword = document.querySelector("#useNoDlPassword");
-        if (cc.enforce_password) {
+        if (account.enforce_password) {
             /** @type {HTMLInputElement} */
             const oneDLPassword = document.querySelector("#oneDLPassword");
             /** @type {HTMLInputElement} */
@@ -60,14 +60,14 @@ export class DownloadPasswordFieldHandler {
 
     /**
      * Currently only validates a download password if that is selected
-     * @param {CloudAccount} cc The CloudAccount linked to the open dialog
+     * @param {CloudAccount} account The CloudAccount linked to the open dialog
      */
-    static async postCloudUpdate(cc) {
+    static async postCloudUpdate(account) {
         /* Try to validate the download password against Nextcloud */
         /** @type {HTMLInputElement} */
         const oneDLPassword = document.querySelector("#oneDLPassword");
         if (oneDLPassword.checked) {
-            const result = await cc.validateDLPassword();
+            const result = await account.validateDLPassword();
             if (false === result.passed) {
                 Popup.error('invalid_pw', result.reason || '(none)');
             }

@@ -2,29 +2,29 @@ export class HeaderHandler {
 
     /**
      * Update the free space info
-     * @param {CloudAccount} cc The CloudAccount object containing the free space info
+     * @param {CloudAccount} account The CloudAccount object containing the free space info
      */
-    static async updateFreespace(cc) {
+    static async updateFreespace(account) {
         /** @type {HTMLDivElement} */
         const freespaceinfo = document.querySelector("#freespaceinfo");
 
         freespaceinfo.hidden = true;
 
-        if (cc.free >= 0 && cc.total >= 0 &&
-            cc.free <= Number.MAX_SAFE_INTEGER && cc.total <= Number.MAX_SAFE_INTEGER &&
-            isFinite(cc.free) && isFinite(cc.total)) {
+        if (account.free >= 0 && account.total >= 0 &&
+            account.free <= Number.MAX_SAFE_INTEGER && account.total <= Number.MAX_SAFE_INTEGER &&
+            isFinite(account.free) && isFinite(account.total)) {
 
             /** @type {HTMLLabelElement} */
             const freespacelabel = document.querySelector("#freespacelabel");
             freespacelabel.textContent = browser.i18n.getMessage("freespace", [
-                HeaderHandler.humanReadable(cc.free),
-                HeaderHandler.humanReadable(cc.total),]);
+                HeaderHandler.humanReadable(account.free),
+                HeaderHandler.humanReadable(account.total),]);
 
             /** @type {HTMLMeterElement} */
             const freespace = document.querySelector("#freespace");
-            freespace.max = cc.total;
-            freespace.value = cc.free;
-            freespace.low = Math.floor(cc.total / 20);
+            freespace.max = account.total;
+            freespace.value = account.free;
+            freespace.low = Math.floor(account.total / 20);
 
             freespaceinfo.hidden = false;
         }
@@ -51,10 +51,10 @@ export class HeaderHandler {
 
     /**
      * Show the name, type and version of the cloud
-     * @param {CloudAccount} cc The CloudAccount linked to the currently
+     * @param {CloudAccount} account The CloudAccount linked to the currently
      * open dialog
      */
-    static updateCloudVersion(cc) {
+    static updateCloudVersion(account) {
         /** @type {HTMLImageElement} */
         const logo = document.querySelector("#logo");
         /** @type {HTMLLabelElement} */
@@ -62,19 +62,19 @@ export class HeaderHandler {
         /** @type {HTMLHeadingElement} */
         const provider_name = document.querySelector("#provider_name");
 
-        if (!!cc.cloud_type && !!cc.cloud_versionstring &&
-            "undefined" !== typeof cc.cloud_supported) {
-            label_version.textContent = cc.cloud_versionstring;
-            provider_name.textContent = cc.cloud_productname || '*cloud';
+        if (!!account.cloud_type && !!account.cloud_versionstring &&
+            "undefined" !== typeof account.cloud_supported) {
+            label_version.textContent = account.cloud_versionstring;
+            provider_name.textContent = account.cloud_productname || '*cloud';
             logo.src = {
                 "Nextcloud": "images/nextcloud-logo.svg",
                 "ownCloud": "images/owncloud-logo.svg",
                 "Unsupported": "../../icon48.png",
-            }[cc.cloud_type];
+            }[account.cloud_type];
 
             /** @type {HTMLDivElement} */
             const obsolete_string = document.querySelector("#obsolete_string");
-            obsolete_string.hidden = cc.cloud_supported;
+            obsolete_string.hidden = account.cloud_supported;
         } else {
             provider_name.textContent = '*cloud';
             logo.src = "../../icon48.png";

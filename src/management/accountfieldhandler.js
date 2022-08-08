@@ -6,10 +6,10 @@ import { Popup } from "./popup/popup.js";
 export class AccountFieldHandler {
     /**
      * Sanitize input data according to local rules
-     * @param {CloudAccount} cc The CloudAccount linked to the open form
+     * @param {CloudAccount} account The CloudAccount linked to the open form
      * @returns Persistent data, that will be used after the cloud update
      */
-    static preCloudUpdate(cc) {
+    static preCloudUpdate(account) {
         /** @type {HTMLInputElement} */
         const serverUrl = document.querySelector("#serverUrl");
         /** @type {HTMLInputElement} */
@@ -46,20 +46,20 @@ export class AccountFieldHandler {
         }
 
         return {
-            needsNewToken: password.value !== cc.password ||
-                username.value !== cc.username ||
-                serverUrl.value !== cc.serverUrl,
+            needsNewToken: password.value !== account.password ||
+                username.value !== account.username ||
+                serverUrl.value !== account.serverUrl,
         };
     }
 
     /**
      * 
-     * @param {CloudAccount} cc The CloudAccount linked to the open form
+     * @param {CloudAccount} account The CloudAccount linked to the open form
      * @param {*} persist Persistent data as returned by preCloudUpdate
      */
-    static async postCloudUpdate(cc, persist) {
+    static async postCloudUpdate(account, persist) {
         if (persist.needsNewToken) {
-            await cc.convertToApppassword();
+            await account.convertToApppassword();
         }
     }
 }

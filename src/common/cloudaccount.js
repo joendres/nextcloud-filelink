@@ -131,6 +131,7 @@ export class CloudAccount {
             }
 
             // Take version from capabilities
+            /** @todo Move this to headerhandler as the version is only needed there */
             this.cloud_productname = "*cloud";
             this.cloud_versionstring = data.version.string;
             // Take name & type from capabilities

@@ -11,7 +11,7 @@ export class FormHandler {
      * @param {string} accountId The id of the account as supplied by TB
      */
     constructor(accountId) {
-        this.cc = new CloudAccount(accountId);
+        this.account = new CloudAccount(accountId);
     }
 
     /**
@@ -37,10 +37,10 @@ export class FormHandler {
      * Get data from a stored account and put it into the form
      */
     async fillData() {
-        await this.cc.load();
+        await this.account.load();
         this.fillAllInputs();
-        ExpiryFieldHandler.fillData(this.cc);
-        DownloadPasswordFieldHandler.fillData(this.cc);
+        ExpiryFieldHandler.fillData(this.account);
+        DownloadPasswordFieldHandler.fillData(this.account);
     }
 
     /**
@@ -88,11 +88,11 @@ export class FormHandler {
 
         const persist = this.preCloudUpdate();
         this.copyAllInputs();
-        await this.cc.updateFromCloud();
+        await this.account.updateFromCloud();
         await this.postCloudUpdate(persist);
-        await this.cc.store();
+        await this.account.store();
         await Promise.all([
-            this.cc.updateConfigured(),
+            this.account.updateConfigured(),
             this.fillData(),
             this.updateHeader(),
             this.showErrors(),
@@ -132,9 +132,9 @@ export class FormHandler {
         document.querySelectorAll("input")
             .forEach(input => {
                 if (input.type === "checkbox" || input.type === "radio") {
-                    input.checked = !!this.cc[input.id];
-                } else if (this.cc[input.id]) {
-                    input.value = this.cc[input.id];
+                    input.checked = !!this.account[input.id];
+                } else if (this.account[input.id]) {
+                    input.value = this.account[input.id];
                 }
             });
     }
@@ -152,7 +152,7 @@ export class FormHandler {
             });
 
         const persist = {};
-        persist.account = AccountFieldHandler.preCloudUpdate(this.cc);
+        persist.account = AccountFieldHandler.preCloudUpdate(this.account);
         FolderFieldHandler.preCloudUpdate();
         return persist;
     }
@@ -162,12 +162,12 @@ export class FormHandler {
      * @param {*} persist Data returned from preCloudUpdate earlier
      */
     async postCloudUpdate(persist) {
-        if ('undefined' === typeof this.cc.public_shares_enabled) {
+        if ('undefined' === typeof this.account.public_shares_enabled) {
             Popup.warn('no_config_check');
         }
         return Promise.all([
-            AccountFieldHandler.postCloudUpdate(this.cc, persist.account),
-            DownloadPasswordFieldHandler.postCloudUpdate(this.cc),
+            AccountFieldHandler.postCloudUpdate(this.account, persist.account),
+            DownloadPasswordFieldHandler.postCloudUpdate(this.account),
         ]);
     }
 
@@ -179,10 +179,10 @@ export class FormHandler {
         document.querySelectorAll("input")
             .forEach(input => {
                 if (input.type === "checkbox" || input.type === "radio") {
-                    this.cc[input.id] = input.checked;
+                    this.account[input.id] = input.checked;
                 }
                 else {
-                    this.cc[input.id] = input.value;
+                    this.account[input.id] = input.value;
                 }
             });
     }
@@ -191,11 +191,11 @@ export class FormHandler {
      * Show general errors
      */
     showErrors() {
-        if (this.cc.laststatus) {
-            Popup.error(this.cc.laststatus);
-        } else if (false === this.cc.public_shares_enabled) {
+        if (this.account.laststatus) {
+            Popup.error(this.account.laststatus);
+        } else if (false === this.account.public_shares_enabled) {
             Popup.error('sharing_off');
-        } else if (false === this.cc.cloud_supported) {
+        } else if (false === this.account.cloud_supported) {
             Popup.warn('unsupported_cloud');
         }
     }
@@ -204,7 +204,7 @@ export class FormHandler {
      * Update the content of the page header
      */
     updateHeader() {
-        HeaderHandler.updateFreespace(this.cc);
-        HeaderHandler.updateCloudVersion(this.cc);
+        HeaderHandler.updateFreespace(this.account);
+        HeaderHandler.updateCloudVersion(this.account);
     }
 }

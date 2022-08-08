@@ -25,18 +25,18 @@ export class ExpiryFieldHandler {
     }
     /**
      * Fill in data from the CloudAccount object that is not yet handled
-     * @param {CloudAccount} cc The CloudAccount linked to the open dialog
+     * @param {CloudAccount} account The CloudAccount linked to the open dialog
      */
-    static fillData(cc) {
+    static fillData(account) {
         /** @type {HTMLInputElement} */
         const expiryDays = document.querySelector("#expiryDays");
         /** @type {HTMLInputElement} */
         const useExpiry = document.querySelector("#useExpiry");
 
-        if (cc.expiry_max_days) {
-            expiryDays.max = cc.expiry_max_days;
-            cc.expiryDays = useExpiry.checked ? Math.min(expiryDays.value, cc.expiry_max_days) : cc.expiry_max_days;
-            expiryDays.value = cc.expiryDays;
+        if (account.expiry_max_days) {
+            expiryDays.max = account.expiry_max_days;
+            account.expiryDays = useExpiry.checked ? Math.min(expiryDays.value, account.expiry_max_days) : account.expiry_max_days;
+            expiryDays.value = account.expiryDays;
             useExpiry.checked = true;
             useExpiry.disabled = true;
         } else {
