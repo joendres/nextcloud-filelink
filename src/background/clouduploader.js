@@ -5,7 +5,7 @@ import { PasswordGenerator } from "./passwordgenerator.js";
 import { Status } from "./status.js";
 import { Utils } from "./utils.js";
 
-const apiUrlShares = "/apps/files_sharing/api/v1/shares";
+// @todo move to davuploader
 const davUrlBase = "remote.php/dav/files/";
 
 export class CloudUploader extends CloudAccount {
@@ -49,8 +49,8 @@ export class CloudUploader extends CloudAccount {
  */
     async generateDLPassword() {
         let pw;
-        if (this._password_generate_url) {
-            const data = await CloudAPI.doApiCall(this, this._password_generate_url);
+        if (this.password_generate_url) {
+            const data = await CloudAPI.getGeneratedPassword(this);
             if (data.password) {
                 // This needs no sanitization because it is only displayed, using textContent
                 pw = data.password;
@@ -101,7 +101,7 @@ export class CloudUploader extends CloudAccount {
      * @returns {*} The existing share or undefined
      */
     async _findExistingShare(path_to_share, expireDate) {
-        const shareinfo = await CloudAPI.doApiCall(this, apiUrlShares + "?path=" + path_to_share);
+        const shareinfo = await CloudAPI.getShareForFile(this, path_to_share);
 
         // If we the ApiCall fails, the result is not an Array. So make sure, we can call find() before we do
         // Check for every existing share, if it meets our requirements:
@@ -144,7 +144,7 @@ export class CloudUploader extends CloudAccount {
             shareFormData += "&expireDate=" + expireDate;
         }
 
-        const data = await CloudAPI.doApiCall(this, apiUrlShares, 'POST', { "Content-Type": "application/x-www-form-urlencoded", }, shareFormData);
+        const data = await CloudAPI.getNewShare(this, shareFormData);
 
         if (data && data.url) {
             if (this.useGeneratedDlPassword) {

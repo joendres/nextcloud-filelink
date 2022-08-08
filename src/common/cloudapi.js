@@ -1,3 +1,5 @@
+const apiUrlShares = "/apps/files_sharing/api/v1/shares";
+
 export class CloudAPI {
     /**
      * 
@@ -43,11 +45,43 @@ export class CloudAPI {
      * 
      * @param {CloudAccount} account The account to query
      * @param {string} downloadPassword The password to check
+     * @return {Promise<*?>} The validation object returned by the cloud or null on error
      */
     static async validateDownloadPassword(account, downloadPassword) {
-        CloudAPI.doApiCall(account, account.password_validate_url, 'POST',
-            { "Content-Type": "application/x-www-form-urlencoded", },
-            'password=' + encodeURIComponent(downloadPassword));
+        return account.password_validate_url ?
+            CloudAPI.doApiCall(account, account.password_validate_url, 'POST',
+                { "Content-Type": "application/x-www-form-urlencoded", },
+                'password=' + encodeURIComponent(downloadPassword)) :
+            null;
+    }
+
+    /**
+     * 
+     * @param {CloudAccount} account The account to query
+     * @return {Promise<*?>} The password object returned by the cloud or null on error
+     */
+    static async getGeneratedPassword(account) {
+        return account.password_generate_url ? CloudAPI.doApiCall(account, account.password_generate_url) : null;
+    }
+
+    /**
+     * Gets a list of exiting shares for a file
+     * @param {CloudAccount} account The account to query
+     * @param {string} path The path of the file
+     * @return {Promise<*?>} The password object returned by the cloud or null on error
+     */
+    static async getShareForFile(account, path) {
+        return CloudAPI.doApiCall(account, apiUrlShares + "?path=" + path);
+    }
+
+    /**
+    * Create a new share link for a file
+    * @param {CloudAccount} account The account to query
+    * @param {string} shareFormData The data describing the share as a urlencoded parameter string
+    * @return {Promise<*?>} The password object returned by the cloud or null on error
+    */
+    static async getNewShare(account, shareFormData) {
+        return CloudAPI.doApiCall(account, apiUrlShares, 'POST', { "Content-Type": "application/x-www-form-urlencoded", }, shareFormData);
     }
 
     /**

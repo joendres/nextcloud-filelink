@@ -114,7 +114,7 @@ export class CloudAccount {
 
             // Remember password policy urls if they are present (AFAIK only in NC 17+)
             delete this.password_validate_url;
-            delete this._password_generate_url;
+            delete this.password_generate_url;
             if (data.capabilities.password_policy && data.capabilities.password_policy.api) {
                 try {
                     const u = new URL(data.capabilities.password_policy.api.validate);
@@ -125,7 +125,7 @@ export class CloudAccount {
                 try {
                     const u = new URL(data.capabilities.password_policy.api.generate);
                     if (u.host === (new URL(this.serverUrl)).host) {
-                        this._password_generate_url = u.origin + u.pathname;
+                        this.password_generate_url = u.origin + u.pathname;
                     }
                 } catch (_) { /* Error just means there is no url */ }
             }
