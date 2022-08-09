@@ -1,4 +1,4 @@
-import { UploadStatus } from "./uploadstatus.js";
+import { UploadStatus } from "../common/uploadstatus.js";
 
 export class Status {
     /**
