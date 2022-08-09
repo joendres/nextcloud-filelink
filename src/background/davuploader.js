@@ -1,3 +1,4 @@
+import { Statuses } from "common/statuses.js";
 import { allAbortControllers } from "./eventhandlers.js";
 import { Status } from "./status.js";
 import { Utils } from "./utils.js";
@@ -136,7 +137,7 @@ export class DavUploader {
      * @throws If any problem occurs
      */
     async _moveFileToDir(uploadId, fileName, newPath) {
-        Status.set_status(uploadId, 'moving');
+        Status.set_status(uploadId, Statuses.MOVING);
         const dest_header = {
             "Destination":
                 this._davUrl + Utils.encodepath(this._storageFolder + "/" + newPath + "/" + fileName),
@@ -180,7 +181,7 @@ export class DavUploader {
      */
     async _doUpload(uploadId, fileName, fileObject) {
         // Check it there is enough free space
-        Status.set_status(uploadId, 'checkingspace');
+        Status.set_status(uploadId, Statuses.CHECKINGSPACE);
         if (this._freeSpace !== -1 && this._freeSpace < fileObject.size) {
             Status.fail(uploadId);
             return { ok: false, };
@@ -189,7 +190,7 @@ export class DavUploader {
         // Make sure storageFolder exists. Creation implicitly checks for
         // existence of folder, so the extra webservice call for checking first
         // isn't necessary.
-        Status.set_status(uploadId, 'creating');
+        Status.set_status(uploadId, Statuses.CREATING);
         if (!(await this._recursivelyCreateFolder(this._storageFolder))) {
             Status.fail(uploadId);
             throw new Error("Upload failed: Can't create folder");
@@ -281,7 +282,7 @@ export class DavUploader {
             uploadRequest.addEventListener("abort", reject);
             uploadRequest.addEventListener("timeout", reject);
 
-            uploadRequest.addEventListener("loadstart", () => Status.set_status(uploadId, 'uploading'));
+            uploadRequest.addEventListener("loadstart", () => Status.set_status(uploadId, Statuses.UPLOADING));
             uploadRequest.upload.addEventListener("progress", e => {
                 Status.set_progress(uploadId, e.total ? e.loaded * 1.0 / e.total : 0);
             });

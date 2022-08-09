@@ -1,3 +1,4 @@
+import { Statuses } from "common/statuses.js";
 import { Localize } from "../common/localize.js";
 
 /** @type {HTMLButtonElement} */
@@ -50,7 +51,7 @@ function updateStatusDisplay(uploads) {
      */
     function has_information() {
         for (const a of uploads) {
-            if (true === a[1].error || a[1].status === 'generatedpassword') { return true; }
+            if (true === a[1].error || a[1].status === Statuses.GENERATEDPASSWORD) { return true; }
         }
         return false;
     }
@@ -72,11 +73,11 @@ function updateStatusDisplay(uploads) {
             div.textContent =
                 browser.i18n.getMessage('status_error',
                     browser.i18n.getMessage(`status_${status.status}`));
-        } else if (status.status === 'uploading') {
+        } else if (status.status === Statuses.UPLOADING) {
             let progress = document.createElement('progress');
             progress.value = status.progress;
             div.appendChild(progress);
-        } else if (status.status === 'generatedpassword') {
+        } else if (status.status === Statuses.GENERATEDPASSWORD) {
             div.textContent = browser.i18n.getMessage('status_password', status.password);
         } else {
             div.textContent = browser.i18n.getMessage(`status_${status.status}`);
@@ -85,7 +86,7 @@ function updateStatusDisplay(uploads) {
 
         // Add the copy button as a placeholder
         div = template_copy.cloneNode(true);
-        if (status.status === 'generatedpassword') {
+        if (status.status === Statuses.GENERATEDPASSWORD) {
             const button = div.querySelector("button");
             button.addEventListener('click', () => navigator.clipboard.writeText(status.password));
             button.classList.remove("hidden");

@@ -70,7 +70,7 @@ export class Status {
      */
     static done(uploadId) {
         const upload = Status.attachmentStatus.get(uploadId);
-        if (true !== upload.error && 'generatedpassword' !== upload.status) {
+        if (true !== upload.error && Statuses.GENERATEDPASSWORD !== upload.status) {
             Status.remove(uploadId);
         }
     }
@@ -101,7 +101,7 @@ export class Status {
     static clearcomplete() {
         Status.attachmentStatus.forEach(
             (v, k, m) => {
-                if (true === v.error || 'generatedpassword' === v.status) {
+                if (true === v.error || Statuses.GENERATEDPASSWORD === v.status) {
                     m.delete(k);
                 }
             });

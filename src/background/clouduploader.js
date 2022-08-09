@@ -3,6 +3,7 @@ import { CloudAccount } from "../common/cloudaccount.js";
 import { DavUploader } from "../background/davuploader.js";
 import { PasswordGenerator } from "./passwordgenerator.js";
 import { Status } from "./status.js";
+import { Statuses } from "../common/statuses.js";
 import { Utils } from "./utils.js";
 
 // @todo move to davuploader
@@ -19,7 +20,7 @@ export class CloudUploader extends CloudAccount {
     async uploadFile(uploadId, fileName, fileObject) {
         Status.add(uploadId, fileName);
 
-        Status.set_status(uploadId, 'preparing');
+        Status.set_status(uploadId, Statuses.PREPARING);
 
         const uploader = new DavUploader(
             this.serverUrl, this.username, this.password, davUrlBase + this.userId, this.storageFolder,
@@ -30,7 +31,7 @@ export class CloudUploader extends CloudAccount {
         if (response.aborted) {
             return response;
         } else if (response.ok) {
-            Status.set_status(uploadId, 'sharing');
+            Status.set_status(uploadId, Statuses.SHARINGyFAF);
             this.updateFreeSpaceInfo();
             let url = this._cleanUrl(await this._getShareLink(fileName, uploadId));
             if (url) {
@@ -149,7 +150,7 @@ export class CloudUploader extends CloudAccount {
         if (data && data.url) {
             if (this.useGeneratedDlPassword) {
                 Status.set_password(uploadId, this.downloadPassword);
-                Status.set_status(uploadId, 'generatedpassword');
+                Status.set_status(uploadId, Statuses.GENERATEDPASSWORD);
             }
             return data.url;
         }

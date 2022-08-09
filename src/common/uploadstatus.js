@@ -1,3 +1,5 @@
+import { Statuses } from "./statuses";
+
 /**
  * Class to hold status of one upload
  */
@@ -8,7 +10,7 @@ export class UploadStatus {
     constructor(filename) {
         this.filename = filename;
         // and as status_<your string> in _locales
-        this.status = 'preparing';
+        this.status = Statuses.PREPARING;
         this.progress = 0;
         this.error = false;
     }
