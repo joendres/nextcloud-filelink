@@ -1,17 +1,14 @@
 import { CloudAPI } from "./cloudapi.js";
 
-//#region  Configurable options and useful constants
 // @todo move this to headerhandler?
 const ncMinimalVersion = 23;
 const ocMinimalVersion = 10 * 10000 + 0 * 100 + 10;
-//#endregion
 
 /**
  * This class encapsulates all calls to the Nextcloud or ownCloud web services
  * (API and DAV)
  */
 export class CloudAccount {
-    //#region Constructors, load & store
     /**
      * @param {string} accountId Whatever Thunderbird uses as an account identifier
      */
@@ -39,18 +36,14 @@ export class CloudAccount {
         }
         return this;
     }
-    //#endregion
 
-    //#region Event Handlers
     /**
      * Clean up if an account is deleted
      */
     async deleteAccount() {
         browser.storage.local.remove(this._accountId);
     }
-    //#endregion
 
-    //#region Public Methods
     /**
      * Gets free/used space from web service and sets the parameters in
      * Thunderbirds cloudFileAccount
@@ -251,6 +244,7 @@ export class CloudAccount {
      * If there is no such url, only check if the password is empty
      * @returns {*} An object containing either the validation status (and reason for failure) or error information if web service failed
      */
+    /** @todo change signature to return Boolean?: true/false for check an d null 0 error, set errmsg */
     async validateDLPassword() {
         if (this.password_validate_url) {
             const data = await CloudAPI.validateDownloadPassword(this, this.downloadPassword);
@@ -260,9 +254,7 @@ export class CloudAccount {
             return {
                 // Probably not a Nextcloud instance, accept any password
                 passed: true,
-
             };
         }
     }
-    //#endregion
 }
