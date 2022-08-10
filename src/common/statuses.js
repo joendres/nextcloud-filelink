@@ -1,3 +1,6 @@
+/**
+ * @enum {string}
+ */
 export const Statuses = {
     CHECKINGSPACE: "checkingspace",
     CREATING: "creating",
