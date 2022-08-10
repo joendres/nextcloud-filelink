@@ -8,10 +8,13 @@ export class UploadStatus {
      * @param {string} filename The name of the file to upload
      */
     constructor(filename) {
+        /** @type {string} */
         this.filename = filename;
-        // and as status_<your string> in _locales
+        /** @type {string} */
         this.status = Statuses.PREPARING;
+        /** @type {number} */
         this.progress = 0;
+        /** @type {boolean} Has an error occurred? */
         this.error = false;
     }
 }
