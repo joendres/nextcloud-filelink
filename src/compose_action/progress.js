@@ -73,15 +73,22 @@ function updateStatusDisplay(uploads) {
             div.textContent =
                 browser.i18n.getMessage('status_error',
                     browser.i18n.getMessage(`status_${status.status}`));
-        } else if (status.status === Statuses.UPLOADING) {
-            let progress = document.createElement('progress');
-            progress.value = status.progress;
-            div.appendChild(progress);
-        } else if (status.status === Statuses.GENERATEDPASSWORD) {
-            div.textContent = browser.i18n.getMessage('status_password', status.password);
-        } else {
-            div.textContent = browser.i18n.getMessage(`status_${status.status}`);
-        }
+        } else
+            switch (status.status) {
+                case Statuses.UPLOADING:
+                    {
+                        const progress = document.createElement('progress');
+                        progress.value = status.progress;
+                        div.appendChild(progress);
+                    }
+                    break;
+                case Statuses.GENERATEDPASSWORD:
+                    div.textContent = browser.i18n.getMessage('status_password', status.password);
+                    break;
+                default:
+                    div.textContent = browser.i18n.getMessage(`status_${status.status}`);
+                    break;
+            }
         status_lines.appendChild(div);
 
         // Add the copy button as a placeholder
