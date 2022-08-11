@@ -42,17 +42,25 @@ export class CloudAPI {
     }
 
     /**
-     * 
+     * Check if a password meets the server's criteria by calling it's web
+     * service. Currently only Nextcloud offers this.
      * @param {CloudAccount} account The account to query
      * @param {string} downloadPassword The password to check
-     * @return {Promise<*?>} The validation object returned by the cloud or null on error
+     * @return {Promise<boolean?>}  True/false if the password meets/doesn't
+     * meet the criteria nor null on error
      */
     static async validateDownloadPassword(account, downloadPassword) {
-        return account.password_validate_url ?
-            CloudAPI.doApiCall(account, account.password_validate_url, 'POST',
-                { "Content-Type": "application/x-www-form-urlencoded", },
-                'password=' + encodeURIComponent(downloadPassword)) :
-            null;
+        account.errmsg = "";
+        const result = await CloudAPI.doApiCall(account, account.password_validate_url, 'POST',
+            { "Content-Type": "application/x-www-form-urlencoded", },
+            'password=' + encodeURIComponent(downloadPassword));
+        if (result._failed) {
+            return null;
+        }
+        if (result.reason) {
+            account.errmsg = result.reason;
+        }
+        return !!result.passed;
     }
 
     /**
@@ -125,17 +133,26 @@ export class CloudAPI {
             // deepcode ignore Ssrf: The input is checked, but Snyk can't see that.
             const response = await fetch(url, fetchInfo);
             if (!response.ok) {
+                account.errno = response.status;
+                account.errmsg = response.statusText;
                 return { _failed: true, status: response.status, statusText: response.statusText, };
+
             }
             const parsed = await response.json();
             if (!parsed || !parsed.ocs || !parsed.ocs.meta || !isFinite(parsed.ocs.meta.statuscode)) {
+                account.errno = 999;
+                account.errmsg = "No valid data in json";
                 return { _failed: true, status: 'invalid_json', statusText: "No valid data in json", };
             } else if (parsed.ocs.meta.statuscode >= 300) {
+                account.errno = parsed.ocs.meta.statuscode;
+                account.errmsg = parsed.ocs.meta.message;
                 return { _failed: true, status: parsed.ocs.meta.statuscode, statusText: parsed.ocs.meta.message, };
             } else {
                 return parsed.ocs.data;
             }
         } catch (error) {
+            account.errno = error.name;
+            account.errmsg = error.message;
             return { _failed: true, status: error.name, statusText: error.message, };
         }
     }

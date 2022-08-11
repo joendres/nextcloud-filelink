@@ -242,19 +242,13 @@ export class CloudAccount {
     /**
      * Validate the download password using the validation web service url from capabilities.
      * If there is no such url, only check if the password is empty
-     * @returns {*} An object containing either the validation status (and reason for failure) or error information if web service failed
+     * @returns {Promise<bool?>} Does the password stand the check, null on error
      */
-    /** @todo change signature to return Boolean?: true/false for check an d null 0 error, set errmsg */
     async validateDLPassword() {
         if (this.password_validate_url) {
-            const data = await CloudAPI.validateDownloadPassword(this, this.downloadPassword);
-            data.passed = !!data.passed;
-            return data;
+            return await CloudAPI.validateDownloadPassword(this, this.downloadPassword);
         } else {
-            return {
-                // Probably not a Nextcloud instance, accept any password
-                passed: true,
-            };
+            return !!this.downloadPassword;
         }
     }
 }
