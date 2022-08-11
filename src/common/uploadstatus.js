@@ -1,4 +1,4 @@
-import { Statuses } from "./statuses";
+import { Statuses } from "./statuses.js";
 
 /**
  * Class to hold status of one upload

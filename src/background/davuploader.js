@@ -1,4 +1,4 @@
-import { Statuses } from "common/statuses.js";
+import { Statuses } from "../common/statuses.js";
 import { allAbortControllers } from "./eventhandlers.js";
 import { Status } from "./status.js";
 import { Utils } from "./utils.js";

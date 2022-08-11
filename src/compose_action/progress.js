@@ -1,4 +1,4 @@
-import { Statuses } from "common/statuses.js";
+import { Statuses } from "../common/statuses.js";
 import { Localize } from "../common/localize.js";
 
 /** @type {HTMLButtonElement} */
