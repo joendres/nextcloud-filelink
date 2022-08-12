@@ -106,10 +106,11 @@ export class CloudAPI {
      * Gets a list of exiting shares for a file
      * @param {CloudAccount} account The account to query
      * @param {string} path The path of the file
-     * @return {Promise<*?>} The share object returned by the cloud or null on error
+     * @return {Promise<array?>} The share object returned by the cloud or null on error
      */
     static async getSharesForFile(account, path) {
-        return CloudAPI.doApiCall(account, apiUrlShares + "?path=" + path);
+        const data = await CloudAPI.doApiCall(account, apiUrlShares + "?path=" + path);
+        return Array.isArray(data) ? data : null;
     }
 
     /**
