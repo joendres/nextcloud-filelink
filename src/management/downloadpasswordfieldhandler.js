@@ -56,6 +56,7 @@ export class DownloadPasswordFieldHandler {
         } else {
             useNoDlPassword.disabled = false;
         }
+        DownloadPasswordFieldHandler.syncInputStateToRadio();
     }
 
     /**
