@@ -98,11 +98,11 @@ export class CloudUploader extends CloudAccount {
      * @returns {*} The existing share or undefined
      */
     async _findExistingShare(path_to_share, expireDate) {
-        const shareinfo = await CloudAPI.getShareForFile(this, path_to_share);
+        const shareinfo = await CloudAPI.getSharesForFile(this, path_to_share);
 
         // If we the ApiCall fails, the result is not an Array. So make sure, we can call find() before we do
         // Check for every existing share, if it meets our requirements:
-        return !shareinfo.find ? undefined : shareinfo.find(share =>
+        return !shareinfo.find ? null : shareinfo.find(share =>
             // It's a public share ...
             (share.share_type === 3) &&
             /* If a password is set, share_with is not empty in both cloud
