@@ -19,6 +19,9 @@ export class CloudAPI {
             if ("total" in data.quota) {
                 quota.total = parseInt(data.quota.total);
                 quota.total = quota.total >= 0 && quota.total <= Number.MAX_SAFE_INTEGER ? quota.total : -1;
+                if (quota.total < quota.free) {
+                    quota.free = quota.total = -1;
+                }
             } else if ("used" in data.quota && this.free >= 0) {
                 quota.used = parseInt(data.quota.used);
                 quota.total = quota.used >= 0 && quota.used <= Number.MAX_SAFE_INTEGER ? quota.used + this.free : -1;
