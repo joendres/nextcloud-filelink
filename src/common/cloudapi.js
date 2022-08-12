@@ -2,13 +2,30 @@ const apiUrlShares = "/apps/files_sharing/api/v1/shares";
 
 export class CloudAPI {
     /**
-     * 
+     * Get the user's total and used quota
      * @param {CloudAccount} account The account to query
-     * @returns {Promise<*?>} The UserInfo object returned by the cloud or null on error
+     * @returns {Promise<{free:number,total:number}>} The quota, values are -1 if no quota 
      */
-    static async getUserInfo(account) {
+    static async getQuota(account) {
         const apiUrlUserInfo = "/cloud/users/";
-        return CloudAPI.doApiCall(account, apiUrlUserInfo + account.userId);
+        const data = await CloudAPI.doApiCall(account, apiUrlUserInfo + account.userId);
+
+        const quota = { free: -1, total: -1, };
+        if (!!data && !!data.quota) {
+            if ("free" in data.quota) {
+                quota.free = parseInt(data.quota.free);
+                quota.free = quota.free >= 0 && quota.free <= Number.MAX_SAFE_INTEGER ? quota.free : -1;
+            }
+            if ("total" in data.quota) {
+                quota.total = parseInt(data.quota.total);
+                quota.total = quota.total >= 0 && quota.total <= Number.MAX_SAFE_INTEGER ? quota.total : -1;
+            } else if ("used" in data.quota && this.free >= 0) {
+                quota.used = parseInt(data.quota.used);
+                quota.total = quota.used >= 0 && quota.used <= Number.MAX_SAFE_INTEGER ? quota.used + this.free : -1;
+            }
+        }
+
+        return quota;
     }
 
     /**
