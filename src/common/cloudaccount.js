@@ -206,22 +206,20 @@ export class CloudAccount {
     /**
      * Fetches a new app password from the Nextcloud web service and
      * replaces the current password with it
-     * @return {boolean} Was a new app password set?
      */
     async convertToApppassword() {
-        const data = await CloudAPI.getAppPassword(this);
-        if (data && data.apppassword) {
-            // Test if the apppassword really works with the given username
+        const apppassword = await CloudAPI.getAppPassword(this);
+        if (!!apppassword) {
+            // Test if the apppassword really works with the given username,
+            // because with some external auth providers it might not
             const oldpassword = this.password;
-            this.password = data.apppassword;
+            this.password = apppassword;
             const userId = await CloudAPI.getUserId(this);
+            // No, doesn't work, restore the old password
             if (!userId) {
                 this.password = oldpassword;
-            } else {
-                return true;
             }
         }
-        return false;
     }
 
     /**

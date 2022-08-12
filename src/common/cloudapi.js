@@ -57,11 +57,12 @@ export class CloudAPI {
     /**
      * 
      * @param {CloudAccount} account The account to query
-     * @returns {Promise<*?>} The AppPassword object returned by the cloud or null on error
+     * @returns {Promise<string?>} The AppPassword  or null on error
      */
     static async getAppPassword(account) {
         const apiUrlGetApppassword = "/core/getapppassword";
-        return CloudAPI.doApiCall(account, apiUrlGetApppassword);
+        const data = await CloudAPI.doApiCall(account, apiUrlGetApppassword);
+        return !!data && !!data.apppassword ? data.apppassword : null;
     }
 
     /**
