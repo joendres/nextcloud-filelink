@@ -120,6 +120,7 @@ export class CloudAPI {
     * @return {Promise<*?>} The password object returned by the cloud or null on error
     */
     static async getNewShare(account, shareFormData) {
+        /** @todo */
         return CloudAPI.doApiCall(account, apiUrlShares, 'POST', { "Content-Type": "application/x-www-form-urlencoded", }, shareFormData);
     }
 
@@ -188,5 +189,4 @@ export class CloudAPI {
             return { _failed: true, status: error.name, statusText: error.message, };
         }
     }
-
 }

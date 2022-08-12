@@ -124,7 +124,7 @@ export class CloudUploader extends CloudAccount {
      * @param {string} path_to_share The encoded path of the file
      * @param {string} expireDate The expiry date, encoded as ISO
      * @param {string} uploadId The id of the upload created in background.js
-     * @returns {string} The new share url or null
+     * @returns {string?} The new share url or null on error
      */
     async _makeNewShare(path_to_share, expireDate, uploadId) {
         let shareFormData = "path=" + path_to_share;
