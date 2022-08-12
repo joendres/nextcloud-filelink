@@ -45,30 +45,26 @@ export class CloudUploader extends CloudAccount {
     }
 
     /**
- * Generate a download password using the NC web service if its present or a local generator otherwise
- * @returns {string} A most probably valid password
- */
+     * Generate a download password using the NC web service if its present or a local generator otherwise
+     * @returns {string} A most probably valid password
+     */
     async generateDLPassword() {
-        let pw;
+        let password = null;
         if (this.password_generate_url) {
-            const data = await CloudAPI.getGeneratedPassword(this);
-            if (data.password) {
-                // This needs no sanitization because it is only displayed, using textContent
-                pw = data.password;
-            }
+            password = await CloudAPI.getGeneratedPassword(this);
         }
         /* If we generate a password locally, the generation via web service didn't work. In that case
         validation also doesn't work, so the locally generateed password cannot be validated. */
-        return pw ? pw : PasswordGenerator.generate(16);
+        return password ? password : PasswordGenerator.generate(16);
     }
 
     /**
- * Get a share link for the file, reusing an existing one with the same
- * parameters
- * @param {string} fileName The name of the file to share
- * @param {string} uploadId The id of the upload created in background.js
- * @returns {string} The share link as returned by the OCS API
- */
+     * Get a share link for the file, reusing an existing one with the same
+     * parameters
+     * @param {string} fileName The name of the file to share
+     * @param {string} uploadId The id of the upload created in background.js
+     * @returns {string} The share link as returned by the OCS API
+     */
     async _getShareLink(fileName, uploadId) {
         const path_to_share = Utils.encodepath(this.storageFolder + "/" + fileName);
         const expireDate = this.useExpiry ? daysFromTodayIso(this.expiryDays) : undefined;
