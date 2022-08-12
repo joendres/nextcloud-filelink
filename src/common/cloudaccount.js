@@ -158,24 +158,24 @@ export class CloudAccount {
 
     /**
      * Get the UserID from the cloud and store it in the objects's internals
-     * @returns An object w/ the data from the response or error information
+     * @returns {string?} The UserID or null on error
      */
     async updateUserId() {
-        const data = await CloudAPI.getUser(this);
-        if (data.id) {
+        const userId = await CloudAPI.getUserId(this);
+        if (!!userId) {
             // Nextcloud and ownCloud use this RE to check usernames created manually
-            if (data.id.match(/^[-a-zA-Z0-9 _.@']+$/)) {
-                this.userId = data.id;
+            if (userId.match(/^[-a-zA-Z0-9 _.@']+$/)) {
+                this.userId = userId;
             } else {
                 /* The userid contains characters that ownCloud and Nextcloud
                 don't like. This might happen with external ids as eg supplied
                 via SAML. One reals world example: Guest users in an ADFS tenant
                 have #EXT# in their userid. Those IDs seem to work over the API
                 but (at least) break the web interface. */
-                this.userId = encodeURIComponent(data.id);
+                this.userId = encodeURIComponent(userId);
             }
         }
-        return data;
+        return userId;
     }
 
     /**
@@ -185,18 +185,19 @@ export class CloudAccount {
     async updateFromCloud() {
         let answer = await this.updateUserId();
         this.laststatus = null;
-        if (answer._failed && this.username) {
+        if (!answer && this.username) {
             // If login failed, we might be using an app token which requires a lowercase user name
             const oldname = this.username;
             this.username = this.username.toLowerCase();
             answer = await this.updateUserId();
-            if (answer._failed) {
+            if (!answer) {
                 // Nope, it's not the case, restore username
                 this.username = oldname;
             }
         }
-        if (answer._failed) {
-            this.laststatus = answer.status;
+        if (!answer) {
+            /** @todo replace */
+            // this.laststatus = answer.status;
         } else {
             await Promise.all([this.updateFreeSpaceInfo(), this.updateCapabilities(),]);
         }
@@ -213,8 +214,8 @@ export class CloudAccount {
             // Test if the apppassword really works with the given username
             const oldpassword = this.password;
             this.password = data.apppassword;
-            const r = await CloudAPI.getUser(this);
-            if (r._failed || r.status >= 900) {
+            const userId = await CloudAPI.getUserId(this);
+            if (!userId) {
                 this.password = oldpassword;
             } else {
                 return true;

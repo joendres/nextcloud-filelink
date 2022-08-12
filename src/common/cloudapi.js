@@ -43,11 +43,15 @@ export class CloudAPI {
     /**
      * 
      * @param {CloudAccount} account The account to query
-     * @returns {Promise<*?>} The User object returned by the cloud or null on error
+     * @returns {Promise<string?>} The user id or null on error
      */
-    static async getUser(account) {
+    static async getUserId(account) {
         const apiUrlUserID = "/cloud/user";
-        return CloudAPI.doApiCall(account, apiUrlUserID);
+        const data = await CloudAPI.doApiCall(account, apiUrlUserID);
+        if (!!data && !!data.id) {
+            return data.id;
+        }
+        return null;
     }
 
     /**
@@ -57,7 +61,7 @@ export class CloudAPI {
      */
     static async getAppPassword(account) {
         const apiUrlGetApppassword = "/core/getapppassword";
-        CloudAPI.doApiCall(account, apiUrlGetApppassword);
+        return CloudAPI.doApiCall(account, apiUrlGetApppassword);
     }
 
     /**
