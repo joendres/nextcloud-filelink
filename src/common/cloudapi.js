@@ -22,12 +22,11 @@ export class CloudAPI {
                 if (quota.total < quota.free) {
                     quota.free = quota.total = -1;
                 }
-            } else if ("used" in data.quota && this.free >= 0) {
+            } else if ("used" in data.quota && quota.free >= 0) {
                 quota.used = parseInt(data.quota.used);
-                quota.total = quota.used >= 0 && quota.used <= Number.MAX_SAFE_INTEGER ? quota.used + this.free : -1;
+                quota.total = quota.used >= 0 && quota.used <= Number.MAX_SAFE_INTEGER ? quota.used + quota.free : -1;
             }
         }
-
         return quota;
     }
 
