@@ -160,6 +160,7 @@ export class CloudAPI {
         }
 
         try {
+            // cSpell:ignore Ssrf Snyk
             // deepcode ignore Ssrf: The input is checked, but Snyk can't see that.
             const response = await fetch(url, fetchInfo);
             if (!response.ok) {

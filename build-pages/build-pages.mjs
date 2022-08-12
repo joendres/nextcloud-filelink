@@ -1,5 +1,5 @@
-import { readFileSync, writeFileSync, mkdirSync, copyFile } from "fs";
-import { dirname, normalize } from "path";
+import { readFileSync, writeFileSync, mkdirSync, copyFile, copyFileSync } from "fs";
+import { dirname, normalize, basename } from "path";
 import pkg from 'glob';
 const { glob } = pkg;
 
@@ -24,7 +24,7 @@ async function convert_file(filename) {
     const fetchInit = {
         method: "POST",
         body: JSON.stringify(data),
-        headers: { "Content-Type": "application/json", }
+        headers: { "Content-Type": "application/json", },
     };
 
     const response = await fetch(url, fetchInit);
@@ -35,12 +35,17 @@ async function convert_file(filename) {
 
     try {
         mkdirSync(lang_dir);
-    } catch (_) { }
-    ["logo.png", "style.css"].forEach(f => copyFile(out_dir + f, lang_dir + f, () => { }));
+    } catch (_) { /* ignore */ }
+    ["logo.png", "style.css",].forEach(f => copyFile(out_dir + f, lang_dir + f, () => { }));
 
     writeFileSync(lang_dir + "/index.html",
         htmlhead + "<title>" + title + "</title>" + html);
 }
+
+try {
+    mkdirSync(out_dir);
+} catch (_) { /* ignore */ }
+glob.sync("./build-pages/public-template/*").forEach(f => copyFileSync(f, out_dir + basename(f)));
 
 convert_file("./README.md");
 glob.sync("*/README*.md").forEach(convert_file);

@@ -235,6 +235,7 @@ Nextcloud/ownCloud-Desktop-Clients, um zu entscheiden, ob die lokalen und
 Remote-Dateien identisch sind.
 
 ## Beiträge
+<!-- cSpell:disable -->
 
 * [Johannes Endres](@joendres), Erstimplementierung, Maintainer
 * [Josep Manel Mendoza](@josepmanel), katalanische und spanische Übersetzungen

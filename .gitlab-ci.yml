@@ -31,7 +31,7 @@ sign:
 pages:
   stage: deploy
   script:
-  - node --experimental-fetch build-tools/build-pages.mjs
+  - node --experimental-fetch build-pages/build-pages.mjs
   artifacts:
     paths:
     - public

@@ -1,8 +1,5 @@
-/web-ext-artifacts
-/node_modules
-tests/filenames/x><x.txt
-tests/filenames/x["?:\\|*]x.txt
+web-ext-artifacts
+node_modules
 .dccache
-public/**/index.html
-public/*/*
-/.vscode/launch.json
+public
+.vscode/launch.json
