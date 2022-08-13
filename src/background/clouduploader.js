@@ -55,7 +55,7 @@ export class CloudUploader extends CloudAccount {
         }
         /* If we generate a password locally, the generation via web service didn't work. In that case
         validation also doesn't work, so the locally generateed password cannot be validated. */
-        return password ? password : PasswordGenerator.generate(16);
+        return password || PasswordGenerator.generate(16);
     }
 
     /**
