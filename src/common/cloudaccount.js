@@ -162,7 +162,7 @@ export class CloudAccount {
      */
     async updateUserId() {
         const userId = await CloudAPI.getUserId(this);
-        if (!!userId) {
+        if (userId) {
             // Nextcloud and ownCloud use this RE to check usernames created manually
             if (userId.match(/^[-a-zA-Z0-9 _.@']+$/)) {
                 this.userId = userId;
@@ -209,7 +209,7 @@ export class CloudAccount {
      */
     async convertToApppassword() {
         const apppassword = await CloudAPI.getAppPassword(this);
-        if (!!apppassword) {
+        if (apppassword) {
             // Test if the apppassword really works with the given username,
             // because with some external auth providers it might not
             const oldpassword = this.password;
