@@ -16,6 +16,8 @@ export class CloudUploader extends CloudAccount {
      * @param {string} uploadId The id of the upload created in background.js
      * @param {string} fileName w/o path
      * @param {File} fileObject the local file as a File object
+     * @returns {{aborted:boolean,url:string}} 
+     * @throws {Error} if the upload fails
      */
     async uploadFile(uploadId, fileName, fileObject) {
         Status.add(uploadId, fileName);
