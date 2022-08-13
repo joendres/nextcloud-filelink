@@ -31,7 +31,7 @@ export class CloudUploader extends CloudAccount {
         if (response.aborted) {
             return response;
         } else if (response.ok) {
-            Status.set_status(uploadId, Statuses.SHARINGyFAF);
+            Status.set_status(uploadId, Statuses.SHARING);
             this.updateFreeSpaceInfo();
             let url = this._cleanUrl(await this._getShareLink(fileName, uploadId));
             if (url) {
