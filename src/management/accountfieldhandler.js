@@ -46,6 +46,7 @@ export class AccountFieldHandler {
         }
 
         return {
+            /** @todo This is too strict, also try to get app token on second try. */
             needsNewToken: password.value !== account.password ||
                 username.value !== account.username ||
                 serverUrl.value !== account.serverUrl,

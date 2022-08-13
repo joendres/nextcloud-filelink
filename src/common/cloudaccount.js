@@ -47,27 +47,11 @@ export class CloudAccount {
     /**
      * Gets free/used space from web service and sets the parameters in
      * Thunderbirds cloudFileAccount
-     * @returns {number} The amount of free space available to the user in bytes or -1
      */
     async updateFreeSpaceInfo() {
-        this.free = -1;
-        this.total = -1;
-
-        const data = await CloudAPI.getUserInfo(this);
-        if (data && data.quota) {
-            if ("free" in data.quota) {
-                const free = parseInt(data.quota.free);
-                this.free = free >= 0 && free <= Number.MAX_SAFE_INTEGER ? free : -1;
-            }
-            if ("total" in data.quota) {
-                const total = parseInt(data.quota.total);
-                this.total = total >= 0 && total <= Number.MAX_SAFE_INTEGER ? total : -1;
-            } else if ("used" in data.quota && this.free >= 0) {
-                const used = parseInt(data.quota.used);
-                this.total = used >= 0 && used <= Number.MAX_SAFE_INTEGER ? used + this.free : -1;
-            }
-        }
-
+        const data = await CloudAPI.getQuota(this);
+        this.free = data.free;
+        this.total = data.total;
         this.store();
     }
 
@@ -174,24 +158,24 @@ export class CloudAccount {
 
     /**
      * Get the UserID from the cloud and store it in the objects's internals
-     * @returns An object w/ the data from the response or error information
+     * @returns {string?} The UserID or null on error
      */
     async updateUserId() {
-        const data = await CloudAPI.getUser(this);
-        if (data.id) {
+        const userId = await CloudAPI.getUserId(this);
+        if (!!userId) {
             // Nextcloud and ownCloud use this RE to check usernames created manually
-            if (data.id.match(/^[-a-zA-Z0-9 _.@']+$/)) {
-                this.userId = data.id;
+            if (userId.match(/^[-a-zA-Z0-9 _.@']+$/)) {
+                this.userId = userId;
             } else {
                 /* The userid contains characters that ownCloud and Nextcloud
                 don't like. This might happen with external ids as eg supplied
                 via SAML. One reals world example: Guest users in an ADFS tenant
                 have #EXT# in their userid. Those IDs seem to work over the API
                 but (at least) break the web interface. */
-                this.userId = encodeURIComponent(data.id);
+                this.userId = encodeURIComponent(userId);
             }
         }
-        return data;
+        return userId;
     }
 
     /**
@@ -201,18 +185,19 @@ export class CloudAccount {
     async updateFromCloud() {
         let answer = await this.updateUserId();
         this.laststatus = null;
-        if (answer._failed && this.username) {
+        if (!answer && this.username) {
             // If login failed, we might be using an app token which requires a lowercase user name
             const oldname = this.username;
             this.username = this.username.toLowerCase();
             answer = await this.updateUserId();
-            if (answer._failed) {
+            if (!answer) {
                 // Nope, it's not the case, restore username
                 this.username = oldname;
             }
         }
-        if (answer._failed) {
-            this.laststatus = answer.status;
+        if (!answer) {
+            /** @todo replace */
+            // this.laststatus = answer.status;
         } else {
             await Promise.all([this.updateFreeSpaceInfo(), this.updateCapabilities(),]);
         }
@@ -221,40 +206,32 @@ export class CloudAccount {
     /**
      * Fetches a new app password from the Nextcloud web service and
      * replaces the current password with it
-     * @return {boolean} Was a new app password set?
      */
     async convertToApppassword() {
-        const data = await CloudAPI.getAppPassword(this);
-        if (data && data.apppassword) {
-            // Test if the apppassword really works with the given username
+        const apppassword = await CloudAPI.getAppPassword(this);
+        if (!!apppassword) {
+            // Test if the apppassword really works with the given username,
+            // because with some external auth providers it might not
             const oldpassword = this.password;
-            this.password = data.apppassword;
-            const r = await CloudAPI.getUser(this);
-            if (r._failed || r.status >= 900) {
+            this.password = apppassword;
+            const userId = await CloudAPI.getUserId(this);
+            // No, doesn't work, restore the old password
+            if (!userId) {
                 this.password = oldpassword;
-            } else {
-                return true;
             }
         }
-        return false;
     }
 
     /**
      * Validate the download password using the validation web service url from capabilities.
      * If there is no such url, only check if the password is empty
-     * @returns {*} An object containing either the validation status (and reason for failure) or error information if web service failed
+     * @returns {Promise<bool?>} Does the password stand the check, null on error
      */
-    /** @todo change signature to return Boolean?: true/false for check an d null 0 error, set errmsg */
     async validateDLPassword() {
         if (this.password_validate_url) {
-            const data = await CloudAPI.validateDownloadPassword(this, this.downloadPassword);
-            data.passed = !!data.passed;
-            return data;
+            return await CloudAPI.validateDownloadPassword(this, this.downloadPassword);
         } else {
-            return {
-                // Probably not a Nextcloud instance, accept any password
-                passed: true,
-            };
+            return !!this.downloadPassword;
         }
     }
 }

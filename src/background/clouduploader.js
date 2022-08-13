@@ -33,7 +33,7 @@ export class CloudUploader extends CloudAccount {
         if (response.aborted) {
             return response;
         } else if (response.ok) {
-            Status.set_status(uploadId, Statuses.SHARINGyFAF);
+            Status.set_status(uploadId, Statuses.SHARING);
             this.updateFreeSpaceInfo();
             let url = this._cleanUrl(await this._getShareLink(fileName, uploadId));
             if (url) {
@@ -47,30 +47,26 @@ export class CloudUploader extends CloudAccount {
     }
 
     /**
- * Generate a download password using the NC web service if its present or a local generator otherwise
- * @returns {string} A most probably valid password
- */
+     * Generate a download password using the NC web service if its present or a local generator otherwise
+     * @returns {string} A most probably valid password
+     */
     async generateDLPassword() {
-        let pw;
+        let password = null;
         if (this.password_generate_url) {
-            const data = await CloudAPI.getGeneratedPassword(this);
-            if (data.password) {
-                // This needs no sanitization because it is only displayed, using textContent
-                pw = data.password;
-            }
+            password = await CloudAPI.getGeneratedPassword(this);
         }
         /* If we generate a password locally, the generation via web service didn't work. In that case
         validation also doesn't work, so the locally generateed password cannot be validated. */
-        return pw ? pw : PasswordGenerator.generate(16);
+        return password || PasswordGenerator.generate(16);
     }
 
     /**
- * Get a share link for the file, reusing an existing one with the same
- * parameters
- * @param {string} fileName The name of the file to share
- * @param {string} uploadId The id of the upload created in background.js
- * @returns {string} The share link as returned by the OCS API
- */
+     * Get a share link for the file, reusing an existing one with the same
+     * parameters
+     * @param {string} fileName The name of the file to share
+     * @param {string} uploadId The id of the upload created in background.js
+     * @returns {string} The share link as returned by the OCS API
+     */
     async _getShareLink(fileName, uploadId) {
         const path_to_share = Utils.encodepath(this.storageFolder + "/" + fileName);
         const expireDate = this.useExpiry ? daysFromTodayIso(this.expiryDays) : undefined;
@@ -104,11 +100,11 @@ export class CloudUploader extends CloudAccount {
      * @returns {*} The existing share or undefined
      */
     async _findExistingShare(path_to_share, expireDate) {
-        const shareinfo = await CloudAPI.getShareForFile(this, path_to_share);
+        const shareinfo = await CloudAPI.getSharesForFile(this, path_to_share);
 
         // If we the ApiCall fails, the result is not an Array. So make sure, we can call find() before we do
         // Check for every existing share, if it meets our requirements:
-        return !shareinfo.find ? undefined : shareinfo.find(share =>
+        return !shareinfo.find ? null : shareinfo.find(share =>
             // It's a public share ...
             (share.share_type === 3) &&
             /* If a password is set, share_with is not empty in both cloud
@@ -130,7 +126,7 @@ export class CloudUploader extends CloudAccount {
      * @param {string} path_to_share The encoded path of the file
      * @param {string} expireDate The expiry date, encoded as ISO
      * @param {string} uploadId The id of the upload created in background.js
-     * @returns {string} The new share url or null
+     * @returns {string?} The new share url or null on error
      */
     async _makeNewShare(path_to_share, expireDate, uploadId) {
         let shareFormData = "path=" + path_to_share;

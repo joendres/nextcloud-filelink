@@ -360,6 +360,7 @@ If you'd like to fix a bug or implement a feature
   [ownCloud](https://demo.owncloud.com) you might use for initial testing.
 
 ## Contributions
+<!-- cspell:disable -->
 
 * [Johannes Endres](@joendres), initial implementation, maintainer
 * [Josep Manel Mendoza](@josepmanel), Catalan and Spanish localizations
