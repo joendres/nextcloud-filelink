@@ -1,7 +1,7 @@
 import { AccountUpdater } from "./accountupdater.js";
 import { EventHandlers } from "./eventhandlers.js";
-import { TBVersionWorkarounds } from "./tbversionworkarounds.js";
 import { MessageDispatcher } from "./messagedispatcher.js";
+import { TBVersionWorkarounds } from "./tbversionworkarounds.js";
 
 AccountUpdater.update_all();
 TBVersionWorkarounds.apply_all();

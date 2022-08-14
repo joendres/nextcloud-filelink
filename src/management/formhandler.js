@@ -1,9 +1,9 @@
-import { HeaderHandler } from "./headerhandler.js";
 import { CloudAccount } from "../common/cloudaccount.js";
 import { AccountFieldHandler } from "./accountfieldhandler.js";
 import { DownloadPasswordFieldHandler } from "./downloadpasswordfieldhandler.js";
 import { ExpiryFieldHandler } from "./expiryfieldhandler.js";
 import { FolderFieldHandler } from "./folderfieldhandler.js";
+import { HeaderHandler } from "./headerhandler.js";
 import { Popup } from "./popup/popup.js";
 
 export class FormHandler {
