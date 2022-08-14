@@ -16,6 +16,8 @@ export class CloudUploader extends CloudAccount {
      * @param {string} uploadId The id of the upload created in background.js
      * @param {string} fileName w/o path
      * @param {File} fileObject the local file as a File object
+     * @returns {{aborted:boolean,url:string}} 
+     * @throws {Error} if the upload fails
      */
     async uploadFile(uploadId, fileName, fileObject) {
         Status.add(uploadId, fileName);
@@ -31,7 +33,7 @@ export class CloudUploader extends CloudAccount {
         if (response.aborted) {
             return response;
         } else if (response.ok) {
-            Status.set_status(uploadId, Statuses.SHARINGyFAF);
+            Status.set_status(uploadId, Statuses.SHARING);
             this.updateFreeSpaceInfo();
             let url = this._cleanUrl(await this._getShareLink(fileName, uploadId));
             if (url) {
@@ -55,7 +57,7 @@ export class CloudUploader extends CloudAccount {
         }
         /* If we generate a password locally, the generation via web service didn't work. In that case
         validation also doesn't work, so the locally generateed password cannot be validated. */
-        return password ? password : PasswordGenerator.generate(16);
+        return password || PasswordGenerator.generate(16);
     }
 
     /**
