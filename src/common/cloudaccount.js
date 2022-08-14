@@ -45,14 +45,34 @@ export class CloudAccount {
     }
 
     /**
-     * Gets free/used space from web service and sets the parameters in
-     * Thunderbirds cloudFileAccount
+     * Gets quota from web service and stores the free/total values
      */
     async updateFreeSpaceInfo() {
-        const data = await CloudAPI.getQuota(this);
-        this.free = data.free;
-        this.total = data.total;
+        let { free, total, used, } = await CloudAPI.getQuota(this);
+
+        if (!inRange(free)) {
+            total = free = -1;
+        } else if (!inRange(total)) {
+            if (inRange(used)) {
+                total = used + free;
+            } else {
+                total = free = -1;
+            }
+        } else if (total < free) {
+            total = free = -1;
+        }
+
+        this.free = free;
+        this.total = total;
         this.store();
+
+        /**
+         * Check, if the given number is a safe positive integer
+         * @param {number} x 
+         */
+        function inRange(x) {
+            return Number.isSafeInteger(x) && x >= 0;
+        }
     }
 
     /**
