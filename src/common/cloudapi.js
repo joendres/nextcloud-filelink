@@ -29,11 +29,18 @@ export class CloudAPI {
     /**
      * 
      * @param {CloudAccount} account The account to query
-     * @returns {Promise<*?>} The Capabilities object returned by the cloud or null on error
+     * @returns {Promise<{capabilities:*?,version:*?}?>} The Capabilities object returned by the cloud or null on error
      */
     static async getCapabilities(account) {
         const apiUrlCapabilities = "/cloud/capabilities";
-        return CloudAPI.doApiCall(account, apiUrlCapabilities);
+        const data = CloudAPI.doApiCall(account, apiUrlCapabilities);
+        if (!data) {
+            return null;
+        }
+        return {
+            capabilities: data.capabilities || null,
+            version: data.version || null,
+        };
     }
 
     /**
