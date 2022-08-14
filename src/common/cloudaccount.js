@@ -304,8 +304,8 @@ export class CloudAccount {
             const oldpassword = this.password;
             this.password = apppassword;
             const userId = await CloudAPI.getUserId(this);
-            // No, doesn't work, restore the old password
             if (!userId) {
+                // No, doesn't work, restore the old password
                 this.password = oldpassword;
             }
         }
