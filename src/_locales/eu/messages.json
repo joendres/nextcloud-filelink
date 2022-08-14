@@ -109,10 +109,6 @@
     "description": "This is displayed as a popup over the configuration page",
     "message": "Zure pasahitzak saioa hastean ziur aski arazoak emango dituzten karaktereak ditu. Erabili aplikazio token bat."
   },
-  "obsolete_version": {
-    "description": "This is displayed over the icon if the cloud version is not supported, so it should be quite short and contain at most two lines.",
-    "message": "Bertsio\nzaharkitua"
-  },
   "error_401": {
     "description": "This is displayed as a popup over the configuration page",
     "message": "Saio hasierak huts egin du. Egiaztatu erabiltzaile-izena eta pasahitza."
