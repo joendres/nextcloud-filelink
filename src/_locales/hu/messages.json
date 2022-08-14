@@ -109,10 +109,6 @@
     "description": "This is displayed as a popup over the configuration page",
     "message": "Jelszava olyan karaktereket tartalmaz, amelyek valószínűleg bejelentkezési problémákat okoznak. Ehelyett használjon alkalmazásjelszót."
   },
-  "obsolete_version": {
-    "description": "This is displayed over the icon if the cloud version is not supported, so it should be quite short and contain at most two lines.",
-    "message": "Elavult\nverzió"
-  },
   "error_401": {
     "description": "This is displayed as a popup over the configuration page",
     "message": "Bejelentkezés sikertelen. Ellenőrizze a felhasználónevet és a jelszót."
