@@ -193,9 +193,7 @@ export class FormHandler {
      * Show general errors
      */
     showErrors() {
-        if (this.account.laststatus) {
-            Popup.error(this.account.laststatus);
-        } else if (false === this.account.public_shares_enabled) {
+        if (false === this.account.public_shares_enabled) {
             Popup.error('sharing_off');
         } else if (false === this.account.cloud_supported) {
             Popup.warn('unsupported_cloud');

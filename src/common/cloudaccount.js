@@ -14,8 +14,6 @@ export class CloudAccount {
      */
     constructor(accountId) {
         this._accountId = accountId;
-
-        this.laststatus = null;
     }
 
     /**
@@ -275,23 +273,21 @@ export class CloudAccount {
      * available from the cloud eg free space, capabilities, userid
      */
     async updateFromCloud() {
-        let answer = await this.updateUserId();
-        this.laststatus = null;
-        if (!answer && this.username) {
+        let userId = await this.updateUserId();
+        if (!userId && this.username) {
             // If login failed, we might be using an app token which requires a lowercase user name
             const oldname = this.username;
             this.username = this.username.toLowerCase();
-            answer = await this.updateUserId();
-            if (!answer) {
+            userId = await this.updateUserId();
+            if (!userId) {
                 // Nope, it's not the case, restore username
                 this.username = oldname;
             }
         }
-        if (!answer) {
-            /** @todo replace */
-            // this.laststatus = answer.status;
+        if (userId) {
+            return Promise.all([this.updateFreeSpaceInfo(), this.updateCapabilities(),]);
         } else {
-            await Promise.all([this.updateFreeSpaceInfo(), this.updateCapabilities(),]);
+            return null;
         }
     }
 
