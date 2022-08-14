@@ -50,7 +50,7 @@ export class CloudUploader extends CloudAccount {
      * Generate a download password using the NC web service if its present or a local generator otherwise
      * @returns {string} A most probably valid password
      */
-    async generateDLPassword() {
+    async generateDownloadPassword() {
         let password = null;
         if (this.password_generate_url) {
             password = await CloudAPI.getGeneratedPassword(this);
@@ -144,7 +144,7 @@ export class CloudUploader extends CloudAccount {
         if (this.oneDLPassword) {
             shareFormData += "&password=" + encodeURIComponent(this.downloadPassword);
         } else if (this.useGeneratedDlPassword) {
-            this.downloadPassword = await this.generateDLPassword();
+            this.downloadPassword = await this.generateDownloadPassword();
             shareFormData += "&password=" + encodeURIComponent(this.downloadPassword);
         }
 
