@@ -79,70 +79,40 @@ export class CloudAccount {
      * Get useful information from the server and store it as properties
      */
     async updateCapabilities() {
-        const data = await CloudAPI.getCapabilities(this);
+        const { capabilities, version, } = await CloudAPI.getCapabilities(this);
 
-        if (!data._failed && data.capabilities) {
-            // Don't test data.capabilities.files_sharing.api_enabled because the next line contains it all
+        if (capabilities) {
+            // Don't test capabilities.files_sharing.api_enabled because the next line contains it all
             // Is public sharing enabled?
-            this.public_shares_enabled = !!data.capabilities.files_sharing &&
-                !!data.capabilities.files_sharing.public && !!data.capabilities.files_sharing.public.enabled;
+            this.public_shares_enabled = publicSharingEnabled();
             if (this.public_shares_enabled) {
                 // Remember if a download password is required
-                this.enforce_password = false;
-                if (data.capabilities.files_sharing.public.password) {
-                    if (data.capabilities.files_sharing.public.password.enforced_for &&
-                        'boolean' === typeof data.capabilities.files_sharing.public.password.enforced_for.read_only) {
-                        // ownCloud
-                        this.enforce_password = !!data.capabilities.files_sharing.public.password.enforced_for.read_only;
-                    } else {
-                        //Nextcloud                        
-                        this.enforce_password = !!data.capabilities.files_sharing.public.password.enforced;
-                    }
-                }
+                this.enforce_password = passwordEnforced();
                 // Remember maximum expiry set on server
-                delete this.expiry_max_days;
-                if (data.capabilities.files_sharing.public.expire_date &&
-                    data.capabilities.files_sharing.public.expire_date.enforced &&
-                    isFinite(data.capabilities.files_sharing.public.expire_date.days) &&
-                    data.capabilities.files_sharing.public.expire_date.days > 0) {
-                    this.expiry_max_days = parseInt(data.capabilities.files_sharing.public.expire_date.days);
-                }
+                this.expiry_max_days = expiryMaxDays();
             }
 
             // Remember password policy urls if they are present (AFAIK only in NC 17+)
-            delete this.password_validate_url;
-            delete this.password_generate_url;
-            if (data.capabilities.password_policy && data.capabilities.password_policy.api) {
-                try {
-                    const u = new URL(data.capabilities.password_policy.api.validate);
-                    if (u.host === (new URL(this.serverUrl)).host) {
-                        this.password_validate_url = u.origin + u.pathname;
-                    }
-                } catch (_) { /* Error just means there is no url */ }
-                try {
-                    const u = new URL(data.capabilities.password_policy.api.generate);
-                    if (u.host === (new URL(this.serverUrl)).host) {
-                        this.password_generate_url = u.origin + u.pathname;
-                    }
-                } catch (_) { /* Error just means there is no url */ }
-            }
+            this.password_validate_url = validatePasswordUrl(this.serverUrl);
+            this.password_generate_url = generatePasswordUrl(this.serverUrl);
 
             // Take version from capabilities
             /** @todo Move this to headerhandler as the version is only needed there */
+            /** @todo check if version is available */
             this.cloud_productname = "*cloud";
-            this.cloud_versionstring = data.version.string;
+            this.cloud_versionstring = version.string;
             // Take name & type from capabilities
-            if (data.capabilities.theming && data.capabilities.theming.name) {
-                this.cloud_productname = data.capabilities.theming.name;
+            if (capabilities.theming && capabilities.theming.name) {
+                this.cloud_productname = capabilities.theming.name;
                 this.cloud_type = "Nextcloud";
-                this.cloud_supported = data.version.major >= ncMinimalVersion;
-            } else if (data.capabilities.core.status && data.capabilities.core.status.productname) {
-                this.cloud_productname = data.capabilities.core.status.productname;
+                this.cloud_supported = version.major >= ncMinimalVersion;
+            } else if (capabilities.core.status && capabilities.core.status.productname) {
+                this.cloud_productname = capabilities.core.status.productname;
                 this.cloud_type = "ownCloud";
-                this.cloud_supported = parseInt(data.version.major) * 10000 +
-                    parseInt(data.version.minor) * 100 +
-                    parseInt(data.version.micro) >= ocMinimalVersion;
-            } else if (data.version.major >= ncMinimalVersion) {
+                this.cloud_supported = parseInt(version.major) * 10000 +
+                    parseInt(version.minor) * 100 +
+                    parseInt(version.micro) >= ocMinimalVersion;
+            } else if (version.major >= ncMinimalVersion) {
                 this.cloud_productname = "Nextcloud";
                 this.cloud_type = "Nextcloud";
                 this.cloud_supported = true;
@@ -151,8 +121,85 @@ export class CloudAccount {
                 this.cloud_supported = false;
             }
         }
-        return data;
+
+        /**
+         * @returns {boolean} Is public file sharing enabled on the server?
+         */
+        function publicSharingEnabled() {
+            return !!capabilities.files_sharing &&
+                !!capabilities.files_sharing.public &&
+                !!capabilities.files_sharing.public.enabled;
+        }
+
+        /**
+         * @returns {boolean} Does the server enforce a download password?
+         */
+        function passwordEnforced() {
+            let r = false;
+            if (capabilities.files_sharing.public.password) {
+                if (capabilities.files_sharing.public.password.enforced_for &&
+                    'boolean' === typeof capabilities.files_sharing.public.password.enforced_for.read_only) {
+                    // ownCloud
+                    r = !!capabilities.files_sharing.public.password.enforced_for.read_only;
+                } else {
+                    //Nextcloud                        
+                    r = !!capabilities.files_sharing.public.password.enforced;
+                }
+            }
+            return r;
+        }
+
+        /**
+         * Extract the maximum number of days for expiry from server settings
+         * @returns {number?} The maximum number of days or null if none configured
+         */
+        function expiryMaxDays() {
+            if (capabilities.files_sharing.public.expire_date &&
+                capabilities.files_sharing.public.expire_date.enforced &&
+                isFinite(capabilities.files_sharing.public.expire_date.days) &&
+                capabilities.files_sharing.public.expire_date.days > 0) {
+                return parseInt(capabilities.files_sharing.public.expire_date.days);
+            }
+            return null;
+        }
+
+        /**
+         * Extracts an url that may be used to validate a (download) password
+         * against the configured restrictions
+         * @param {string} serverUrl The server url of this account
+         * @returns {string?} The url or null if the server does not offer this service
+         */
+        function validatePasswordUrl(serverUrl) {
+            if (capabilities.password_policy && capabilities.password_policy.api) {
+                try {
+                    const u = new URL(capabilities.password_policy.api.validate);
+                    if (u.host === (new URL(serverUrl)).host) {
+                        return u.origin + u.pathname;
+                    }
+                } catch (_) { /* Error just means there is no url */ }
+            }
+            return null;
+        }
+
+        /**
+         * Extracts an url that may be used to get a (download) password
+         * from the server that meets the configured rules
+         * @param {string} serverUrl The server url of this account
+         * @returns {string?} The url or null if the server does not offer this service
+         */
+        function generatePasswordUrl(serverUrl) {
+            if (capabilities.password_policy && capabilities.password_policy.api) {
+                try {
+                    const u = new URL(capabilities.password_policy.api.generate);
+                    if (u.host === (new URL(serverUrl)).host) {
+                        return u.origin + u.pathname;
+                    }
+                } catch (_) { /* Error just means there is no url */ }
+            }
+            return null;
+        }
     }
+
 
     /**
      * Sets the "configured" property of Thunderbird's cloudFileAccount
