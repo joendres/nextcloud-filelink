@@ -1,6 +1,5 @@
 import { CloudAPI } from "./cloudapi.js";
 
-// @todo move this to headerhandler?
 const ncMinimalVersion = 23;
 const ocMinimalVersion = 10 * 10000 + 0 * 100 + 10;
 
@@ -44,6 +43,7 @@ export class CloudAccount {
 
     /**
      * Gets quota from web service and stores the free/total values
+     * @returns {Promise<number>} The amount of free space in bytes
      */
     async updateFreeSpaceInfo() {
         let { free, total, used, } = await CloudAPI.getQuota(this);
@@ -63,6 +63,7 @@ export class CloudAccount {
         this.free = free;
         this.total = total;
         this.store();
+        return free;
 
         /**
          * Check, if the given number is a safe positive integer
