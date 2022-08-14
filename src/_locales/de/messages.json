@@ -109,10 +109,6 @@
     "description": "This is displayed as a popup over the configuration page",
     "message": "Das Passwort enthält Zeichen, die oft Login-Probleme verursachen. Benutze hier besser ein App-Passwort (unter \"Sicherheit\" in den Einstellungen deiner Cloud)."
   },
-  "obsolete_version": {
-    "description": "This is displayed over the icon if the cloud version is not supported, so it should be quite short and contain at most two lines.",
-    "message": "Veraltete\nVersion"
-  },
   "error_401": {
     "description": "This is displayed as a popup over the configuration page",
     "message": "Login fehlgeschlagen. Wahrscheinlich ist der Username oder das Passwort falsch"
