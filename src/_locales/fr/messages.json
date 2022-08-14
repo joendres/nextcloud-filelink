@@ -109,10 +109,6 @@
     "description": "This is displayed as a popup over the configuration page",
     "message": "Votre mot de passe contient des caractères qui semblent poser un problème d'identification. Veuillez utiliser plutôt un mot de passe d'application."
   },
-  "obsolete_version": {
-    "description": "This is displayed over the icon if the cloud version is not supported, so it should be quite short and contain at most two lines.",
-    "message": "Version\nobsolète"
-  },
   "error_401": {
     "description": "This is displayed as a popup over the configuration page",
     "message": "Échec de la connexion. Vérifiez le nom d'utilisateur et le mot de passe."
