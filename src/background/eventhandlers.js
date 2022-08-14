@@ -22,7 +22,7 @@ class EventHandlers {
     static async onFileUpload(account, { id, name, data }) {
         const uploader = new CloudUploader(account.id);
         await uploader.load();
-        return uploader.uploadFile(EventHandlers.makeUploadId(account, id), name, data);
+        return uploader.uploadFile(makeUploadId(account, id), name, data);
     }
 
     /**
@@ -31,7 +31,7 @@ class EventHandlers {
      * @param {number} fileId An identifier for this file
      */
     static onFileUploadAbort(account, fileId) {
-        const uploadId = EventHandlers.makeUploadId(account, fileId);
+        const uploadId = makeUploadId(account, fileId);
         const abortController = allAbortControllers.get(uploadId);
         if (abortController) {
             abortController.abort();
@@ -45,7 +45,7 @@ class EventHandlers {
      * @param {number} fileId An identifier for this file
      */
     static onFileDeleted(account, fileId) {
-        Status.remove(EventHandlers.makeUploadId(account, fileId));
+        Status.remove(makeUploadId(account, fileId));
     }
 
     /**
@@ -66,16 +66,16 @@ class EventHandlers {
         const cloud_account = new CloudAccount(accountId);
         cloud_account.deleteAccount();
     }
+}
 
-    /**
-     * The fileId is only unique within one account. Listeners.makeUploadId creates a string
-     * that identifies the upload even if more than one account is active.
-     * @param {CloudFileAccount} account The CloudFileAccount as supplied by Thunderbird
-     * @param {number} fileId The fileId supplied by Thunderbird
-     */
-    static makeUploadId(account, fileId) {
-        return `${account.id}_${fileId}`;
-    }
+/**
+ * The fileId is only unique within one account. makeUploadId creates a unique
+ * string that identifies the upload even if more than one account is active.
+ * @param {CloudFileAccount} account The CloudFileAccount as supplied by Thunderbird
+ * @param {number} fileId The fileId supplied by Thunderbird
+ */
+function makeUploadId(account, fileId) {
+    return `${account.id}_${fileId}`;
 }
 
 export { EventHandlers, allAbortControllers };
