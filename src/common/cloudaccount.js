@@ -3,6 +3,12 @@ import { CloudAPI } from "./cloudapi.js";
 const ncMinimalVersion = 23;
 const ocMinimalVersion = 10 * 10000 + 0 * 100 + 10;
 
+const defaults = {
+    storageFolder: "/Mail-attachments",
+    expiryDays: 7,
+    useNoDlPassword: true,
+};
+
 /**
  * This class encapsulates all calls to the Nextcloud or ownCloud web services
  * (API and DAV)
@@ -13,6 +19,13 @@ export class CloudAccount {
      */
     constructor(accountId) {
         this._accountId = accountId;
+    }
+
+    /**
+     * Set necessary properties to their default values
+     */
+    setDefaults() {
+        Object.assign(this, defaults);
     }
 
     /**
