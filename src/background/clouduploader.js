@@ -136,30 +136,17 @@ export class CloudUploader extends CloudAccount {
      * @returns {string?} The new share url or null on error
      */
     async _makeNewShare(path_to_share, expireDate, uploadId) {
-        let shareFormData = "path=" + path_to_share;
-        shareFormData += "&shareType=3"; // 3 = public share
-
-        if (this.oneDLPassword) {
-            shareFormData += "&password=" + encodeURIComponent(this.downloadPassword);
-        } else if (this.useGeneratedDlPassword) {
+        if (this.useGeneratedDlPassword) {
             this.downloadPassword = await this.generateDownloadPassword();
-            shareFormData += "&password=" + encodeURIComponent(this.downloadPassword);
         }
 
-        if (this.useExpiry) {
-            shareFormData += "&expireDate=" + expireDate;
-        }
+        const url = await CloudAPI.getNewShare(this, path_to_share, expireDate);
 
-        const data = await CloudAPI.getNewShare(this, shareFormData);
-
-        if (data && data.url) {
-            if (this.useGeneratedDlPassword) {
-                Status.set_password(uploadId, this.downloadPassword);
-                Status.set_status(uploadId, Statuses.GENERATEDPASSWORD);
-            }
-            return data.url;
+        if (url && this.useGeneratedDlPassword) {
+            Status.set_password(uploadId, this.downloadPassword);
+            Status.set_status(uploadId, Statuses.GENERATEDPASSWORD);
         }
-        return null;
+        return url;
     }
 
     /**

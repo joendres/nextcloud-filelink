@@ -122,12 +122,28 @@ export class CloudAPI {
     /**
     * Create a new share link for a file
     * @param {CloudAccount} account The account to query
-    * @param {string} shareFormData The data describing the share as a urlencoded parameter string
-    * @return {Promise<*?>} The password object returned by the cloud or null on error
+    * @param {string} path The full path to the file
+    * @param {string} expireDate The date the shale link will expire as an ISO date string
+    * @returns {Promise<string?>} The news share url or null on error
     */
-    static async getNewShare(account, shareFormData) {
-        /** @todo */
-        return CloudAPI.doApiCall(account, apiUrlShares, 'POST', { "Content-Type": "application/x-www-form-urlencoded", }, shareFormData);
+    static async getNewShare(account, path, expireDate) {
+        let shareFormData = "path=" + path;
+        shareFormData += "&shareType=3"; // 3 = public share
+
+        if (account.oneDLPassword || account.useGeneratedDlPassword) {
+            shareFormData += "&password=" + encodeURIComponent(account.downloadPassword);
+        }
+
+        if (account.useExpiry && expireDate) {
+            shareFormData += "&expireDate=" + expireDate;
+        }
+
+        const data = await CloudAPI.doApiCall(account, apiUrlShares, 'POST', { "Content-Type": "application/x-www-form-urlencoded", }, shareFormData);
+
+        if (data && data.url) {
+            return data.url;
+        }
+        return null;
     }
 
     /**
