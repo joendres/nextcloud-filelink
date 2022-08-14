@@ -68,8 +68,8 @@ export class DownloadPasswordFieldHandler {
         /** @type {HTMLInputElement} */
         const oneDLPassword = document.querySelector("#oneDLPassword");
         if (oneDLPassword.checked) {
-            if (false === await account.validateDLPassword()) {
-                Popup.error('invalid_pw', account.errmsg || '(nothing more)');
+            if (!await account.validateDLPassword()) {
+                Popup.error('invalid_pw', account.errmsg || '(nothing)');
             }
         }
     }
