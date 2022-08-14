@@ -313,6 +313,7 @@ export class CloudAccount {
     /**
      * Validate the download password using the validation web service url from capabilities.
      * If there is no such url, only check if the password is empty.
+     * @returns {Promise<boolean>}
      */
     async validateDLPassword() {
         let valid = await CloudAPI.validateDownloadPassword(this, this.downloadPassword);
