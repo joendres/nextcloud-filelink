@@ -1,9 +1,9 @@
-import { CloudAPI } from "../common/cloudapi.js";
-import { CloudAccount } from "../common/cloudaccount.js";
 import { DavUploader } from "../background/davuploader.js";
+import { CloudAccount } from "../common/cloudaccount.js";
+import { CloudAPI } from "../common/cloudapi.js";
+import { Statuses } from "../common/statuses.js";
 import { PasswordGenerator } from "./passwordgenerator.js";
 import { Status } from "./status.js";
-import { Statuses } from "../common/statuses.js";
 import { Utils } from "./utils.js";
 
 // @todo move to davuploader
@@ -48,7 +48,7 @@ export class CloudUploader extends CloudAccount {
 
     /**
      * Generate a download password using the NC web service if its present or a local generator otherwise
-     * @returns {string} A most probably valid password
+     * @returns {Promise<string>} A most probably valid password
      */
     async generateDownloadPassword() {
         /* If we generate a password locally, the generation via web service didn't work. In that case
