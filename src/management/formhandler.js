@@ -37,6 +37,7 @@ export class FormHandler {
      * Get data from a stored account and put it into the form
      */
     async fillData() {
+        /** @todo move this out of the function */
         await this.account.load();
         this.fillAllInputs();
         ExpiryFieldHandler.fillData(this.account);
@@ -70,6 +71,7 @@ export class FormHandler {
 
         Popup.clear();
         this.fillData();
+        /** @todo The header might need an update too? */
         resetButton.disabled = saveButton.disabled = true;
     }
 
