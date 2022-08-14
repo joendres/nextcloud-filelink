@@ -90,11 +90,13 @@ export class CloudAccount {
                 this.enforce_password = passwordEnforced();
                 // Remember maximum expiry set on server
                 this.expiry_max_days = expiryMaxDays();
+                /** @todo also remember enforced */
+
+                // Remember password policy urls if they are present (AFAIK only in NC 17+)
+                this.password_validate_url = validatePasswordUrl(this.serverUrl);
+                this.password_generate_url = generatePasswordUrl(this.serverUrl);
             }
 
-            // Remember password policy urls if they are present (AFAIK only in NC 17+)
-            this.password_validate_url = validatePasswordUrl(this.serverUrl);
-            this.password_generate_url = generatePasswordUrl(this.serverUrl);
 
             // Take version from capabilities
             /** @todo Move this to headerhandler as the version is only needed there */
