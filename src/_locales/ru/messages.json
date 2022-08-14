@@ -109,10 +109,6 @@
     "description": "This is displayed as a popup over the configuration page",
     "message": "Ваш пароль содержит символы, которые могут вызвать проблемы со входом в систему. Вместо этого используетей пароль приложения."
   },
-  "obsolete_version": {
-    "description": "This is displayed over the icon if the cloud version is not supported, so it should be quite short and contain at most two lines.",
-    "message": "Устаревшая\nверсия"
-  },
   "error_401": {
     "description": "This is displayed as a popup over the configuration page",
     "message": "Авторизация не удалась. Проверьте имя и пароль."
