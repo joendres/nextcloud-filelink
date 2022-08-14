@@ -67,14 +67,15 @@ export class CloudUploader extends CloudAccount {
      */
     async _getShareLink(fileName, uploadId) {
         const path_to_share = Utils.encodepath(this.storageFolder + "/" + fileName);
-        const expireDate = this.useExpiry ? daysFromTodayIso(this.expiryDays) : undefined;
+        /** @todo expiryDay seems to be empty here */
+        const expireDate = this.useExpiry ? daysFromTodayIso(this.expiryDays) : null;
 
         // It's not possible to retreive an display the password for an existing share
         if (!this.oneDLPassword && !this.useGeneratedDlPassword) {
             //  Check if the file is already shared ...
-            const existingShare = await this._findExistingShare(path_to_share, expireDate);
-            if (existingShare && existingShare.url) {
-                return existingShare.url;
+            const existingURL = await this._findExistingShare(path_to_share, expireDate);
+            if (existingURL) {
+                return existingURL;
             }
         }
         return this._makeNewShare(path_to_share, expireDate, uploadId);
@@ -95,14 +96,16 @@ export class CloudUploader extends CloudAccount {
      * Check if the file is already shared with the same parameters
      * @param {string} path_to_share The encoded path of the file
      * @param {string} expireDate The expiry date, encoded as ISO
-     * @returns {*} The existing share or undefined
+     * @returns {string?} The existing share url or null
      */
     async _findExistingShare(path_to_share, expireDate) {
         const shareinfo = await CloudAPI.getSharesForFile(this, path_to_share);
 
-        // If we the ApiCall fails, the result is not an Array. So make sure, we can call find() before we do
-        // Check for every existing share, if it meets our requirements:
-        return !shareinfo.find ? null : shareinfo.find(share =>
+        if (!shareinfo || !shareinfo.find) {
+            return null;
+        }
+
+        const existingShare = shareinfo.find(share =>
             // It's a public share ...
             (share.share_type === 3) &&
             /* If a password is set, share_with is not empty in both cloud
@@ -117,6 +120,12 @@ export class CloudUploader extends CloudAccount {
                 (!this.useExpiry && share.expiration === null) ||
                 (this.useExpiry && share.expiration !== null && share.expiration.startsWith(expireDate))
             ));
+
+        if (existingShare && existingShare.url) {
+            return existingShare.url;
+        }
+
+        return null;
     }
 
     /**
