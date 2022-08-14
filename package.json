@@ -70,7 +70,7 @@
     "futurehostile": true,
     "latedef": "nofunc",
     "leanswitch": true,
-    "maxcomplexity": 25,
+    "maxcomplexity": 10,
     "maxdepth": 4,
     "nocomma": true,
     "nonew": true,

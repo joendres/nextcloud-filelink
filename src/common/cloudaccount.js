@@ -159,6 +159,8 @@ export class CloudAccount {
      * to true if it is usable
      */
     async updateConfigured() {
+        // jshint maxcomplexity:16
+        // The function only seems complex due to the many conditions
         browser.cloudFile.updateAccount(this._accountId, {
             configured:
                 this.public_shares_enabled !== false &&
