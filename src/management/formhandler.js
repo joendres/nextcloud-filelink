@@ -88,10 +88,10 @@ export class FormHandler {
         saveButton.disabled = resetButton.disabled = true;
         Popup.clear();
 
-        const persist = this.preCloudUpdate();
+        this.preCloudUpdate();
         this.copyAllInputs();
         await this.account.updateFromCloud();
-        await this.postCloudUpdate(persist);
+        await this.postCloudUpdate();
         await this.account.store();
         await Promise.all([
             this.account.updateConfigured(),
@@ -144,7 +144,6 @@ export class FormHandler {
     /**
      * Prepare everything for harvesting the data from the form and for getting
      * additional data from the cloud, eg sanitize inputs
-     * @returns Data that will be reused in the postCloudUpdate call later
      */
     preCloudUpdate() {
         /** @type {HTMLInputElement} */
@@ -153,22 +152,19 @@ export class FormHandler {
                 element.value = element.value.trim();
             });
 
-        const persist = {};
-        persist.account = AccountFieldHandler.preCloudUpdate(this.account);
+        AccountFieldHandler.preCloudUpdate();
         FolderFieldHandler.preCloudUpdate();
-        return persist;
     }
 
     /**
      * Do whatever is necessary after the CloudAccount state is update from the cloud
-     * @param {*} persist Data returned from preCloudUpdate earlier
      */
-    async postCloudUpdate(persist) {
+    async postCloudUpdate() {
         if ('undefined' === typeof this.account.public_shares_enabled) {
             Popup.warn('no_config_check');
         }
-        return Promise.all([
-            AccountFieldHandler.postCloudUpdate(this.account, persist.account),
+        Promise.all([
+            AccountFieldHandler.postCloudUpdate(this.account),
             DownloadPasswordFieldHandler.postCloudUpdate(this.account),
         ]);
     }

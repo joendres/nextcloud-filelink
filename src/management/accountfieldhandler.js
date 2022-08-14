@@ -6,16 +6,12 @@ import { Popup } from "./popup/popup.js";
 export class AccountFieldHandler {
     /**
      * Sanitize input data according to local rules
-     * @param {CloudAccount} account The CloudAccount linked to the open form
-     * @returns Persistent data, that will be used after the cloud update
      */
-    static preCloudUpdate(account) {
+    static preCloudUpdate() {
         /** @type {HTMLInputElement} */
         const serverUrl = document.querySelector("#serverUrl");
         /** @type {HTMLInputElement} */
         const password = document.querySelector("#password");
-        /** @type {HTMLInputElement} */
-        const username = document.querySelector("#username");
 
         const url = new URL(serverUrl.value);
         // Remove double slashes from url
@@ -44,23 +40,13 @@ export class AccountFieldHandler {
         if (!password.value.match(/^[\x21-\x7e]+$/)) {
             Popup.warn('nonascii_password');
         }
-
-        return {
-            /** @todo This is too strict, also try to get app token on second try. */
-            needsNewToken: password.value !== account.password ||
-                username.value !== account.username ||
-                serverUrl.value !== account.serverUrl,
-        };
     }
 
     /**
      * 
      * @param {CloudAccount} account The CloudAccount linked to the open form
-     * @param {*} persist Persistent data as returned by preCloudUpdate
      */
-    static async postCloudUpdate(account, persist) {
-        if (persist.needsNewToken) {
-            await account.convertToApppassword();
-        }
+    static async postCloudUpdate(account) {
+        await account.convertToApppassword();
     }
 }
