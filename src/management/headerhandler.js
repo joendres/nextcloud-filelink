@@ -10,9 +10,7 @@ export class HeaderHandler {
 
         freespaceinfo.hidden = true;
 
-        if (account.free >= 0 && account.total >= 0 &&
-            account.free <= Number.MAX_SAFE_INTEGER && account.total <= Number.MAX_SAFE_INTEGER &&
-            isFinite(account.free) && isFinite(account.total)) {
+        if (account.free >= 0 && account.total >= 0) {
 
             /** @type {HTMLLabelElement} */
             const freespacelabel = document.querySelector("#freespacelabel");
@@ -37,7 +35,7 @@ export class HeaderHandler {
      * @throws {RangeError} If the bytes is below 0 or too big to handle
      */
     static humanReadable(bytes) {
-        if (bytes < 0 || bytes > Number.MAX_SAFE_INTEGER) {
+        if (!Number.isSafeInteger(bytes) || bytes < 0) {
             throw new RangeError();
         }
         const units = ["EB", "PB", "TB", "GB", "MB", "KB", "B",];
@@ -46,7 +44,7 @@ export class HeaderHandler {
             bytes /= 1000;
             unit = units.pop();
         }
-        return bytes.toLocaleString(undefined, { maximumSignificantDigits: 3, }) +  unit;
+        return bytes.toLocaleString(undefined, { maximumSignificantDigits: 3, }) + unit;
     }
 
     /**
