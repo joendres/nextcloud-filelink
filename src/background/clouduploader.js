@@ -51,11 +51,9 @@ export class CloudUploader extends CloudAccount {
      * @returns {string} A most probably valid password
      */
     async generateDownloadPassword() {
-        let password = null;
-        password = await CloudAPI.getGeneratedPassword(this);
         /* If we generate a password locally, the generation via web service didn't work. In that case
         validation also doesn't work, so the locally generateed password cannot be validated. */
-        return password || PasswordGenerator.generate(16);
+        return (await CloudAPI.getGeneratedPassword(this)) || PasswordGenerator.generate(16);
     }
 
     /**
