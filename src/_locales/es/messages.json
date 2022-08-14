@@ -109,10 +109,6 @@
     "description": "This is displayed as a popup over the configuration page",
     "message": "La contraseña contiene caracteres que pueden causar problemas. Usa una contraseña de aplicación en su lugar."
   },
-  "obsolete_version": {
-    "description": "This is displayed over the icon if the cloud version is not supported, so it should be quite short and contain at most two lines.",
-    "message": "Versión\nobsoleta"
-  },
   "error_401": {
     "description": "This is displayed as a popup over the configuration page",
     "message": "El inicio de sessión falló. Comprueba el usuario y la contraseña."
