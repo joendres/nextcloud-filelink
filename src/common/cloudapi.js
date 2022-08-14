@@ -33,7 +33,7 @@ export class CloudAPI {
      */
     static async getCapabilities(account) {
         const apiUrlCapabilities = "/cloud/capabilities";
-        const data = CloudAPI.doApiCall(account, apiUrlCapabilities);
+        const data = await CloudAPI.doApiCall(account, apiUrlCapabilities);
         if (!data) {
             return null;
         }
