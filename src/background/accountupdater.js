@@ -6,14 +6,14 @@ export class AccountUpdater {
      */
     static async update_all() {
         (await browser.cloudFile.getAllAccounts())
-            .forEach(account => AccountUpdater._update(account.id));
+            .forEach(account => AccountUpdater.updateOneAccount(account.id));
     }
 
     /**
      * Setup an account with stored configuration and check if it works.
      * @param {string} accountId The id of the account as supplied by Thunderbird
      */
-    static async _update(accountId) {
+    static async updateOneAccount(accountId) {
         const cloud_account = new CloudAccount(accountId);
         await cloud_account.load();
         AccountUpdater.upgradeOldConfiguration(cloud_account);

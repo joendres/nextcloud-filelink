@@ -10,7 +10,7 @@ export class Popup {
         /** @type {HTMLDivElement} */
         const error_popup = document.querySelector("#error_popup");
 
-        Popup._openPopup(error_popup,
+        Popup.openPopup(error_popup,
             browser.i18n.getMessage(`error_${err_id}`, Array.from(arguments).slice(1)) ||
             // No message for this error, show the default one
             browser.i18n.getMessage('error_0', err_id));
@@ -24,7 +24,7 @@ export class Popup {
         /** @type {HTMLDivElement} */
         const warning_popup = document.querySelector("#warning_popup");
 
-        Popup._openPopup(warning_popup,
+        Popup.openPopup(warning_popup,
             browser.i18n.getMessage(`warn_${messageId}`, Array.from(arguments).slice(1)));
     }
 
@@ -37,7 +37,7 @@ export class Popup {
         /** @type {HTMLDivElement} */
         const success_popup = document.querySelector("#success_popup");
 
-        const p = Popup._openPopup(success_popup, browser.i18n.getMessage(messageId));
+        const p = Popup.openPopup(success_popup, browser.i18n.getMessage(messageId));
         setTimeout(() => p.remove(), 3000);
     }
 
@@ -45,9 +45,9 @@ export class Popup {
      * Actually opens the popup
      * @param {Node} template The HTML element to open
      * @param {string} message The message to display
-     * @return {Node} The newly created popup
+     * @returns {Node} The newly created popup
      */
-    static _openPopup(template, message) {
+    static openPopup(template, message) {
         /** @type {HTMLDivElement} */
         const msg_container = document.querySelector("#msg_container");
 

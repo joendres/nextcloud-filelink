@@ -15,7 +15,7 @@ export class Status {
     }
 
     /**
-     * Set new status, possible values defined in _locales and progress.js
+     * Set new status, possible values defined in statuses.js
      * @param {string} uploadId The id of the upload that changed its status
      * @param {string} s The new status
      */

@@ -66,9 +66,9 @@ export class DavUploader {
      * Create a complete folder path, returns true if that path already exists
      *
      * @param {string} fullPath 
-     * @returns {boolean} if creation succeeded
+     * @returns {Promise<boolean>} if creation succeeded
      */
-    async _recursivelyCreateFolder(fullPath) {
+    async recursivelyCreateFolder(fullPath) {
         const parts = fullPath.split("/");
         for (let i = 2; i <= parts.length; i++) {
             const folder = parts.slice(0, i).join("/");
@@ -144,7 +144,7 @@ export class DavUploader {
             "Destination":
                 this._davUrl + Utils.encodepath(this._storageFolder + "/" + newPath + "/" + fileName),
         };
-        if (await this._recursivelyCreateFolder(this._storageFolder + "/" + newPath)) {
+        if (await this.recursivelyCreateFolder(this._storageFolder + "/" + newPath)) {
             const retval = await this._doDavCall(this._storageFolder + "/" + fileName, "MOVE", null, dest_header);
             if (retval.ok && (retval.status === 201 || retval.status === 204)) {
                 return retval;
@@ -193,14 +193,14 @@ export class DavUploader {
         // existence of folder, so the extra webservice call for checking first
         // isn't necessary.
         Status.set_status(uploadId, Statuses.CREATING);
-        if (!(await this._recursivelyCreateFolder(this._storageFolder))) {
+        if (!(await this.recursivelyCreateFolder(this._storageFolder))) {
             Status.fail(uploadId);
             throw new Error("Upload failed: Can't create folder");
         }
 
         let response;
         try {
-            response = await this._xhrUpload(uploadId, this._storageFolder + '/' + fileName, fileObject);
+            response = await this.xhrUpload(uploadId, this._storageFolder + '/' + fileName, fileObject);
             this._setMtime(fileName, Math.floor(fileObject.lastModified / 1000));
             // Handle errors that don't throw an exception
             if (response.status < 300) {
@@ -261,7 +261,7 @@ export class DavUploader {
      * @param {Blob} data The file content (as a File object)
      * @returns {Promise} A promise that resolves to the XHR or rejects with the entire event
      */
-    async _xhrUpload(uploadId, path, data) {
+    async xhrUpload(uploadId, path, data) {
         let url = this._serverurl;
         url += this._davUrl;
         url += Utils.encodepath(path);

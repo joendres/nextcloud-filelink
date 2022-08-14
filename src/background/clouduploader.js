@@ -13,7 +13,7 @@ export class CloudUploader extends CloudAccount {
      * @param {string} uploadId The id of the upload created in background.js
      * @param {string} fileName w/o path
      * @param {File} fileObject the local file as a File object
-     * @returns {{aborted:boolean,url:string}} 
+     * @returns {Promise<{[aborted]:boolean,[url]:string}>} An url if upload and sharing succeeded, aborted if it was aborted
      * @throws {Error} if the upload fails
      */
     async uploadFile(uploadId, fileName, fileObject) {
@@ -32,7 +32,7 @@ export class CloudUploader extends CloudAccount {
         } else if (response.ok) {
             Status.set_status(uploadId, Statuses.SHARING);
             this.updateFreeSpaceInfo();
-            let url = this._cleanUrl(await this._getShareLink(fileName, uploadId));
+            let url = this.cleanUrl(await this.getShareLink(fileName, uploadId));
             if (url) {
                 Status.done(uploadId);
                 return { url, aborted: false, };
@@ -60,20 +60,20 @@ export class CloudUploader extends CloudAccount {
      * @param {string} uploadId The id of the upload created in background.js
      * @returns {Promise<string>} The share link as returned by the OCS API
      */
-    async _getShareLink(fileName, uploadId) {
+    async getShareLink(fileName, uploadId) {
         const path_to_share = Utils.encodepath(this.storageFolder + "/" + fileName);
         /** @todo expiryDay seems to be empty here */
         const expireDate = this.useExpiry ? daysFromTodayIso(this.expiryDays) : null;
 
-        // It's not possible to retreive an display the password for an existing share
+        //  Check if the file is already shared ...
+        // It's not possible to retrieve and display the password for an existing share
         if (!this.oneDLPassword && !this.useGeneratedDlPassword) {
-            //  Check if the file is already shared ...
-            const existingURL = await this._findExistingShare(path_to_share, expireDate);
+            const existingURL = await this.findExistingShare(path_to_share, expireDate);
             if (existingURL) {
                 return existingURL;
             }
         }
-        return this._makeNewShare(path_to_share, expireDate, uploadId);
+        return this.makeNewShare(path_to_share, expireDate, uploadId);
 
         /**
          * Adds the given number of days to the current date and returns an ISO sting of
@@ -91,9 +91,9 @@ export class CloudUploader extends CloudAccount {
      * Check if the file is already shared with the same parameters
      * @param {string} path_to_share The encoded path of the file
      * @param {string} expireDate The expiry date, encoded as ISO
-     * @returns {string?} The existing share url or null
+     * @returns {Promise<string?>} The existing share url or null
      */
-    async _findExistingShare(path_to_share, expireDate) {
+    async findExistingShare(path_to_share, expireDate) {
         const shareinfo = await CloudAPI.getSharesForFile(this, path_to_share);
 
         if (!shareinfo || !shareinfo.find) {
@@ -128,9 +128,9 @@ export class CloudUploader extends CloudAccount {
      * @param {string} path_to_share The encoded path of the file
      * @param {string} expireDate The expiry date, encoded as ISO
      * @param {string} uploadId The id of the upload created in background.js
-     * @returns {string?} The new share url or null on error
+     * @returns {Promise<string?>} The new share url or null on error
      */
-    async _makeNewShare(path_to_share, expireDate, uploadId) {
+    async makeNewShare(path_to_share, expireDate, uploadId) {
         if (this.useGeneratedDlPassword) {
             this.downloadPassword = await this.generateDownloadPassword();
         }
@@ -149,9 +149,9 @@ export class CloudUploader extends CloudAccount {
      * - Convert punycode domain names to UTF-8
      * - URIencode special characters in path
      * @param {string} url An URL that might contain illegal characters, Punycode and unwanted parameters
-     * @returns {?string} The cleaned URL or null if url is not a valid http(s) URL
+     * @returns {string?} The cleaned URL or null if url is not a valid http(s) URL
      */
-    _cleanUrl(url) {
+    cleanUrl(url) {
         let u;
         try {
             u = new URL(url);

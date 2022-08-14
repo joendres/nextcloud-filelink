@@ -1,7 +1,4 @@
-/**
- * @enum {string}
- */
-export const Statuses = {
+export const Statuses = Object.freeze({
     CHECKINGSPACE: "checkingspace",
     CREATING: "creating",
     GENERATEDPASSWORD: "generatedpassword",
@@ -9,4 +6,6 @@ export const Statuses = {
     PREPARING: "preparing",
     SHARING: "sharing",
     UPLOADING: "uploading",
-};
+});
+
+/* Make sure, that for every string a corresponding status_... string is defined in _locales */

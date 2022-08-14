@@ -25,17 +25,15 @@ export class CloudAPI {
         };
 
         function makeNumber(x) {
-            const y = parseInt(x);
-            return isFinite(y) ? y : null;
+            return isFinite(x) ? parseInt(x) : null;
         }
     }
 
     /**
-     * 
      * @param {CloudAccount} account The account to query
      * @returns {Promise<{capabilities:*?,version:*?}?>} The Capabilities object returned by the cloud or null on error
      */
-    static async getCapabilities(account) {
+    static async getCapabilitiesAndVersion(account) {
         const data = await CloudAPI.doApiCall(account, apiUrlCapabilities);
         if (!data) {
             return null;
@@ -47,7 +45,7 @@ export class CloudAPI {
     }
 
     /**
-     * 
+     * Get the UserID corresponding to the account, might differ from the username
      * @param {CloudAccount} account The account to query
      * @returns {Promise<string?>} The user id or null on error
      */
@@ -60,9 +58,9 @@ export class CloudAPI {
     }
 
     /**
-     * 
+     * Get an app passwort for the current account, only on Nextcloud
      * @param {CloudAccount} account The account to query
-     * @returns {Promise<string?>} The AppPassword  or null on error
+     * @returns {Promise<string?>} The app password or null on error
      */
     static async getAppPassword(account) {
         const data = await CloudAPI.doApiCall(account, apiUrlGetApppassword);
@@ -70,11 +68,11 @@ export class CloudAPI {
     }
 
     /**
-     * Check if a password meets the server's criteria by calling it's web
+     * Check if a password meets the server's criteria by calling its web
      * service. Currently only Nextcloud offers this.
      * @param {CloudAccount} account The account to query
      * @param {string} downloadPassword The password to check
-     * @return {Promise<boolean?>}  True/false if the password meets/doesn't
+     * @returns {Promise<boolean?>}  True/false if the password meets/doesn't
      * meet the criteria or null on error
      */
     static async validateDownloadPassword(account, downloadPassword) {
@@ -97,7 +95,7 @@ export class CloudAPI {
     /**
      * Get a password from the cloud server that meets the rules configured there
      * @param {CloudAccount} account The account to query
-     * @return {Promise<string?>} A password or null on error
+     * @returns {Promise<string?>} A password or null on error
      */
     static async getGeneratedPassword(account) {
         if (account.password_generate_url) {
@@ -113,7 +111,7 @@ export class CloudAPI {
      * Gets a list of exiting shares for a file
      * @param {CloudAccount} account The account to query
      * @param {string} path The path of the file
-     * @return {Promise<array?>} The share object returned by the cloud or null on error
+     * @returns {Promise<array?>} The share object returned by the cloud or null on error
      */
     static async getSharesForFile(account, path) {
         const data = await CloudAPI.doApiCall(account, apiUrlShares + "?path=" + path);
@@ -155,7 +153,7 @@ export class CloudAPI {
      * @param {string} [method='GET'] HTTP method of the function, default GET
      * @param {Object<string,string>} [additional_headers] Additional Headers this function needs
      * @param {string} [body] Request body if the function needs it
-     * @returns {*?} A Promise that resolves to the data element of the response or null on error
+     * @returns {Promise<*?>} A Promise that resolves to the data element of the response or null on error
      */
     static async doApiCall(account, func_url, method = 'GET', additional_headers = {}, body = "") {
         const headers = additional_headers;

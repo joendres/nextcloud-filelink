@@ -3,6 +3,7 @@ import { CloudAPI } from "./cloudapi.js";
 const ncMinimalVersion = 23;
 const ocMinimalVersion = 10 * 10000 + 0 * 100 + 10;
 
+// Used to initialize a new account upon creation in TB
 const defaults = {
     storageFolder: "/Mail-attachments",
     expiryDays: 7,
@@ -44,7 +45,6 @@ export class CloudAccount {
         for (const key in accountInfo[id]) {
             this[key] = accountInfo[id][key];
         }
-        return this;
     }
 
     /**
@@ -91,7 +91,7 @@ export class CloudAccount {
      * Get useful information from the server and store it as properties
      */
     async updateCapabilities() {
-        const { capabilities, version, } = await CloudAPI.getCapabilities(this);
+        const { capabilities, version, } = await CloudAPI.getCapabilitiesAndVersion(this);
 
         if (capabilities) {
             // Is public sharing enabled?
@@ -135,7 +135,7 @@ export class CloudAccount {
                 if (capabilities.files_sharing.public.password.enforced_for &&
                     'boolean' === typeof capabilities.files_sharing.public.password.enforced_for.read_only) {
                     // ownCloud
-                    r = !!capabilities.files_sharing.public.password.enforced_for.read_only;
+                    r = capabilities.files_sharing.public.password.enforced_for.read_only;
                 } else {
                     //Nextcloud                        
                     r = !!capabilities.files_sharing.public.password.enforced;
@@ -150,9 +150,11 @@ export class CloudAccount {
          */
         function expiryMaxDays() {
             if (capabilities.files_sharing.public.expire_date &&
+                /** @todo might make sense to remember this separately */
                 capabilities.files_sharing.public.expire_date.enforced &&
                 isFinite(capabilities.files_sharing.public.expire_date.days) &&
                 capabilities.files_sharing.public.expire_date.days > 0) {
+
                 return parseInt(capabilities.files_sharing.public.expire_date.days);
             }
             return null;
@@ -262,7 +264,7 @@ export class CloudAccount {
 
     /**
      * Get the UserID from the cloud and store it in the objects's internals
-     * @returns {string?} The UserID or null on error
+     * @returns {Promise<string?>} The UserID or null on error
      */
     async updateUserId() {
         const userId = await CloudAPI.getUserId(this);
@@ -319,6 +321,7 @@ export class CloudAccount {
             const userId = await CloudAPI.getUserId(this);
             if (!userId) {
                 // No, doesn't work, restore the old password
+                /** @todo Does it make sense to check with lowercase username too? */
                 this.password = oldpassword;
             }
         }

@@ -22,7 +22,7 @@ class EventHandlers {
     static async onFileUpload(account, { id, name, data }) {
         const uploader = new CloudUploader(account.id);
         await uploader.load();
-        return uploader.uploadFile(EventHandlers._makeUploadId(account, id), name, data);
+        return uploader.uploadFile(EventHandlers.makeUploadId(account, id), name, data);
     }
 
     /**
@@ -31,7 +31,7 @@ class EventHandlers {
      * @param {number} fileId An identifier for this file
      */
     static onFileUploadAbort(account, fileId) {
-        const uploadId = EventHandlers._makeUploadId(account, fileId);
+        const uploadId = EventHandlers.makeUploadId(account, fileId);
         const abortController = allAbortControllers.get(uploadId);
         if (abortController) {
             abortController.abort();
@@ -45,7 +45,7 @@ class EventHandlers {
      * @param {number} fileId An identifier for this file
      */
     static onFileDeleted(account, fileId) {
-        Status.remove(EventHandlers._makeUploadId(account, fileId));
+        Status.remove(EventHandlers.makeUploadId(account, fileId));
     }
 
     /**
@@ -73,7 +73,7 @@ class EventHandlers {
      * @param {CloudFileAccount} account The CloudFileAccount as supplied by Thunderbird
      * @param {number} fileId The fileId supplied by Thunderbird
      */
-    static _makeUploadId(account, fileId) {
+    static makeUploadId(account, fileId) {
         return `${account.id}_${fileId}`;
     }
 }
