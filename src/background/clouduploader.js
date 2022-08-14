@@ -6,9 +6,6 @@ import { PasswordGenerator } from "./passwordgenerator.js";
 import { Status } from "./status.js";
 import { Utils } from "./utils.js";
 
-// @todo move to davuploader
-const davUrlBase = "remote.php/dav/files/";
-
 export class CloudUploader extends CloudAccount {
     /**
      * Upload a single file
@@ -25,7 +22,7 @@ export class CloudUploader extends CloudAccount {
         Status.set_status(uploadId, Statuses.PREPARING);
 
         const uploader = new DavUploader(
-            this.serverUrl, this.username, this.password, davUrlBase + this.userId, this.storageFolder,
+            this.serverUrl, this.username, this.password, this.userId, this.storageFolder,
             await this.updateFreeSpaceInfo());
 
         const response = await uploader.uploadFile(uploadId, fileName, fileObject);
@@ -61,7 +58,7 @@ export class CloudUploader extends CloudAccount {
      * parameters
      * @param {string} fileName The name of the file to share
      * @param {string} uploadId The id of the upload created in background.js
-     * @returns {string} The share link as returned by the OCS API
+     * @returns {Promise<string>} The share link as returned by the OCS API
      */
     async _getShareLink(fileName, uploadId) {
         const path_to_share = Utils.encodepath(this.storageFolder + "/" + fileName);

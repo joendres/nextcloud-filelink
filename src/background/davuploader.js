@@ -3,6 +3,8 @@ import { allAbortControllers } from "./eventhandlers.js";
 import { Status } from "./status.js";
 import { Utils } from "./utils.js";
 
+const davUrlBase = "remote.php/dav/files/";
+
 /**
  * This class encapsulates communication with a WebDAV service
  */
@@ -12,14 +14,14 @@ export class DavUploader {
      * @param {string} server_url The URL of the server
      * @param {string} user The username
      * @param {string} password the password
-     * @param {string} dav_url The url path to the webdav service
+     * @param {string} userid The userid, which might be different from the username
      * @param {string} folder The folder to store attachment
      * @param {number} freeSpace The amount of free space in bytes or -1
      */
-    constructor(server_url, user, password, dav_url, folder, freeSpace = -1) {
+    constructor(server_url, user, password, userid, folder, freeSpace = -1) {
         this._serverurl = server_url;
         this._storageFolder = folder;
-        this._davUrl = dav_url;
+        this._davUrl = davUrlBase + userid;
         this._freeSpace = freeSpace;
 
         const manifest = browser.runtime.getManifest();
