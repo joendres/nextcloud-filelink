@@ -82,7 +82,6 @@ export class CloudAccount {
         const { capabilities, version, } = await CloudAPI.getCapabilities(this);
 
         if (capabilities) {
-            // Don't test capabilities.files_sharing.api_enabled because the next line contains it all
             // Is public sharing enabled?
             this.public_shares_enabled = publicSharingEnabled();
             if (this.public_shares_enabled) {
@@ -99,42 +98,24 @@ export class CloudAccount {
 
 
             // Take version from capabilities
-            /** @todo Move this to headerhandler as the version is only needed there */
-            /** @todo check if version is available */
-            this.cloud_productname = "*cloud";
-            this.cloud_versionstring = version.string;
-            // Take name & type from capabilities
-            if (capabilities.theming && capabilities.theming.name) {
-                this.cloud_productname = capabilities.theming.name;
-                this.cloud_type = "Nextcloud";
-                this.cloud_supported = version.major >= ncMinimalVersion;
-            } else if (capabilities.core.status && capabilities.core.status.productname) {
-                this.cloud_productname = capabilities.core.status.productname;
-                this.cloud_type = "ownCloud";
-                this.cloud_supported = parseInt(version.major) * 10000 +
-                    parseInt(version.minor) * 100 +
-                    parseInt(version.micro) >= ocMinimalVersion;
-            } else if (version.major >= ncMinimalVersion) {
-                this.cloud_productname = "Nextcloud";
-                this.cloud_type = "Nextcloud";
-                this.cloud_supported = true;
-            } else {
-                this.cloud_type = "Unsupported";
-                this.cloud_supported = false;
-            }
+            this.cloud_versionstring = version && version.string ? version.string : "";
+            this.cloud_productname = cloudProductName();
+            this.cloud_type = guessCloudType();
+            this.cloud_supported = cloudSupported(this.cloud_type);
         }
 
         /**
-         * @returns {boolean} Is public file sharing enabled on the server?
+         * Check if public file sharing is enabled on the server
          */
         function publicSharingEnabled() {
             return !!capabilities.files_sharing &&
+                !!capabilities.files_sharing.api_enabled &&
                 !!capabilities.files_sharing.public &&
                 !!capabilities.files_sharing.public.enabled;
         }
 
         /**
-         * @returns {boolean} Does the server enforce a download password?
+         * Check if the server enforces a download password
          */
         function passwordEnforced() {
             let r = false;
@@ -200,17 +181,57 @@ export class CloudAccount {
             }
             return null;
         }
-    }
 
+        /**
+         * @returns {string} The name of the cloud instance as configured there
+         */
+        function cloudProductName() {
+            if (capabilities.theming && capabilities.theming.name) {
+                return capabilities.theming.name;
+            } else if (capabilities.core.status && capabilities.core.status.productname) {
+                return capabilities.core.status.productname;
+            }
+            return "*cloud";
+        }
+
+        /**
+         * Try to find out if the server runs Nextcloud or ownCloud or something else
+         */
+        function guessCloudType() {
+            if (capabilities.core.status) {
+                return "ownCloud";
+            } else if (capabilities.theming || version.major >= ncMinimalVersion) {
+                return "Nextcloud";
+            }
+            return "Unsupported";
+        }
+
+        /**
+         * Check if the type and version of the cloud are supported
+         * @param {string} cloud_type The cloud type as guessed before
+         */
+        function cloudSupported(cloud_type) {
+            switch (cloud_type) {
+                case "Nextcloud":
+                    return version.major >= ncMinimalVersion;
+                case "ownCloud":
+                    return parseInt(version.major) * 10000 +
+                        parseInt(version.minor) * 100 +
+                        parseInt(version.micro) >= ocMinimalVersion;
+                default:
+                    return false;
+            }
+        }
+    }
 
     /**
      * Sets the "configured" property of Thunderbird's cloudFileAccount
      * to true if it is usable
      */
-    async updateConfigured() {
+    updateConfigured() {
         // jshint maxcomplexity:16
         // The function only seems complex due to the many conditions
-        browser.cloudFile.updateAccount(this._accountId, {
+        return browser.cloudFile.updateAccount(this._accountId, {
             configured:
                 this.public_shares_enabled !== false &&
                 !!this.serverUrl &&
