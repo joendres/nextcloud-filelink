@@ -109,10 +109,6 @@
     "description": "This is displayed as a popup over the configuration page",
     "message": "La clau conté caràcters que poden donar problemes a l'accedir. Fes servir una clau d'aplicació en el seu lloc."
   },
-  "obsolete_version": {
-    "description": "This is displayed over the icon if the cloud version is not supported, so it should be quite short and contain at most two lines.",
-    "message": "Versió\nobsoleta"
-  },
   "error_401": {
     "description": "This is displayed as a popup over the configuration page",
     "message": "L'inici de sessió ha fallat. Comprova l'usuari i la clau."
