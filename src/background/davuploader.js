@@ -19,33 +19,35 @@ export class DavUploader {
      * @param {number} freeSpace The amount of free space in bytes or -1
      */
     constructor(server_url, user, password, userid, folder, freeSpace = -1) {
-        this._serverurl = server_url;
-        this._storageFolder = folder;
-        this._davUrl = davUrlBase + userid;
-        this._freeSpace = freeSpace;
+        /** @type {string} */
+        this.serverurl = server_url;
+        /** @type {string} */
+        this.storageFolder = folder;
+        /** @type {string} */
+        this.davUrl = davUrlBase + userid;
+        /** @type {number} */
+        this.freeSpace = freeSpace;
 
-        const manifest = browser.runtime.getManifest();
-        this._davHeaders = {
+        this.davHeaders = {
             "Authorization": "Basic " + btoa(user + ':' + password),
-            "User-Agent": "Filelink for *cloud/" + manifest.version,
+            "User-Agent": "Filelink for *cloud/" + browser.runtime.getManifest().version,
             "Content-Type": "application/octet-stream",
         };
     }
 
     /**
      * Upload one file to the storage folder
-     *
-     * @param {string} uploadId The id of the upload created in background.js
+     * @param {string} uploadId The id of the upload 
      * @param {string} fileName w/o path
      * @param {File} fileObject the local file as a File object
      * @returns {Promise<Response>}
      */
     async uploadFile(uploadId, fileName, fileObject) {
-        const stat = await this._getRemoteFileInfo(fileName);
+        const stat = await this.getRemoteFileInfo(fileName);
 
         if (!stat) {
             // There is no conflicting file in the cloud
-            return this._doUpload(uploadId, fileName, fileObject);
+            return this.doUpload(uploadId, fileName, fileObject);
         } else {
             // There is a file of the same name
             // The mtime is in milliseconds, but on the cloud it's only accurate to seconds
@@ -55,8 +57,8 @@ export class DavUploader {
                 return { ok: true, };
             } else {
                 // It's different, move it out of the way
-                await this._moveFileToDir(uploadId, fileName, "old_shares/" + Math.floor(stat.mtime / 1000));
-                return this._doUpload(uploadId, fileName, fileObject);
+                await this.moveFileToDir(uploadId, fileName, "old_shares/" + Math.floor(stat.mtime / 1000));
+                return this.doUpload(uploadId, fileName, fileObject);
             }
         }
     }
@@ -83,7 +85,7 @@ export class DavUploader {
         let retry_count = 0;
         while (retry_count < 5) {
 
-            const response = await this._doDavCall(folder, 'MKCOL');
+            const response = await this.doDavCall(folder, 'MKCOL');
             if (!response.status) {
                 return false;
             }
@@ -111,8 +113,8 @@ export class DavUploader {
      * @returns {Promise<?{mtime: Date, size: number}>} A promise resolving to an object containing mtime and
      * size or null if the file doesn't exit
      */
-    async _getRemoteFileInfo(fileName) {
-        const response = await this._doDavCall(this._storageFolder + '/' + fileName, "PROPFIND");
+    async getRemoteFileInfo(fileName) {
+        const response = await this.doDavCall(this.storageFolder + '/' + fileName, "PROPFIND");
         // something with the right name exists ...
         if (response.ok && response.status < 300) {
             try {
@@ -138,14 +140,14 @@ export class DavUploader {
      * @returns {Promise<Response>} A promise that resolves to the Response object of the DAV request
      * @throws If any problem occurs
      */
-    async _moveFileToDir(uploadId, fileName, newPath) {
+    async moveFileToDir(uploadId, fileName, newPath) {
         Status.set_status(uploadId, Statuses.MOVING);
         const dest_header = {
             "Destination":
-                this._davUrl + Utils.encodepath(this._storageFolder + "/" + newPath + "/" + fileName),
+                this.davUrl + Utils.encodepath(this.storageFolder + "/" + newPath + "/" + fileName),
         };
-        if (await this.recursivelyCreateFolder(this._storageFolder + "/" + newPath)) {
-            const retval = await this._doDavCall(this._storageFolder + "/" + fileName, "MOVE", null, dest_header);
+        if (await this.recursivelyCreateFolder(this.storageFolder + "/" + newPath)) {
+            const retval = await this.doDavCall(this.storageFolder + "/" + fileName, "MOVE", null, dest_header);
             if (retval.ok && (retval.status === 201 || retval.status === 204)) {
                 return retval;
             }
@@ -160,7 +162,7 @@ export class DavUploader {
      * @param {number} newMtime The mtime to set ont the file as a unix
      * timestamp (seconds)
      */
-    _setMtime(fileName, newMtime) {
+    setMtime(fileName, newMtime) {
         const body =
             `<d:propertyupdate xmlns:d="DAV:">
                 <d:set>
@@ -170,7 +172,7 @@ export class DavUploader {
                 </d:set>
             </d:propertyupdate>`;
 
-        this._doDavCall(this._storageFolder + '/' + fileName, "PROPPATCH", body);
+        this.doDavCall(this.storageFolder + '/' + fileName, "PROPPATCH", body);
         // Ignore errors, because that might only trigger re-upload
     }
 
@@ -181,10 +183,10 @@ export class DavUploader {
      * @param {File} fileObject The File object to upload
      * @returns {Promise<Response>} A Promise that resolves to the http response
      */
-    async _doUpload(uploadId, fileName, fileObject) {
+    async doUpload(uploadId, fileName, fileObject) {
         // Check it there is enough free space
         Status.set_status(uploadId, Statuses.CHECKINGSPACE);
-        if (this._freeSpace !== -1 && this._freeSpace < fileObject.size) {
+        if (this.freeSpace !== -1 && this.freeSpace < fileObject.size) {
             Status.fail(uploadId);
             return { ok: false, };
         }
@@ -193,24 +195,23 @@ export class DavUploader {
         // existence of folder, so the extra webservice call for checking first
         // isn't necessary.
         Status.set_status(uploadId, Statuses.CREATING);
-        if (!(await this.recursivelyCreateFolder(this._storageFolder))) {
+        if (!(await this.recursivelyCreateFolder(this.storageFolder))) {
             Status.fail(uploadId);
             throw new Error("Upload failed: Can't create folder");
         }
 
         let response;
         try {
-            response = await this.xhrUpload(uploadId, this._storageFolder + '/' + fileName, fileObject);
-            this._setMtime(fileName, Math.floor(fileObject.lastModified / 1000));
+            response = await this.xhrUpload(uploadId, this.storageFolder + '/' + fileName, fileObject);
+            this.setMtime(fileName, Math.floor(fileObject.lastModified / 1000));
             // Handle errors that don't throw an exception
             if (response.status < 300) {
                 response.ok = true;
             }
         } catch (error) {
             if (error.type === 'abort') {
-                response = { aborted: true, url: "", };
-            }
-            else {
+                response = { aborted: true, };
+            } else {
                 Status.fail(uploadId);
                 console.error(error); // jshint ignore: line
                 if (!response) {
@@ -221,25 +222,31 @@ export class DavUploader {
         }
         allAbortControllers.delete(uploadId);
         return response;
-    }    //#endregion
+    }
+    // #endregion
 
     /**
      * Calls one function of the WebDAV service
      *
      * @param {string} path the full file path of the object
      * @param {string} method the HTTP METHOD to use, default GET
-     * @param {array} [body] Body of the request, eg. file contents
-     * @param {*} [additional_headers] Additional headers to include in the request
+     * @param {string} [body] Body of the request, eg. file contents
+     * @param {{string,string}} [additional_headers] Additional headers to include in the request
      * @returns {Promise<Response>}  A Promise that resolves to the Response object
      */
-    _doDavCall(path, method, body, additional_headers) {
-        let url = this._serverurl;
-        url += this._davUrl;
+    async doDavCall(path, method, body, additional_headers = {}) {
+        let url = this.serverurl;
+        url += this.davUrl;
         url += Utils.encodepath(path);
+
+        const headers = this.davHeaders;
+        for (const name in additional_headers) {
+            headers[name] = additional_headers[name];
+        }
 
         let fetchInfo = {
             method,
-            headers: additional_headers ? { ...this._davHeaders, ...additional_headers, } : this._davHeaders,
+            headers,
             credentials: "omit",
         };
 
@@ -247,11 +254,12 @@ export class DavUploader {
             fetchInfo.body = body;
         }
 
-        return fetch(url, fetchInfo).
-            catch(error => {
-                console.error(error); // jshint ignore: line
-                return { ok: false, };
-            });
+        try {
+            return await fetch(url, fetchInfo);
+        } catch (error) {
+            console.error(error); // jshint ignore: line
+            return { ok: false, };
+        }
     }
 
     /**
@@ -262,8 +270,8 @@ export class DavUploader {
      * @returns {Promise} A promise that resolves to the XHR or rejects with the entire event
      */
     async xhrUpload(uploadId, path, data) {
-        let url = this._serverurl;
-        url += this._davUrl;
+        let url = this.serverurl;
+        url += this.davUrl;
         url += Utils.encodepath(path);
 
         // Remove session password as it interferes with credentials 
@@ -290,8 +298,8 @@ export class DavUploader {
             });
 
             uploadRequest.open("PUT", url);
-            for (const key in this._davHeaders) {
-                uploadRequest.setRequestHeader(key, this._davHeaders[key]);
+            for (const key in this.davHeaders) {
+                uploadRequest.setRequestHeader(key, this.davHeaders[key]);
             }
 
             allAbortControllers.set(uploadId, uploadRequest);
