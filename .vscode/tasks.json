@@ -4,7 +4,9 @@
         {
             "label": "Run with web-ext",
             "type": "shell",
-            "command":[ "web-ext run"],
+            "command": [
+                "${workspaceFolder}/node_modules/.bin/web-ext run"
+            ],
             "presentation": {
                 "echo": false,
                 "reveal": "always",

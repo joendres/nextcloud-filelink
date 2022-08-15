@@ -56,7 +56,8 @@
     ],
     "sourceDir": "src",
     "run": {
-      "browserConsole": true
+      "browserConsole": true,
+      "profileCreateIfMissing": true
     },
     "build": {
       "overwriteDest": true
