@@ -13,6 +13,7 @@ export class PasswordGenerator {
      * them all) or has the requested length, whatever is longer
      */
     static generate(length = 12) {
+        length = length < 0 || length > Number.MAX_SAFE_INTEGER ? 0 : length;
         const char_classes = [
             "abcdefghijklmnopqrstuvwxyz",
             "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
