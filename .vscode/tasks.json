@@ -5,7 +5,7 @@
             "label": "Run with web-ext",
             "type": "shell",
             "command": [
-                "${workspaceFolder}/node_modules/.bin/web-ext run"
+                "${workspaceFolder}/node_modules/.bin/web-ext run -s ${workspaceFolder}/src"
             ],
             "presentation": {
                 "echo": false,
@@ -18,6 +18,21 @@
                 "kind": "build",
                 "isDefault": true
             }
+        },
+        {
+            "label": "Run unit tests in Thunderbird",
+            "type": "shell",
+            "command": [
+                "${workspaceFolder}/node_modules/.bin/web-ext run -s ${workspaceFolder}"
+            ],
+            "presentation": {
+                "echo": false,
+                "reveal": "always",
+                "focus": false,
+                "panel": "new",
+                "close": true
+            }
         }
-    ]
+    }
+]
 }
