@@ -8,7 +8,7 @@ export class Utils {
     static encodepath(path) {
         return path.
             split("/").
-            map(c => encodeURIComponent(c).replace(/[~*']/g, m => "%" + m.charCodeAt(0).toString(16))).
+            map(c => encodeURIComponent(c).replace(/[!()~*']/g, m => "%" + m.charCodeAt(0).toString(16))).
             join("/");
     }
 
