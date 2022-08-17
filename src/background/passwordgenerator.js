@@ -12,7 +12,7 @@ export class PasswordGenerator {
      * constraints. The string is as long as the number of constraints (to meet
      * them all) or has the requested length, whatever is longer
      */
-    static generate(length) {
+    static generate(length = 12) {
         const char_classes = [
             "abcdefghijklmnopqrstuvwxyz",
             "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
