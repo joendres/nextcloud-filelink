@@ -12,7 +12,7 @@ before_script:
 lint:
   stage: test
   script:
-    - npx web-ext lint
+    - npx web-ext lint -s src
     - npx jshint src
     - '! grep -r @todo src'
 
@@ -20,7 +20,7 @@ sign:
   stage: deploy
   script:
     # web-ext sign always fails (as documented), so manipulate the return code
-    - 'npx web-ext sign --channel=listed --api-url-prefix=https://addons.thunderbird.net/api/v3 || true'
+    - 'npx web-ext sign -s src --channel=listed --api-url-prefix=https://addons.thunderbird.net/api/v3 || true'
   environment:
     name: production
     url: https://addons.thunderbird.net/de/thunderbird/addon/filelink-nextcloud-owncloud/
