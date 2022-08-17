@@ -1,0 +1,15 @@
+{
+    "description": "This is not the manifest.json for the actual Add-on, it's only for unit testing in Thunderbird",
+    "name": "Run tests on *cloud",
+    "manifest_version": 2,
+    "version": "0.0.1",
+    "browser_action": {},
+    "permissions": [
+        "tabs"
+    ],
+    "background":{
+        "scripts":[
+            "./test/browser_action_handler.js"
+        ]
+    }
+}

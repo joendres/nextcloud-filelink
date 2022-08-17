@@ -1,47 +1,25 @@
 {
   "name": "filelink-nextcloud",
-  "version": "3.14.0",
   "description": "*cloud - FileLink for Nextcloud and ownCloud",
+  "private": true,
+  "scripts": {
+    "test": "npx web-ext run -s src",
+    "mocha": "npx web-ext run"
+  },
   "dependencies": {
     "punycode": "^2.1.1"
   },
-  "scripts": {
-    "test": "npx web-ext run"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://gitlab.com/joendres/filelink-nextcloud.git"
-  },
-  "keywords": [
-    "thunderbird",
-    "filelink",
-    "cloudfile",
-    "owncloud",
-    "nextcloud"
-  ],
-  "author": {
-    "name": "Johannes Endres",
-    "email": "je@johannes-endres.de",
-    "url": "https: //gitlab.com/joendres"
-  },
-  "license": "MIT",
-  "bugs": {
-    "url": "https://gitlab.com/joendres/filelink-nextcloud/issues",
-    "email": "cloud@johannes-endres.de"
-  },
-  "homepage": "https://joendres.gitlab.io/filelink-nextcloud/",
   "devDependencies": {
     "@types/firefox-webext-browser": "^70",
+    "chai": "^4.3.6",
     "eslint": "^8.21.0",
     "glob": "^8.0.3",
     "jshint": "^2.13.5",
+    "mocha": "^10.0.0",
+    "sinon": "^14.0.0",
     "thunderbird-web-ext-types": "^1.0.0",
     "web-ext": "latest"
   },
-  "private": true,
-  "files": [
-    "./src"
-  ],
   "webExt": {
     "ignoreFiles": [
       "punycode/package.json",
@@ -54,7 +32,6 @@
       "photon-components-web/images/open-in-new-16-*.svg",
       "photon-components-web/images/searchfield-cancel-*.svg"
     ],
-    "sourceDir": "src",
     "run": {
       "browserConsole": true,
       "profileCreateIfMissing": true
@@ -62,31 +39,5 @@
     "build": {
       "overwriteDest": true
     }
-  },
-  "jshintConfig": {
-    "bitwise": true,
-    "curly": true,
-    "eqeqeq": true,
-    "esversion": 9,
-    "futurehostile": true,
-    "latedef": "nofunc",
-    "leanswitch": true,
-    "maxcomplexity": 10,
-    "maxdepth": 3,
-    "nocomma": true,
-    "nonew": true,
-    "predef": [
-      "browser"
-    ],
-    "shadow": "outer",
-    "singleGroups": false,
-    "strict": "implied",
-    "trailingcomma": true,
-    "undef": true,
-    "unused": true,
-    "varstmt": true,
-    "moz": true,
-    "browser": true,
-    "module": true
   }
 }
