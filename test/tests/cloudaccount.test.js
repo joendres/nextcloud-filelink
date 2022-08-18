@@ -59,25 +59,25 @@ describe("CloudAccount.convertToApppassword", () => {
         await cloudaccount.convertToApppassword();
         expect(cloudaccount.password).to.equal("app-password");
     });
-    it("does not change the password if the web service does not return one", () => {
+    it("does not change the password if the web service does not return one", async () => {
         sinon.stub(CloudAPI, "getAppPassword").resolves(null);
 
         const cloudaccount = new CloudAccount("account2");
         cloudaccount.password = "password";
 
-        cloudaccount.convertToApppassword().
-            then(expect(cloudaccount.password).to.equal("password"));
+        await cloudaccount.convertToApppassword();
+        expect(cloudaccount.password).to.equal("password");
 
     });
-    it("does not change the password if the app password does not work", () => {
+    it("does not change the password if the app password does not work", async () => {
         sinon.stub(CloudAPI, "getAppPassword").resolves("app-password");
         sinon.stub(CloudAPI, "getUserId").resolves(null);
 
         const cloudaccount = new CloudAccount("account3");
         cloudaccount.password = "password";
 
-        cloudaccount.convertToApppassword().
-            then(expect(cloudaccount.password).to.equal("password"));
+        await cloudaccount.convertToApppassword();
+        expect(cloudaccount.password).to.equal("password");
     });
 });
 
