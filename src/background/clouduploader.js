@@ -2,9 +2,9 @@ import { DavUploader } from "../background/davuploader.js";
 import { CloudAccount } from "../common/cloudaccount.js";
 import { CloudAPI } from "../common/cloudapi.js";
 import { Statuses } from "../common/statuses.js";
+import { Utils } from "../common/utils.js";
 import { PasswordGenerator } from "./passwordgenerator.js";
 import { Status } from "./status.js";
-import { Utils } from "../common/utils.js";
 
 export class CloudUploader extends CloudAccount {
     /**
