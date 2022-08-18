@@ -1,7 +1,7 @@
 import { Statuses } from "../common/statuses.js";
 import { allAbortControllers } from "./eventhandlers.js";
 import { Status } from "./status.js";
-import { Utils } from "./utils.js";
+import { Utils } from "../common/utils.js";
 
 const davUrlBase = "remote.php/dav/files/";
 

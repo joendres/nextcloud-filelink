@@ -1,4 +1,4 @@
-import { Utils } from "../background/utils.js";
+import { Utils } from "../common/utils.js";
 import { CloudAPI } from "./cloudapi.js";
 
 const ncMinimalVersion = 23;

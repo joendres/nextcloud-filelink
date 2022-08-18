@@ -4,7 +4,7 @@ import { CloudAPI } from "../common/cloudapi.js";
 import { Statuses } from "../common/statuses.js";
 import { PasswordGenerator } from "./passwordgenerator.js";
 import { Status } from "./status.js";
-import { Utils } from "./utils.js";
+import { Utils } from "../common/utils.js";
 
 export class CloudUploader extends CloudAccount {
     /**
