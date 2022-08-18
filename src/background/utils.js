@@ -8,7 +8,16 @@ export class Utils {
     static encodepath(path) {
         return path.
             split("/").
-            map(c => encodeURIComponent(c).replace(/[!()~*']/g, m => "%" + m.charCodeAt(0).toString(16))).
+            map(c => Utils.encodeRFC3986(c)).
             join("/");
+    }
+
+    /**
+     * URLEncode a string according to RFC 3986 (some more characters encoded
+     * than with encodeURIComponent)
+     * @param {string} str The string to encode
+     */
+    static encodeRFC3986(str) {
+        return encodeURIComponent(str).replace(/[!'()*]/g, m => "%" + m.charCodeAt(0).toString(16));
     }
 }
