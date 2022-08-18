@@ -76,6 +76,7 @@ export class CloudAccount {
 
         this.free = free;
         this.total = total;
+        /** @todo does this make sense? */
         this.store();
         return free;
 
