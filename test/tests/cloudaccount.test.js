@@ -74,7 +74,48 @@ describe("CloudAccount", () => {
     });
 
     describe("updateFreeSpaceInfo", () => {
-        /** @todo */
+        afterEach(() => {
+            sinon.restore();
+        });
+
+        const test_data = {
+            "not quota": { input: {}, output: [-1, -1,] },
+            "too much free space": { input: { free: Number.MAX_SAFE_INTEGER + 1, }, output: [-1, -1,] },
+            "negative free space": { input: { free: -42, }, output: [-1, -1,] },
+            "no total and no used": { input: { free: 42, }, output: [-1, -1,] },
+            "less total than free space": { input: { free: 42, total: 7, }, output: [-1, -1,] },
+            "negative total space": { input: { free: 42, total: -7, }, output: [-1, -1,] },
+            "too much total space": { input: { free: 42, total: Number.MAX_SAFE_INTEGER + 1, }, output: [-1, -1,] },
+            "sensible data": { input: { free: 42, total: 43, }, output: [42, 43,] },
+            "no total but used": { input: { free: 42, used: 1, }, output: [42, 43,] },
+            "negative total but used": { input: { free: 42, total: -1, used: 1, }, output: [42, 43,] },
+            "too much total but used": { input: { free: 42, total: Number.MAX_SAFE_INTEGER + 1, used: 1, }, output: [42, 43,] },
+        };
+
+        function test_return(data) {
+            return async () => {
+                sinon.stub(CloudAPI, "getQuota").resolves(data.input);
+                const cloudaccount = new CloudAccount("getQuota");
+
+                expect(await cloudaccount.updateFreeSpaceInfo()).to.equal(data.output[0]);
+            };
+        }
+
+        function test_copy(data) {
+            return async () => {
+                sinon.stub(CloudAPI, "getQuota").resolves(data.input);
+                const cloudaccount = new CloudAccount("getQuota");
+                await cloudaccount.updateFreeSpaceInfo();
+
+                expect(cloudaccount.free).to.equal(data.output[0]);
+                expect(cloudaccount.total).to.equal(data.output[1]);
+            };
+        }
+
+        for (const key in test_data) {
+            it("returns " + test_data[key].output[0] + " if the web service returns " + key, test_return(test_data[key]));
+            it("copies data to free and total if the web service returns " + key, test_copy(test_data[key]));
+        }
     });
 
     describe("updateCapabilities", () => {
