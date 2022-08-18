@@ -3,7 +3,7 @@ import { CloudAPI } from "../../src/common/cloudapi.js";
 
 describe("CloudAccount", () => {
 
-    describe("CloudAccount constructor", () => {
+    describe("constructor", () => {
         it("copies the parameters into properties", () => {
             const cloudaccount = new CloudAccount("teststring");
             expect(cloudaccount).to.have.property('_accountId', 'teststring');
