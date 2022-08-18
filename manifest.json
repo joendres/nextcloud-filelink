@@ -5,10 +5,11 @@
     "version": "0.0.1",
     "browser_action": {},
     "permissions": [
-        "tabs"
+        "tabs",
+        "storage"
     ],
-    "background":{
-        "scripts":[
+    "background": {
+        "scripts": [
             "./test/browser_action_handler.js"
         ]
     }
