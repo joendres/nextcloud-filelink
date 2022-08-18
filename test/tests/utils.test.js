@@ -15,7 +15,3 @@ describe("Utils.encodepath", () => {
         expect(Utils.encodepath("!()~*'")).to.equal("%21%28%29%7e%2a%27");
     });
 });
-
-describe("Utils.promisedTimeout", () => {
-    /** @todo */
-});

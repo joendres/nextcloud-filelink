@@ -97,7 +97,7 @@ export class DavUploader {
                 case 423: // Locked
                     // Maybe a parallel upload is currently creating the folder, so wait a little and try again
                     // This timeout is longer in reality because it adds to the waiting time in the queue
-                    await Utils.promisedTimeout(400 + Math.floor(Math.random() * 200));
+                    await promisedTimeout(400 + Math.floor(Math.random() * 200));
                     retry_count++;
                     break;
                 default:
@@ -105,6 +105,16 @@ export class DavUploader {
             }
         }
         return false;
+
+        /**
+         * Create a Promise that resolves after a given timeout
+         * @param {number} ms The timeout in milliseconds
+         */
+        function promisedTimeout(ms) {
+            return new Promise(resolve => {
+                setTimeout(resolve, ms);
+            });
+        }
     }
 
     /**
