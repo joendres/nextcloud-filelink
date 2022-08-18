@@ -1,3 +1,4 @@
+import { Utils } from "../background/utils.js";
 import { CloudAPI } from "./cloudapi.js";
 
 const ncMinimalVersion = 23;
@@ -267,7 +268,7 @@ export class CloudAccount {
      * @returns {Promise<string?>} The UserID or null on error
      */
     async updateUserId() {
-        const userId = await CloudAPI.getUserId(this);
+        let userId = await CloudAPI.getUserId(this);
         if (userId) {
             // Nextcloud and ownCloud use this RE to check usernames created manually
             if (userId.match(/^[-a-zA-Z0-9 _.@']+$/)) {
@@ -278,9 +279,10 @@ export class CloudAccount {
                 via SAML. One reals world example: Guest users in an ADFS tenant
                 have #EXT# in their userid. Those IDs seem to work over the API
                 but (at least) break the web interface. */
-                this.userId = encodeURIComponent(userId);
+                this.userId = userId = Utils.encodeRFC3986(userId);
             }
         }
+        /** @todo What's this.userId if there is no new one? */
         return userId;
     }
 
