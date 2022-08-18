@@ -3,8 +3,8 @@
   "description": "*cloud - FileLink for Nextcloud and ownCloud",
   "private": true,
   "scripts": {
-    "test": "npx web-ext run -s src",
-    "mocha": "npx web-ext run"
+    "start": "npx web-ext run -s src",
+    "test": "npx web-ext run"
   },
   "dependencies": {
     "punycode": "^2.1.1"
