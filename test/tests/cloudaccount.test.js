@@ -120,7 +120,7 @@ describe("CloudAccount", () => {
     });
 
     describe("updateCapabilities", () => {
-        /** @todo */
+        /** @todo Add tests */
     });
 
     describe("updateConfigured", () => {
@@ -399,7 +399,31 @@ describe("CloudAccount", () => {
     });
 
     describe("updateFromCloud", () => {
-        /** @todo */
+        afterEach(sinon.restore);
+
+        it("calls updateFreeSpaceInfo and updateCapabilities if there is a valid userId", async () => {
+            const cloudaccount = new CloudAccount("updateFromCloud");
+            sinon.stub(cloudaccount, "updateCapabilities").resolves();
+            sinon.stub(cloudaccount, "updateFreeSpaceInfo").resolves();
+            sinon.stub(cloudaccount, "updateUserId").resolves("userid");
+
+            await cloudaccount.updateFromCloud();
+
+            expect(cloudaccount.updateCapabilities.called).to.be.true;
+            expect(cloudaccount.updateFreeSpaceInfo.called).to.be.true;
+        });
+        it("does not call updateFreeSpaceInfo and updateCapabilities if there is no valid userId", async () => {
+            const cloudaccount = new CloudAccount("updateFromCloud");
+            sinon.stub(cloudaccount, "updateCapabilities").resolves();
+            sinon.stub(cloudaccount, "updateFreeSpaceInfo").resolves();
+            sinon.stub(cloudaccount, "updateUserId").resolves(null);
+
+            await cloudaccount.updateFromCloud();
+
+            expect(cloudaccount.updateCapabilities.called).to.be.false;
+            expect(cloudaccount.updateFreeSpaceInfo.called).to.be.false;
+        });
+        /** @todo add more tests */
     });
 
     describe("convertToApppassword", () => {

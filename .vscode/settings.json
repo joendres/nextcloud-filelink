@@ -24,5 +24,8 @@
     "cSpell.allowCompoundWords": true,
     "git.fetchOnPull": true,
     "git.untrackedChanges": "separate",
-    "gitlab.showPipelineUpdateNotifications": false
+    "todo-tree.filtering.excludeGlobs": [
+        "**/node_modules",
+        "**/photon-components-web/index.css"
+    ]
 }
