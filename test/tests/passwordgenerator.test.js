@@ -1,4 +1,5 @@
 import { PasswordGenerator } from "../../src/background/passwordgenerator.js";
+const expect = chai.expect;
 
 describe("PasswordGenerator", () => {
     describe("generate", () => {

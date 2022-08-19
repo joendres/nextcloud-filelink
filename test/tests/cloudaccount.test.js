@@ -1,6 +1,8 @@
 import { CloudAccount } from "../../src/common/cloudaccount.js";
 import { CloudAPI } from "../../src/common/cloudapi.js";
 
+const expect = chai.expect;
+
 describe("CloudAccount", () => {
 
     describe("constructor", () => {
@@ -342,7 +344,6 @@ describe("CloudAccount", () => {
     describe("updateUserId", () => {
         afterEach(sinon.restore);
 
-        /** @todo this is the current behavior, but it might be wrong. We might rather return boolean */
         it("returns false if CloudAPI.getUserId returns null", async () => {
             sinon.stub(CloudAPI, "getUserId").resolves(null);
 
@@ -405,7 +406,7 @@ describe("CloudAccount", () => {
             const cloudaccount = new CloudAccount("updateFromCloud");
             sinon.stub(cloudaccount, "updateCapabilities").resolves();
             sinon.stub(cloudaccount, "updateFreeSpaceInfo").resolves();
-            sinon.stub(cloudaccount, "updateUserId").resolves("userid");
+            sinon.stub(cloudaccount, "updateUserId").resolves(true);
 
             await cloudaccount.updateFromCloud();
 
@@ -416,83 +417,95 @@ describe("CloudAccount", () => {
             const cloudaccount = new CloudAccount("updateFromCloud");
             sinon.stub(cloudaccount, "updateCapabilities").resolves();
             sinon.stub(cloudaccount, "updateFreeSpaceInfo").resolves();
-            sinon.stub(cloudaccount, "updateUserId").resolves(null);
+            sinon.stub(cloudaccount, "updateUserId").resolves(false);
 
             await cloudaccount.updateFromCloud();
 
             expect(cloudaccount.updateCapabilities.called).to.be.false;
             expect(cloudaccount.updateFreeSpaceInfo.called).to.be.false;
         });
-        /** @todo add more tests */
+        it("does not change the username if no userid can be retrieved", async () => {
+            const username = "username";
+            const cloudaccount = new CloudAccount("updateFromCloud");
+            cloudaccount.username = username;
+            sinon.stub(cloudaccount, "updateCapabilities").resolves();
+            sinon.stub(cloudaccount, "updateFreeSpaceInfo").resolves();
+            sinon.stub(cloudaccount, "updateUserId").resolves(false);
+
+            await cloudaccount.updateFromCloud();
+
+            expect(cloudaccount.username).to.equal(username);
+    });
+    /** @todo add more tests */
+});
+
+describe("convertToApppassword", () => {
+    afterEach(() => {
+        sinon.restore();
     });
 
-    describe("convertToApppassword", () => {
-        afterEach(() => {
-            sinon.restore();
-        });
+    it("sets the account's password to the app password returned by the web service", async () => {
+        sinon.stub(CloudAPI, "getAppPassword").resolves("app-password");
+        sinon.stub(CloudAPI, "getUserId").resolves("id");
 
-        it("sets the account's password to the app password returned by the web service", async () => {
-            sinon.stub(CloudAPI, "getAppPassword").resolves("app-password");
-            sinon.stub(CloudAPI, "getUserId").resolves("id");
+        const cloudaccount = new CloudAccount("convertToApppassword1");
+        cloudaccount.password = "password";
 
-            const cloudaccount = new CloudAccount("convertToApppassword1");
-            cloudaccount.password = "password";
+        await cloudaccount.convertToApppassword();
+        expect(cloudaccount.password).to.equal("app-password");
+    });
+    it("does not change the password if the web service does not return one", async () => {
+        sinon.stub(CloudAPI, "getAppPassword").resolves(null);
 
-            await cloudaccount.convertToApppassword();
-            expect(cloudaccount.password).to.equal("app-password");
-        });
-        it("does not change the password if the web service does not return one", async () => {
-            sinon.stub(CloudAPI, "getAppPassword").resolves(null);
+        const cloudaccount = new CloudAccount("convertToApppassword2");
+        cloudaccount.password = "password";
 
-            const cloudaccount = new CloudAccount("convertToApppassword2");
-            cloudaccount.password = "password";
+        await cloudaccount.convertToApppassword();
+        expect(cloudaccount.password).to.equal("password");
 
-            await cloudaccount.convertToApppassword();
-            expect(cloudaccount.password).to.equal("password");
+    });
+    it("does not change the password if the app password does not work", async () => {
+        sinon.stub(CloudAPI, "getAppPassword").resolves("app-password");
+        sinon.stub(CloudAPI, "getUserId").resolves(null);
 
-        });
-        it("does not change the password if the app password does not work", async () => {
-            sinon.stub(CloudAPI, "getAppPassword").resolves("app-password");
-            sinon.stub(CloudAPI, "getUserId").resolves(null);
+        const cloudaccount = new CloudAccount("convertToApppassword3");
+        cloudaccount.password = "password";
 
-            const cloudaccount = new CloudAccount("convertToApppassword3");
-            cloudaccount.password = "password";
+        await cloudaccount.convertToApppassword();
+        expect(cloudaccount.password).to.equal("password");
+    });
+});
 
-            await cloudaccount.convertToApppassword();
-            expect(cloudaccount.password).to.equal("password");
-        });
+describe("validateDLPassword", () => {
+    afterEach(() => {
+        sinon.restore();
     });
 
-    describe("validateDLPassword", () => {
-        afterEach(() => {
-            sinon.restore();
-        });
+    it("returns true if CloudAPI.validateDownloadPassword does", async () => {
+        sinon.stub(CloudAPI, "validateDownloadPassword").resolves(true);
 
-        it("returns true if CloudAPI.validateDownloadPassword does", async () => {
-            sinon.stub(CloudAPI, "validateDownloadPassword").resolves(true);
-
-            const cloud_account = new CloudAccount("validate");
-            expect(await cloud_account.validateDLPassword()).to.be.true;
-        });
-        it("returns false if CloudAPI.validateDownloadPassword does", async () => {
-            sinon.stub(CloudAPI, "validateDownloadPassword").resolves(false);
-
-            const cloud_account = new CloudAccount("validate");
-            expect(await cloud_account.validateDLPassword()).to.be.false;
-        });
-        it("returns true if CloudAPI.validateDownloadPassword returns null and downloadPassword is not empty", async () => {
-            sinon.stub(CloudAPI, "validateDownloadPassword").resolves(null);
-
-            const cloud_account = new CloudAccount("validate");
-            cloud_account.downloadPassword = "password";
-            expect(await cloud_account.validateDLPassword()).to.be.true;
-        });
-        it("returns false if CloudAPI.validateDownloadPassword returns null and downloadPassword is not präsent", async () => {
-            sinon.stub(CloudAPI, "validateDownloadPassword").resolves(null);
-
-            const cloud_account = new CloudAccount("validate");
-            delete cloud_account.downloadPassword;
-            expect(await cloud_account.validateDLPassword()).to.be.false;
-        });
+        const cloud_account = new CloudAccount("validate");
+        expect(await cloud_account.validateDLPassword()).to.be.true;
     });
+    it("returns false if CloudAPI.validateDownloadPassword does", async () => {
+        sinon.stub(CloudAPI, "validateDownloadPassword").resolves(false);
+
+        const cloud_account = new CloudAccount("validate");
+        expect(await cloud_account.validateDLPassword()).to.be.false;
+    });
+    it("returns true if CloudAPI.validateDownloadPassword returns null and downloadPassword is not empty", async () => {
+        sinon.stub(CloudAPI, "validateDownloadPassword").resolves(null);
+
+        const cloud_account = new CloudAccount("validate");
+        cloud_account.downloadPassword = "password";
+        expect(await cloud_account.validateDLPassword()).to.be.true;
+    });
+    it("returns false if CloudAPI.validateDownloadPassword returns null and downloadPassword is not präsent", async () => {
+        sinon.stub(CloudAPI, "validateDownloadPassword").resolves(null);
+
+        const cloud_account = new CloudAccount("validate");
+        delete cloud_account.downloadPassword;
+        expect(await cloud_account.validateDLPassword()).to.be.false;
+    });
+});
 });

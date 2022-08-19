@@ -1,4 +1,5 @@
 import { Utils } from "../../src/common/utils.js";
+const expect = chai.expect;
 
 describe("Utils", () => {
     describe("encodepath", () => {
