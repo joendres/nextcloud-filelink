@@ -124,7 +124,15 @@ describe("CloudAccount", () => {
     });
 
     describe("updateConfigured", () => {
-        afterEach(sinon.restore);
+        // This only works because the return value is not used
+        const updateAccount = sinon.fake.resolves({});
+
+        after(sinon.restore);
+
+        before(() => {
+            // This only works if browser.cloudFile.* is not really needed in any test
+            browser.cloudFile = { updateAccount };
+        });
 
         const full_data = {
             public_shares_enabled: true,
@@ -136,18 +144,198 @@ describe("CloudAccount", () => {
         };
 
         it("sets configured to true if the necessary properties are set", async () => {
-            const updateAccount = sinon.fake.resolves({});
-
-            // This only works if browser.cloudFile.updateAccount is not really needed in any test
-            browser.cloudFile = { updateAccount };
-
             const cloudaccount = new CloudAccount("updateConfigured");
             Object.assign(cloudaccount, full_data);
             await cloudaccount.updateConfigured();
 
-            expect(updateAccount.called).to.be.true;
             expect(updateAccount.lastCall.lastArg).to.eql({ configured: true, });
+        });
 
+        for (const key in full_data) {
+            it(`sets configured to false if ${key} is missing`, async () => {
+                const cloudaccount = new CloudAccount("updateConfigured");
+                Object.assign(cloudaccount, full_data);
+                delete cloudaccount[key];
+                await cloudaccount.updateConfigured();
+
+                expect(updateAccount.lastCall.lastArg).to.eql({ configured: false, });
+            });
+        }
+
+        for (const key in full_data) {
+            it(`sets configured to false if ${key} is an empty string`, async () => {
+                const cloudaccount = new CloudAccount("updateConfigured");
+                Object.assign(cloudaccount, full_data);
+                cloudaccount[key] = "";
+                await cloudaccount.updateConfigured();
+
+                expect(updateAccount.lastCall.lastArg).to.eql({ configured: false, });
+            });
+        }
+
+        it("sets configured to true if password is enforced and onePassword (and a password) is set", async () => {
+            const cloudaccount = new CloudAccount("updateConfigured");
+            Object.assign(cloudaccount, full_data);
+            cloudaccount.enforce_password = true;
+            cloudaccount.oneDLPassword = true;
+            cloudaccount.downloadPassword = "dl_pw";
+
+            await cloudaccount.updateConfigured();
+
+            expect(updateAccount.lastCall.lastArg).to.eql({ configured: true, });
+        });
+        it("sets configured to false if password is enforced and onePassword is set, but no password", async () => {
+            const cloudaccount = new CloudAccount("updateConfigured");
+            Object.assign(cloudaccount, full_data);
+            cloudaccount.enforce_password = true;
+            cloudaccount.oneDLPassword = true;
+            delete cloudaccount.downloadPassword;
+
+            await cloudaccount.updateConfigured();
+
+            expect(updateAccount.lastCall.lastArg).to.eql({ configured: false, });
+        });
+        it("sets configured to true if password is enforced and generatePassword is set", async () => {
+            const cloudaccount = new CloudAccount("updateConfigured");
+            Object.assign(cloudaccount, full_data);
+            cloudaccount.enforce_password = true;
+            cloudaccount.useGeneratedDlPassword = true;
+
+            await cloudaccount.updateConfigured();
+
+            expect(updateAccount.lastCall.lastArg).to.eql({ configured: true, });
+        });
+        it("sets configured to false if password is enforced and neither onePassword nor generatPassword is set", async () => {
+            const cloudaccount = new CloudAccount("updateConfigured");
+            Object.assign(cloudaccount, full_data);
+            cloudaccount.enforce_password = true;
+            cloudaccount.useGeneratedDlPassword = false;
+            cloudaccount.oneDLPassword = false;
+
+            await cloudaccount.updateConfigured();
+
+            expect(updateAccount.lastCall.lastArg).to.eql({ configured: false, });
+        });
+
+        it("sets configured to false if onePassword is set, but no password", async () => {
+            const cloudaccount = new CloudAccount("updateConfigured");
+            Object.assign(cloudaccount, full_data);
+            cloudaccount.oneDLPassword = true;
+            delete cloudaccount.downloadPassword;
+
+            await cloudaccount.updateConfigured();
+
+            expect(updateAccount.lastCall.lastArg).to.eql({ configured: false, });
+        });
+
+        it("sets configured to false if expiry is active but no date set", async () => {
+            const cloudaccount = new CloudAccount("updateConfigured");
+            Object.assign(cloudaccount, full_data);
+            cloudaccount.useExpiry = true;
+            delete cloudaccount.expiryDays;
+
+            await cloudaccount.updateConfigured();
+
+            expect(updateAccount.lastCall.lastArg).to.eql({ configured: false, });
+        });
+        it("sets configured to true if expiry is active and a date is set", async () => {
+            const cloudaccount = new CloudAccount("updateConfigured");
+            Object.assign(cloudaccount, full_data);
+            cloudaccount.useExpiry = true;
+            cloudaccount.expiryDays = 7;
+
+            await cloudaccount.updateConfigured();
+
+            expect(updateAccount.lastCall.lastArg).to.eql({ configured: true, });
+        });
+        it("sets configured to true if max_expiry is set but expiry is not active", async () => {
+            const cloudaccount = new CloudAccount("updateConfigured");
+            Object.assign(cloudaccount, full_data);
+            cloudaccount.expiry_max_days = 7;
+            cloudaccount.useExpiry = false;
+
+            await cloudaccount.updateConfigured();
+
+            expect(updateAccount.lastCall.lastArg).to.eql({ configured: true, });
+        });
+        it("sets configured to false if max_expiry is set and expiry is active but the expiry date is missing", async () => {
+            const cloudaccount = new CloudAccount("updateConfigured");
+            Object.assign(cloudaccount, full_data);
+            cloudaccount.expiry_max_days = 7;
+            cloudaccount.useExpiry = true;
+            delete cloudaccount.expiryDays;
+
+            await cloudaccount.updateConfigured();
+
+            expect(updateAccount.lastCall.lastArg).to.eql({ configured: false, });
+        });
+        it("sets configured to false if max_expiry is set and expiry is active but the expiry date too late", async () => {
+            const cloudaccount = new CloudAccount("updateConfigured");
+            Object.assign(cloudaccount, full_data);
+            cloudaccount.expiry_max_days = 7;
+            cloudaccount.useExpiry = true;
+            cloudaccount.expiryDays = cloudaccount.expiry_max_days + 1;
+
+            await cloudaccount.updateConfigured();
+
+            expect(updateAccount.lastCall.lastArg).to.eql({ configured: false, });
+        });
+        it("sets configured to true if max_expiry is set and expiry is active and the expiry date is ok", async () => {
+            const cloudaccount = new CloudAccount("updateConfigured");
+            Object.assign(cloudaccount, full_data);
+            cloudaccount.expiry_max_days = 7;
+            cloudaccount.useExpiry = true;
+            cloudaccount.expiryDays = cloudaccount.expiry_max_days;
+
+            await cloudaccount.updateConfigured();
+
+            expect(updateAccount.lastCall.lastArg).to.eql({ configured: true, });
+        });
+
+        it("sets configured to false if expiry is enforced but expiry is not active", async () => {
+            const cloudaccount = new CloudAccount("updateConfigured");
+            Object.assign(cloudaccount, full_data);
+            cloudaccount.expiry_enforced = true;
+            cloudaccount.useExpiry = false;
+
+            await cloudaccount.updateConfigured();
+
+            expect(updateAccount.lastCall.lastArg).to.eql({ configured: false, });
+        });
+        it("sets configured to false if expiry is enforced but no expiry is set", async () => {
+            const cloudaccount = new CloudAccount("updateConfigured");
+            Object.assign(cloudaccount, full_data);
+            cloudaccount.expiry_enforced = true;
+            cloudaccount.useExpiry = true;
+            delete cloudaccount.expiryDays;
+
+            await cloudaccount.updateConfigured();
+
+            expect(updateAccount.lastCall.lastArg).to.eql({ configured: false, });
+        });
+        it("sets configured to false if expiry is enforced but expiry is too late", async () => {
+            const cloudaccount = new CloudAccount("updateConfigured");
+            Object.assign(cloudaccount, full_data);
+            cloudaccount.expiry_enforced = true;
+            cloudaccount.expiry_max_days = 7;
+            cloudaccount.useExpiry = true;
+            cloudaccount.expiryDays = cloudaccount.expiry_max_days + 1;
+
+            await cloudaccount.updateConfigured();
+
+            expect(updateAccount.lastCall.lastArg).to.eql({ configured: false, });
+        });
+        it("sets configured to true if expiry is enforced and expiry is ok", async () => {
+            const cloudaccount = new CloudAccount("updateConfigured");
+            Object.assign(cloudaccount, full_data);
+            cloudaccount.expiry_enforced = true;
+            cloudaccount.expiry_max_days = 7;
+            cloudaccount.useExpiry = true;
+            cloudaccount.expiryDays = cloudaccount.expiry_max_days - 1;
+
+            await cloudaccount.updateConfigured();
+
+            expect(updateAccount.lastCall.lastArg).to.eql({ configured: true, });
         });
     });
 

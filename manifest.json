@@ -12,9 +12,5 @@
         "scripts": [
             "./test/browser_action_handler.js"
         ]
-    },
-    "cloud_file": {
-        "name": "name",
-        "management_url": "about:blank"
     }
 }
