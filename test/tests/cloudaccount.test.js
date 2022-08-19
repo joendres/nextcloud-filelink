@@ -6,7 +6,7 @@ describe("CloudAccount", () => {
     describe("constructor", () => {
         it("copies the parameters into properties", () => {
             const cloudaccount = new CloudAccount("teststring");
-            expect(cloudaccount).to.have.property('_accountId', 'teststring');
+            expect(cloudaccount).to.eql({ '_accountId': 'teststring' });
         });
     });
 
@@ -15,9 +15,12 @@ describe("CloudAccount", () => {
             const cloudaccount = new CloudAccount("setDefaults");
             cloudaccount.setDefaults();
 
-            expect(cloudaccount.storageFolder).to.equal("/Mail-attachments");
-            expect(cloudaccount.expiryDays).to.equal(7);
-            expect(cloudaccount.useNoDlPassword).to.be.true;
+            expect(cloudaccount).to.eql({
+                _accountId: "setDefaults",
+                storageFolder: "/Mail-attachments",
+                expiryDays: 7,
+                useNoDlPassword: true,
+            });
         });
     });
 
