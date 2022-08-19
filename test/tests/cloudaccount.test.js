@@ -342,28 +342,20 @@ describe("CloudAccount", () => {
     describe("updateUserId", () => {
         afterEach(sinon.restore);
 
-        it("returns null if CloudAPI.getUserId does", async () => {
+        /** @todo this is the current behavior, but it might be wrong. We might rather return boolean */
+        it("returns false if CloudAPI.getUserId returns null", async () => {
             sinon.stub(CloudAPI, "getUserId").resolves(null);
 
             const cloudaccount = new CloudAccount("getUserId");
 
-            expect(await cloudaccount.updateUserId()).to.be.null;
+            expect(await cloudaccount.updateUserId()).to.be.false;
         });
-        it("returns the CloudAPI.getUserId result if it only contains allowed characters", async () => {
-            const userId = "j_e@johannes-endres.de";
-            sinon.stub(CloudAPI, "getUserId").resolves(userId);
+        it("returns true if CloudAPI.getUserId returns a string", async () => {
+            sinon.stub(CloudAPI, "getUserId").resolves("userid");
 
             const cloudaccount = new CloudAccount("getUserId");
 
-            expect(await cloudaccount.updateUserId()).to.be.equal(userId);
-        });
-        it("returns an URI encoded string if the UserId only contains special characters", async () => {
-            const valid_id = "je#EXT#@johannes-endres.de";
-            sinon.stub(CloudAPI, "getUserId").resolves(valid_id);
-
-            const cloudaccount = new CloudAccount("getUserId");
-
-            expect(await cloudaccount.updateUserId()).to.be.equal("je%23EXT%23%40johannes-endres.de");
+            expect(await cloudaccount.updateUserId()).to.be.true;
         });
         it("does not change the userId if CloudAPI.getUserId returns null", async () => {
             sinon.stub(CloudAPI, "getUserId").resolves(null);
@@ -393,6 +385,16 @@ describe("CloudAccount", () => {
             await cloudaccount.updateUserId();
 
             expect(cloudaccount.userId).to.be.equal("%28je%23EXT%23%40johannes-endres.de%29");
+        });
+        it("stores the user name as the userId if everything else fails", async () => {
+            sinon.stub(CloudAPI, "getUserId").resolves(null);
+
+            const cloudaccount = new CloudAccount("getUserId");
+            const username = "user";
+            cloudaccount.username = username;
+            await cloudaccount.updateUserId();
+
+            expect(cloudaccount.userId).to.be.equal(username);
         });
     });
 
