@@ -305,9 +305,8 @@ export class CloudAccount {
             }
         }
         if (userId) {
-            return Promise.all([this.updateFreeSpaceInfo(), this.updateCapabilities(),]);
-        } else {
-            return null;
+            this.updateCapabilities();
+            this.updateFreeSpaceInfo();
         }
     }
 
