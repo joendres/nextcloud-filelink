@@ -245,11 +245,11 @@ export class CloudAccount {
      * to true if it is usable
      */
     updateConfigured() {
-        // jshint maxcomplexity:16
+        // jshint maxcomplexity:18
         // The function only seems complex due to the many conditions
         return browser.cloudFile.updateAccount(this._accountId, {
             configured:
-                this.public_shares_enabled !== false &&
+                !!this.public_shares_enabled &&
                 !!this.serverUrl &&
                 !!this.username &&
                 !!this.userId &&
@@ -258,9 +258,10 @@ export class CloudAccount {
                 // If download password is enforced, a password option is active
                 !(this.enforce_password && !this.useGeneratedDlPassword && !this.oneDLPassword) &&
                 // If "one password" is selected, it has to be present 
-                !(this.oneDLPassword && !this.downloadPassword) &&
-                !(this.useExpiry && !this.expiryDays) &&
-                !(!!this.expiry_max_days && this.useExpiry && this.expiry_max_days < this.expiryDays),
+                (!this.oneDLPassword || !!this.downloadPassword) &&
+                (!this.useExpiry || !!this.expiryDays) &&
+                (!this.expiry_max_days || !this.useExpiry || this.expiry_max_days >= this.expiryDays) &&
+                (!this.expiry_enforced || this.useExpiry),
         });
     }
 
