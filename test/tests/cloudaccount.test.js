@@ -77,9 +77,7 @@ describe("CloudAccount", () => {
     });
 
     describe("updateFreeSpaceInfo", () => {
-        afterEach(() => {
-            sinon.restore();
-        });
+        afterEach(sinon.restore);
 
         const test_data = {
             "not quota": { input: {}, output: [-1, -1,] },
@@ -126,13 +124,35 @@ describe("CloudAccount", () => {
     });
 
     describe("updateConfigured", () => {
-        /** @todo */
+        afterEach(sinon.restore);
+
+        const full_data = {
+            public_shares_enabled: true,
+            serverUrl: "https://exmple.com/",
+            username: "username",
+            userId: "userid",
+            password: "password",
+            storageFolder: "/folder",
+        };
+
+        it("sets configured to true if the necessary properties are set", async () => {
+            const updateAccount = sinon.fake.resolves({});
+
+            // This only works if browser.cloudFile.updateAccount is not really needed in any test
+            browser.cloudFile = { updateAccount };
+
+            const cloudaccount = new CloudAccount("updateConfigured");
+            Object.assign(cloudaccount, full_data);
+            await cloudaccount.updateConfigured();
+
+            expect(updateAccount.called).to.be.true;
+            expect(updateAccount.lastCall.lastArg).to.eql({ configured: true, });
+
+        });
     });
 
     describe("updateUserId", () => {
-        afterEach(() => {
-            sinon.restore();
-        });
+        afterEach(sinon.restore);
 
         it("returns null if CloudAPI.getUserId does", async () => {
             sinon.stub(CloudAPI, "getUserId").resolves(null);
