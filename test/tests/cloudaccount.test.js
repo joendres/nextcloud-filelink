@@ -127,6 +127,7 @@ describe("CloudAccount", () => {
 
     describe("updateConfigured", () => {
         // This only works because the return value is not used
+        /** @todo This is not necessary as the fake can be queried by browser.cloudFile.updateAccount.lastCall... */
         const updateAccount = sinon.fake.resolves({});
 
         after(sinon.restore);
