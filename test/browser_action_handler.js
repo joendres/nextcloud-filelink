@@ -1,3 +1,3 @@
 browser.browserAction.onClicked.addListener(() => {
-    browser.tabs.create({ url: "./test/test_runner.html?grep=TBVersionWorkarounds", });
+    browser.tabs.create({ url: "./test/test_runner.html", });
 });
