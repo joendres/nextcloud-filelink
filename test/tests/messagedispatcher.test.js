@@ -2,7 +2,7 @@ import { MessageDispatcher } from "../../src/background/messagedispatcher.js";
 import { Status } from "../../src/background/status.js";
 const expect = chai.expect;
 
-describe.only("MessageDispatcher", () => {
+describe("MessageDispatcher", () => {
 
     describe('installHandler', () => {
         afterEach(sinon.restore);
