@@ -13,8 +13,15 @@ export class MessageDispatcher {
      */
     static connectHandler(p) {
         Status.port = p;
-        Status.port.onDisconnect.addListener(() => Status.port = null);
+        Status.port.onDisconnect.addListener(MessageDispatcher.closePort);
         Status.port.onMessage.addListener(MessageDispatcher.dispatch);
+    }
+
+    /**
+     * Close the communication port
+     */
+    static closePort() {
+        Status.port = null;
     }
 
     /**
