@@ -1,4 +1,6 @@
-// import 
+import { DownloadPasswordFieldHandler } from "../../src/management/downloadpasswordfieldhandler.js";
 const expect = chai.expect;
 
-/** @todo Add tests */
+describe("DownloadPasswordFieldHandler", () => {
+    /** @todo Add tests */
+});

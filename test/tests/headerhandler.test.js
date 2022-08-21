@@ -1,4 +1,6 @@
-// import 
+import { HeaderHandler } from "../../src/management/headerhandler.js";
 const expect = chai.expect;
 
-/** @todo Add tests */
+describe("HeaderHandler", () => {
+    /** @todo Add tests */
+});

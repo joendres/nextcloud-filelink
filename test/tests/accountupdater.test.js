@@ -1,4 +1,7 @@
-// import 
+import { AccountUpdater } from "../../src/background/accountupdater.js";
 const expect = chai.expect;
 
-/** @todo Add tests */
+describe("AccountUpdater", () => {
+    /** @todo Add tests */
+
+});

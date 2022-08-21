@@ -1,4 +1,5 @@
-// import 
 const expect = chai.expect;
 
-/** @todo Add tests */
+describe("progress.js", () => {
+    /** @todo Add tests */
+});

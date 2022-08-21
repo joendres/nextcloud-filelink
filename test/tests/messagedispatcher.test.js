@@ -1,4 +1,6 @@
-// import 
+import { MessageDispatcher } from "../../src/background/messagedispatcher.js";
 const expect = chai.expect;
 
-/** @todo Add tests */
+describe("MessageDispatcher", () => {
+    /** @todo Add tests */
+});

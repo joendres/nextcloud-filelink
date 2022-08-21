@@ -1,4 +1,6 @@
-// import 
+import { Popup } from "../../src/management/popup/popup.js";
 const expect = chai.expect;
 
-/** @todo Add tests */
+describe("Popup", () => {
+    /** @todo Add tests */
+});

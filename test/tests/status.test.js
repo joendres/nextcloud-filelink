@@ -1,4 +1,6 @@
-// import 
+import { Status } from "../../src/background/status.js";
 const expect = chai.expect;
 
-/** @todo Add tests */
+describe("Status", () => {
+    /** @todo Add tests */
+});

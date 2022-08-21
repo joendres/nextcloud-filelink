@@ -1,4 +1,6 @@
-// import 
+import { CloudAPI } from "../../src/common/cloudapi.js";
 const expect = chai.expect;
 
-/** @todo Add tests */
+describe("CloudAPI", () => {
+    /** @todo Add tests */
+});

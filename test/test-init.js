@@ -1,2 +1,5 @@
-mocha.setup({ ui: "bdd", globals: ["browser"] });
+mocha.setup({
+    ui: "bdd",
+    globals: ["browser"]
+});
 mocha.checkLeaks();

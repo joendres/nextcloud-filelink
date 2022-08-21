@@ -1,4 +1,6 @@
-// import 
+import { AccountFieldHandler } from "../../src/management/accountfieldhandler.js";
 const expect = chai.expect;
 
-/** @todo Add tests */
+describe("AccountFieldHandler", () => {
+    /** @todo Add tests */
+});

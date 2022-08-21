@@ -1,4 +1,6 @@
-// import 
+import { EventHandlers } from "../../src/background/eventhandlers.js";
 const expect = chai.expect;
 
-/** @todo Add tests */
+describe("EventHandlers", () => {
+    /** @todo Add tests */
+});
