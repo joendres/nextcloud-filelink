@@ -6,6 +6,10 @@ describe("TBVersionWorkarounds", () => {
     describe("apply_all", () => {
         afterEach(sinon.restore);
 
+        it("is a static method", () => {
+            expect(TBVersionWorkarounds).to.itself.respondTo("apply_all");
+        });
+
         it("calls workaroundRedefinedManifestKeys", () => {
             sinon.stub(TBVersionWorkarounds, "workaroundRedefinedManifestKeys");
 
@@ -22,7 +26,11 @@ describe("TBVersionWorkarounds", () => {
             browser.composeAction = {
                 setTitle: sinon.fake(),
             };
-            sinon.stub(Localize, "localizeMSGString").returns("label");
+            sinon.stub(Localize, "localizeMSGString").returns("default_label");
+        });
+
+        it("is a static method", () => {
+            expect(TBVersionWorkarounds).to.itself.respondTo("workaroundRedefinedManifestKeys");
         });
 
         it("does nothing in current versions (setLabel is present)", () => {
