@@ -1,4 +1,6 @@
-// import 
+import { DavUploader } from "../../src/background/davuploader.js";
 const expect = chai.expect;
 
-/** @todo Add tests */
+describe("DavUploader", () => {
+    /** @todo Add tests */
+});

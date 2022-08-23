@@ -1,4 +1,6 @@
-// import 
+import { Localize } from "../../src/common/localize.js";
 const expect = chai.expect;
 
-/** @todo Add tests */
+describe("Localize", () => {
+    /** @todo Add tests */
+});

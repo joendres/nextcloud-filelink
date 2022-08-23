@@ -16,35 +16,41 @@ describe("TBVersionWorkarounds", () => {
     });
 
     describe("workaroundRedefinedManifestKeys", () => {
-        let save_getManifest= browser.runtime.getManifest;
+        afterEach(sinon.restore);
 
-        before(() => {
+        beforeEach(() => {
             browser.composeAction = {
                 setTitle: sinon.fake(),
             };
             sinon.stub(Localize, "localizeMSGString").returns("label");
         });
 
-        after(() => {
-            sinon.restore();
-            browser.runtime.getManifest = save_getManifest;
+        it("does nothing in current versions (setLabel is present)", () => {
+            browser.composeAction.setLabel = () => { };
+            TBVersionWorkarounds.workaroundRedefinedManifestKeys();
+            expect(browser.composeAction.setTitle.called).to.be.false;
+            delete browser.composeAction.setLabel;
         });
 
-        it("does nothing in current versions", () => {
-            browser.composeAction.setLabel = () => { };
+        it("does nothing ig no compose_label is present", () => {
+            browser.runtime.getManifest = sinon.fake.returns({});
+            TBVersionWorkarounds.workaroundRedefinedManifestKeys();
             expect(browser.composeAction.setTitle.called).to.be.false;
         });
 
         it("does nothing if there is no default_label", () => {
-            delete browser.composeAction.setLabel;
-
-            /** @todo implement test */
-            expect.fail("test not implemented");
+            browser.runtime.getManifest = sinon.fake.returns({ compose_action: {} });
+            TBVersionWorkarounds.workaroundRedefinedManifestKeys();
+            expect(browser.composeAction.setTitle.called).to.be.false;
         });
 
         it("sets the title to default_label in old versions", () => {
-            /** @todo implement test */
-            expect.fail("test not implemented");
+            browser.runtime.getManifest = sinon.fake.returns({ compose_action: { default_label: "present" } });
+            TBVersionWorkarounds.workaroundRedefinedManifestKeys();
+            expect(Localize.localizeMSGString.called).to.be.true;
+            expect(browser.composeAction.setTitle.called).to.be.true;
+            expect(browser.composeAction.setTitle.lastCall.firstArg).to.deep.equal({ title: "default_label" });
+
         });
     });
 });

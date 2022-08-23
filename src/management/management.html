@@ -1,7 +1,8 @@
 <!DOCTYPE html>
-<html>
+<html lang="">
 
 <head>
+    <title>Management</title>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="./management.css">
     <script type="module" src="./management.js"></script>
@@ -12,15 +13,15 @@
 
     <header>
         <div id="header_right">
-            <img src="../icon48.png" id="logo">
-            <label for="logo" id="label_version"></label>
+            <img src="../icon48.png" id="logo" alt="Logo">
+            <div id="label_version"></div>
             <div id="obsolete_string" hidden data-message="obsolete_version"></div>
         </div>
         <div id="header_left">
             <h1 id="provider_name">*cloud</h1>
             <div id="freespaceinfo" hidden>
                 <label for="freespace" id="freespacelabel"></label>
-                <meter id="freespace"></meter>
+                <meter id="freespace" value="0"></meter>
             </div>
         </div>
     </header>
@@ -61,7 +62,7 @@
                     <div class="optionline">
                         <input type="checkbox" id="useExpiry" class="checkbox">
                         <label for="useExpiry" data-message="expiryDaysBefore"></label>
-                        <input type="number" id="expiryDays" min="1" step="1" maxlength="3" disabled
+                        <input type="number" id="expiryDays" min="1" step="1" disabled
                             class="input__field three_digits">
                         <label data-message="expiryDaysAfter"></label>
                         <div class="helpbutton">
@@ -112,7 +113,6 @@
                     <label for="storageFolder" data-message="storageFolder"></label>
                     <div class="helpbutton">
                         <div class="card" data-message="storageFolder_details"></div>
-                    </div>
                     </div>
                     <input id="storageFolder" type="text" required class="input__field fullwidth" />
                 </fieldset>
