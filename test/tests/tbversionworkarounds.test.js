@@ -16,7 +16,7 @@ describe("TBVersionWorkarounds", () => {
     });
 
     describe("workaroundRedefinedManifestKeys", () => {
-        afterEach(sinon.restore);
+        let save_getManifest= browser.runtime.getManifest;
 
         before(() => {
             browser.composeAction = {
@@ -25,12 +25,19 @@ describe("TBVersionWorkarounds", () => {
             sinon.stub(Localize, "localizeMSGString").returns("label");
         });
 
+        after(() => {
+            sinon.restore();
+            browser.runtime.getManifest = save_getManifest;
+        });
+
         it("does nothing in current versions", () => {
             browser.composeAction.setLabel = () => { };
             expect(browser.composeAction.setTitle.called).to.be.false;
         });
 
         it("does nothing if there is no default_label", () => {
+            delete browser.composeAction.setLabel;
+
             /** @todo implement test */
             expect.fail("test not implemented");
         });
