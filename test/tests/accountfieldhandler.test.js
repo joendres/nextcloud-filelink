@@ -3,7 +3,7 @@ import { Popup } from "../../src/management/popup/popup.js";
 
 const expect = chai.expect;
 
-describe("AccountFieldHandler", () => {
+describe.only("AccountFieldHandler", () => {
     describe('preCloudUpdate', () => {
         const serverUrl = { value: "https://example.com", };
         const password = { value: "password", };
@@ -11,8 +11,8 @@ describe("AccountFieldHandler", () => {
         beforeEach(() => {
             sinon.stub(Popup, "warn");
             sinon.stub(document, "querySelector").
-                onCall(0).returns(serverUrl).
-                onCall(1).returns(password);
+                withArgs("#serverUrl").returns(serverUrl).
+                withArgs("#password").returns(password);
         });
         afterEach(sinon.restore);
 
@@ -49,7 +49,7 @@ describe("AccountFieldHandler", () => {
             AccountFieldHandler.preCloudUpdate();
             expect(serverUrl).to.deep.equal({ value: "https://example.com/path/to/", });
         });
-        it("removes 'index.php' before '/apps/...'", () => {
+        it("removes 'index.php' before '/apps/dashboard'", () => {
             serverUrl.value = "https://example.com/path/to/index.php/apps/dashboard/";
             AccountFieldHandler.preCloudUpdate();
             expect(serverUrl).to.deep.equal({ value: "https://example.com/path/to/", });
