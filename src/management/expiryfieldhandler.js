@@ -35,6 +35,7 @@ export class ExpiryFieldHandler {
 
         if (account.expiry_max_days) {
             expiryDays.max = account.expiry_max_days;
+            /** @todo this is plain wrong */
             account.expiryDays = useExpiry.checked ? Math.min(expiryDays.value, account.expiry_max_days) : account.expiry_max_days;
             expiryDays.value = account.expiryDays;
             useExpiry.checked = true;

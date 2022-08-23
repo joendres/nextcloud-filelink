@@ -3,7 +3,7 @@ import { Popup } from "../../src/management/popup/popup.js";
 
 const expect = chai.expect;
 
-describe.only("AccountFieldHandler", () => {
+describe("AccountFieldHandler", () => {
     describe('preCloudUpdate', () => {
         const serverUrl = { value: "https://example.com", };
         const password = { value: "password", };
