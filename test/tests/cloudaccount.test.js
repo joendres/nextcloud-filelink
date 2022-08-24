@@ -360,6 +360,7 @@ describe("CloudAccount", () => {
             expect(await cloudaccount.updateUserId()).to.be.true;
         });
         it("does not change the userId if CloudAPI.getUserId returns null", async () => {
+            // Thunderbird might be offline and then should not overwrite a valid userId
             sinon.stub(CloudAPI, "getUserId").resolves(null);
 
             const cloudaccount = new CloudAccount("getUserId");
@@ -387,16 +388,6 @@ describe("CloudAccount", () => {
             await cloudaccount.updateUserId();
 
             expect(cloudaccount.userId).to.be.equal("%28je%23EXT%23%40johannes-endres.de%29");
-        });
-        it("stores the user name as the userId if everything else fails", async () => {
-            sinon.stub(CloudAPI, "getUserId").resolves(null);
-
-            const cloudaccount = new CloudAccount("getUserId");
-            const username = "user";
-            cloudaccount.username = username;
-            await cloudaccount.updateUserId();
-
-            expect(cloudaccount.userId).to.be.equal(username);
         });
     });
 
