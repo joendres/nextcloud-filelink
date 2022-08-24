@@ -49,7 +49,6 @@ export class DownloadPasswordFieldHandler {
             if (useNoDlPassword.checked) {
                 useNoDlPassword.checked = false;
                 useGeneratedDlPassword.checked = !oneDLPassword.checked;
-                DownloadPasswordFieldHandler.syncInputStateToRadio();
                 advanced_options.open = true;
                 Popup.error('password_enforced');
             }
