@@ -38,11 +38,14 @@ export class HeaderHandler {
         if (!Number.isSafeInteger(bytes) || bytes < 0) {
             throw new RangeError();
         }
-        const units = ["EB", "PB", "TB", "GB", "MB", "KB", "B",];
+        const units = ["PB", "TB", "GB", "MB", "KB", "B",];
         let unit = units.pop();
         while (bytes >= 1000) {
             bytes /= 1000;
             unit = units.pop();
+            if (undefined === unit) {
+                throw new RangeError();
+            }
         }
         return bytes.toLocaleString(undefined, { maximumSignificantDigits: 3, }) + unit;
     }
