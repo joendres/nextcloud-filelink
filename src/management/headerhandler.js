@@ -72,10 +72,6 @@ export class HeaderHandler {
                 "ownCloud": "images/owncloud-logo.svg",
                 "Unsupported": "../../icon48.png",
             }[account.cloud_type];
-
-            /** @type {HTMLDivElement} */
-            const obsolete_string = document.querySelector("#obsolete_string");
-            obsolete_string.hidden = account.cloud_supported;
         } else {
             provider_name.textContent = '*cloud';
             logo.src = "../../icon48.png";
