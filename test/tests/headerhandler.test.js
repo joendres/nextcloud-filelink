@@ -65,7 +65,6 @@ describe("HeaderHandler", () => {
 
     describe('humanReadable', () => {
         const decimal_separator = (1.1).toLocaleString().match(/^1(.)1$/)[1];
-        console.debug(decimal_separator);
         [
             [1, "1B"],
             [10, "10B"],
