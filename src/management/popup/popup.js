@@ -1,3 +1,5 @@
+import { Localize } from "../../common/localize.js";
+
 /**
  * Static class that contains all the methods for handling message popups in the management pane
  */
@@ -5,52 +7,42 @@ export class Popup {
     /**
      * Show an error
      * @param {string} err_id The id of te error to show a message for, eg. use the status code or error type
+     * @param  {...string} moreInfo Additional strings to put into the placeholders of the error message
      */
-    static async error(err_id) {
-        /** @type {HTMLDivElement} */
-        const error_popup = document.querySelector("#error_popup");
-
-        Popup.openPopup(error_popup,
-            browser.i18n.getMessage(`error_${err_id}`, Array.from(arguments).slice(1)) ||
-            // No message for this error, show the default one
-            browser.i18n.getMessage('error_0', err_id));
+    static error(err_id, ...moreInfo) {
+        Popup.openPopup("error", Localize.getErrorMessage(err_id, moreInfo));
     }
 
     /**
      * Show a warning
      * @param {string} messageId The id of the localized string
+     * @param  {...string} moreInfo Additional strings to put into the placeholders of the error message
      */
-    static async warn(messageId) {
-        /** @type {HTMLDivElement} */
-        const warning_popup = document.querySelector("#warning_popup");
-
-        Popup.openPopup(warning_popup,
-            browser.i18n.getMessage(`warn_${messageId}`, Array.from(arguments).slice(1)));
+    static warn(messageId, ...moreInfo) {
+        Popup.openPopup("warning", Localize.getWarningMessage(messageId, moreInfo));
     }
 
     /**
      * Show the success popup for 3 seconds
-     * 
-     * @param {string} [messageId] The id of the message in _locales.
      */
-    static async success(messageId = "success") {
-        /** @type {HTMLDivElement} */
-        const success_popup = document.querySelector("#success_popup");
-
-        const p = Popup.openPopup(success_popup, browser.i18n.getMessage(messageId));
-        setTimeout(() => p.remove(), 3000);
+    static async success() {
+        const p = Popup.openPopup("success", Localize.getSuccessMessage());
+        await new Promise((resolve) => setTimeout(resolve, 3000));
+        p.remove();
     }
 
     /**
      * Actually opens the popup
-     * @param {Node} template The HTML element to open
+     * @param {string} kind The kind of template to use, define in management.html
      * @param {string} message The message to display
      * @returns {Node} The newly created popup
      */
-    static openPopup(template, message) {
+    static openPopup(kind, message) {
         /** @type {HTMLDivElement} */
         const msg_container = document.querySelector("#msg_container");
 
+        /** @type {HTMLDivElement} */
+        const template = document.querySelector(`#${kind}_popup`);
         /** @type {HTMLDivElement} */
         const new_box = template.cloneNode(true);
         new_box.querySelector(".popup_message").textContent = message;
@@ -70,7 +62,7 @@ export class Popup {
     /**
      * Close all popups that might be open
      */
-    static async clear() {
+    static clear() {
         const msg_container = document.querySelector("#msg_container");
 
         while (msg_container.firstChild) {
