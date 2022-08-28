@@ -60,7 +60,7 @@ describe("Popup", () => {
         });
     });
     describe('success', () => {
-        var clock;
+        let clock;
         beforeEach(() => {
             sinon.stub(Popup, "openPopup").returns({ remove: sinon.fake(), });
             sinon.stub(Localize, "getSuccessMessage");
@@ -167,7 +167,7 @@ describe("Popup", () => {
         });
     });
     describe('clear', () => {
-        var spy;
+        let spy;
         beforeEach(() => {
             const msg_container = document.createElement("div");
             sinon.stub(document, "querySelector").returns(msg_container);

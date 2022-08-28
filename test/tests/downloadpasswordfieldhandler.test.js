@@ -5,11 +5,11 @@ import { Popup } from "../../src/management/popup/popup.js";
 const expect = chai.expect;
 
 describe("DownloadPasswordFieldHandler", () => {
-    var advanced_options;
-    var downloadPassword;
-    var oneDLPassword;
-    var useGeneratedDlPassword;
-    var useNoDlPassword;
+    let advanced_options;
+    let downloadPassword;
+    let oneDLPassword;
+    let useGeneratedDlPassword;
+    let useNoDlPassword;
 
     beforeEach(() => {
         advanced_options = document.createElement("details");

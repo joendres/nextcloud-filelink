@@ -2,7 +2,7 @@ import { ExpiryFieldHandler } from "../../src/management/expiryfieldhandler.js";
 const expect = chai.expect;
 
 describe("ExpiryFieldHandler", () => {
-    var useExpiry, expiryDays;
+    let useExpiry, expiryDays;
 
     beforeEach(() => {
         useExpiry = document.createElement("input");

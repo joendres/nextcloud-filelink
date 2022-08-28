@@ -3,7 +3,7 @@ const expect = chai.expect;
 
 describe("HeaderHandler", () => {
     describe('updateFreespace', () => {
-        var freespaceinfo, freespacelabel, freespace;
+        let freespaceinfo, freespacelabel, freespace;
         beforeEach(() => {
             freespaceinfo = document.createElement("div");
             freespacelabel = document.createElement("label");
@@ -98,7 +98,7 @@ describe("HeaderHandler", () => {
     });
 
     describe('updateCloudVersion', () => {
-        var logo, label_version, provider_name;
+        let logo, label_version, provider_name;
         beforeEach(() => {
             logo = document.createElement("img");
             label_version = document.createElement("div");
