@@ -1,12 +1,15 @@
 import { Localize } from "../common/localize.js";
 import { FormHandler } from "./formhandler.js";
 
-(async () => {
+export async function run() {
     Localize.addLocalizedLabels();
 
-    const formHandler = new FormHandler(new URL(location.href).searchParams.get("accountId"));
+    const accountId = new URL(location.href).searchParams.get("accountId");
+    const formHandler = new FormHandler(accountId);
     formHandler.addListeners();
     await formHandler.fillData();
     formHandler.showErrors();
     formHandler.updateHeader();
-})();
+}
+
+run();
