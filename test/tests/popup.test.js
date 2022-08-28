@@ -203,10 +203,7 @@ describe("Popup", () => {
             const msg_container = document.createElement("div");
             sinon.stub(document, "querySelector").returns(msg_container);
         });
-        afterEach(() => {
-            document.querySelector().remove();
-            sinon.restore();
-        });
+        afterEach(sinon.restore);
         it("returns true if there is no popup visible", () => {
             expect(Popup.empty()).to.be.true;
         });
