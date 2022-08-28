@@ -2,7 +2,7 @@ export class Localize {
     /**
      * Set all the labels to localized strings
      */
-    static async addLocalizedLabels() {
+    static addLocalizedLabels() {
         document.querySelectorAll("[data-message]")
             .forEach(element => {
                 element.textContent = browser.i18n.getMessage(element.dataset.message);
