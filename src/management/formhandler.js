@@ -6,6 +6,7 @@ import { FolderFieldHandler } from "./folderfieldhandler.js";
 import { HeaderHandler } from "./headerhandler.js";
 import { Popup } from "./popup/popup.js";
 
+/** @todo rather extend CloudAccount*/
 export class FormHandler {
     /**
      * @param {string} accountId The id of the account as supplied by TB
@@ -110,6 +111,7 @@ export class FormHandler {
      * Set the busy cursor and deactivate all inputs
      */
     static lookBusy() {
+        /** @todo querySelector might not be necessary */
         document.querySelector("body").classList.add('busy');
         /** @type {HTMLFieldSetElement} */
         const all_fields = document.querySelector("#all_fields");
