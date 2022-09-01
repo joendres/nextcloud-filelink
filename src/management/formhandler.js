@@ -6,18 +6,10 @@ import { FolderFieldHandler } from "./folderfieldhandler.js";
 import { HeaderHandler } from "./headerhandler.js";
 import { Popup } from "./popup/popup.js";
 
-/** @todo rather extend CloudAccount*/
-export class FormHandler {
-    /**
-     * @param {string} accountId The id of the account as supplied by TB
-     */
-    constructor(accountId) {
-        this.account = new CloudAccount(accountId);
-    }
-
+export class FormHandler extends CloudAccount {
     /**
      * Add event listeners to all elements that need them
-     */
+     */   
     addListeners() {
         /** @type {HTMLFormElement} */
         const accountForm = document.querySelector("#accountForm");
@@ -39,10 +31,10 @@ export class FormHandler {
      */
     async fillData() {
         /** @todo move this out of the function */
-        await this.account.load();
+        await this.load();
         this.fillAllInputs();
-        ExpiryFieldHandler.fillData(this.account);
-        DownloadPasswordFieldHandler.fillData(this.account);
+        ExpiryFieldHandler.fillData(this);
+        DownloadPasswordFieldHandler.fillData(this);
     }
 
     /**
@@ -91,11 +83,11 @@ export class FormHandler {
 
         this.preCloudUpdate();
         this.copyAllInputs();
-        await this.account.updateFromCloud();
+        await this.updateFromCloud();
         await this.postCloudUpdate();
-        await this.account.store();
+        await this.store();
         await Promise.all([
-            this.account.updateConfigured(),
+            this.updateConfigured(),
             this.fillData(),
             this.updateHeader(),
             this.showErrors(),
@@ -111,8 +103,7 @@ export class FormHandler {
      * Set the busy cursor and deactivate all inputs
      */
     static lookBusy() {
-        /** @todo querySelector might not be necessary */
-        document.querySelector("body").classList.add('busy');
+        document.body.classList.add('busy');
         /** @type {HTMLFieldSetElement} */
         const all_fields = document.querySelector("#all_fields");
         all_fields.disabled = true;
@@ -136,9 +127,9 @@ export class FormHandler {
         document.querySelectorAll("input")
             .forEach(input => {
                 if (input.type === "checkbox" || input.type === "radio") {
-                    input.checked = !!this.account[input.id];
-                } else if (this.account[input.id]) {
-                    input.value = this.account[input.id];
+                    input.checked = !!this[input.id];
+                } else if (this[input.id]) {
+                    input.value = this[input.id];
                 }
             });
     }
@@ -162,12 +153,12 @@ export class FormHandler {
      * Do whatever is necessary after the CloudAccount state is update from the cloud
      */
     async postCloudUpdate() {
-        if ('undefined' === typeof this.account.public_shares_enabled) {
+        if ('undefined' === typeof this.public_shares_enabled) {
             Popup.warn('no_config_check');
         }
         Promise.all([
-            AccountFieldHandler.postCloudUpdate(this.account),
-            DownloadPasswordFieldHandler.postCloudUpdate(this.account),
+            AccountFieldHandler.postCloudUpdate(this),
+            DownloadPasswordFieldHandler.postCloudUpdate(this),
         ]);
     }
 
@@ -179,10 +170,10 @@ export class FormHandler {
         document.querySelectorAll("input")
             .forEach(input => {
                 if (input.type === "checkbox" || input.type === "radio") {
-                    this.account[input.id] = input.checked;
+                    this[input.id] = input.checked;
                 }
                 else {
-                    this.account[input.id] = input.value;
+                    this[input.id] = input.value;
                 }
             });
     }
@@ -191,9 +182,9 @@ export class FormHandler {
      * Show general errors
      */
     showErrors() {
-        if (false === this.account.public_shares_enabled) {
+        if (false === this.public_shares_enabled) {
             Popup.error('sharing_off');
-        } else if (false === this.account.cloud_supported) {
+        } else if (false === this.cloud_supported) {
             Popup.warn('unsupported_cloud');
         }
     }
@@ -202,7 +193,7 @@ export class FormHandler {
      * Update the content of the page header
      */
     updateHeader() {
-        HeaderHandler.updateFreespace(this.account);
-        HeaderHandler.updateCloudVersion(this.account);
+        HeaderHandler.updateFreespace(this);
+        HeaderHandler.updateCloudVersion(this);
     }
 }
