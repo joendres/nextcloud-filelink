@@ -1,5 +1,5 @@
 {
-    "esversion": 9,
+    "esversion": 11,
     "expr": true,
     "undef": false,
     "varstmt": false
