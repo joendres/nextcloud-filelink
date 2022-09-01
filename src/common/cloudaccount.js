@@ -284,7 +284,6 @@ export class CloudAccount {
                 this.userId = userId = Utils.encodeRFC3986(userId);
             }
         }
-        /** @todo What's this.userId if there is no new one? */
         return userId;
     }
 
