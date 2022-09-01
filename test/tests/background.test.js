@@ -10,16 +10,13 @@ describe("background.js", () => {
         ["onFileUpload", "onFileUpload"],
         ["onFileUploadAbort", "onFileUploadAbort"],
         ["onFileDeleted", "onFileDeleted"],
-        ["onAccountAdded", "onAccountAdded"],
         ["onAccountDeleted", "onAccountDeleted"],
     ];
     before(async () => {
         sinon.stub(AccountUpdater, "update_all");
         sinon.stub(TBVersionWorkarounds, "apply_all");
         sinon.stub(MessageDispatcher, "installHandler");
-        event_handlers.forEach(([event, handler]) => {
-            browser.cloudFile[event].removeListener(EventHandlers[handler]);
-        });
+        sinon.stub(browser.cloudFile.onAccountAdded, "addListener");
 
         await import("../../src/background/background.js");
     });
@@ -43,5 +40,8 @@ describe("background.js", () => {
         it(`installs EventHandlers.${handler} to handle ${event}`, () => {
             expect(browser.cloudFile[event].hasListener(EventHandlers[handler])).to.be.true;
         });
+    });
+    it("does not install a handler for onAccountAdded", () => {
+        expect(browser.cloudFile.onAccountAdded.addListener.called).to.be.false;
     });
 });
