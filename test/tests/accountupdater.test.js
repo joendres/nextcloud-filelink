@@ -15,7 +15,7 @@ describe("AccountUpdater", () => {
         });
 
         it("calls updateOneAccount for every account", async () => {
-            /** @todo this breaks the following tests */
+            const save_cloudfile = browser.cloudFile;
             browser.cloudFile = {
                 getAllAccounts: sinon.fake.resolves([{ id: 1, }, { id: 2, }]),
             };
@@ -23,12 +23,14 @@ describe("AccountUpdater", () => {
             expect(AccountUpdater.updateOneAccount.callCount).to.equal(2);
             expect(AccountUpdater.updateOneAccount.getCall(0).firstArg).to.equal(1);
             expect(AccountUpdater.updateOneAccount.getCall(1).firstArg).to.equal(2);
+            browser.cloudFile = save_cloudfile;
         });
         it("does nothing if no account is configured", () => {
-            /** @todo this breaks the following tests */
+            const save_cloudfile = browser.cloudFile;
             browser.cloudFile = { getAllAccounts: sinon.fake.resolves([]) };
             AccountUpdater.update_all();
             expect(AccountUpdater.updateOneAccount.called).to.be.false;
+            browser.cloudFile = save_cloudfile;
         });
     });
 

@@ -127,14 +127,16 @@ describe("CloudAccount", () => {
 
     describe("updateConfigured", () => {
         // This only works because the return value is not used
-        /** @todo This is not necessary as the fake can be queried by browser.cloudFile.updateAccount.lastCall... */
-        const updateAccount = sinon.fake.resolves({});
+        let save_cloudfile;
 
-        after(sinon.restore);
+        after(() => {
+            sinon.restore();
+            browser.cloudFile = save_cloudfile;
+        });
 
         before(() => {
-            /** @todo this breaks the following tests */
-            browser.cloudFile = { updateAccount };
+            save_cloudfile = browser.cloudFile;
+            browser.cloudFile = { updateAccount: sinon.fake.resolves({}) };
         });
 
         const full_data = {
@@ -151,7 +153,7 @@ describe("CloudAccount", () => {
             Object.assign(cloudaccount, full_data);
             await cloudaccount.updateConfigured();
 
-            expect(updateAccount.lastCall.lastArg).to.eql({ configured: true, });
+            expect(browser.cloudFile.updateAccount.lastCall.lastArg).to.eql({ configured: true, });
         });
 
         for (const key in full_data) {
@@ -161,7 +163,7 @@ describe("CloudAccount", () => {
                 delete cloudaccount[key];
                 await cloudaccount.updateConfigured();
 
-                expect(updateAccount.lastCall.lastArg).to.eql({ configured: false, });
+                expect(browser.cloudFile.updateAccount.lastCall.lastArg).to.eql({ configured: false, });
             });
         }
 
@@ -172,7 +174,7 @@ describe("CloudAccount", () => {
                 cloudaccount[key] = "";
                 await cloudaccount.updateConfigured();
 
-                expect(updateAccount.lastCall.lastArg).to.eql({ configured: false, });
+                expect(browser.cloudFile.updateAccount.lastCall.lastArg).to.eql({ configured: false, });
             });
         }
 
@@ -185,7 +187,7 @@ describe("CloudAccount", () => {
 
             await cloudaccount.updateConfigured();
 
-            expect(updateAccount.lastCall.lastArg).to.eql({ configured: true, });
+            expect(browser.cloudFile.updateAccount.lastCall.lastArg).to.eql({ configured: true, });
         });
         it("sets configured to false if password is enforced and onePassword is set, but no password", async () => {
             const cloudaccount = new CloudAccount("updateConfigured");
@@ -196,7 +198,7 @@ describe("CloudAccount", () => {
 
             await cloudaccount.updateConfigured();
 
-            expect(updateAccount.lastCall.lastArg).to.eql({ configured: false, });
+            expect(browser.cloudFile.updateAccount.lastCall.lastArg).to.eql({ configured: false, });
         });
         it("sets configured to true if password is enforced and generatePassword is set", async () => {
             const cloudaccount = new CloudAccount("updateConfigured");
@@ -206,7 +208,7 @@ describe("CloudAccount", () => {
 
             await cloudaccount.updateConfigured();
 
-            expect(updateAccount.lastCall.lastArg).to.eql({ configured: true, });
+            expect(browser.cloudFile.updateAccount.lastCall.lastArg).to.eql({ configured: true, });
         });
         it("sets configured to false if password is enforced and neither onePassword nor generatPassword is set", async () => {
             const cloudaccount = new CloudAccount("updateConfigured");
@@ -217,7 +219,7 @@ describe("CloudAccount", () => {
 
             await cloudaccount.updateConfigured();
 
-            expect(updateAccount.lastCall.lastArg).to.eql({ configured: false, });
+            expect(browser.cloudFile.updateAccount.lastCall.lastArg).to.eql({ configured: false, });
         });
 
         it("sets configured to false if onePassword is set, but no password", async () => {
@@ -228,7 +230,7 @@ describe("CloudAccount", () => {
 
             await cloudaccount.updateConfigured();
 
-            expect(updateAccount.lastCall.lastArg).to.eql({ configured: false, });
+            expect(browser.cloudFile.updateAccount.lastCall.lastArg).to.eql({ configured: false, });
         });
 
         it("sets configured to false if expiry is active but no date set", async () => {
@@ -239,7 +241,7 @@ describe("CloudAccount", () => {
 
             await cloudaccount.updateConfigured();
 
-            expect(updateAccount.lastCall.lastArg).to.eql({ configured: false, });
+            expect(browser.cloudFile.updateAccount.lastCall.lastArg).to.eql({ configured: false, });
         });
         it("sets configured to true if expiry is active and a date is set", async () => {
             const cloudaccount = new CloudAccount("updateConfigured");
@@ -249,7 +251,7 @@ describe("CloudAccount", () => {
 
             await cloudaccount.updateConfigured();
 
-            expect(updateAccount.lastCall.lastArg).to.eql({ configured: true, });
+            expect(browser.cloudFile.updateAccount.lastCall.lastArg).to.eql({ configured: true, });
         });
         it("sets configured to true if max_expiry is set but expiry is not active", async () => {
             const cloudaccount = new CloudAccount("updateConfigured");
@@ -259,7 +261,7 @@ describe("CloudAccount", () => {
 
             await cloudaccount.updateConfigured();
 
-            expect(updateAccount.lastCall.lastArg).to.eql({ configured: true, });
+            expect(browser.cloudFile.updateAccount.lastCall.lastArg).to.eql({ configured: true, });
         });
         it("sets configured to false if max_expiry is set and expiry is active but the expiry date is missing", async () => {
             const cloudaccount = new CloudAccount("updateConfigured");
@@ -270,7 +272,7 @@ describe("CloudAccount", () => {
 
             await cloudaccount.updateConfigured();
 
-            expect(updateAccount.lastCall.lastArg).to.eql({ configured: false, });
+            expect(browser.cloudFile.updateAccount.lastCall.lastArg).to.eql({ configured: false, });
         });
         it("sets configured to false if max_expiry is set and expiry is active but the expiry date too late", async () => {
             const cloudaccount = new CloudAccount("updateConfigured");
@@ -281,7 +283,7 @@ describe("CloudAccount", () => {
 
             await cloudaccount.updateConfigured();
 
-            expect(updateAccount.lastCall.lastArg).to.eql({ configured: false, });
+            expect(browser.cloudFile.updateAccount.lastCall.lastArg).to.eql({ configured: false, });
         });
         it("sets configured to true if max_expiry is set and expiry is active and the expiry date is ok", async () => {
             const cloudaccount = new CloudAccount("updateConfigured");
@@ -292,7 +294,7 @@ describe("CloudAccount", () => {
 
             await cloudaccount.updateConfigured();
 
-            expect(updateAccount.lastCall.lastArg).to.eql({ configured: true, });
+            expect(browser.cloudFile.updateAccount.lastCall.lastArg).to.eql({ configured: true, });
         });
 
         it("sets configured to false if expiry is enforced but expiry is not active", async () => {
@@ -303,7 +305,7 @@ describe("CloudAccount", () => {
 
             await cloudaccount.updateConfigured();
 
-            expect(updateAccount.lastCall.lastArg).to.eql({ configured: false, });
+            expect(browser.cloudFile.updateAccount.lastCall.lastArg).to.eql({ configured: false, });
         });
         it("sets configured to false if expiry is enforced but no expiry is set", async () => {
             const cloudaccount = new CloudAccount("updateConfigured");
@@ -314,7 +316,7 @@ describe("CloudAccount", () => {
 
             await cloudaccount.updateConfigured();
 
-            expect(updateAccount.lastCall.lastArg).to.eql({ configured: false, });
+            expect(browser.cloudFile.updateAccount.lastCall.lastArg).to.eql({ configured: false, });
         });
         it("sets configured to false if expiry is enforced but expiry is too late", async () => {
             const cloudaccount = new CloudAccount("updateConfigured");
@@ -326,7 +328,7 @@ describe("CloudAccount", () => {
 
             await cloudaccount.updateConfigured();
 
-            expect(updateAccount.lastCall.lastArg).to.eql({ configured: false, });
+            expect(browser.cloudFile.updateAccount.lastCall.lastArg).to.eql({ configured: false, });
         });
         it("sets configured to true if expiry is enforced and expiry is ok", async () => {
             const cloudaccount = new CloudAccount("updateConfigured");
@@ -338,7 +340,7 @@ describe("CloudAccount", () => {
 
             await cloudaccount.updateConfigured();
 
-            expect(updateAccount.lastCall.lastArg).to.eql({ configured: true, });
+            expect(browser.cloudFile.updateAccount.lastCall.lastArg).to.eql({ configured: true, });
         });
     });
 
