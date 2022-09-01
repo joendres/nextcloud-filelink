@@ -2,7 +2,7 @@ import { Localize } from "../../src/common/localize.js";
 import { FormHandler } from "../../src/management/formhandler.js";
 const expect = chai.expect;
 
-describe.only("management.js", () => {
+describe("management.js", () => {
     before(async () => {
         sinon.stub(FormHandler.prototype, "addListeners");
         sinon.stub(FormHandler.prototype, "fillData").resolves();
