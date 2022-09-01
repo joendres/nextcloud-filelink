@@ -1,39 +1,35 @@
 import { Localize } from "../../src/common/localize.js";
 import { FormHandler } from "../../src/management/formhandler.js";
-import { run } from "../../src/management/management.js";
 const expect = chai.expect;
 
-describe("management.js", () => {
-    describe('run', () => {
-        beforeEach(() => {
-            sinon.stub(FormHandler.prototype);
-            sinon.stub(Localize, "addLocalizedLabels");
-        });
-        afterEach(sinon.restore);
+describe.only("management.js", () => {
+    before(async () => {
+        sinon.stub(FormHandler.prototype, "addListeners");
+        sinon.stub(FormHandler.prototype, "fillData").resolves();
+        sinon.stub(FormHandler.prototype, "showErrors");
+        sinon.stub(FormHandler.prototype, "updateHeader");
+        sinon.stub(Localize, "addLocalizedLabels");
 
-        it("calls Localize.addLocalizedLabels", async () => {
-            await run();
-            expect(Localize.addLocalizedLabels.calledOnce).to.be.true;
-        });
-        it.skip("creates a new Formhandler", async () => {
-            await run();
-            expect.fail("can't spy on constructor?");
-        });
-        it("calls formHandler.addListeners", async () => {
-            await run();
-            expect(FormHandler.prototype.addListeners.calledOnce).to.be.true;
-        });
-        it("calls await formHandler.fillData", async () => {
-            await run();
-            expect(FormHandler.prototype.fillData.calledOnce).to.be.true;
-        });
-        it("calls formHandler.showErrors", async () => {
-            await run();
-            expect(FormHandler.prototype.showErrors.calledOnce).to.be.true;
-        });
-        it("calls formHandler.updateHeader", async () => {
-            await run();
-            expect(FormHandler.prototype.updateHeader.calledOnce).to.be.true;
-        });
+        await import("../../src/management/management.js");
+    });
+    after(sinon.restore);
+
+    it("calls Localize.addLocalizedLabels", async () => {
+        expect(Localize.addLocalizedLabels.calledOnce).to.be.true;
+    });
+    it.skip("creates a new Formhandler", async () => {
+        expect.fail("can't spy on constructor?");
+    });
+    it("calls formHandler.addListeners", async () => {
+        expect(FormHandler.prototype.addListeners.calledOnce).to.be.true;
+    });
+    it("calls await formHandler.fillData", async () => {
+        expect(FormHandler.prototype.fillData.calledOnce).to.be.true;
+    });
+    it("calls formHandler.showErrors", async () => {
+        expect(FormHandler.prototype.showErrors.calledOnce).to.be.true;
+    });
+    it("calls formHandler.updateHeader", async () => {
+        expect(FormHandler.prototype.updateHeader.calledOnce).to.be.true;
     });
 });
