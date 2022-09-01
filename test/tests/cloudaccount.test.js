@@ -133,7 +133,7 @@ describe("CloudAccount", () => {
         after(sinon.restore);
 
         before(() => {
-            // This only works if browser.cloudFile.* is not really needed in any test
+            /** @todo this breaks the following tests */
             browser.cloudFile = { updateAccount };
         });
 
