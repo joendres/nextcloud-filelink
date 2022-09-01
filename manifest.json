@@ -16,5 +16,6 @@
     "cloud_file": {
         "name": "Testing *cloud",
         "management_url": "about:blank"
-    }
+    },
+    "compose_action": {}
 }
