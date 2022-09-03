@@ -1,12 +1,11 @@
 import { Statuses } from "../common/statuses.js";
 
-/**
- * Fills the status popup with content
- *
- * @param {Map<string,UploadStatus>} uploads The Map with UploadStatus objects for all active uploads as received via message
- */
 export class StatusDisplay {
-    update(uploads) {
+    /**
+     * Updates the status display grid in the progress popup
+     * @param {Map<string,UploadStatus>} uploads All active uploads
+     */
+    static update(uploads) {
         /** @type {HTMLButtonElement} */
         const button_clear = document.querySelector("#button_clear");
         /** @type {HTMLDivElement} */

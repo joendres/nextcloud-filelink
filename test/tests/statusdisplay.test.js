@@ -4,4 +4,5 @@ const expect = chai.expect;
 describe('StatusDisplay', () => {
     describe('update', () => {
     });
+    /** @todo Add tests */
 });
