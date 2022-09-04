@@ -311,8 +311,8 @@ export class DavUploader {
                 uploadRequest.setRequestHeader(key, this.davHeaders[key]);
             }
 
-            uploadRequest.addEventListener("loadend", () => CurrentUploads.delete(uploadId));
-            CurrentUploads.set(uploadId, uploadRequest);
+            uploadRequest.addEventListener("loadend", () => CurrentUploads.remove(uploadId));
+            CurrentUploads.add(uploadId, uploadRequest);
             uploadRequest.send(data);
         });
     }

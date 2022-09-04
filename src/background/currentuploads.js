@@ -4,7 +4,7 @@ export class CurrentUploads {
      * @param {string} key The id of the upload
      * @param {XMLHttpRequest} value The XMLHttpRequest for this upload
      */
-    static set(key, value) {
+    static add(key, value) {
         if (!CurrentUploads.map) {
             CurrentUploads.map = new Map();
         }
@@ -15,7 +15,7 @@ export class CurrentUploads {
      * Removes the XMLHttpRequest of an upload
      * @param {string} key The id of the upload
      */
-    static delete(key) {
+    static remove(key) {
         if (CurrentUploads.map) {
             CurrentUploads.map.delete(key);
         }
@@ -30,7 +30,7 @@ export class CurrentUploads {
         if (!CurrentUploads.map) {
             return undefined;
         }
-        CurrentUploads.map.get(key);
+        return CurrentUploads.map.get(key);
     }
 
     /**
@@ -38,9 +38,10 @@ export class CurrentUploads {
      * @param {string} key The id of the upload
      */
     static abort(key) {
-        const abortController = CurrentUploads.get(key);
-        if (abortController && abortController.abort) {
-            abortController.abort();
+        /** @type {XMLHttpRequest} */
+        const request = CurrentUploads.get(key);
+        if (request && request.abort) {
+            request.abort();
         }
     }
 }
