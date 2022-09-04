@@ -4,7 +4,7 @@ export class HeaderHandler {
      * Update the free space info
      * @param {CloudAccount} account The CloudAccount object containing the free space info
      */
-    static async updateFreespace(account) {
+    static updateFreespace(account) {
         /** @type {HTMLDivElement} */
         const freespaceinfo = document.querySelector("#freespaceinfo");
 

@@ -3,8 +3,11 @@ const expect = chai.expect;
 
 describe("HeaderHandler", () => {
     describe('updateFreespace', () => {
-        let freespaceinfo, freespacelabel, freespace;
+        let freespaceinfo, freespacelabel, freespace, getmessage;
         beforeEach(() => {
+            getmessage = browser.i18n.getMessage;
+            browser.i18n.getMessage = sinon.fake.returns("localized");
+
             freespaceinfo = document.createElement("div");
             freespacelabel = document.createElement("label");
             freespace = document.createElement("meter");
@@ -18,8 +21,15 @@ describe("HeaderHandler", () => {
             freespace.remove();
             freespaceinfo.remove();
             freespacelabel.remove();
+            browser.i18n.getMessage = getmessage;
         });
 
+        it("is a static method", () => {
+            expect(HeaderHandler).itself.to.respondTo("updateFreespace");
+        });
+        it("is not an async method", () => {
+            expect(HeaderHandler.updateFreespace({})).not.to.be.a("Promise");
+        });
         it("hides the free space display if the free space is -1", () => {
             HeaderHandler.updateFreespace({
                 free: -1,
@@ -42,7 +52,6 @@ describe("HeaderHandler", () => {
             expect(freespaceinfo.hidden).to.be.false;
         });
         it("localizes and shows the free space info line", () => {
-            browser.i18n.getMessage = sinon.fake.returns("localized");
             HeaderHandler.updateFreespace({
                 free: 10,
                 total: 100,
@@ -65,6 +74,12 @@ describe("HeaderHandler", () => {
 
     describe('humanReadable', () => {
         const decimal_separator = (1.1).toLocaleString().match(/^1(.)1$/)[1];
+        it("is a static method", () => {
+            expect(HeaderHandler).itself.to.respondTo("humanReadable");
+        });
+        it("is not an async method", () => {
+            expect(HeaderHandler.humanReadable(7)).not.to.be.a("Promise");
+        });
         [
             [1, "1B"],
             [10, "10B"],
@@ -113,6 +128,13 @@ describe("HeaderHandler", () => {
             logo.remove();
             label_version.remove();
             provider_name.remove();
+        });
+
+        it("is a static method", () => {
+            expect(HeaderHandler).itself.to.respondTo("updateCloudVersion");
+        });
+        it("is not an async method", () => {
+            expect(HeaderHandler.updateCloudVersion({})).not.to.be.a("Promise");
         });
 
         it("shows the Nextcloud logo for Nextcloud", () => {
