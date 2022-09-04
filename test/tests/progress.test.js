@@ -3,7 +3,7 @@ import { ComPort } from "../../src/compose_action/comport.js";
 
 const expect = chai.expect;
 
-describe.only("progress.js", () => {
+describe("progress.js", () => {
     before(async () => {
 
         sinon.stub(Localize, "addLocalizedLabels");
