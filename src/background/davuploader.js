@@ -1,7 +1,7 @@
 import { Statuses } from "../common/statuses.js";
-import { allAbortControllers } from "./eventhandlers.js";
-import { Status } from "./status.js";
 import { Utils } from "../common/utils.js";
+import { CurrentUploads } from "./currentuploads.js";
+import { Status } from "./status.js";
 
 const davUrlBase = "remote.php/dav/files/";
 
@@ -230,7 +230,6 @@ export class DavUploader {
                 response.ok = false;
             }
         }
-        allAbortControllers.delete(uploadId);
         return response;
     }
     // #endregion
@@ -312,7 +311,8 @@ export class DavUploader {
                 uploadRequest.setRequestHeader(key, this.davHeaders[key]);
             }
 
-            allAbortControllers.set(uploadId, uploadRequest);
+            uploadRequest.addEventListener("loadend", () => CurrentUploads.delete(uploadId));
+            CurrentUploads.set(uploadId, uploadRequest);
             uploadRequest.send(data);
         });
     }

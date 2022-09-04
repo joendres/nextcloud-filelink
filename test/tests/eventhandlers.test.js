@@ -1,5 +1,6 @@
 import { CloudUploader } from "../../src/background/clouduploader.js";
-import { allAbortControllers, EventHandlers } from "../../src/background/eventhandlers.js";
+import { CurrentUploads } from "../../src/background/currentuploads.js";
+import { EventHandlers } from "../../src/background/eventhandlers.js";
 import { Status } from "../../src/background/status.js";
 import { CloudAccount } from "../../src/common/cloudaccount.js";
 const expect = chai.expect;
@@ -51,13 +52,13 @@ describe("EventHandlers", () => {
         const abort_fake = sinon.fake();
         afterEach(sinon.restore);
         beforeEach(() => {
-            sinon.stub(allAbortControllers, "get").returns({ abort: abort_fake, });
+            sinon.stub(CurrentUploads, "get").returns({ abort: abort_fake, });
             sinon.stub(Status, "remove");
         });
         it("calls abort of the corresponding abortController if it exists", () => {
             EventHandlers.onFileUploadAbort({ id: "account", }, 42);
-            expect(allAbortControllers.get.calledOnce).to.be.true;
-            expect(allAbortControllers.get.lastCall.firstArg).to.equal("account_42");
+            expect(CurrentUploads.get.calledOnce).to.be.true;
+            expect(CurrentUploads.get.lastCall.firstArg).to.equal("account_42");
             expect(abort_fake.calledOnce).to.be.true;
         });
         it("removes the upload from the Status map", () => {

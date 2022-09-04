@@ -1,16 +1,12 @@
 import { CloudAccount } from "../common/cloudaccount.js";
 import { CloudUploader } from "./clouduploader.js";
+import { CurrentUploads } from "./currentuploads.js";
 import { Status } from "./status.js";
-
-/** AbortControllers for all active uploads
- * @type {Map<string,XMLHttpRequest>}
- */
-const allAbortControllers = new Map();
 
 /**
  * High level handlers for the cloudFile events
  */
-class EventHandlers {
+export class EventHandlers {
     /**
      * Called when a file should be uploaded to the cloud file provider
      * @param {CloudFileAccount} account The account used for the file upload
@@ -32,7 +28,7 @@ class EventHandlers {
      */
     static onFileUploadAbort(account, fileId) {
         const uploadId = makeUploadId(account, fileId);
-        const abortController = allAbortControllers.get(uploadId);
+        const abortController = CurrentUploads.get(uploadId);
         if (abortController) {
             abortController.abort();
         }
@@ -77,5 +73,3 @@ class EventHandlers {
 function makeUploadId(account, fileId) {
     return `${account.id}_${fileId}`;
 }
-
-export { EventHandlers, allAbortControllers };
