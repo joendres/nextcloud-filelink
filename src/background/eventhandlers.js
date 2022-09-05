@@ -60,7 +60,7 @@ export class EventHandlers {
      */
     static onAccountDeleted(accountId) {
         const cloud_account = new CloudAccount(accountId);
-        cloud_account.deleteAccount();
+        cloud_account.delete();
     }
 }
 

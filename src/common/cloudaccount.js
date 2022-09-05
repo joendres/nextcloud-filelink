@@ -13,7 +13,6 @@ const defaults = {
 
 /**
  * This class encapsulates all calls to the Nextcloud or ownCloud web services
- * (API and DAV)
  */
 export class CloudAccount {
     /**
@@ -51,7 +50,7 @@ export class CloudAccount {
     /**
      * Clean up if an account is deleted
      */
-    async deleteAccount() {
+    async delete() {
         browser.storage.local.remove(this._accountId);
     }
 
@@ -336,9 +335,6 @@ export class CloudAccount {
      */
     async validateDLPassword() {
         let valid = await CloudAPI.validateDownloadPassword(this, this.downloadPassword);
-        if (null === valid) {
-            valid = !!this.downloadPassword;
-        }
-        return valid;
+        return null === valid ? !!this.downloadPassword : valid;
     }
 }
