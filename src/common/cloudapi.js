@@ -76,7 +76,7 @@ export class CloudAPI {
      * meet the criteria or null on error
      */
     static async validateDownloadPassword(account, downloadPassword) {
-        account.errmsg = "";
+        delete account.errmsg;
         if (!account.password_validate_url) {
             return null;
         }
@@ -122,7 +122,7 @@ export class CloudAPI {
     * Create a new share link for a file
     * @param {CloudAccount} account The account to query
     * @param {string} path The full path to the file
-    * @param {string} expireDate The date the shale link will expire as an ISO date string
+    * @param {string} expireDate The date the share link will expire as an ISO date string
     * @returns {Promise<string?>} The news share url or null on error
     */
     static async getNewShare(account, path, expireDate) {
