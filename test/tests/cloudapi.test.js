@@ -212,12 +212,12 @@ describe("CloudAPI", () => {
         it("returns capabilities: null if the API call does not return capabilities", async () => {
             const r = { version: { y: 15, } };
             CloudAPI.doApiCall.resolves(r);
-            expect((await CloudAPI.getCapabilitiesAndVersion({})).capabilities).to.be.null;
+            expect(await CloudAPI.getCapabilitiesAndVersion({})).to.have.property("capabilities", null);
         });
         it("returns version: null if the API does not return version", async () => {
             const r = { capabilities: { y: 15, } };
             CloudAPI.doApiCall.resolves(r);
-            expect((await CloudAPI.getCapabilitiesAndVersion({})).version).to.be.null;
+            expect(await CloudAPI.getCapabilitiesAndVersion({})).to.have.property("version", null);
         });
     });
 
@@ -308,39 +308,39 @@ describe("CloudAPI", () => {
         });
         it("returns free as a number if the API answer contains one", async () => {
             CloudAPI.doApiCall.resolves({ quota: { free: 42, }, });
-            expect((await CloudAPI.getQuota({})).free).to.equal(42);
+            expect(await CloudAPI.getQuota({})).to.have.property("free", 42);
         });
         it("returns free: null if the API answerd does not contain a value", async () => {
             CloudAPI.doApiCall.resolves({ quota: {}, });
-            expect((await CloudAPI.getQuota({})).free).to.be.null;
+            expect(await CloudAPI.getQuota({})).to.have.property("free", null);
         });
         it("returns free: null if the API answer contains an invalid value", async () => {
             CloudAPI.doApiCall.resolves({ quota: { free: "not a number" }, });
-            expect((await CloudAPI.getQuota({})).free).to.be.null;
+            expect(await CloudAPI.getQuota({})).to.have.property("free", null);
         });
         it("returns used as a number if the API answer contains one", async () => {
             CloudAPI.doApiCall.resolves({ quota: { used: 42, }, });
-            expect((await CloudAPI.getQuota({})).used).to.equal(42);
+            expect(await CloudAPI.getQuota({})).to.have.property("used", 42);
         });
         it("returns used: null if the API answerd does not contain a value", async () => {
             CloudAPI.doApiCall.resolves({ quota: {}, });
-            expect((await CloudAPI.getQuota({})).used).to.be.null;
+            expect(await CloudAPI.getQuota({})).to.have.property("used", null);
         });
         it("returns used: null if the API answer contains an invalid value", async () => {
             CloudAPI.doApiCall.resolves({ quota: { used: "not a number" }, });
-            expect((await CloudAPI.getQuota({})).used).to.be.null;
+            expect(await CloudAPI.getQuota({})).to.have.property("used", null);
         });
         it("returns total as a number if the API answer contains one", async () => {
             CloudAPI.doApiCall.resolves({ quota: { total: 42, }, });
-            expect((await CloudAPI.getQuota({})).total).to.equal(42);
+            expect(await CloudAPI.getQuota({})).to.have.property("total", 42);
         });
         it("returns total: null if the API answerd does not contain a value", async () => {
             CloudAPI.doApiCall.resolves({ quota: {}, });
-            expect((await CloudAPI.getQuota({})).total).to.be.null;
+            expect(await CloudAPI.getQuota({})).to.have.property("total", null);
         });
         it("returns total: null if the API answer contains an invalid value", async () => {
             CloudAPI.doApiCall.resolves({ quota: { total: "not a number" }, });
-            expect((await CloudAPI.getQuota({})).total).to.be.null;
+            expect(await CloudAPI.getQuota({})).to.have.property("total", null);
         });
     });
 
