@@ -18,9 +18,13 @@ describe("Localize", () => {
             expect(Localize).itself.to.respondTo("addLocalizedLabels");
         });
         it("is not an async function", () => {
+            const save = browser.i18n;
+            browser.i18n = { getMessage: sinon.fake.returns("localized"), };
             expect(Localize.addLocalizedLabels()).not.to.be.a("Promise");
+            browser.i18n = save;
         });
         it("sets the textContent of all Elements to the localized messages", () => {
+            const save = browser.i18n;
             browser.i18n = { getMessage: sinon.fake.returns("localized"), };
 
             Localize.addLocalizedLabels();
@@ -28,6 +32,7 @@ describe("Localize", () => {
                 const element = container.children[index];
                 expect(element.textContent).to.equal("localized");
             }
+            browser.i18n = save;
         });
         it("sets the textContent to empty string if there is no localized message", () => {
             browser.i18n = { getMessage: sinon.fake.returns(""), };
