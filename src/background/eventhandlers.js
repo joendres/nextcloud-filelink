@@ -59,8 +59,7 @@ export class EventHandlers {
      * @param {string} accountId The id of the removed account
      */
     static onAccountDeleted(accountId) {
-        const cloud_account = new CloudAccount(accountId);
-        cloud_account.delete();
+        new CloudAccount(accountId).delete();
     }
 }
 
