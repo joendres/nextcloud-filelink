@@ -9,8 +9,8 @@ import { Status } from "./status.js";
 export class EventHandlers {
     /**
      * Called when a file should be uploaded to the cloud file provider
-     * @param {CloudFileAccount} account The account used for the file upload
-     * @param {CloudFile} fileInfo The file to upload
+     * @param {browser.cloudFile.CloudFileAccount} account The account used for the file upload
+     * @param {browser.cloudFile.CloudFile} fileInfo The file to upload
      * @returns {Promise<{url:string, aborted:boolean}>} The URL where the
      * uploaded file can be accessed and info if the file upload was aborted by
      * the user
@@ -23,7 +23,7 @@ export class EventHandlers {
 
     /**
      * Called when the user chooses aborts an upload. Abort the upload.
-     * @param {CloudFileAccount} account The account used for the file upload
+     * @param {browser.cloudFile.CloudFileAccount} account The account used for the file upload
      * @param {number} fileId An identifier for this file
      */
     static onFileUploadAbort(account, fileId) {
@@ -37,7 +37,7 @@ export class EventHandlers {
 
     /**
      * Called when a previously uploaded file should be deleted. *cloud ignores it to reuse previous uploads
-     * @param {CloudFileAccount} account The account used for the file upload
+     * @param {browser.cloudFile.CloudFileAccount} account The account used for the file upload
      * @param {number} fileId An identifier for this file
      */
     static onFileDeleted(account, fileId) {
@@ -46,7 +46,7 @@ export class EventHandlers {
 
     /**
      * Called when a cloud file account of this add-on was created
-     * @param {CloudFileAccount} account The created account
+     * @param {browser.cloudFile.CloudFileAccount} account The created account
      */
     static async onAccountAdded(account) {
         const cloud_account = new CloudAccount(account.id);
@@ -67,7 +67,7 @@ export class EventHandlers {
 /**
  * The fileId is only unique within one account. makeUploadId creates a unique
  * string that identifies the upload even if more than one account is active.
- * @param {CloudFileAccount} account The CloudFileAccount as supplied by Thunderbird
+ * @param {browser.cloudFile.CloudFileAccount} account The CloudFileAccount as supplied by Thunderbird
  * @param {number} fileId The fileId supplied by Thunderbird
  */
 function makeUploadId(account, fileId) {
