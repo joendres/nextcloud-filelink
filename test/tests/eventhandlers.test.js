@@ -15,6 +15,8 @@ describe("EventHandlers", () => {
 
         afterEach(sinon.restore);
 
+        it("is a static method");
+        it("is an async method");
         it("creates a CloudUploader", async () => {
             const save = Object.getPrototypeOf(CloudUploader);
             const fake = sinon.fake();
@@ -55,6 +57,9 @@ describe("EventHandlers", () => {
             sinon.stub(CurrentUploads, "get").returns({ abort: abort_fake, });
             sinon.stub(Status, "remove");
         });
+
+        it("is a static method");
+        it("is not an async method");
         it("calls abort of the corresponding abortController if it exists", () => {
             EventHandlers.onFileUploadAbort({ id: "account", }, 42);
             expect(CurrentUploads.get.calledOnce).to.be.true;
@@ -74,6 +79,8 @@ describe("EventHandlers", () => {
         });
         afterEach(sinon.restore);
 
+        it("is a static method");
+        it("is not an async method");
         it("removes the upload from the Status map", () => {
             EventHandlers.onFileDeleted({ id: "account", }, "42");
             expect(Status.remove.lastCall.firstArg).to.equal("account_42");
@@ -89,16 +96,20 @@ describe("EventHandlers", () => {
 
     describe('onAccountDeleted', () => {
         beforeEach(() => {
-            sinon.stub(CloudAccount.prototype, "deleteAccount");
+            sinon.stub(CloudAccount.prototype, "delete");
         });
         afterEach(sinon.restore);
 
+        it("is a static method");
+        it("is not an async method");
         it("creates a CloudAccount"
-            /** @todo Why does the method used above to install a fake constructor not work here? */
+            /** @todo Why does the method used above to install a fake constructor not work here?
+             * A difference: CloudUploader inherits its constructor
+             */
         );
-        it("calls CloudAccount.deleteAccount for the account", () => {
+        it("calls CloudAccount.delete for the account", () => {
             EventHandlers.onAccountDeleted("account1");
-            expect(CloudAccount.prototype.deleteAccount.calledOnce).to.be.true;
+            expect(CloudAccount.prototype.delete.calledOnce).to.be.true;
         });
     });
 });

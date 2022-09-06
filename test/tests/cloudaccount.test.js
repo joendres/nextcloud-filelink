@@ -65,13 +65,13 @@ describe("CloudAccount", () => {
         });
     });
 
-    describe("deleteAccount", () => {
+    describe("delete", () => {
         it("removes the account from storage", async () => {
             const cloud_account = new CloudAccount("remove");
             cloud_account.answer = 42;
             cloud_account.store();
 
-            cloud_account.deleteAccount();
+            cloud_account.delete();
             const allAccounts = await browser.storage.local.get();
 
             expect(allAccounts).not.to.have.property("remove");
