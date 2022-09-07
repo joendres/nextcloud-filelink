@@ -15,8 +15,12 @@ describe("EventHandlers", () => {
 
         afterEach(sinon.restore);
 
-        it("is a static method");
-        it("is an async method");
+        it("is a static method", () => {
+            expect(EventHandlers).itself.to.respondTo("onFileUpload");
+        });
+        it("is an async method", () => {
+            expect(EventHandlers.onFileUpload({}, {})).to.be.a("Promise");
+        });
         it("creates a CloudUploader", async () => {
             const save = Object.getPrototypeOf(CloudUploader);
             const fake = sinon.fake();
@@ -51,20 +55,23 @@ describe("EventHandlers", () => {
     });
 
     describe('onFileUploadAbort', () => {
-        const abort_fake = sinon.fake();
         afterEach(sinon.restore);
         beforeEach(() => {
-            sinon.stub(CurrentUploads, "get").returns({ abort: abort_fake, });
+            sinon.stub(CurrentUploads, "get").returns({ abort: sinon.fake(), });
             sinon.stub(Status, "remove");
         });
 
-        it("is a static method");
-        it("is not an async method");
+        it("is a static method", () => {
+            expect(EventHandlers).itself.to.respondTo("onFileUploadAbort");
+        });
+        it("is not an async method", () => {
+            expect(EventHandlers.onFileUploadAbort({}, 7)).not.to.be.a("Promise");
+        });
         it("calls abort of the corresponding abortController if it exists", () => {
             EventHandlers.onFileUploadAbort({ id: "account", }, 42);
             expect(CurrentUploads.get.calledOnce).to.be.true;
             expect(CurrentUploads.get.lastCall.firstArg).to.equal("account_42");
-            expect(abort_fake.calledOnce).to.be.true;
+            expect(CurrentUploads.get().abort.calledOnce).to.be.true;
         });
         it("removes the upload from the Status map", () => {
             EventHandlers.onFileUploadAbort({ id: "account", }, 42);
@@ -79,8 +86,12 @@ describe("EventHandlers", () => {
         });
         afterEach(sinon.restore);
 
-        it("is a static method");
-        it("is not an async method");
+        it("is a static method", () => {
+            expect(EventHandlers).itself.to.respondTo("onFileDeleted");
+        });
+        it("is not an async method", () => {
+            expect(EventHandlers.onFileDeleted({}, 7)).not.to.be.a("Promise");
+        });
         it("removes the upload from the Status map", () => {
             EventHandlers.onFileDeleted({ id: "account", }, "42");
             expect(Status.remove.lastCall.firstArg).to.equal("account_42");
@@ -100,13 +111,12 @@ describe("EventHandlers", () => {
         });
         afterEach(sinon.restore);
 
-        it("is a static method");
-        it("is not an async method");
-        it("creates a CloudAccount"
-            /** @todo Why does the method used above to install a fake constructor not work here?
-             * A difference: CloudUploader inherits its constructor
-             */
-        );
+        it("is a static method", () => {
+            expect(EventHandlers).itself.to.respondTo("onAccountDeleted");
+        });
+        it("is not an async method", () => {
+            expect(EventHandlers.onAccountDeleted()).not.to.be.a("Promise");
+        });
         it("calls CloudAccount.delete for the account", () => {
             EventHandlers.onAccountDeleted("account1");
             expect(CloudAccount.prototype.delete.calledOnce).to.be.true;
