@@ -1,4 +1,3 @@
-import { CloudAccount } from "../../src/common/cloudaccount.js";
 import { DownloadPasswordFieldHandler } from "../../src/management/downloadpasswordfieldhandler.js";
 import { FormHandler } from "../../src/management/formhandler.js";
 import { Popup } from "../../src/management/popup/popup.js";
