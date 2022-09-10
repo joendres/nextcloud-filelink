@@ -112,8 +112,8 @@ export class CloudUploader extends CloudAccount {
             !share.share_with && !share.password &&
             // ... and the same expiration date
             (
-                (!this.useExpiry && share.expiration === null) ||
-                (this.useExpiry && share.expiration !== null && share.expiration.startsWith(expireDate))
+                (!this.useExpiry && !share.expiration) ||
+                (this.useExpiry && share.expiration && share.expiration.startsWith(expireDate))
             ));
 
         if (existingShare && existingShare.url) {
@@ -162,6 +162,7 @@ export class CloudUploader extends CloudAccount {
             return null;
         }
         let encoderUrl = u.origin.replace(u.hostname, punycode.toUnicode(u.hostname)) +
+            /** @todo As URL() already encodes the path, does double encoding make sense? */
             Utils.encodepath(u.pathname);
 
         if (!this.noAutoDownload) {

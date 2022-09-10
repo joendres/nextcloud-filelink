@@ -1,5 +1,7 @@
 mocha.setup({
     ui: "bdd",
-    globals: ["browser"]
+    globals: [
+        "browser",
+        "punycode",]
 });
 mocha.checkLeaks();
