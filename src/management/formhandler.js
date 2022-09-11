@@ -116,7 +116,7 @@ export class FormHandler extends CloudAccount {
         /** @type {HTMLFieldSetElement} */
         const all_fields = document.querySelector("#all_fields");
         all_fields.disabled = false;
-        document.querySelector("body").classList.remove('busy');
+        document.body.classList.remove('busy');
     }
 
     /**
@@ -150,13 +150,13 @@ export class FormHandler extends CloudAccount {
     }
 
     /**
-     * Do whatever is necessary after the CloudAccount state is update from the cloud
+     * Do whatever is necessary after the CloudAccount state is updated from the cloud
      */
-    async postCloudUpdate() {
+    postCloudUpdate() {
         if ('undefined' === typeof this.public_shares_enabled) {
             Popup.warn('no_config_check');
         }
-        Promise.all([
+        return Promise.all([
             AccountFieldHandler.postCloudUpdate(this),
             DownloadPasswordFieldHandler.postCloudUpdate(this),
         ]);
