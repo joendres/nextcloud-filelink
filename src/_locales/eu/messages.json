@@ -48,7 +48,7 @@
     "message": "Erabili sortutako pasahitzak"
   },
   "useGeneratedDlPassword_details": {
-    "message": "Ausazko pasahitz bat sortuko da fitxategi bakoitzeko. Egin klik *cloud egoera botoian fitxategiak igo ondoren, sortutako pasahitzak ikusi eta kopiatzeko."
+    "message": "Ausazko pasahitz bat sortuko da fitxategi bakoitzeko. Egin klik eranskinen panelaren gaineko *cloud egoera botoian fitxategiak igo ondoren sortutako pasahitzak ikusi eta kopiatzeko."
   },
   "useDlPassword": {
     "message": "Babestu deskargak pasahitzekin"
