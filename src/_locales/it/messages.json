@@ -32,6 +32,9 @@
   "storageFolder": {
     "message": "Percorso di archiviazione nel cloud"
   },
+  "advanced_options": {
+    "message": "Opzioni avanzate"
+  },
   "storageFolder_details": {
     "message": "Percorso in cui verranno archiviati gli allegati nel cloud. Se non si esce, viene creato durante il caricamento."
   },
@@ -65,6 +68,12 @@
   "expiry_details": {
     "message": "Il numero di giorni in cui il download sarà disponibile, incluso oggi"
   },
+  "noAutoDownload": {
+    "message": "Mostra le informazioni sul file prima del download"
+  },
+  "noAutoDownload_details": {
+    "message": "Facendo clic sul link si devono visualizzare le informazioni sul file (ed eventualmente un'anteprima) o avviare immediatamente il download?"
+  },
   "freespace": {
     "message": "Spazio libero ($FREE$ di $FULL$)",
     "placeholders": {
@@ -77,46 +86,59 @@
     }
   },
   "success": {
+    "description": "This is displayed as a popup over the configuration page if the configuration has no errors or warnings",
     "message": "Successo"
   },
   "error_0": {
+    "description": "This is displayed as a popup over the configuration page. $1 will be replaced with the server's error message",
     "message": "Errore sconosciuto ($1)"
   },
   "error_typeerror": {
+    "description": "This is displayed as a popup over the configuration page",
     "message": "Nessuna connessione. Controlla l'URL del server e la connessione di rete"
   },
   "error_404": {
+    "description": "This is displayed as a popup over the configuration page",
     "message": "Verifica dell'account non riuscita: nome utente errato o errore rete o di cloud incompatibile"
   },
   "warn_unsupported_cloud": {
+    "description": "This is displayed as a popup over the configuration page",
     "message": "Versione obsoleta di Nextcloud o ownCloud. Potresti perdere dati. Chiedere all'amministratore del cloud di aggiornare"
   },
-  "obsolete_version": {
-    "description": "This is displayed over the icon if the cloud version is not supported, so it should be quite short and contain at most two lines.",
-    "message": "Versione\nobsoleta"
+  "warn_nonascii_password": {
+    "description": "This is displayed as a popup over the configuration page",
+    "message": "La password contiene caratteri che potrebbero causare problemi di accesso. Usa invece un token app."
   },
   "error_401": {
+    "description": "This is displayed as a popup over the configuration page",
     "message": "Accesso non riuscito. Controllare il nome utente e la password."
   },
   "error_503": {
+    "description": "This is displayed as a popup over the configuration page",
     "message": "Il server è in modalità di manutenzione. Riprova più tardi."
   },
   "error_sharing_off": {
+    "description": "This is displayed as a popup over the configuration page",
     "message": "La condivisione è disabilitata in questo cloud. Chiedi all'amministratore di abilitarlo."
   },
   "error_invalid_pw": {
+    "description": "This is displayed as a popup over the configuration page. $1 will be replaced with the server's error message",
     "message": "Password di download non valida (i caricamenti falliranno). Il server dice: $ 1"
   },
   "error_password_enforced": {
+    "description": "This is displayed as a popup over the configuration page",
     "message": "Il cloud richiede una password di download."
   },
   "warn_expiry_too_long": {
+    "description": "This is displayed as a popup over the configuration page",
     "message": "L'amministratore del cloud ha impostato un tempo di scadenza massimo di $ 1 giorni. Il valore è stato ritagliato, altrimenti i caricamenti avrebbero avuto esito negativo."
   },
   "warn_no_config_check": {
+    "description": "This is displayed as a popup over the configuration page",
     "message": "Verifica dell'account non riuscita. Problemi di rete?"
   },
   "warn_insecure_http": {
+    "description": "This is displayed as a popup over the configuration page",
     "message": "Con http: i dati di accesso verranno trasferiti non crittografati. Usa https: invece. Se non funziona, chiedi al tuo amministratore."
   },
   "status_menutooltip": {
@@ -139,21 +161,23 @@
     "message": "Preparazione"
   },
   "status_creating": {
+    "description": "This will be displayed in the status popup. If this step fails this string will be combined with one indicating failure, eg 'Preparing file size failed'.",
     "message": "Creazione cartella"
   },
   "status_moving": {
+    "description": "This will be displayed in the status popup. If this step fails this string will be combined with one indicating failure, eg 'Preparing file size failed'.",
     "message": "Spostamento di file in conflitto"
   },
   "status_uploading": {
+    "description": "This will be displayed in the status popup. If this step fails this string will be combined with one indicating failure, eg 'Preparing file size failed'.",
     "message": "Caricamento"
   },
   "status_sharing": {
+    "description": "This will be displayed in the status popup. If this step fails this string will be combined with one indicating failure, eg 'Preparing file size failed'.",
     "message": "Condivisione"
   },
-  "status_checkingsize": {
-    "message": "Controllo dimensione massima del file"
-  },
   "status_checkingspace": {
+    "description": "This will be displayed in the status popup. If this step fails this string will be combined with one indicating failure, eg 'Preparing file size failed'.",
     "message": "Controllo spazio libero"
   },
   "status_error": {
@@ -161,12 +185,7 @@
     "message": "$1 non riuscito/a"
   },
   "status_password": {
+    "description": "This will be displayed in the status popup if download passwords are generated. $1 is replaced with the generated password for this file",
     "message": "password: $ 1"
-  },
-  "warn_nonascii_password": {
-    "message": "La password contiene caratteri che potrebbero causare problemi di accesso. Usa invece un token app."
-  },
-  "advanced_options": {
-    "message": "Opzioni avanzate"
   }
 }
