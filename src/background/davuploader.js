@@ -126,6 +126,7 @@ export class DavUploader {
     async getRemoteFileInfo(fileName) {
         const response = await this.doDavCall(this.storageFolder + '/' + fileName, "PROPFIND");
         // something with the right name exists ...
+        /** @todo according to MDN this is redundant */
         if (response.ok && response.status < 300) {
             try {
                 const xmlDoc = new DOMParser().parseFromString(await response.text(), 'application/xml');
@@ -144,8 +145,7 @@ export class DavUploader {
     /**
      * Moves a file to a new destination folder
      * @param {string} uploadId The id of the upload created in background.js
-     * @param {string} fileName The file's path and name relative to the storage
-     * folder
+     * @param {string} fileName The file's path and name relative to the storage folder
      * @param {string} newPath The new path and name
      * @returns {Promise<Response>} A promise that resolves to the Response object of the DAV request
      * @throws If any problem occurs
