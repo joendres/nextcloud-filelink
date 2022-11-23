@@ -57,6 +57,13 @@ three ways to start the upload:
 
 ### Known issues
 
+#### Filenames with Unicode special character cause problems
+
+In some minor versions of Thunderbird 102.2 filenames with specials characters
+or in non-US script systems like Greek case problems. The upload works but
+sharing the uploaded file fails. This is fixed in Thunderbird 102.5.0; please
+update.
+
 #### You don't like the text/HTML/links inserted into the message
 
 Many users would like to change the text that is inserted into the message along
@@ -150,7 +157,7 @@ If things still don't work, I'd appreciate a problem report by
 #### Download passwords
 
 **If you use download passwords, _never_ put them into an email, but give them
-to the recipient via a separate, secure channel eg a messenger or a telefone
+to the recipient via a separate, secure channel eg a messenger or a telephone
 call.**
 
 Why? As a security measure the generated download links contain a long, almost
@@ -223,8 +230,8 @@ Some settings in Nextcloud/ownCloud are relevant for this Add-On:
 * **Settings -> Sharing -> Allow apps to use the Share API** has to be enabled
 * **Settings -> Sharing -> Allow users to share via link** has to be enabled
 * **The app "Share Files" has to be active.** In ownCloud the Apps management is
-  part of the Administrator's settings, in Nextcloud it's accessible directly
-  from the Admin's profile menu.
+  part of the administrator's settings, in Nextcloud it's accessible directly
+  from the admin's profile menu.
 
 ### Redirects
 
