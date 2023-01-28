@@ -1,7 +1,7 @@
 import { DavUploader } from "../../src/background/davuploader.js";
 const expect = chai.expect;
 
-describe.only("DavUploader", () => {
+describe("DavUploader", () => {
     /** @todo Add tests */
     describe('constructor', () => {
         it("sets the expected default properties", () => {
