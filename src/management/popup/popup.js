@@ -41,14 +41,14 @@ export class Popup {
         /** @type {HTMLDivElement} */
         const msg_container = document.querySelector("#msg_container");
 
-        /** @type {HTMLDivElement} */
+        /** @type {HTMLTemplateElement} */
         const template = document.querySelector(`#${kind}_popup`);
-        /** @type {HTMLDivElement} */
-        const new_box = template.cloneNode(true);
+        /** @type {DocumentFragment} */
+        const new_box = template.content.cloneNode(true);
         new_box.querySelector(".popup_message").textContent = message;
-        new_box.hidden = false;
         new_box.querySelector(".msg_bar_closebtn").onclick = Popup.close;
-        return msg_container.appendChild(new_box);
+        msg_container.appendChild(new_box);
+        return msg_container.lastChild;
     }
 
     /**

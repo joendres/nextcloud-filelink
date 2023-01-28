@@ -101,13 +101,13 @@ describe("Popup", () => {
     describe('openPopup', () => {
         beforeEach(() => {
             const msg_container = document.createElement("div");
-            const popup = document.createElement("div");
-            let element = document.createElement("div");
-            element.classList.add("popup_message");
-            popup.appendChild(element);
-            element = document.createElement("button");
-            element.classList.add("msg_bar_closebtn");
-            popup.appendChild(element);
+            const popup = document.createElement("template"); // <template id="error_popup">
+            popup.innerHTML = `
+            <div class="msg_bar error_bar">
+            <span class="msg_bar_icon"> </span>
+            <span class="msg_bar_closebtn"></span>
+            <span class="popup_message"></span>
+            </div>`;
             sinon.stub(document, "querySelector").
                 withArgs("#msg_container").returns(msg_container).
                 withArgs(sinon.match(/^#\w+_popup$/)).returns(popup);
@@ -127,7 +127,7 @@ describe("Popup", () => {
 
             Popup.openPopup("error", "error");
             expect(spy.calledOnce).to.be.true;
-            expect(spy.lastCall.firstArg).to.be.a("HTMLDivElement");
+            expect(spy.lastCall.firstArg).to.be.a("DocumentFragment");
         });
         it("returns the popup", () => {
             const p = Popup.openPopup("error", "error");

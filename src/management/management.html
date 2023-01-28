@@ -127,24 +127,30 @@
     </form>
 
     <!-- Message bar templates -->
-    <!-- @todo use HTML5 templates https://developer.mozilla.org/en-US/docs/Web/HTML/Element/template -->
-    <div id="success_popup" class="msg_bar success_bar" hidden>
-        <span class="msg_bar_icon"> </span>
-        <span class="msg_bar_closebtn"></span>
-        <span class="popup_message"></span>
-    </div>
+    <template id="success_popup">
+        <div class="msg_bar success_bar">
+            <span class="msg_bar_icon"> </span>
+            <span class="msg_bar_closebtn"></span>
+            <span class="popup_message"></span>
+        </div>
+    </template>
 
-    <div id="warning_popup" class="msg_bar warning_bar" hidden>
-        <span class="msg_bar_icon"> </span>
-        <span class="msg_bar_closebtn"></span>
-        <span class="popup_message"></span>
-    </div>
+    <template id="warning_popup">
+        <div class="msg_bar warning_bar">
+            <span class="msg_bar_icon"> </span>
+            <span class="msg_bar_closebtn"></span>
+            <span class="popup_message"></span>
+        </div>
+    </template>
 
-    <div id="error_popup" class="msg_bar error_bar" hidden>
-        <span class="msg_bar_icon"> </span>
-        <span class="msg_bar_closebtn"></span>
-        <span class="popup_message"></span>
-    </div>
+    <template id="error_popup">
+        <div class="msg_bar error_bar">
+            <span class="msg_bar_icon"> </span>
+            <span class="msg_bar_closebtn"></span>
+            <span class="popup_message"></span>
+        </div>
+    </template>
+
 </body>
 
 </html>
