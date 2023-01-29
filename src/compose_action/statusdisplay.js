@@ -24,9 +24,9 @@ export class StatusDisplay {
 
         button_clear.classList.add('hidden');
         if (uploads.size === 0) {
-            no_uploads.hidden = false;
+            no_uploads.classList.remove('hidden');
         } else {
-            no_uploads.hidden = true;
+            no_uploads.classList.add('hidden');
             if (has_information()) {
                 button_clear.classList.remove('hidden');
             }
@@ -39,8 +39,10 @@ export class StatusDisplay {
          * @returns {boolean} true if any of the uploads is in error state
          */
         function has_information() {
-            for (const a of uploads) {
-                if (true === a[1].error || a[1].status === Statuses.GENERATEDPASSWORD) { return true; }
+            for (const value of uploads.values()) {
+                if (true === value.error || value.status === Statuses.GENERATEDPASSWORD) {
+                    return true;
+                }
             }
             return false;
         }
