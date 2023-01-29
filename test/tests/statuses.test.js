@@ -16,12 +16,4 @@ describe("Statuses",()=>{
             UPLOADING: "uploading",
         });
     });
-    for (const key in Statuses) {
-        const status = Statuses[key];
-        it.skip(`there is a string for ${status}`, () => {
-            /** @todo This doesn't work because _locales is not in the correct directory */
-            const message = browser.i18n.getMessage(`status_${status}`);
-            expect(message).not.to.be.empty;
-        });
-    }
 });
