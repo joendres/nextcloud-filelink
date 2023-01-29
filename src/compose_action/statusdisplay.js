@@ -53,12 +53,16 @@ export class StatusDisplay {
          */
         function fill_status_row(status) {
             // Append the file name
-            let div = template_cell.cloneNode(true);
+            /** @type {DocumentFragment} */
+            let template = template_cell.cloneNode(true);
+            /** @type {HTMLDivElement} */
+            let div = template.querySelector(".cell");
             div.textContent = status.filename;
             status_lines.appendChild(div);
 
             // Add the middle field 
-            div = template_cell.cloneNode(true);
+            template = template_cell.cloneNode(true);
+            div = template.querySelector(".cell");
             if (status.error) {
                 div.classList.add('error');
                 div.textContent =
@@ -84,7 +88,8 @@ export class StatusDisplay {
             status_lines.appendChild(div);
 
             // Add the copy button as a placeholder
-            div = template_copy.cloneNode(true);
+            template = template_copy.cloneNode(true);
+            div = template.querySelector(".copy");
             if (status.status === Statuses.GENERATEDPASSWORD) {
                 const button = div.querySelector("button");
                 button.addEventListener('click', () => navigator.clipboard.writeText(status.password));
