@@ -12,10 +12,10 @@ export class StatusDisplay {
         const status_lines = document.querySelector("#status_lines");
         /** @type {HTMLDivElement} */
         const no_uploads = document.querySelector("#no_uploads");
-        /** @type {HTMLDivElement} */
-        const template_copy = document.querySelector("#templates>.copy");
-        /** @type {HTMLDivElement} */
-        const template_cell = document.querySelector("#templates>.cell");
+        /** @type {DocumentFragment} */
+        const template_copy = document.querySelector("#template_copy").content;
+        /** @type {DocumentFragment} */
+        const template_cell = document.querySelector("#template_cell").content;
 
         // Empty the grid
         while (status_lines.firstChild) {
