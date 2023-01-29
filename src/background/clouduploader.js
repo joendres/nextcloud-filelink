@@ -153,22 +153,21 @@ export class CloudUploader extends CloudAccount {
      * @returns {string?} The cleaned URL or null if url is not a valid http(s) URL
      */
     cleanUrl(url) {
-        let u;
         try {
-            u = new URL(url);
+            const u = new URL(url);
+            if (!u.protocol.match(/^https?:$/)) {
+                return null;
+            }
+            let encoderUrl =
+                u.origin.replace(u.hostname, punycode.toUnicode(u.hostname)) +
+                u.pathname;
+
+            if (!this.noAutoDownload) {
+                encoderUrl += (encoderUrl.endsWith("/") ? "" : "/") + "download";
+            }
+            return encoderUrl;
         } catch (_) {
             return null;
         }
-        if (!u.protocol.match(/^https?:$/)) {
-            return null;
-        }
-        let encoderUrl = u.origin.replace(u.hostname, punycode.toUnicode(u.hostname)) +
-            /** @todo As URL() already encodes the path, does double encoding make sense? */
-            Utils.encodepath(u.pathname);
-
-        if (!this.noAutoDownload) {
-            encoderUrl += (encoderUrl.endsWith("/") ? "" : "/") + "download";
-        }
-        return encoderUrl;
     }
 }
