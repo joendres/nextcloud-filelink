@@ -126,8 +126,7 @@ export class DavUploader {
     async getRemoteFileInfo(fileName) {
         const response = await this.doDavCall(this.storageFolder + '/' + fileName, "PROPFIND");
         // something with the right name exists ...
-        /** @todo according to MDN this is redundant */
-        if (response.ok && response.status < 300) {
+        if (response.ok) {
             try {
                 const xmlDoc = new DOMParser().parseFromString(await response.text(), 'application/xml');
                 // ... and it's a file ...
