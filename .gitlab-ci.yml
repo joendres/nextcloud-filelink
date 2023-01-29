@@ -7,7 +7,6 @@ cache:
 
 before_script:
   - npm install --loglevel error 
-  - git submodule update --init
 
 lint:
   stage: test
