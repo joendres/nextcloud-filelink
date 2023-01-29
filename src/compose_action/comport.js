@@ -2,9 +2,10 @@ import { StatusDisplay } from "./statusdisplay.js";
 
 export class ComPort {
     static setup() {
-        /** Establish messaging with background worker
-         * @type {browser.runtime.Port} */
+        // Establish messaging with background worker
+        /** @type {browser.runtime.Port} */
         ComPort.port = browser.runtime.connect();
+        // Set the handler for the messages sent in Status.update()
         ComPort.port.onMessage.addListener(StatusDisplay.update);
         ComPort.port.postMessage("update");
 
@@ -15,6 +16,6 @@ export class ComPort {
     }
 
     static clearButtonHandler() {
-        ComPort.port.postMessage('clearcomplete');
+        ComPort.port.postMessage("clearcomplete");
     }
 }
