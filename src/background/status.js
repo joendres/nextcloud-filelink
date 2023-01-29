@@ -2,15 +2,23 @@ import { Statuses } from "../common/statuses.js";
 import { UploadStatus } from "../common/uploadstatus.js";
 
 export class Status {
+    /** 
+     * Singleton that holds the statuses of all uploads
+     * @type {Map<string,UploadStatus>}
+     */
+    static get attachmentStatus() {
+        if (!Status._attachmentStatus) {
+            Status._attachmentStatus = new Map();
+        }
+        return Status._attachmentStatus;
+    }
+
     /**
      * Add a new upload to the list
      * @param {string} uploadId The id of the upload
      * @param {string} fileName The name of the file that is uploaded
      */
     static add(uploadId, fileName) {
-        if (!Status.attachmentStatus) {
-            Status.attachmentStatus = new Map();
-        }
         Status.attachmentStatus.set(uploadId, new UploadStatus(fileName));
     }
 
@@ -71,7 +79,7 @@ export class Status {
      */
     static done(uploadId) {
         const upload = Status.attachmentStatus.get(uploadId);
-        if (true !== upload.error && Statuses.GENERATEDPASSWORD !== upload.status) {
+        if (upload && true !== upload.error && Statuses.GENERATEDPASSWORD !== upload.status) {
             Status.remove(uploadId);
         }
     }

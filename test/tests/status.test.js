@@ -117,7 +117,6 @@ describe("Status", () => {
             Status.add("password", "password");
             Status.set_password("password", "password");
             Status.set_status("password", Statuses.GENERATEDPASSWORD);
-            Status.add("OK", "OK");
         });
         afterEach(() => {
             sinon.restore();
@@ -142,13 +141,14 @@ describe("Status", () => {
             expect(Status.attachmentStatus.has("password")).to.be.true;
         });
         it("does nothing if the element does not exist", () => {
-            const map_before = Status.attachmentStatus;
+            const map_before = new Map(Status.attachmentStatus);
             Status.done("unknown");
             expect(Status.attachmentStatus).to.deep.equal(map_before);
         });
         it("calls Status.update", () => {
+            Status.add("OK", "OK");
             Status.done("OK");
-            expect(Status.update.calledOnce).to.be.true;
+            expect(Status.update.called).to.be.true;
         });
     });
     describe("update", () => { /* async */
