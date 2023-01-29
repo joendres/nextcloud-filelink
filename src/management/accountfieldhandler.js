@@ -47,7 +47,6 @@ export class AccountFieldHandler {
      * @param {CloudAccount} account The CloudAccount linked to the open form
      */
     static async postCloudUpdate(account) {
-        /** @todo store it in the input field too? */
         await account.convertToApppassword();
     }
 }
