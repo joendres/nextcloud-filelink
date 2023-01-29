@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "npx web-ext run -s src",
-    "test": "npx web-ext run"
+    "test": "npx web-ext run",
+    "postinstall": "cp -p ./node_modules/punycode/punycode.es6.js ./src/background/"
   },
   "dependencies": {
     "punycode": "^2.1.1"
@@ -22,11 +23,6 @@
   },
   "webExt": {
     "ignoreFiles": [
-      "punycode/package.json",
-      "punycode/README.md",
-      "punycode/punycode.es6.js",
-      "punycode/scripts",
-      "punycode/tests",
       "photon-components-web/index.js",
       "photon-components-web/images/arrow-grey-40-*.svg",
       "photon-components-web/images/open-in-new-16-*.svg",

@@ -3,3 +3,4 @@ node_modules
 .dccache
 public
 .vscode/launch.json
+src/background/punycode.es6.js

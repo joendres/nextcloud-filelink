@@ -362,16 +362,6 @@ describe("CloudUploader", () => {
         });
     });
     describe('cleanUrl', () => {
-        beforeEach(() => {
-            window.punycode = { toUnicode: () => 0, };
-            sinon.stub(window.punycode, "toUnicode");
-            window.punycode.toUnicode.withArgs("xn--dner-5qa.de").returns("döner.de");
-            window.punycode.toUnicode.returnsArg(0);
-        });
-        afterEach(() => {
-            delete window.punycode;
-        });
-
         it("is not a static method", () => {
             expect(CloudUploader).not.itself.to.respondTo("uploadFile");
         });

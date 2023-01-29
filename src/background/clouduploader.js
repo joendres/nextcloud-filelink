@@ -5,6 +5,7 @@ import { Statuses } from "../common/statuses.js";
 import { Utils } from "../common/utils.js";
 import { PasswordGenerator } from "./passwordgenerator.js";
 import { Status } from "./status.js";
+import * as punycode from "../background/punycode.es6.js";
 
 export class CloudUploader extends CloudAccount {
     /**
@@ -171,5 +172,3 @@ export class CloudUploader extends CloudAccount {
         return encoderUrl;
     }
 }
-
-/* global punycode */

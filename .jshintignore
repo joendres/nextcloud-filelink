@@ -1,2 +1,2 @@
-src/punycode
+src/background/punycode.es6.js
 src/photon-components-web

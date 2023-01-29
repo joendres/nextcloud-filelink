@@ -9,5 +9,5 @@ icons
 node_modules
 tests
 web-ext-artifacts
-src/punycode
+src/background/punycode.es6.js
 src/photon-components-web

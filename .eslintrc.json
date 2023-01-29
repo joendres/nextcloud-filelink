@@ -12,7 +12,7 @@
     "ignorePatterns": [
         "**/*.js",
         "!src/**/*.js",
-        "src/punycode/**/*.js",
+        "src/background/punycode.es6.js",
         "src/photon-components-web/**/*.js"
     ],
     "rules": {}
