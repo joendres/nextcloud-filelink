@@ -154,6 +154,7 @@ export class FormHandler extends CloudAccount {
      */
     postCloudUpdate() {
         if ('undefined' === typeof this.public_shares_enabled) {
+            /** @todo this logic or message is wrong. Display a more specific message */
             Popup.warn('no_config_check');
         }
         return Promise.all([
