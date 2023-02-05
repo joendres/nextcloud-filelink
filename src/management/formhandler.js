@@ -198,6 +198,7 @@ export class FormHandler extends CloudAccount {
      * Update the content of the page header
      */
     updateHeader() {
+        /** @todo after the first save the free space from oc 10.11.0 was not visible */
         HeaderHandler.updateFreespace(this);
         HeaderHandler.updateCloudVersion(this);
     }
