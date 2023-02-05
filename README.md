@@ -143,7 +143,7 @@ rules.
 
 This is usually caused by a misconfiguration of your cloud server. Please point
 your cloud admin to the section on [Apache and
-mod_rewrite](#apache-and-modrewrite) below.
+mod_rewrite](#apache-and-mod_rewrite) below.
 
 #### Still not working?
 

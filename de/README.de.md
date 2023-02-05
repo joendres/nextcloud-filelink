@@ -73,12 +73,12 @@ machen (englisch)](https://bugzilla.mozilla.org/show_bug.cgi?id=1643729).
 Vielleicht möchtest du diesen Vorschlag mit deiner Stimme oder einem hilfreichen
 Kommentar zu unterstützen.
 
-### Dateien von Netzwerkfreigaben werden in die Cloud hochgeladen *und* angehängt
+### Dateien von Netzwerkfreigaben werden in die Cloud hochgeladen _und_ angehängt
 
 Es gab einen [Fehler in
 Thunderbird](https://bugzilla.mozilla.org/show_bug.cgi?id=793118): Wenn man eine
 Datei von einer Netzwerkfreigabe anhängte, wurde sie in die Cloud hochgeladen
-und der Link wurde in die Mail eingefügt, aber *zusätzlich* wurde die Datei auch
+und der Link wurde in die Mail eingefügt, aber _zusätzlich_ wurde die Datei auch
 an die Mail angehängt. Dies wurde in Thunderbird 68.11.0 und 78.0.1 behoben.
 Wenn dieses Problem bei dir noch auftritt, aktualisiere bitte Thunderbird.
 
@@ -133,8 +133,8 @@ Verbindung zum Server herzustellen. Es gibt zwei Lösungen:
 
 ### Probleme beim Hochladen
 
-Das *Download*-Passwort muss *allen* Regeln für Passwörter entsprechen, die der
-Admin deiner Cloud konfiguriert hat. Andernfalls schlägt der *Upload* fehl.
+Das _Download_-Passwort muss _allen_ Regeln für Passwörter entsprechen, die der
+Admin deiner Cloud konfiguriert hat. Andernfalls schlägt der _Upload_ fehl.
 
 ### Der Upload klappt, aber das Teilen funktioniert nicht
 
@@ -170,7 +170,7 @@ Kontonamen zu klicken und "Umbenennen" aus dem Kontextmenü zu wählen.
 
 ### Download-Passwörter
 
-Wenn du Download-Passwörter verwendest, gib sie *niemals* in eine E-Mail ein,
+Wenn du Download-Passwörter verwendest, gib sie _niemals_ in eine E-Mail ein,
 sondern teile sie dem Empfänger über einen separaten, sicheren Kanal mit, z.B.
 über einen Messenger oder einen Telefonanruf.
 
@@ -183,7 +183,7 @@ abfangen.
 Die Links sind also für sich genommen ziemlich sicher und für die Empfänger
 recht komfortabel, weil sie nur auf den Link klicken müssen.
 
-Wenn du Download-Passwörter verwendest, füge sie *niemals* in dieselbe
+Wenn du Download-Passwörter verwendest, füge sie _niemals_ in dieselbe
 E-Mail wie den Link ein. Denn wenn Eva den Link lesen kann, kann sie auch das
 Passwort lesen. Also macht ein Download-Passwort in derselben E-Mail die
 Übertragung nicht sicherer, sondern nur kompliziert für den Empfänger. Gleiches
@@ -197,24 +197,24 @@ Anstatt dein Passwort zu speichern, ist es sicherer, in __*cloud__ ein "App
 Token" zu verwenden. Es gibt zwei Möglichkeiten, um ein solches Token zu
 erhalten:
 
-* *Wenn du Nextcloud oder ownCloud verwendest:* Öffne dein Konto im Browser und
+* _Wenn du Nextcloud oder ownCloud verwendest:_ Öffne dein Konto im Browser und
   Gehe zu Einstellungen -> Sicherheit und generiere unten auf der Seite ein
   neues Token. Kopiere und füge es in das Feld "App-Token" der
   __*cloud__-Einstellungen in Thunderbird ein.
 
-* *Nur wenn du Nextcloud verwendest:* Gib dein Passwort in die
+* _Nur wenn du Nextcloud verwendest:_ Gib dein Passwort in die
   __*cloud__-Einstellungen in Thunderbird ein. Beim Speichern wird das Add-On
-  *versuchen* ein Token von deiner Nextcloud zu bekommen und benutzt es dann
+  _versuchen_ ein Token von deiner Nextcloud zu bekommen und benutzt es dann
   anstelle deines Passworts. Du erkennst die Änderung, da anschließend das Feld
   Passwort vollständig mit Punkten ausgefüllt ist (App-Token sind ziemlich
   lang). \
-  **ABER!** Wenn das Abrufen des Tokens aus irgendeinem Grund fehlschlägt (z.B.
+  __ABER!__ Wenn das Abrufen des Tokens aus irgendeinem Grund fehlschlägt (z.B.
   weil die Nextcloud nicht erreichbar ist, Timeout, falscher Benutzername, ...),
-  speichert das Add-On dein *Passwort unverschlüsselt*.
+  speichert das Add-On dein _Passwort unverschlüsselt_.
 
 ### Umgang mit hochgeladenen Dateien
 
-Wenn du eine Datei anhängst, die sich bereits mit *identischem Inhalt* im
+Wenn du eine Datei anhängst, die sich bereits mit _identischem Inhalt_ im
 Anhänge-Ordner in der Cloud befindet, lädt __*cloud__ diese Datei nicht erneut
 hoch. Stattdessen wird die vorhandene Datei freigegeben.
 
