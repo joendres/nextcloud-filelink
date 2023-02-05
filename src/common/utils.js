@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2019-2023 Johannes Endres
+//
+// SPDX-License-Identifier: MIT
+
 export class Utils {
     /**
      * Encode everything that might need encoding in pathnames, including those

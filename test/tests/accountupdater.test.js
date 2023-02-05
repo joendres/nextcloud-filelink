@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2022 - 2023 Johannes Endres
+//
+// SPDX-License-Identifier: MIT
+
 import { AccountUpdater } from "../../src/background/accountupdater.js";
 import { CloudAccount } from "../../src/common/cloudaccount.js";
 const expect = chai.expect;

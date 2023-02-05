@@ -5,6 +5,39 @@ Copyright: 2018 The Firefox UX Team
 License: MPL-2.0
 Comment: *cloud uses the distribution version of photon-components-web that doesn't include copyright and license. So I guessed that information from https://github.com/FirefoxUX/photon-components-web
 
+Files: src/compose_action/Copy.svg
+Copyright: 2018 The Firefox UX Team
+License: MPL-2.0
+Comment: *cloud uses icons from the Firefox Photon design system that don't include copyright and license. So I guessed that information from https://github.com/FirefoxUX/photon-icons
+
+Files: src/management/images/Help.svg
+Copyright: 2018 The Firefox UX Team
+License: MPL-2.0
+Comment: *cloud uses icons from the Firefox Photon design system that don't include copyright and license. So I guessed that information from https://github.com/FirefoxUX/photon-icons
+
+Files: src/management/images/Close.svg
+Copyright: 2018 The Firefox UX Team
+License: MPL-2.0
+Comment: *cloud uses icons from the Firefox Photon design system that don't include copyright and license. So I guessed that information from https://github.com/FirefoxUX/photon-icons
+
+Files: src/management/images/Check.svg
+Copyright: 2018 The Firefox UX Team
+License: MPL-2.0
+Comment: *cloud uses icons from the Firefox Photon design system that don't include copyright and license. So I guessed that information from https://github.com/FirefoxUX/photon-icons
+
+Files: src/management/images/Warning.svg
+Copyright: 2018 The Firefox UX Team
+License: MPL-2.0
+Comment: *cloud uses icons from the Firefox Photon design system that don't include copyright and license. So I guessed that information from https://github.com/FirefoxUX/photon-icons
+
+Files: src/management/images/nextcloud-logo.svg
+Copyright: Nextcloud GmbH
+License: AGPL-3.0-only
+
+Files: src/management/images/owncloud-logo.svg
+Copyright: ownCloud GmbH
+License: AGPL-3.0-only
+
 Files: src/background/punycode.es6.js
 Copyright: Mathias Bynens <https://mathiasbynens.be/>
 License: MIT

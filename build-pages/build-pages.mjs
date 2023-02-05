@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2019-2023 Johannes Endres
+//
+// SPDX-License-Identifier: MIT
+
 import { readFileSync, writeFileSync, mkdirSync, copyFile, copyFileSync } from "fs";
 import { dirname, normalize, basename } from "path";
 import pkg from 'glob';

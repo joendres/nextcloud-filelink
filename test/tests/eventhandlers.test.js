@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2022 - 2023 Johannes Endres
+//
+// SPDX-License-Identifier: MIT
+
 import { CloudUploader } from "../../src/background/clouduploader.js";
 import { CurrentUploads } from "../../src/background/currentuploads.js";
 import { EventHandlers } from "../../src/background/eventhandlers.js";

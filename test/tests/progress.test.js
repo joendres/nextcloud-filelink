@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2022 - 2023 Johannes Endres
+//
+// SPDX-License-Identifier: MIT
+
 import { Localize } from "../../src/common/localize.js";
 import { ComPort } from "../../src/compose_action/comport.js";
 

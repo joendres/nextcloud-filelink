@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2022 - 2023 Johannes Endres
+//
+// SPDX-License-Identifier: MIT
+
 import { AccountFieldHandler } from "../../src/management/accountfieldhandler.js";
 import { DownloadPasswordFieldHandler } from "../../src/management/downloadpasswordfieldhandler.js";
 import { ExpiryFieldHandler } from "../../src/management/expiryfieldhandler.js";

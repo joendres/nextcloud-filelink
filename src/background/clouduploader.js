@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2019-2023 Johannes Endres
+//
+// SPDX-License-Identifier: MIT
+
 import { DavUploader } from "../background/davuploader.js";
 import { CloudAccount } from "../common/cloudaccount.js";
 import { CloudAPI } from "../common/cloudapi.js";

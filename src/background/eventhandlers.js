@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2019-2023 Johannes Endres
+//
+// SPDX-License-Identifier: MIT
+
 import { CloudAccount } from "../common/cloudaccount.js";
 import { CloudUploader } from "./clouduploader.js";
 import { CurrentUploads } from "./currentuploads.js";

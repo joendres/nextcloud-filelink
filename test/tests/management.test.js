@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2022 - 2023 Johannes Endres
+//
+// SPDX-License-Identifier: MIT
+
 import { Localize } from "../../src/common/localize.js";
 import { FormHandler } from "../../src/management/formhandler.js";
 const expect = chai.expect;

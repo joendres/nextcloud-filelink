@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2019-2023 Johannes Endres
+//
+// SPDX-License-Identifier: MIT
+
 /**
  * Handle the input fields in the expiry_fields fieldset
  */

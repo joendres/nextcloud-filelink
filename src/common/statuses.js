@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2019-2023 Johannes Endres
+//
+// SPDX-License-Identifier: MIT
+
 export const Statuses = Object.freeze({
     CHECKINGSPACE: "checkingspace",
     CREATING: "creating",

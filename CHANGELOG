@@ -1,3 +1,7 @@
+SPDX-FileCopyrightText: 2019-2023 Johannes Endres
+
+SPDX-License-Identifier: MIT
+
 3.13.1 2022-07-18
 Close #447 Deprecate Nextcloud 21 and 22
 Close #437 Errors while checking free space break progress window

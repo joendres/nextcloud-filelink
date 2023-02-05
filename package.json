@@ -1,4 +1,8 @@
 {
+  "//": [
+    "SPDX-FileCopyrightText: 2019-2023 Johannes Endres",
+    "SPDX-License-Identifier: MIT"
+  ],
   "name": "filelink-nextcloud",
   "description": "*cloud - FileLink for Nextcloud and ownCloud",
   "private": true,
@@ -26,7 +30,8 @@
       "photon-components-web/index.js",
       "photon-components-web/images/arrow-grey-40-*.svg",
       "photon-components-web/images/open-in-new-16-*.svg",
-      "photon-components-web/images/searchfield-cancel-*.svg"
+      "photon-components-web/images/searchfield-cancel-*.svg",
+      "**/*.license"
     ],
     "run": {
       "browserConsole": true,

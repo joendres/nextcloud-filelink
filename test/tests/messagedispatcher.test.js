@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2022 - 2023 Johannes Endres
+//
+// SPDX-License-Identifier: MIT
+
 import { MessageDispatcher } from "../../src/background/messagedispatcher.js";
 import { Status } from "../../src/background/status.js";
 const expect = chai.expect;

@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2022 - 2023 Johannes Endres
+//
+// SPDX-License-Identifier: MIT
+
 import { UploadStatus } from "../../src/common/uploadstatus.js";
 import { Statuses } from "../../src/common/statuses.js";
 const expect = chai.expect;

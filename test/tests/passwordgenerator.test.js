@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2022 - 2023 Johannes Endres
+//
+// SPDX-License-Identifier: MIT
+
 import { PasswordGenerator } from "../../src/background/passwordgenerator.js";
 const expect = chai.expect;
 

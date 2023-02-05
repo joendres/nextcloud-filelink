@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2022 - 2023 Johannes Endres
+//
+// SPDX-License-Identifier: MIT
+
 import { CurrentUploads } from "../../src/background/currentuploads.js";
 const expect = chai.expect;
 

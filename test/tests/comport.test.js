@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2022 - 2023 Johannes Endres
+//
+// SPDX-License-Identifier: MIT
+
 import { ComPort } from "../../src/compose_action/comport.js";
 import { StatusDisplay } from "../../src/compose_action/statusdisplay.js";
 const expect = chai.expect;

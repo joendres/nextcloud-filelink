@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2022 - 2023 Johannes Endres
+//
+// SPDX-License-Identifier: MIT
+
 import { FolderFieldHandler } from "../../src/management/folderfieldhandler.js";
 const expect = chai.expect;
 

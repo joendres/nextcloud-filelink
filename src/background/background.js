@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2019-2023 Johannes Endres
+//
+// SPDX-License-Identifier: MIT
+
 import { AccountUpdater } from "./accountupdater.js";
 import { EventHandlers } from "./eventhandlers.js";
 import { MessageDispatcher } from "./messagedispatcher.js";

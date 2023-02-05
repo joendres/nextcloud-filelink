@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2019-2023 Johannes Endres
+//
+// SPDX-License-Identifier: MIT
+
 const apiUrlBase = "ocs/v1.php";
 const apiUrlCapabilities = apiUrlBase + "/cloud/capabilities";
 const apiUrlGetApppassword = apiUrlBase + "/core/getapppassword";

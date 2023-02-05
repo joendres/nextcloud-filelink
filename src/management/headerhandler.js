@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2019-2023 Johannes Endres
+//
+// SPDX-License-Identifier: MIT
+
 export class HeaderHandler {
 
     /**
@@ -67,6 +71,8 @@ export class HeaderHandler {
             "undefined" !== typeof account.cloud_supported) {
             label_version.textContent = account.cloud_versionstring;
             provider_name.textContent = account.cloud_productname || '*cloud';
+            /** @todo Actually use the AGPL'ed logos from the servers' sources */
+            /** @todo Wrap this into CSS classes */
             logo.src = {
                 "Nextcloud": "images/nextcloud-logo.svg",
                 "ownCloud": "images/owncloud-logo.svg",

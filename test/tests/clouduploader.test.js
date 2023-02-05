@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2022 - 2023 Johannes Endres
+//
+// SPDX-License-Identifier: MIT
+
 import { CloudUploader } from "../../src/background/clouduploader.js";
 import { DavUploader } from "../../src/background/davuploader.js";
 import { PasswordGenerator } from "../../src/background/passwordgenerator.js";

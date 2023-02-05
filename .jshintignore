@@ -1,2 +1,6 @@
+# SPDX-FileCopyrightText: 2019-2023 Johannes Endres
+#
+# SPDX-License-Identifier: MIT
+
 src/background/punycode.es6.js
 src/photon-components-web

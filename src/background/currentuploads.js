@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2019-2023 Johannes Endres
+//
+// SPDX-License-Identifier: MIT
+
 export class CurrentUploads {
     /**
      * Stores an XMLHttpRequest
