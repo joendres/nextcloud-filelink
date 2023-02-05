@@ -3,7 +3,6 @@
 // SPDX-License-Identifier: MIT
 
 export class HeaderHandler {
-
     /**
      * Update the free space info
      * @param {CloudAccount} account The CloudAccount object containing the free space info
@@ -67,21 +66,29 @@ export class HeaderHandler {
         /** @type {HTMLHeadingElement} */
         const provider_name = document.querySelector("#provider_name");
 
-        if (!!account.cloud_type && !!account.cloud_versionstring &&
-            "undefined" !== typeof account.cloud_supported) {
-            label_version.textContent = account.cloud_versionstring;
-            provider_name.textContent = account.cloud_productname || '*cloud';
-            /** @todo Actually use the AGPL'ed logos from the servers' sources */
-            /** @todo Wrap this into CSS classes */
-            logo.src = {
-                "Nextcloud": "images/nextcloud-logo.svg",
-                "ownCloud": "images/owncloud-logo.svg",
-                "Unsupported": "../../icon48.png",
-            }[account.cloud_type];
-        } else {
-            provider_name.textContent = '*cloud';
-            logo.src = "../../icon48.png";
-            label_version.textContent = "";
+        // Set the defaults
+        provider_name.textContent = '*cloud';
+        label_version.textContent = "";
+        logo.classList.remove("nextcloud");
+        logo.classList.remove("owncloud");
+
+        if ("undefined" !== typeof account.cloud_supported) {
+            if (account.cloud_type) {
+                switch (account.cloud_type) {
+                    case "Nextcloud":
+                        logo.classList.add("nextcloud");
+                        break;
+                    case "ownCloud":
+                        logo.classList.add("owncloud");
+                        break;
+                    default:
+                        break;
+                }
+            }
+            if (account.cloud_versionstring) {
+                label_version.textContent = account.cloud_versionstring;
+            }
+            provider_name.textContent = account.cloud_productname || account.cloud_type || '*cloud';
         }
     }
 }

@@ -119,7 +119,7 @@ describe("HeaderHandler", () => {
     describe('updateCloudVersion', () => {
         let logo, label_version, provider_name;
         beforeEach(() => {
-            logo = document.createElement("img");
+            logo = document.createElement("div");
             label_version = document.createElement("div");
             provider_name = document.createElement("h1");
             sinon.stub(document, "querySelector").
@@ -148,7 +148,8 @@ describe("HeaderHandler", () => {
                 cloud_supported: true,
                 cloud_productname: "name",
             });
-            expect(logo.src).to.match(/nextcloud-logo.svg$/);
+            expect(logo.classList.contains("nextcloud")).to.be.true;
+            expect(logo.classList.contains("owncloud")).to.be.false;
         });
         it("shows the ownCloud logo for ownCloud", () => {
             HeaderHandler.updateCloudVersion({
@@ -157,7 +158,8 @@ describe("HeaderHandler", () => {
                 cloud_supported: true,
                 cloud_productname: "name",
             });
-            expect(logo.src).to.match(/owncloud-logo.svg$/);
+            expect(logo.classList.contains("owncloud")).to.be.true;
+            expect(logo.classList.contains("nextcloud")).to.be.false;
         });
         it("shows the *cloud logo if an unsupported cloud type is present", () => {
             HeaderHandler.updateCloudVersion({
@@ -166,7 +168,8 @@ describe("HeaderHandler", () => {
                 cloud_supported: true,
                 cloud_productname: "name",
             });
-            expect(logo.src).to.match(/icon48.png$/);
+            expect(logo.classList.contains("owncloud")).to.be.false;
+            expect(logo.classList.contains("nextcloud")).to.be.false;
         });
         it("shows the *cloud logo if no cloud type is present", () => {
             HeaderHandler.updateCloudVersion({
@@ -174,7 +177,8 @@ describe("HeaderHandler", () => {
                 cloud_supported: true,
                 cloud_productname: "name",
             });
-            expect(logo.src).to.match(/icon48.png$/);
+            expect(logo.classList.contains("owncloud")).to.be.false;
+            expect(logo.classList.contains("nextcloud")).to.be.false;
         });
         it("shows the cloud name if it is set", () => {
             HeaderHandler.updateCloudVersion({
@@ -185,9 +189,17 @@ describe("HeaderHandler", () => {
             });
             expect(provider_name.textContent).to.equal("name");
         });
-        it("shows *cloud if no cloud name is present", () => {
+        it("shows the cloud type if no cloud name is present", () => {
             HeaderHandler.updateCloudVersion({
                 cloud_type: "Unsupported",
+                cloud_versionstring: "1.2.3",
+                cloud_supported: true,
+            });
+            expect(provider_name.textContent).to.equal("Unsupported");
+        });
+        it("shows *cloud if no cloud name is present", () => {
+            HeaderHandler.updateCloudVersion({
+                cloud_type: "",
                 cloud_versionstring: "1.2.3",
                 cloud_supported: true,
             });

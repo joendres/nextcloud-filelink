@@ -26,7 +26,22 @@
 
 #logo {
     width: 48px;
+    height: 48px;
     display: block;
+    background-image: url(../icon48.png);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+#logo.nextcloud {
+    background-color: #0082c9;
+    background-image: url(images/nextcloud-logo.svg);
+}
+
+#logo.owncloud {
+    background-color: #041E42;
+    background-image: url(images/owncloud-logo.svg);
 }
 
 h1 {
