@@ -15,14 +15,13 @@
     "punycode": "^2.1.1"
   },
   "devDependencies": {
-    "@types/firefox-webext-browser": "^70",
+    "@types/thunderbird-webext-browser": "^109.0.0",
     "chai": "^4.3.6",
     "eslint": "^8.21.0",
     "glob": "^8.0.3",
     "jshint": "^2.13.5",
     "mocha": "^10.0.0",
     "sinon": "^14.0.0",
-    "thunderbird-web-ext-types": "^1.0.0",
     "web-ext": "latest"
   },
   "webExt": {
