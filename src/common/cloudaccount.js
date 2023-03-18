@@ -37,6 +37,7 @@ export class CloudAccount {
      * Store the current values of all properties in the local browser storage
      */
     async store() {
+        /** @todo Use storage.snyc? */
         browser.storage.local.set({ [this._accountId]: this, });
     }
 
