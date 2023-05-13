@@ -366,6 +366,7 @@ If you'd like to fix a bug or implement a feature
 * [Pietro Federico Sacchi](https://crowdin.com/profile/sacchi.pietro), italian localization
 * [Asier Iturralde Sarasola](@aldatsa), basque localization
 * [Anatolii Balbutckii](@abalbuc), russian localization
+* [mixneko](@mixneko), traditional chinese localization
 * Based on [FileLink Provider for
   Dropbox](https://github.com/darktrojan/dropbox) by [Geoff
   Lankow](https://darktrojan.github.io/)
