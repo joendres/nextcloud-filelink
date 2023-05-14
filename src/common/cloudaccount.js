@@ -5,7 +5,7 @@
 import { Utils } from "../common/utils.js";
 import { CloudAPI } from "./cloudapi.js";
 
-const ncMinimalVersion = 23;
+const ncMinimalVersion = 25;
 const ocMinimalVersion = 10 * 10000 + 0 * 100 + 10;
 
 // Used to initialize a new account upon creation in TB
