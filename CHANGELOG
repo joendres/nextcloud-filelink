@@ -1,3 +1,7 @@
+3.14.0 2023-05-13
+Close #520 Deprecate Nextcloud 23 and 24
+Add zh_TW translation by Mixneko
+
 3.13.1 2022-07-18
 Close #447 Deprecate Nextcloud 21 and 22
 Close #437 Errors while checking free space break progress window
