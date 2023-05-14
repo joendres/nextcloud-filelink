@@ -12,7 +12,7 @@ Cloud and generates a link you can send by mail instead of the file.
 * Thunderbird: 68.2.1 or newer
 * An account on a server running a supported version of Nextcloud or ownCloud,
   more specifically:
-  * [Nextcloud](https://nextcloud.com/): version 23 or newer (older versions
+  * [Nextcloud](https://nextcloud.com/): version 25 or newer (older versions
     might work, but are [not supported by
     Nextcloud](https://github.com/nextcloud/server/wiki/Maintenance-and-Release-Schedule))
   * [ownCloud](https://owncloud.com/): version 10.0.10+ (10.0.9 and older
@@ -366,6 +366,7 @@ If you'd like to fix a bug or implement a feature
 * [Pietro Federico Sacchi](https://crowdin.com/profile/sacchi.pietro), italian localization
 * [Asier Iturralde Sarasola](@aldatsa), basque localization
 * [Anatolii Balbutckii](@abalbuc), russian localization
+* [mixneko](@mixneko), traditional chinese localization
 * Based on [FileLink Provider for
   Dropbox](https://github.com/darktrojan/dropbox) by [Geoff
   Lankow](https://darktrojan.github.io/)

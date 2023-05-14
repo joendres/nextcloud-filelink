@@ -1,0 +1,172 @@
+{
+  "extensionDescription": {
+    "message": "上傳附件到您的雲端並透過email發送連結"
+  },
+  "extensionName": {
+    "message": "*cloud - FileLink for Nextcloud and ownCloud"
+  },
+  "saveButton": {
+    "message": "儲存"
+  },
+  "resetButton": {
+    "message": "重置"
+  },
+  "serverUrl": {
+    "message": "伺服器 URL"
+  },
+  "serverUrl_details": {
+    "message": "伺服器的基本 URL 必須以http或https開頭。\n如果您的伺服器運行在非標準端口上，請將其放入 URL 中。"
+  },
+  "username": {
+    "message": "帳號"
+  },
+  "username_details": {
+    "message": "您在雲端伺服器使用的帳號"
+  },
+  "password": {
+    "message": "應用程式令牌(APP token)或密碼"
+  },
+  "password_details": {
+    "message": "應用程式令牌（較佳）或密碼。\n對於Nextcloud，附加元件會在儲存之前嘗試將您的密碼轉換為應用程式令牌。如果轉換失敗，您的密碼將被未加密地存儲。"
+  },
+  "storageFolder": {
+    "message": "雲端儲存路徑"
+  },
+  "storageFolder_details": {
+    "message": "附件將存儲在雲端的路徑。如果不存在，則在上傳過程中創建。"
+  },
+  "useNoDlPassword": {
+    "message": "沒有密碼"
+  },
+  "useNoDlPassword_details": {
+    "message": "下載時沒有密碼需求"
+  },
+  "useGeneratedDlPassword": {
+    "message": "使用產生的密碼"
+  },
+  "useGeneratedDlPassword_details": {
+    "message": "將為所有檔案產生隨機密碼。\n於上傳完畢後點選 *cloud 狀態按鈕已查看並複製此密碼。"
+  },
+  "useDlPassword": {
+    "message": "使用密碼保護下載"
+  },
+  "oneDlPassword": {
+    "message": "使用單一密碼在所有的下載"
+  },
+  "useDlPassword_details": {
+    "message": "此密碼必須符合您的雲端管理員所設定的規則（例如：長度、字符集等），否則上傳將會失敗。\n請將此密碼告知收件人；他們需要此密碼才能下載附件。"
+  },
+  "expiryDaysBefore": {
+    "message": "下載連結將於 "
+  },
+  "expiryDaysAfter": {
+    "message": " 天後過期"
+  },
+  "expiry_details": {
+    "message": "包含今日下載連結可存取的天數。"
+  },
+  "freespace": {
+    "message": "可用空間 ($FREE$ / $FULL$)",
+    "placeholders": {
+      "free": {
+        "content": "$1"
+      },
+      "full": {
+        "content": "$2"
+      }
+    }
+  },
+  "success": {
+    "message": "成功"
+  },
+  "error_0": {
+    "message": "未知的錯誤 ($1)"
+  },
+  "error_typeerror": {
+    "message": "沒有連接，請檢察伺服器 URL 和網路連接。"
+  },
+  "error_404": {
+    "message": "帳戶認證失敗：錯誤的帳戶名稱或不相容的雲端或網路錯誤"
+  },
+  "warn_unsupported_cloud": {
+    "message": "過時的Nextcloud或ownCloud版本。您可能會丟失資料。請向您的雲端管理員詢問更新"
+  },
+  "obsolete_version": {
+    "description": "This is displayed over the icon if the cloud version is not supported, so it should be quite short and contain at most two lines.",
+    "message": "過時\n版本"
+  },
+  "error_401": {
+    "message": "登入失敗，請確認您的帳戶及密碼"
+  },
+  "error_503": {
+    "message": "伺服器正處於維護階段，請稍後再試。"
+  },
+  "error_sharing_off": {
+    "message": "此雲端已禁止分享，請聯絡您的管理員已開啟分享功能"
+  },
+  "error_invalid_pw": {
+    "message": "無效的下載密碼（上傳將失敗）。伺服器回應：$1"
+  },
+  "error_password_enforced": {
+    "message": "您的雲端要求下載密碼"
+  },
+  "warn_expiry_too_long": {
+    "message": "您的雲端管理者已設定最大過期天數為 $1 天，該值已被修剪，否則將會上傳失敗"
+  },
+  "warn_no_config_check": {
+    "message": "帳戶認證失敗，網路問題?"
+  },
+  "warn_insecure_http": {
+    "message": "使用 http: 您的登錄數據將以未加密的形式傳輸。請改用 https: ；如果無法使用，請詢問您的管理員。"
+  },
+  "status_menutooltip": {
+    "description": "This is displayed as a tooltip when the mouse pointer hovers over the menu button labelled with 'status_menuname'",
+    "message": "顯示 *cloud 上傳狀態和生成的密碼（如果有的話）"
+  },
+  "status_menuname": {
+    "description": "This short text is displayed on the menu button that opens the status popup next to the *cloud logo",
+    "message": "狀態"
+  },
+  "status_no_uploads": {
+    "message": "沒有正在上傳的檔案"
+  },
+  "status_button_clear": {
+    "description": "Button to remove error messages from status popup",
+    "message": "清除已完成的上傳"
+  },
+  "status_preparing": {
+    "description": "This will be displayed in the status popup. If this step fails this string will be combined with one indicating failure, eg 'Preparing file size failed'.",
+    "message": "準備中"
+  },
+  "status_creating": {
+    "message": "建立資料夾"
+  },
+  "status_moving": {
+    "message": "移動衝突檔案"
+  },
+  "status_uploading": {
+    "message": "上傳中"
+  },
+  "status_sharing": {
+    "message": "分享中"
+  },
+  "status_checkingsize": {
+    "message": "檢查檔案大小上限"
+  },
+  "status_checkingspace": {
+    "message": "檢查可用空間"
+  },
+  "status_error": {
+    "description": "This will be combined with one of the states above, eg 'Preparing failed'. If this doesn't work in your language, please tell me.",
+    "message": "$1 失敗"
+  },
+  "status_password": {
+    "message": "密碼： $1"
+  },
+  "warn_nonascii_password": {
+    "message": "您的密碼包含可能導致登錄問題的字元，請改用應用程式密碼。"
+  },
+  "advanced_options": {
+    "message": "進階選項"
+  }
+}
