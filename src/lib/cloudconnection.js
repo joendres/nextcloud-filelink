@@ -78,10 +78,28 @@ class CloudConnection {
             this.updateFreeSpaceInfo();
             let url = this._cleanUrl(await this._getShareLink(fileName, uploadId));
             if (url) {
+                // Add additional information introduced in TB 98
+                let templateInfo = {
+                    download_password_protected: this.useDlPassword,
+                };
+                if (this.useExpiry) {
+                    templateInfo.download_expiry_date = {
+                        timestamp: Date.now() + this.expiryDays * 24 * 60 * 60 * 1000,
+                        format: {
+                            day: "2-digit",
+                            month: "2-digit",
+                            year: "numeric",
+                        },
+                    };
+                }
                 if (upload_status.status !== 'generatedpassword') {
                     Status.remove(uploadId);
                 }
-                return { url, aborted: false, };
+                return {
+                    url,
+                    templateInfo,
+                    aborted: false,
+                };
             }
         }
 
