@@ -1,11 +1,10 @@
 # SPDX-FileCopyrightText: 2019-2023 Johannes Endres
 #
 # SPDX-License-Identifier: MIT
+image: node:lts
 
 include:
    - template: Code-Quality.gitlab-ci.yml
-
-image: node:lts
 
 cache:
   key: node_modules
