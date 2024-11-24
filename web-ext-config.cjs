@@ -14,9 +14,12 @@ module.exports = {
     run: {
         // WEB_EXT_FIREFOX_PROFILE=~/.thunderbird/x8cwyjqz.Debug/;export WEB_EXT_FIREFOX_PROFILE
         // WEB_EXT_FIREFOX=~/thunderbird/thunderbird; export WEB_EXT_FIREFOX
-        browserConsole: true,
+        devtools: true,
     },
     build: {
         overwriteDest: true,
+    },
+    lint: {
+        selfHosted: true,
     }
 };
