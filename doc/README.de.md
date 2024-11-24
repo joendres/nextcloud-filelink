@@ -50,6 +50,13 @@ drei Möglichkeiten, den Upload zu starten:
 
 ## Bekannte Probleme
 
+### Dateinamen mit Sonderzeichen werden nicht geteilt
+
+In einigen Unter-Versionen von Thunderbird 102.2 gab es Probleme bei Dateinamen mit Sonderzeichen
+oder in nicht-amerikanischen Schriftsystemen wie Griechisch. Der Upload funktionierte, aber
+das Teilen der hochgeladenen Datei schlug fehl. Dies ist in Thunderbird 102.5.0 behoben; bitte
+aktualisiere Thunderbird, wenn du solche Probleme erlebst.
+
 ### Du möchtest den Text ändern, den Thunderbird mit dem Link in die Mail einbaut
 
 Viele Benutzer möchten einen anderen Text mit der Download-URL in die Nachricht

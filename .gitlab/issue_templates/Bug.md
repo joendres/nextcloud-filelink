@@ -16,6 +16,9 @@
   - Thunderbird Version:
   - Addon Version:
 
+  - Nextcloud / ownCloud: 
+  - Version: 
+
 ## If you have the same problem
 If you have ***additional information on the bug***, please post comments with that information. 
 
