@@ -37,5 +37,16 @@
     "git.fetchOnPull": true,
     "git.untrackedChanges": "separate",
     "gitlab.enableExperimentalFeatures": true,
-    "gitlab.showPipelineUpdateNotifications": true
+    "gitlab.showPipelineUpdateNotifications": true,
+    "cSpell.ignorePaths": [
+        "package-lock.json",
+        "node_modules",
+        "vscode-extension",
+        ".git/{info,lfs,logs,refs,objects}/**",
+        ".git/{index,*refs,*HEAD}",
+        ".vscode",
+        ".vscode-insiders",
+        "src/punycode",
+        "src/photon-components-web"
+    ]
 }
