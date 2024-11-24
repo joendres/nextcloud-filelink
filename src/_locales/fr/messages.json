@@ -3,7 +3,7 @@
     "message": "Téléverser des fichiers volumineux vers votre Cloud et envoyer le lien par email"
   },
   "extensionName": {
-    "message": ""
+    "message": "*cloud - FileLink pour Nextcloud et ownCloud"
   },
   "saveButton": {
     "message": "Sauvegarder"
