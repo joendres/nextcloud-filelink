@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2020 Johannes Endres
+//
+// SPDX-License-Identifier: MIT
+
 messenger.cloudFile.getAllAccounts()
     .then(
         allAccounts => {

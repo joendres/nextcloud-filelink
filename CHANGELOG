@@ -1,3 +1,6 @@
+SPDX-FileCopyrightText: 2020 Johannes Endres
+SPDX-License-Identifier: MIT
+
 3.15.0
 Close #476 (and dup #219) Add TemplateInfo on password status and expiry date
 

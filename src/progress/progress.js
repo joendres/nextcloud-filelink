@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2020 Johannes Endres
+//
+// SPDX-License-Identifier: MIT
+
 // Establish messaging with background worker
 var port;
 

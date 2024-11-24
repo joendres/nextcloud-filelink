@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2020 Johannes Endres
+//
+// SPDX-License-Identifier: MIT
+
 //#region  Configurable options and useful constants
 const apiUrlBase = "ocs/v1.php";
 const apiUrlUserInfo = "/cloud/users/";
