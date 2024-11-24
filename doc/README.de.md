@@ -7,7 +7,7 @@ hochlädt und dann einen Download-Link in die Mail einfügt.
 
 ## Voraussetzungen
 
-* Nextcloud: Version 23 oder neuer (ältere Versionen funktionieren eventuell,
+* Nextcloud: Version 29 oder neuer (ältere Versionen funktionieren eventuell,
   werden aber [von Nextcloud nicht mehr
   unterstützt](https://github.com/nextcloud/server/wiki/Maintenance-und-Release-Schedule))
 * ownCloud: Version 10.0.10 oder neuer (10.0.9 und ältere Versionen enthalten
