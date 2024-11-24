@@ -109,7 +109,7 @@ If this happens to you, point __*cloud__  to the actual cloud location:
 1. Copy the complete url from the url bar of your browser
 1. Paste it into the server url field in __*cloud__'s configuration (in Thunderbird).
 
-As sonn as you save the settings, __*cloud__ will remove unnecessary parts.
+As soon as you save the settings, __*cloud__ will remove unnecessary parts.
 
 ##### Reason 2: https certificate
 
