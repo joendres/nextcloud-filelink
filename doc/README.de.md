@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2020 Johannes Endres
+
+SPDX-License-Identifier: MIT
+-->
+
 # __*cloud__ - FileLink für Nextcloud und ownCloud
 
 Eine MailExtension für Thunderbird (68+), die große Attachments in die Cloud

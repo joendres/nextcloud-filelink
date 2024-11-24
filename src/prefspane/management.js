@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2020 Johannes Endres
+//
+// SPDX-License-Identifier: MIT
+
 const accountId = new URL(location.href).searchParams.get("accountId");
 const ncc = new CloudConnection(accountId);
 

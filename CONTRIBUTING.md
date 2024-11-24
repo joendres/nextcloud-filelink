@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2020 Johannes Endres
+
+SPDX-License-Identifier: MIT
+-->
+
 # Contributing
 
 The project "__*cloud__ - FileLink for Nextcloud and ownCloud" lives on GitLab: <https://gitlab.com/joendres/filelink-nextcloud>.

@@ -1,3 +1,9 @@
+<!--
+SPDX-FileCopyrightText: 2020 Johannes Endres
+
+SPDX-License-Identifier: MIT
+-->
+
 # __*cloud__ - FileLink for Nextcloud and ownCloud
 
 [Deutsche Dokumentation](doc/README.de.md)

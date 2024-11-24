@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2020 Johannes Endres
+//
+// SPDX-License-Identifier: MIT
+
 const msgContainer = document.getElementById("msg_container");
 const errorPopup = document.getElementById("error_popup");
 const warningPopup = document.getElementById("warning_popup");

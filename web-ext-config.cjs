@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2020 Johannes Endres
+//
+// SPDX-License-Identifier: MIT
+
 module.exports = {
     ignoreFiles: [
         "punycode/package.json",
@@ -9,6 +13,7 @@ module.exports = {
         "photon-components-web/images/arrow-grey-40-*.svg",
         "photon-components-web/images/open-in-new-16-*.svg",
         "photon-components-web/images/searchfield-cancel-*.svg",
+        "src/**/*.license",
     ],
     sourceDir: "src",
     run: {

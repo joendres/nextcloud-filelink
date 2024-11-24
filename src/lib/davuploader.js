@@ -1,3 +1,7 @@
+// SPDX-FileCopyrightText: 2020 Johannes Endres
+//
+// SPDX-License-Identifier: MIT
+
 /** AbortControllers for all active uploads */
 const allAbortControllers = new Map();
 
