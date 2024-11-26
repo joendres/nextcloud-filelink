@@ -88,6 +88,7 @@ async function showVersion() {
         logo.src = {
             "Nextcloud": "images/nextcloud-logo.svg",
             "ownCloud": "images/owncloud-logo.svg",
+            "oCIS": "images/owncloud-logo.svg",
             "Unsupported": "../../icon48.png",
         }[ncc.cloud_type];
 

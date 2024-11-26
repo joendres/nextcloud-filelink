@@ -10,8 +10,12 @@ const apiUrlShares = "/apps/files_sharing/api/v1/shares";
 const apiUrlGetApppassword = "/core/getapppassword";
 const apiUrlCapabilities = "/cloud/capabilities";
 const davUrlBase = "remote.php/dav/files/";
+
+// Minimal supported versions of the three cloud types
 const ncMinimalVersion = 29;
 const ocMinimalVersion = 10 * 10000 + 0 * 100 + 10;
+const ocisMinimalVersion = 5;
+
 // const DAV_MAX_FILE_SIZE = 0x100000000 - 1; /* Almost 4GB, Nextcloud and ownCloud accept larger files */
 const DAV_MAX_FILE_SIZE = Number.MAX_SAFE_INTEGER;
 //#endregion
@@ -224,10 +228,16 @@ class CloudConnection {
                 this.cloud_supported = data.version.major >= ncMinimalVersion;
             } else if (data.capabilities.core.status && data.capabilities.core.status.productname) {
                 this.cloud_productname = data.capabilities.core.status.productname;
-                this.cloud_type = "ownCloud";
-                this.cloud_supported = parseInt(data.version.major) * 10000 +
-                    parseInt(data.version.minor) * 100 +
-                    parseInt(data.version.micro) >= ocMinimalVersion;
+                if (data.capabilities.core.status.product === "Infinite Scale") {
+                    this.cloud_type = "oCIS";
+                    this.cloud_supported = utils.parseSemVer(data.capabilities.core.status.productversion).major >= ocisMinimalVersion;
+                    this.cloud_versionstring = data.capabilities.core.status.productversion;
+                } else {
+                    this.cloud_type = "ownCloud";
+                    this.cloud_supported = parseInt(data.version.major) * 10000 +
+                        parseInt(data.version.minor) * 100 +
+                        parseInt(data.version.micro) >= ocMinimalVersion;
+                }
             } else if (data.version.major >= ncMinimalVersion) {
                 this.cloud_productname = 'Nextcloud';
                 this.cloud_type = "Nextcloud";
