@@ -1,0 +1,26 @@
+{
+  "name": "filelink-nextcloud",
+  "version": "3.16.0",
+  "description": "*cloud - FileLink for Nextcloud and ownCloud",
+  "devDependencies": {
+    "jshint": "^2.13.6",
+    "web-ext": "^8.3.0"
+  },
+  "private": true,
+  "browser": "src/background.js",
+  "scripts": {
+    "start": "npx web-ext run",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": "gitlab:joendres/filelink-nextcloud.git",
+  "author": {
+    "name": "Johannes Endres",
+    "email": "je@johannes-endres.de"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://gitlab.com/joendres/filelink-nextcloud/issues",
+    "email": "cloud@johannes-endres.de"
+  },
+  "homepage": "https://gitlab.com/joendres/filelink-nextcloud#readme"
+}
