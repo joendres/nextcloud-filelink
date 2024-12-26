@@ -1,4 +1,8 @@
 {
+  "//": [
+    "SPDX-FileCopyrightText: 2024 Johannes Endres",
+    "SPDX-License-Identifier: MIT"
+  ],
   "name": "filelink-nextcloud",
   "version": "3.16.0",
   "description": "*cloud - FileLink for Nextcloud and ownCloud",
