@@ -1,50 +1,51 @@
-/* SPDX-FileCopyrightText: 2020 Johannes Endres
-
+/*
+SPDX-FileCopyrightText: 2020 Johannes Endres
 SPDX-License-Identifier: MIT
  */
 {
     "cSpell.words": [
+        "Benachrichtigungsleiste",
+        "closebtn",
+        "davuploader",
+        "joendres",
+        "MKCOL",
+        "mtimes",
+        "Nextcloud",
+        "prefspane",
+        "unencrypted",
+        "Uploader",
+        "webdav"
+    ],
+    "cSpell.ignoreWords": [
         "abalbuc",
         "aldatsa",
         "Anatolii",
         "Asier",
         "Balbutckii",
-        "Benachrichtigungsleiste",
         "Bynens",
-        "closebtn",
         "Comunicaciones",
-        "davuploader",
         "Elie",
         "Futagawa",
         "Geoff",
         "Gorom",
         "Iturralde",
         "jfut",
-        "joendres",
         "Josep",
+        "josepmanel",
         "Lankow",
         "lmamane",
         "Manel",
         "mixneko",
-        "MKCOL",
-        "mtimes",
-        "Nextcloud",
         "Óvári",
         "Paroz",
-        "prefspane",
         "Ultreia",
-        "unencrypted",
-        "Uploader",
-        "Viguier",
-        "webdav"
+        "Viguier"
     ],
     "cSpell.language": "de,en",
     "cSpell.allowCompoundWords": true,
-    "git.fetchOnPull": true,
-    "git.untrackedChanges": "separate",
-    "gitlab.enableExperimentalFeatures": true,
-    "gitlab.showPipelineUpdateNotifications": true,
     "cSpell.ignorePaths": [
+        ".jshint*",
+        "web-ext-config.cjs",
         "package-lock.json",
         "node_modules",
         "vscode-extension",
@@ -54,5 +55,8 @@ SPDX-License-Identifier: MIT
         ".vscode-insiders",
         "src/punycode",
         "src/photon-components-web"
-    ]
+    ],
+    "git.fetchOnPull": true,
+    "git.untrackedChanges": "separate",
+    "gitlab.showPipelineUpdateNotifications": true
 }
