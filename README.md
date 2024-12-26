@@ -6,7 +6,7 @@ SPDX-License-Identifier: MIT
 
 # __*cloud__ - FileLink for Nextcloud and ownCloud
 
-[Deutsche Dokumentation](doc/README.de.md)
+[Deutsche Dokumentation](de/README.de.md)
 
 A MailExtension for Thunderbird (68+) that uploads large attachments to your
 Cloud and generates a link you can send by mail instead of the file.
@@ -293,3 +293,5 @@ details of the configuration.
   Mathias Bynens, [MIT
   license](https://github.com/mathiasbynens/punycode.js/blob/master/LICENSE-MIT.txt)
 * Contains [photon-components-web](https://firefoxux.github.io/photon-components-web/)
+
+If you'd like to contribute, see [CONTRIBUTING](CONTRIBUTING.md)

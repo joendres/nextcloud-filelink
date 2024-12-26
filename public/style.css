@@ -1,0 +1,14 @@
+/*
+ * Copyright (C) 2024 Johannes Endres
+ *
+ * SPDX-License-Identifier: MIT
+ */
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding-left: 2em;
+}
+
+h1::before {
+  content: url("./logo.png");
+}
