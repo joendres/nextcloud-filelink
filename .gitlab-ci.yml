@@ -49,3 +49,5 @@ deploy-pages:
   environment:
     name: "gitlab pages"
     url: "${CI_PAGES_URL}"
+  rules:
+  - if: $CI_COMMIT_REF_PROTECTED == "true"
