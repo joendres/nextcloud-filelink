@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 Johannes Endres
+// Copyright (C) 2020 Johannes Endres
 //
 // SPDX-License-Identifier: MIT
 

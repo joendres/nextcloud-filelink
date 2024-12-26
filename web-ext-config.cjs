@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2020 Johannes Endres
+// Copyright (C) 2020 Johannes Endres
 //
 // SPDX-License-Identifier: MIT
 
@@ -13,7 +13,7 @@ module.exports = {
         "photon-components-web/images/arrow-grey-40-*.svg",
         "photon-components-web/images/open-in-new-16-*.svg",
         "photon-components-web/images/searchfield-cancel-*.svg",
-        "src/**/*.license",
+        "**/*.license",
     ],
     sourceDir: "src",
     run: {
