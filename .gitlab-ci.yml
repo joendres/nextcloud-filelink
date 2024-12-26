@@ -47,7 +47,7 @@ deploy-pages:
     paths:
       - public
   environment:
-    name: "gitlab pages"
+    name: "Pages"
     url: "${CI_PAGES_URL}"
   rules:
   - if: $CI_COMMIT_REF_PROTECTED == "true"
