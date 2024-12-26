@@ -1,5 +1,5 @@
 /*
-SPDX-FileCopyrightText: 2020 Johannes Endres
+Copyright (C) 2020 Johannes Endres
 SPDX-License-Identifier: MIT
  */
 {
@@ -11,6 +11,7 @@ SPDX-License-Identifier: MIT
         "MKCOL",
         "mtimes",
         "Nextcloud",
+        "nonascii",
         "prefspane",
         "unencrypted",
         "Uploader",
@@ -38,7 +39,9 @@ SPDX-License-Identifier: MIT
         "mixneko",
         "Óvári",
         "Paroz",
+        "Prandini",
         "Ultreia",
+        "Vechkanova",
         "Viguier"
     ],
     "cSpell.language": "de,en",
