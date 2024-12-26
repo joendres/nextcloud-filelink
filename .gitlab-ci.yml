@@ -39,7 +39,7 @@ sign:
     - /^v\d+\.\d+\.\d+$/
 
 deploy-pages:
-  stage: test
+  stage: deploy
   script:
     - node build-tools/build-pages.mjs
   pages: true
@@ -47,5 +47,5 @@ deploy-pages:
     paths:
       - public
   environment:
-    name: "Pages"
+    name: "gitlab pages"
     url: "${CI_PAGES_URL}"
