@@ -1,6 +1,6 @@
 {
   "//": [
-    "SPDX-FileCopyrightText: 2024 Johannes Endres",
+    "Copyright (C) 2024 Johannes Endres",
     "SPDX-License-Identifier: MIT"
   ],
   "name": "filelink-nextcloud",
