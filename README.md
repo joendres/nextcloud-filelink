@@ -293,3 +293,5 @@ details of the configuration.
   Mathias Bynens, [MIT
   license](https://github.com/mathiasbynens/punycode.js/blob/master/LICENSE-MIT.txt)
 * Contains [photon-components-web](https://firefoxux.github.io/photon-components-web/)
+
+If you'd like to contribute, see [CONTRIBUTING](CONTRIBUTING.md)

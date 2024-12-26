@@ -8,12 +8,22 @@ import { dirname, normalize } from "path";
 const url = "https://gitlab.com/api/v4/markdown";
 const out_dir = "./public/";
 
-async function convert_file(filename) {
-    let lang = dirname(normalize(filename));
+const files = {
+    "README.md": "index.html",
+    "de/README.de.md": "de/index.html",
+    "CONTRIBUTING.md": "contributing.html"
+};
+
+for (const file in files) {
+    convert_file(file, files[file]);
+}
+
+async function convert_file(in_file, out_file) {
+    let lang = dirname(normalize(in_file));
     lang = lang.match(/\w{2,5}/) ? lang : "en";
     const htmlhead = `<!DOCTYPE html><html lang="${lang}"><meta charset="UTF-8"><link rel="stylesheet" href="style.css">`;
 
-    const text = readFileSync(filename, "utf-8");
+    const text = readFileSync(in_file, "utf-8");
 
     const data = {
         text,
@@ -33,12 +43,13 @@ async function convert_file(filename) {
 
     const response = await fetch(url, fetchInit);
     const json = await response.json();
-    const html = json.html
-        .replace(/user-content-/g, "")
-        .replace(/\/joendres\/filelink-nextcloud\/-\/blob\/master\/de\/README.de.md/, "de/");
 
-    writeFileSync(out_dir + dirname(normalize(filename)) + "/index.html",
-        htmlhead + "<title>" + title + "</title>" + html);
+    if (json.html) {
+        const html = json.html
+            .replace(/user-content-/g, "")
+            .replace(/https:[-.\/\w]+?\/((\w\w\/)?[.\w]+.md)/g, (_, p1) => files[p1]);
+
+        writeFileSync(out_dir + out_file,
+            htmlhead + "<title>" + title + "</title>" + html);
+    }
 }
-
-["./README.md", "./de/README.de.md"].forEach(convert_file);
