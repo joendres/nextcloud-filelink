@@ -63,5 +63,10 @@ SPDX-License-Identifier: MIT
     ],
     "git.fetchOnPull": true,
     "git.untrackedChanges": "separate",
-    "gitlab.showPipelineUpdateNotifications": true
+    "gitlab.showPipelineUpdateNotifications": false,
+    "todo-tree.filtering.excludeGlobs": [
+        "**/node_modules/*/**",
+        "**/src/photon-components-web/**",
+        "**/src/punycode/**"
+    ]
 }
