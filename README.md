@@ -278,6 +278,7 @@ details of the configuration.
 * [Pietro Federico Sacchi](https://crowdin.com/profile/sacchi.pietro), Italian localization
 * [Asier Iturralde Sarasola](@aldatsa), Basque localization
 * [Anatolii Balbutckii](@abalbuc), Russian localization
+* Aleš Petržík, Czech localization
 * [mixneko](@mixneko), traditional Chinese localization
 * Based on [FileLink Provider for
   Dropbox](https://github.com/darktrojan/dropbox) by [Geoff
