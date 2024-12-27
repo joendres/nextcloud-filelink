@@ -30,7 +30,7 @@ async function convert_file(in_file, out_file) {
         gfm: true,
         project: "joendres/filelink-nextcloud",
     };
-    const title = text.match(/^#\s+(.+)/m)[1];
+    const title = text.match(/^#\s+(.+)/m)[1].replaceAll("_", "");
 
     const fetchInit = {
         method: "POST",
