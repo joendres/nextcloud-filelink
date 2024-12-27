@@ -12,6 +12,7 @@ SPDX-License-Identifier: MIT
         "mtimes",
         "Nextcloud",
         "nonascii",
+        "ocis",
         "prefspane",
         "unencrypted",
         "Uploader",
@@ -19,6 +20,7 @@ SPDX-License-Identifier: MIT
     ],
     "cSpell.ignoreWords": [
         "abalbuc",
+        "ADFS",
         "aldatsa",
         "Anatolii",
         "Asier",
