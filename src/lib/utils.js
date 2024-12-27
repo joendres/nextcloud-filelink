@@ -25,7 +25,6 @@ class utils {
             setTimeout(resolve, ms);
         });
     }
-
 }
 
 /* exported utils */
