@@ -532,6 +532,7 @@ class CloudConnection {
     //#endregion
 }
 
+/* global SemVer */
 /* global utils*/
 /* global DavUploader  */
 /* global punycode */
