@@ -243,17 +243,10 @@ async function handleFormData() {
 
         const url = new URL(serverUrl.value);
         // Remove double slashes from url
-        const shortpath = url.pathname.split('/').filter(e => "" !== e);
+        let shortpath = url.pathname.split('/').filter(e => "" !== e);
 
         // If user pasted complete url of file app, extract cloud base url
-        if (shortpath[shortpath.length - 2] === 'apps' &&
-            (shortpath[shortpath.length - 1] === 'files' || shortpath[shortpath.length - 1] === 'dashboard')) {
-            shortpath.pop();
-            shortpath.pop();
-            if (shortpath[shortpath.length - 1] === 'index.php') {
-                shortpath.pop();
-            }
-        }
+        shortpath = guessPath(shortpath);
         serverUrl.value = url.origin + '/' + shortpath.join('/');
 
         // Make sure, url end with a slash
@@ -264,6 +257,42 @@ async function handleFormData() {
         if (!password.value.match(/^[\x21-\x7e]+$/)) {
             popup.warn('nonascii_password');
         }
+    }
+
+    /**
+     * Removes any known part of Nextcloud/ownCloud/oCIS app paths from the end
+     * of the guess the base path.
+     * @param {string[]} shortpath The path, split at th /s 
+     * @returns string[] An array of the remaining path elements
+     */
+    function guessPath(shortpath) {
+        // Path parts to exclude, taken from Nextcloud, ownCloud, oCIS
+        const known_path_parts = [
+            username.value,
+            "apps",
+            "dashboard",
+            "extstoragemounts",
+            "favorites",
+            "files",
+            "folders",
+            "groupfolders",
+            "identifier",
+            "index.php",
+            "login",
+            "personal",
+            "projects",
+            "recent",
+            "shareoverview",
+            "shares",
+            "signin",
+            "spaces",
+            "trash",
+            "v1",
+        ];
+        while (known_path_parts.includes(shortpath[shortpath.length - 1])) {
+            shortpath.pop();
+        }
+        return shortpath;
     }
 
     /**
