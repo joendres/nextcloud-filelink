@@ -140,7 +140,7 @@ class DavUploader {
         attachmentStatus.get(uploadId).set_status('moving');
         const dest_header = {
             "Destination":
-                this._davUrl + utils.encodepath(this._storageFolder + "/" + newPath + "/" + fileName),
+                '/' + this._davUrl + utils.encodepath(this._storageFolder + "/" + newPath + "/" + fileName),
         };
         if (await this._recursivelyCreateFolder(this._storageFolder + "/" + newPath)) {
             const retval = await this._doDavCall(this._storageFolder + "/" + fileName, "MOVE", null, dest_header);
