@@ -102,3 +102,4 @@ class MsgHandler {
 }
 
 /* exported attachmentStatus, Status */
+/* global messenger */

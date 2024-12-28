@@ -71,7 +71,7 @@ class popup {
      * @returns {boolean}
      */
     static empty() {
-        return !Boolean(msgContainer.firstChild);
+        return !msgContainer.firstChild;
     }
 }
 
