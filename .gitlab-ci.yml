@@ -12,14 +12,14 @@ cache:
 lint:
   stage: test
   before_script:
-    - npm install --loglevel error web-ext
+    # - npm install --loglevel error web-ext
     - git submodule update --init
   script:
     # web-ext fails if parameters of different run modes are set
     - unset WEB_EXT_API_KEY
     - unset WEB_EXT_API_SECRET
     - npx web-ext lint
-    # TODO check with eslint
+    - npx eslint src
     - "! grep -r --exclude-dir=photon-components-web TODO src"
 
 sign:
