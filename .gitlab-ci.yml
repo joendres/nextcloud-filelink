@@ -12,7 +12,6 @@ cache:
 lint:
   stage: test
   before_script:
-    # - npm install --loglevel error web-ext
     - git submodule update --init
   script:
     # web-ext fails if parameters of different run modes are set
