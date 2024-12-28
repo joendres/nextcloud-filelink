@@ -65,6 +65,15 @@
   "expiry_details": {
     "message": "A napok száma a letöltés elérhető lesz, a mai napot is beleértve."
   },
+  "noAutoDownload": {
+    "message": "A fájladatokra mutató hivatkozásokat hozzon létre, ne letöltési hivatkozásokat"
+  },
+  "noAutoDownload_details": {
+    "message": "Ha engedélyezi ezt a beállítást, az üzenetben található hivatkozásra kattintva megnyílik egy oldal a felhőkiszolgálón. Ez az oldal információkat tartalmaz a fájlról és a letöltési linkről. Ha letiltja ezt a beállítást, a letöltés azonnal elindul."
+  },
+  "warn_ocis_no_download_links": {
+    "message": "A kiszolgáló nem támogatja az azonnali letöltési hivatkozásokat: Fájlinformációs hivatkozások létrehozása"
+  },
   "freespace": {
     "message": "Szabad hely ($FREE$/$FULL$)",
     "placeholders": {
