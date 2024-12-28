@@ -122,7 +122,9 @@ class DavUploader {
                         size: Number(xmlDoc.getElementsByTagName("d:getcontentlength")[0].textContent),
                     };
                 }
-            } catch (_) { }
+            } catch (_) {
+                // ignore errors
+            }
         }
         return null;
     }
@@ -182,7 +184,9 @@ class DavUploader {
                 const xmlDoc = new DOMParser().parseFromString(await response.text(), 'application/xml');
                 let free = parseInt(xmlDoc.getElementsByTagName("d:quota-available-bytes")[0].textContent);
                 return (isNaN(free) || free < 0) ? -1 : free;
-            } catch (_) { }
+            } catch (_) { 
+                // ignore errors
+            }
         }
         return -1;
     }
@@ -267,7 +271,7 @@ class DavUploader {
         }
 
         return fetch(url, fetchInfo).
-            catch(error => {
+            catch(() => {
                 return { ok: false, };
             });
     }
