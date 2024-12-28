@@ -86,4 +86,3 @@ function makeUploadId(account, fileId) {
 }
 
 /* global CloudConnection, Status */
-/* global messenger */

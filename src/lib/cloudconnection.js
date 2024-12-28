@@ -471,7 +471,7 @@ class CloudConnection {
         }
         let encoderUrl = u.origin.replace(u.hostname, punycode.toUnicode(u.hostname)) +
             utils.encodepath(u.pathname);
-        
+
         if (!this.noAutoDownload) {
             encoderUrl += (encoderUrl.endsWith("/") ? "" : "/") + "download";
         }
@@ -544,4 +544,3 @@ class CloudConnection {
 /* global attachmentStatus */
 /* global generatePassword */
 /* exported CloudConnection */
-/* global messenger */

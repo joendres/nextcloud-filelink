@@ -445,4 +445,3 @@ function stopLookingBusy() {
 // Defined in ../lib/localize.js
 /* globals addLocalizedLabels */
 /* globals noAutoDownload */
-/* global messenger */
