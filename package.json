@@ -7,7 +7,8 @@
   "version": "3.16.0",
   "description": "*cloud - FileLink for Nextcloud and ownCloud",
   "devDependencies": {
-    "jshint": "^2.13.6",
+    "@types/thunderbird-webext-browser": "^127.0.0",
+    "eslint": "^8.57.1",
     "web-ext": "^8.3.0"
   },
   "private": true,
@@ -26,5 +27,17 @@
     "url": "https://gitlab.com/joendres/filelink-nextcloud/issues",
     "email": "cloud@johannes-endres.de"
   },
-  "homepage": "https://gitlab.com/joendres/filelink-nextcloud#readme"
+  "homepage": "https://gitlab.com/joendres/filelink-nextcloud#readme",
+  "eslintConfig": {
+    "env": {
+      "browser": true,
+      "es2021": false
+    },
+    "extends": "eslint:recommended",
+    "overrides": [],
+    "parserOptions": {
+      "ecmaVersion": 9
+    },
+    "rules": {}
+  }
 }

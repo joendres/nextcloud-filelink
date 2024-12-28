@@ -75,5 +75,4 @@ class popup {
     }
 }
 
-/* Make jshint happy */
 /* exported popup */

@@ -232,7 +232,6 @@ class DavUploader {
             }
             else {
                 attachmentStatus.get(uploadId).fail();
-                console.error(error); // jshint ignore: line
                 if (!response) {
                     response = {};
                 }
@@ -269,7 +268,6 @@ class DavUploader {
 
         return fetch(url, fetchInfo).
             catch(error => {
-                console.error(error); // jshint ignore: line
                 return { ok: false, };
             });
     }

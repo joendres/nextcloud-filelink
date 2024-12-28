@@ -85,5 +85,4 @@ function makeUploadId(account, fileId) {
     return `${account.id}_${fileId}`;
 }
 
-/* Make jshint happy */
 /* global CloudConnection, Status */

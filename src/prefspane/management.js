@@ -431,7 +431,7 @@ function stopLookingBusy() {
     document.querySelector("body").classList.remove('busy');
 }
 //#endregion
-// Make jshint happy
+
 // Defined in ../lib/cloudconnection.js
 /* global CloudConnection */
 // Defined in popup/popup.js
