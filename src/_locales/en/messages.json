@@ -71,6 +71,9 @@
   "noAutoDownload_details": {
     "message": "If you set this option, clicking the link in the message will open a page on the cloud server. This page will contain information about the file and the download link. If you don't set this option, the download will start immediately."
   },
+  "warn_ocis_no_download_links": {
+    "message": "Your server does not support instant download links: Creating file info links"
+  },
   "freespace": {
     "message": "Free Space ($FREE$ of $FULL$)",
     "placeholders": {
