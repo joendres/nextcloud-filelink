@@ -2,7 +2,6 @@
 //
 // SPDX-License-Identifier: MIT
 
-
 import globals from "globals";
 import pluginJs from "@eslint/js";
 
@@ -13,6 +12,7 @@ export default [
       "**/src/background/punycode.es6.js",
       "**/src/photon-components-web/",
       "**/src/punycode/",
+      "**/*config.*js",
     ]
   },
   {
