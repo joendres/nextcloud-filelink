@@ -195,6 +195,7 @@ async function loadFormData() {
     }
     adjustDLPasswordElementStates();
 
+    ocisHasNoDownloadLinks();
 }
 //#endregion
 
@@ -343,6 +344,7 @@ async function handleFormData() {
             if (true === ncc.public_shares_enabled) {
                 checkEnforcedExpiry();
                 checkEnforcedDLPassword();
+                ocisHasNoDownloadLinks();
                 await validateDLPassword();
                 ncc.store();
             } else if ('undefined' === typeof ncc.public_shares_enabled) {
@@ -378,6 +380,20 @@ async function handleFormData() {
                 }
             }
         }
+    }
+}
+
+/**
+ * ownCloud Infinite Scale does not support the /download postfix on shared
+ * links. Force file info links for oCIS servers.
+ */
+function ocisHasNoDownloadLinks() {
+    if (ncc.cloud_type === "oCIS") {
+        if (!noAutoDownload.checked) {
+        noAutoDownload.checked = true;
+            popup.warn('ocis_no_download_links');
+        }
+        noAutoDownload.disabled = true;
     }
 }
 
@@ -428,3 +444,4 @@ function stopLookingBusy() {
 /* globals freespacelabel, freespace, password, storageFolder, disableable_fieldset */
 // Defined in ../lib/localize.js
 /* globals addLocalizedLabels */
+/* globals noAutoDownload */
