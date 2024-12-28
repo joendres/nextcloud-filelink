@@ -1,3 +1,8 @@
+// Copyright (C) 2024 Johannes Endres
+//
+// SPDX-License-Identifier: MIT
+
+
 import globals from "globals";
 import pluginJs from "@eslint/js";
 
