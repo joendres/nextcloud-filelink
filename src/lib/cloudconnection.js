@@ -266,7 +266,7 @@ class CloudConnection {
                 Boolean(this.storageFolder) &&
                 !(this.enforce_password && !this.useDlPassword) &&
                 (!this.useDlPassword || this.useGeneratedDlPassword || Boolean(this.downloadPassword)) &&
-                !(this.useExpiry && !Boolean(this.expiryDays)) &&
+                !(this.useExpiry && !this.expiryDays) &&
                 !(Boolean(this.expiry_max_days) && this.useExpiry && this.expiry_max_days < this.expiryDays),
         });
     }
@@ -279,7 +279,7 @@ class CloudConnection {
         const data = await this._doApiCall(apiUrlUserID);
         if (data.id) {
             // Nextcloud and ownCloud use this RE to check usernames created manually
-            if (data.id.match(/^[a-zA-Z0-9 _\.@\-']+$/)) {
+            if (data.id.match(/^[a-zA-Z0-9 _.@\-']+$/)) {
                 this.userId = data.id;
             } else {
                 /* The userid contains characters that ownCloud and Nextcloud
@@ -544,3 +544,4 @@ class CloudConnection {
 /* global attachmentStatus */
 /* global generatePassword */
 /* exported CloudConnection */
+/* global messenger */

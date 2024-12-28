@@ -37,7 +37,7 @@
     "extends": "eslint:recommended",
     "overrides": [],
     "parserOptions": {
-      "ecmaVersion": 8
+      "ecmaVersion": 9
     },
     "ignorePatterns": [
       "**/*.js",
