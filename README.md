@@ -18,11 +18,14 @@ Cloud and generates a link you can send by mail instead of the file.
 * Thunderbird: 68.2.1 or newer
 * An account on a server running a supported version of Nextcloud or ownCloud,
   more specifically:
-  * [Nextcloud](https://nextcloud.com/): version 29 or newer (older versions
+  * [Nextcloud](https://nextcloud.com/) version 29 or newer (older versions
     might work, but are [not supported by
     Nextcloud](https://github.com/nextcloud/server/wiki/Maintenance-and-Release-Schedule))
-  * [ownCloud](https://owncloud.com/): version 10.0.10+ (10.0.9 and older
+  * [ownCloud](https://owncloud.com/) version 10.0.10+ (10.0.9 and older
     versions contain bugs that prevent __*cloud__ from working).
+  * [ownCloud Infinite Scale](https://owncloud.com/infinite-scale/) version 5 or newer (older versions
+    might work, but are [not supported by
+    ownCloud](https://owncloud.dev/ocis/release_roadmap/))
 
   If you can't or don't want to run your own server, there are many offers for
   [hosted Nextcloud](https://nextcloud.com/providers/) and [hosted ownCloud](https://owncloud.com/partners/find-a-partner/?_sft_partner-type=service-provider) services.
@@ -266,6 +269,10 @@ and[ownCloud](https://doc.owncloud.com/server/next/admin_manual/installation/man
 both require mod_rewrite to be active if run in the Apache http server. Without
 mod_rewrite __*cloud__ fails with different error scenarios depending on other
 details of the configuration.
+
+### Basic Auth
+
+Currently __*cloud__ only supports HTTP Basic Auth. In ownCloud Infinite Scale (oCIS) Basic Auth is disabled by default and [has to be enabled](https://doc.owncloud.com/ocis/next/deployment/services/s-list/auth-basic.html).
 
 ## Contributions
 
