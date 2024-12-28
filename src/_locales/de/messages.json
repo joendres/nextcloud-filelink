@@ -72,7 +72,7 @@
     "message": "Wenn Sie diese Option aktivieren, wird durch Klicken auf den Link in der Nachricht eine Seite auf dem Cloud-Server geöffnet. Diese Seite enthält Informationen über die Datei und den Download-Link. Wenn Sie diese Option nicht aktivieren, startet ein Klick sofort den Download."
   },
   "warn_ocis_no_download_links": {
-    "message": "Der Server unterstützt keine Download-Links. Links zur Datei-Info werden erzeugt."
+    "message": "Der Server unterstützt keine Download-Links. Links zur Datei-Info werden erzeugt"
   },
   "freespace": {
     "message": "Freier Speicher ($FREE$ von $FULL$)",
