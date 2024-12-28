@@ -65,6 +65,12 @@
   "expiry_details": {
     "message": "The number of days the download will be available, including today"
   },
+  "noAutoDownload": {
+    "message": "Create links to file info, not download links"
+  },
+  "noAutoDownload_details": {
+    "message": "If you set this option, clicking the link in the message will open a page on the cloud server. This page will contain information about the file and the download link. If you don't set this option, the download will start immediately."
+  },
   "freespace": {
     "message": "Free Space ($FREE$ of $FULL$)",
     "placeholders": {
