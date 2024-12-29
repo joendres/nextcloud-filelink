@@ -3,7 +3,7 @@
 // SPDX-License-Identifier: MIT
 
 // Establish messaging with background worker
-var port;
+let port = null;
 
 window.addEventListener("load", () => {
     port = browser.runtime.connect();

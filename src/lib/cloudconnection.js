@@ -351,7 +351,7 @@ class CloudConnection {
         }
         /* If we generate a password locally, the generation via web service didn't work. In that case
         validation also doesn't work, so the locally generateed password cannot be validated. */
-        return pw ? pw : generatePassword(16);
+        return pw || generatePassword(16);
     }
     //#endregion
 
