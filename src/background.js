@@ -55,7 +55,7 @@ messenger.cloudFile.onAccountDeleted.addListener(accountId => {
 async function updateAccount(accountId) {
     const ncc = new CloudConnection(accountId);
     await ncc.load();
-    await upgradeOldConfigurations();
+    upgradeOldConfigurations();
 
     // Check if login works
     const answer = await ncc.updateUserId();

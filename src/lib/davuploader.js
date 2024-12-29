@@ -44,18 +44,16 @@ class DavUploader {
         if (!stat) {
             // There is no conflicting file in the cloud
             return this._doUpload(uploadId, fileName, fileObject);
-        } else {
+        } else if (Math.abs(stat.mtime - fileObject.lastModified) < 1000 &&
             // There is a file of the same name
             // The mtime is in milliseconds, but on the cloud it's only accurate to seconds
-            if (Math.abs(stat.mtime - fileObject.lastModified) < 1000 &&
-                stat.size === fileObject.size) {
-                // It's the same as the local file
-                return { ok: true, };
-            } else {
-                // It's different, move it out of the way
-                await this._moveFileToDir(uploadId, fileName, "old_shares/" + (stat.mtime / 1000 | 0));
-                return this._doUpload(uploadId, fileName, fileObject);
-            }
+            stat.size === fileObject.size) {
+            // It's the same as the local file
+            return { ok: true, };
+        } else {
+            // It's different, move it out of the way
+            await this._moveFileToDir(uploadId, fileName, "old_shares/" + (stat.mtime / 1000 | 0));
+            return this._doUpload(uploadId, fileName, fileObject);
         }
     }
 
@@ -184,7 +182,7 @@ class DavUploader {
                 const xmlDoc = new DOMParser().parseFromString(await response.text(), 'application/xml');
                 let free = parseInt(xmlDoc.getElementsByTagName("d:quota-available-bytes")[0].textContent);
                 return (isNaN(free) || free < 0) ? -1 : free;
-            } catch (_) { 
+            } catch (_) {
                 // ignore errors
             }
         }
