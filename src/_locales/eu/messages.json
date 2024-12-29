@@ -65,6 +65,15 @@
   "expiry_details": {
     "message": "Zenbat egunez egongo den deskarga bat eskuragarri, gaurkoa barne"
   },
+  "noAutoDownload": {
+    "message": "Sortu fitxategiaren informaziorako estekak, ez deskargarako estekak"
+  },
+  "noAutoDownload_details": {
+    "message": "Aukera hau ezartzen baduzu, mezuko estekan klik egitean hodeiko zerbitzariko orri bat irekiko da. Orri horretan fitxategiari buruzko informazioa eta deskargarako esteka daude. Aukera hau ez baduzu ezartzen, deskarga berehala hasiko da."
+  },
+  "warn_ocis_no_download_links": {
+    "message": "Zure zerbitzariak ez ditu onartzen uneko deskargarako estekak: Fitxategiaren informaziorako estekak sortzen"
+  },
   "freespace": {
     "message": "Leku librea ($FREE$ / $FULL$)",
     "placeholders": {
