@@ -57,6 +57,7 @@ SPDX-License-Identifier: MIT
         "vscode-extension",
         ".git/{info,lfs,logs,refs,objects}/**",
         ".git/{index,*refs,*HEAD}",
+        "/.git*",
         ".vscode",
         ".vscode-insiders",
         "src/punycode",
