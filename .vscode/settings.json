@@ -69,5 +69,9 @@ SPDX-License-Identifier: MIT
         "**/node_modules/*/**",
         "**/src/photon-components-web/**",
         "**/src/punycode/**"
-    ]
+    ],
+    "sonarlint.connectedMode.project": {
+        "connectionId": "joendres",
+        "projectKey": "joendres_filelink-nextcloud"
+    }
 }
