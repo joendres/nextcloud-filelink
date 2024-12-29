@@ -230,7 +230,7 @@ class CloudConnection {
                 this.cloud_productname = data.capabilities.core.status.productname;
                 if (data.capabilities.core.status.product === "Infinite Scale") {
                     this.cloud_type = "oCIS";
-                    this.cloud_supported = (new SemVer(data.capabilities.core.status.productversion)).major >= ocisMinimalVersion;
+                    this.cloud_supported = (parseSemver(data.capabilities.core.status.productversion)).major >= ocisMinimalVersion;
                     this.cloud_versionstring = data.capabilities.core.status.productversion;
                 } else {
                     this.cloud_type = "ownCloud";
@@ -466,7 +466,7 @@ class CloudConnection {
         } catch (_) {
             return null;
         }
-        if (!u.protocol.match(/^https?:$/)) {
+        if (!RegExp(/^https?:$/).exec(u.protocol)) {
             return null;
         }
         let encoderUrl = u.origin.replace(u.hostname, punycode.toUnicode(u.hostname)) +
@@ -536,7 +536,7 @@ class CloudConnection {
     //#endregion
 }
 
-/* global SemVer */
+/* global parseSemver */
 /* global utils*/
 /* global DavUploader  */
 /* global punycode */
