@@ -10,7 +10,13 @@
 */
 function parseSemver(semver) {
     // This regex is from https://semver.org/
-    const regex = /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$/;
+    const regex = [
+        '^(0|[1-9]\\d*)',   // major
+        '\\.(0|[1-9]\\d*)', // minor
+        '\\.(0|[1-9]\\d*)', // patch
+        '(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\\.(?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?', // prerelease
+        '(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$', // buildmeta
+    ].join('');
     const found = RegExp(regex).exec(semver) || [];
 
     // found[0] is the whole match, the groups start at 1
@@ -22,6 +28,5 @@ function parseSemver(semver) {
         buildmetadata: found[5],
     };
 }
-
 
 /* exported parseSemver */
