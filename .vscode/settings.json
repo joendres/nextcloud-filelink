@@ -51,13 +51,13 @@ SPDX-License-Identifier: MIT
     "cSpell.language": "de,en",
     "cSpell.allowCompoundWords": true,
     "cSpell.ignorePaths": [
-        ".jshint*",
         "web-ext-config.cjs",
         "package-lock.json",
         "node_modules",
         "vscode-extension",
         ".git/{info,lfs,logs,refs,objects}/**",
         ".git/{index,*refs,*HEAD}",
+        "/.git*",
         ".vscode",
         ".vscode-insiders",
         "src/punycode",
@@ -70,5 +70,9 @@ SPDX-License-Identifier: MIT
         "**/node_modules/*/**",
         "**/src/photon-components-web/**",
         "**/src/punycode/**"
-    ]
+    ],
+    "sonarlint.connectedMode.project": {
+        "connectionId": "joendres",
+        "projectKey": "joendres_filelink-nextcloud"
+    }
 }

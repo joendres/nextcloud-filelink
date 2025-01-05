@@ -31,7 +31,7 @@
             "lib/status.js",
             "lib/davuploader.js",
             "lib/cloudconnection.js",
-            "lib/semver.js",
+            "lib/parsesemver.js",
             "punycode/punycode.js",
             "background.js"
         ]
