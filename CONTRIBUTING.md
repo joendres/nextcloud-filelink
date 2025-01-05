@@ -62,7 +62,6 @@ If you already have a gitlab account and are familiar with the system, you can j
 If you'd like to fix a bug or implement a feature
 
 * Just branch from the latest Release-x.y.z or Bugfix-x.y.z branch
-* Use [jshint](https://jshint.com/) to check your code.
 * Optional: When your code is ready, `git merge` the original branch and resolve
   conflicts. I'll handle all conflicts that arise later.
 * If you add strings, just add them to the english locales (and any other
