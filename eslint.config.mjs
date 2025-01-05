@@ -17,12 +17,14 @@ export default [
   },
   {
     languageOptions: {
+      // Currently we still support Thunderbird 68.2.1 which has an old JS engine
+      ecmaVersion: 9,
       sourceType: "script",
       globals: {
         ...globals.browser,
         ...globals.webextensions,
-        // Use messenger instead of browser for Thunderbird API to keep web-ext
-        // lint happy
+        // Use messenger instead of browser for Thunderbird API to keep
+        // "web-ext lint" happy
         "messenger": "readonly",
       }
     }
