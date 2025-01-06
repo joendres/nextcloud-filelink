@@ -65,6 +65,15 @@
   "expiry_details": {
     "message": "El número de días que la descarga estará disponible, incluyendo hoy."
   },
+  "noAutoDownload": {
+    "message": "Crear enlace de información de archivos, no descarga inmediata"
+  },
+  "noAutoDownload_details": {
+    "message": "Si seleccionas esta opción, al hacer clic en el enlace del mensaje se abrirá una página en el servidor de la nube. Esta página contendrá información sobre el archivo y el enlace de descarga. Si no configuras esta opción, la descarga comenzará inmediatamente."
+  },
+  "warn_ocis_no_download_links": {
+    "message": "Su servidor no admite enlaces de descarga instantánea: Crear enlace de información de archivos"
+  },
   "freespace": {
     "message": "Espacio disponible ($FREE$ de $FULL$)",
     "placeholders": {
