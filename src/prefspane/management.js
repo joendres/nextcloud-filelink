@@ -267,7 +267,10 @@ async function handleFormData() {
      * @returns string[] An array of the remaining path elements
      */
     function guessPath(shortpath) {
-        // Path parts to exclude, taken from Nextcloud, ownCloud, oCIS
+        // URL path parts tha mark the start of the internal call route.
+        // Everything before that is considered part of the base path, taken
+        // from Nextcloud, ownCloud, oCIS
+        // TODO Shorten this list based on heuristics
         const known_path_parts = [
             username.value,
             "apps",
@@ -290,10 +293,11 @@ async function handleFormData() {
             "trash",
             "v1",
         ];
-        while (known_path_parts.includes(shortpath[shortpath.length - 1])) {
-            shortpath.pop();
+        let return_path = [];
+        while (!known_path_parts.includes(shortpath[0])) {
+            return_path.push(shortpath.shift());
         }
-        return shortpath;
+        return return_path;
     }
 
     /**
@@ -390,7 +394,7 @@ async function handleFormData() {
 function ocisHasNoDownloadLinks() {
     if (ncc.cloud_type === "oCIS") {
         if (!noAutoDownload.checked) {
-        noAutoDownload.checked = true;
+            noAutoDownload.checked = true;
             popup.warn('ocis_no_download_links');
         }
         noAutoDownload.disabled = true;
