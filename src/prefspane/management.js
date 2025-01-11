@@ -239,6 +239,8 @@ async function handleFormData() {
             .forEach(element => {
                 element.value = element.value.trim();
             });
+        // TODO move this into guesspath
+        // TODO do it only once ;-)
         // Remove extra slashes from folder path
         storageFolder.value = "/" + storageFolder.value.split('/').filter(e => "" !== e).join('/');
 
@@ -273,31 +275,34 @@ async function handleFormData() {
         // TODO Shorten this list based on heuristics
         const known_path_parts = [
             username.value,
-            "apps",
+            "apps", // Nextcloud after login
             "dashboard",
             "extstoragemounts",
             "favorites",
-            "files",
+            "files",  // TODO Is "apps" always present?
             "folders",
             "groupfolders",
             "identifier",
-            "index.php",
-            "login",
+            "index.php", // Nextcloud, depending on configuration
+            "login", // Nextcloud before login
             "personal",
             "projects",
             "recent",
+            "settings", // Nextcloud
             "shareoverview",
             "shares",
             "signin",
             "spaces",
             "trash",
+            "u", // TODO This might not be specific enough Nextcloud, user profile
             "v1",
         ];
-        let return_path = [];
-        while (!known_path_parts.includes(shortpath[0])) {
-            return_path.push(shortpath.shift());
+        for (let index = 0; index < shortpath.length; index++) {
+            if (known_path_parts.includes(shortpath[index])) {
+                return shortpath.slice(0, index);
+            }
         }
-        return return_path;
+        return shortpath;
     }
 
     /**
