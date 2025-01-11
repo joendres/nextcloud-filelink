@@ -239,18 +239,14 @@ async function handleFormData() {
             .forEach(element => {
                 element.value = element.value.trim();
             });
-        // TODO move this into guesspath
-        // TODO do it only once ;-)
         // Remove extra slashes from folder path
         storageFolder.value = "/" + storageFolder.value.split('/').filter(e => "" !== e).join('/');
 
+        // As we check the string format before, this cannot fail(TM)
         const url = new URL(serverUrl.value);
-        // Remove double slashes from url
-        let shortpath = url.pathname.split('/').filter(e => "" !== e);
 
         // If user pasted complete url of file app, extract cloud base url
-        shortpath = guessPath(shortpath);
-        serverUrl.value = url.origin + '/' + shortpath.join('/');
+        serverUrl.value = url.origin + '/' + guessPath(url.pathname);
 
         // Make sure, url end with a slash
         if (!serverUrl.value.endsWith('/')) {
@@ -265,44 +261,47 @@ async function handleFormData() {
     /**
      * Removes any known part of Nextcloud/ownCloud/oCIS app paths from the end
      * of the guess the base path.
-     * @param {string[]} shortpath The path, split at th /s 
-     * @returns string[] An array of the remaining path elements
+     * @param {string} path The path 
+     * @returns string The shortend path
      */
-    function guessPath(shortpath) {
+    function guessPath(path) {
         // URL path parts tha mark the start of the internal call route.
         // Everything before that is considered part of the base path, taken
         // from Nextcloud, ownCloud, oCIS
         // TODO Shorten this list based on heuristics
         const known_path_parts = [
             username.value,
-            "apps", // Nextcloud after login
-            "dashboard",
-            "extstoragemounts",
-            "favorites",
-            "files",  // TODO Is "apps" always present?
-            "folders",
-            "groupfolders",
-            "identifier",
-            "index.php", // Nextcloud, depending on configuration
-            "login", // Nextcloud before login
-            "personal",
-            "projects",
-            "recent",
-            "settings", // Nextcloud
-            "shareoverview",
-            "shares",
-            "signin",
-            "spaces",
-            "trash",
-            "u", // TODO This might not be specific enough Nextcloud, user profile
-            "v1",
+            'apps', // Nextcloud after login
+            'dashboard',
+            'extstoragemounts',
+            'favorites',
+            'files',  // TODO Is 'apps' always present?
+            'folders',
+            'groupfolders',
+            'identifier',
+            'index.php', // Nextcloud, depending on configuration
+            'login', // Nextcloud before login
+            'personal',
+            'projects',
+            'recent',
+            'settings', // Nextcloud
+            'shareoverview',
+            'shares',
+            'signin',
+            'spaces',
+            'trash',
+            'u', // TODO This might not be specific enough Nextcloud, user profile
+            'v1',
         ];
+        // Split into parts and remove double slashes
+        const shortpath = path.split('/').filter(e => !!e);
+
         for (let index = 0; index < shortpath.length; index++) {
             if (known_path_parts.includes(shortpath[index])) {
-                return shortpath.slice(0, index);
+                return shortpath.slice(0, index).join('/');
             }
         }
-        return shortpath;
+        return path;
     }
 
     /**
