@@ -9,3 +9,4 @@ node_modules
 tests/filenames/x><x.txt
 tests/filenames/x["?:\\|*]x.txt
 public/**/*.html
+/jsshell*/

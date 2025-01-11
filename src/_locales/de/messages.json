@@ -27,13 +27,13 @@
     "message": "App-Token oder Passwort"
   },
   "password_details": {
-    "message": "Ein App Passwort (Einstellungen -> Sicherheit -> App Passwort auf der Cloud) oder notfalls dein Cloud-Passwort.\nNur mit Nextcloud: Das Add-On versucht, vor dem Speichern ein App Passwort zu erzeugen. Aber falls das fehlschlägt, wir das Passwort unverschlüsselt gespeichert."
+    "message": "Ein App-Passwort (Einstellungen -> Sicherheit -> App Passwort auf der Cloud) oder notfalls dein Cloud-Passwort.\nNur mit Nextcloud: Das Add-on versucht, vor dem Speichern ein App-Passwort zu erzeugen. Aber falls das fehlschlägt, wir das Passwort unverschlüsselt gespeichert."
   },
   "storageFolder": {
     "message": "Speicherpfad in der Cloud"
   },
   "storageFolder_details": {
-    "message": "Das Verzeichnis, in dem die Dateien abgelegt werden. Falls es nicht existiert, wird es automatisch angelegt."
+    "message": "Das Cloud-Verzeichnis, in dem die Dateien abgelegt werden. Falls es nicht existiert, wird es automatisch angelegt."
   },
   "useNoDlPassword": {
     "message": "Kein Passwort"
@@ -45,7 +45,7 @@
     "message": "Ein zufälliges Passwort pro Datei"
   },
   "useGeneratedDlPassword_details": {
-    "message": "Für jede Datei wird ein zufälliges Passwort erzeugt. Es erscheint nach dem Upload im Status-Dialog."
+    "message": "Für jede Datei wird ein zufälliges Passwort erzeugt. Es erscheint nach dem Upload im *cloud-Status-Dialog."
   },
   "useDlPassword": {
     "message": "Download-Passwörter"
@@ -66,7 +66,7 @@
     "message": "Die Anzahl der Tage, für die der Download verfügbar bleibt, inklusive heute"
   },
   "freespace": {
-    "message": "Freier Speicher: $FREE$ von $FULL$",
+    "message": "Freier Speicher ($FREE$ von $FULL$)",
     "placeholders": {
       "free": {
         "content": "$1"
@@ -164,7 +164,7 @@
     "message": "Passwort: $1"
   },
   "warn_nonascii_password": {
-    "message": "Das Passwort enthält Zeichen, die oft Login-Probleme verursachen. Benutze hier besser ein App Passwort (unter \"Sicherheit\" in den Einstellungen deiner Cloud)."
+    "message": "Das Passwort enthält Zeichen, die oft Login-Probleme verursachen. Benutze hier besser ein App-Passwort (unter \"Sicherheit\" in den Einstellungen deiner Cloud)."
   },
   "advanced_options": {
     "message": "Erweiterte Optionen"

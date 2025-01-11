@@ -101,5 +101,4 @@ class MsgHandler {
     }
 }
 
-/* Make jshint happy */
 /* exported attachmentStatus, Status */

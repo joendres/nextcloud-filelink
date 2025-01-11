@@ -22,6 +22,7 @@ SPDX-License-Identifier: MIT
         "abalbuc",
         "ADFS",
         "aldatsa",
+        "Aleš",
         "Anatolii",
         "Asier",
         "Balbutckii",
@@ -41,6 +42,7 @@ SPDX-License-Identifier: MIT
         "mixneko",
         "Óvári",
         "Paroz",
+        "Petržík",
         "Prandini",
         "Ultreia",
         "Vechkanova",
@@ -49,13 +51,13 @@ SPDX-License-Identifier: MIT
     "cSpell.language": "de,en",
     "cSpell.allowCompoundWords": true,
     "cSpell.ignorePaths": [
-        ".jshint*",
         "web-ext-config.cjs",
         "package-lock.json",
         "node_modules",
         "vscode-extension",
         ".git/{info,lfs,logs,refs,objects}/**",
         ".git/{index,*refs,*HEAD}",
+        "/.git*",
         ".vscode",
         ".vscode-insiders",
         "src/punycode",
@@ -63,5 +65,14 @@ SPDX-License-Identifier: MIT
     ],
     "git.fetchOnPull": true,
     "git.untrackedChanges": "separate",
-    "gitlab.showPipelineUpdateNotifications": true
+    "gitlab.showPipelineUpdateNotifications": false,
+    "todo-tree.filtering.excludeGlobs": [
+        "**/node_modules/*/**",
+        "**/src/photon-components-web/**",
+        "**/src/punycode/**"
+    ],
+    "sonarlint.connectedMode.project": {
+        "connectionId": "joendres",
+        "projectKey": "joendres_filelink-nextcloud"
+    }
 }

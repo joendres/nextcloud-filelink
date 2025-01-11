@@ -17,7 +17,7 @@ SPDX-License-Identifier: MIT
 
   <script src="../lib/cloudconnection.js" defer></script>
   <script src="../lib/localize.js" defer></script>
-  <script src="../lib/semver.js" defer></script>
+  <script src="../lib/parsesemver.js" defer></script>
   <script src="popup/popup.js" defer></script>
   <script src="management.js" defer></script>
 
@@ -99,6 +99,18 @@ SPDX-License-Identifier: MIT
           </span>
           <div class="helpbutton"><img src="images/Help.svg" alt="Help icon">
             <div class="card card--shadow" data-message="expiry_details"></div>
+          </div>
+        </div>
+        </p>
+
+        <p>
+        <div class="labelline">
+          <span class="spacer">
+            <input id="noAutoDownload" type="checkbox" class="input checkbox" />
+            <label for="noAutoDownload" class="input__label" data-message="noAutoDownload"></label>
+          </span>
+          <div class="helpbutton"><img src="images/Help.svg" alt="Help icon">
+            <div class="card card--shadow" data-message="noAutoDownload_details"></div>
           </div>
         </div>
         </p>
