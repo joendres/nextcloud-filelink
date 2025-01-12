@@ -287,7 +287,7 @@ async function handleFormData() {
                 return shortpath.slice(0, index).join('/');
             }
         }
-        return path;
+        return shortpath.join(('/'));
     }
 
     /**
