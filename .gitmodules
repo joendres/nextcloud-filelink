@@ -5,3 +5,6 @@
 [submodule "src/punycode"]
 	path = src/punycode
 	url = https://github.com/mathiasbynens/punycode.js.git
+[submodule "webext-support"]
+	path = webext-support
+	url = https://github.com/thunderbird/webext-support.git
