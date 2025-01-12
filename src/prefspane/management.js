@@ -265,33 +265,19 @@ async function handleFormData() {
      * @returns string The shortend path
      */
     function guessPath(path) {
-        // URL path parts tha mark the start of the internal call route.
-        // Everything before that is considered part of the base path, taken
-        // from Nextcloud, ownCloud, oCIS
-        // TODO Shorten this list based on heuristics
+        // URL path parts that mark the start of the internal call route.
+        // Everything before that is considered part of the base path.
+        // Heuristically taken from Nextcloud 30.0.4, ownCloud 10.15.0,
+        // oCIS Web UI 11.0.6
         const known_path_parts = [
-            username.value,
-            'apps', // Nextcloud after login
-            'dashboard',
-            'extstoragemounts',
-            'favorites',
-            'files',  // TODO Is 'apps' always present?
-            'folders',
-            'groupfolders',
-            'identifier',
-            'index.php', // Nextcloud, depending on configuration
-            'login', // Nextcloud before login
-            'personal',
-            'projects',
-            'recent',
-            'settings', // Nextcloud
-            'shareoverview',
-            'shares',
-            'signin',
-            'spaces',
-            'trash',
-            'u', // TODO This might not be specific enough Nextcloud, user profile
-            'v1',
+            'account', // oCIS
+            'apps', // *cloud after login
+            'files',  // oCIS
+            'index.php', // *cloud, depending on configuration
+            'login', // *cloud before login
+            'settings', // *cloud
+            'signin', // oCIS before login
+            'text-editor', // oCIS
         ];
         // Split into parts and remove double slashes
         const shortpath = path.split('/').filter(e => !!e);
