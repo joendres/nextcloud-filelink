@@ -7,18 +7,17 @@
   "version": "3.16.0",
   "description": "*cloud - FileLink for Nextcloud and ownCloud",
   "devDependencies": {
-    "@eslint/eslintrc": "^3.2.0",
-    "@eslint/js": "^9.17.0",
-    "@types/thunderbird-webext-browser": "^127.0.0",
-    "eslint": "^9.17.0",
-    "globals": "^15.14.0",
-    "web-ext": "^8.3.0"
+    "@eslint/eslintrc": "*",
+    "@eslint/js": "*",
+    "@types/thunderbird-webext-browser": "*",
+    "eslint": "*",
+    "globals": "*",
+    "web-ext": "7"
   },
   "private": true,
   "browser": "src/background.js",
   "scripts": {
-    "start": "npx web-ext run",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "npx web-ext run"
   },
   "repository": "gitlab:joendres/filelink-nextcloud.git",
   "author": {
@@ -30,5 +29,5 @@
     "url": "https://gitlab.com/joendres/filelink-nextcloud/issues",
     "email": "cloud@johannes-endres.de"
   },
-  "homepage": "https://gitlab.com/joendres/filelink-nextcloud#readme"
+  "homepage": "https://addons.thunderbird.net/thunderbird/addon/filelink-nextcloud-owncloud/"
 }
