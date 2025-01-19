@@ -106,7 +106,7 @@ class CloudConnection {
     /**
      * Set information used to fill the text template in the message, currently
      * only the fields download_password_protected and download_expiry_date
-     * @returns {CloudFileTemplateInfo} The relevant information for the current upload
+     * @returns {browser.cloudFile.CloudFileTemplateInfo} The relevant information for the current upload
      */
     _fillTemplate() {
         let templateInfo = {
@@ -121,6 +121,15 @@ class CloudConnection {
                     year: "numeric",
                 },
             };
+        }
+        // TODO Add option to set no_server_branding
+        if (this.no_server_branding) {
+            templateInfo.service_name = " ";
+            templateInfo.service_url = "";
+            templateInfo.service_icon = "./transparent_pixel.png";
+        } else {
+            templateInfo.service_url = this.serverUrl;
+            // TODO Add logo of service (Nextcloud or ownCloud)
         }
         return templateInfo;
     }
