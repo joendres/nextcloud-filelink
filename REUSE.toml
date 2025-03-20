@@ -35,11 +35,11 @@ SPDX-License-Identifier = "MPL-2.0"
 SPDX-FileComment = "*cloud uses the distribution version of photon-components-web that doesn't include copyright and license. So I guessed that information from https://github.com/FirefoxUX/photon-components-web"
 
 [[annotations]]
-path = "public/TB-AMO-button_1.png"
+path = "public/get-the-addon.svg"
 precedence = "aggregate"
-SPDX-FileCopyrightText = "2015 The Firefox AMO Team"
+SPDX-FileCopyrightText = "2024 The Thunderbird Team"
 SPDX-License-Identifier = "MPL-2.0"
-SPDX-FileComment = "The button is from the Firefox AMO blog: https://blog.mozilla.org/addons/2015/11/10/promote-your-add-ons-with-the-get-the-add-on-button/. The License is guessed from Firefoxes"
+SPDX-FileComment = "Source of the file is https://github.com/thunderbird/webext-support"
 
 # Generated files
 [[annotations]]

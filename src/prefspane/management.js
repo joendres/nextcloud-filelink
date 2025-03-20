@@ -242,13 +242,11 @@ async function handleFormData() {
         // Remove extra slashes from folder path
         storageFolder.value = "/" + storageFolder.value.split('/').filter(e => "" !== e).join('/');
 
+        // As we check the string format before, this cannot fail(TM)
         const url = new URL(serverUrl.value);
-        // Remove double slashes from url
-        let shortpath = url.pathname.split('/').filter(e => "" !== e);
 
         // If user pasted complete url of file app, extract cloud base url
-        shortpath = guessPath(shortpath);
-        serverUrl.value = url.origin + '/' + shortpath.join('/');
+        serverUrl.value = url.origin + '/' + guessPath(url.pathname);
 
         // Make sure, url end with a slash
         if (!serverUrl.value.endsWith('/')) {
@@ -263,37 +261,33 @@ async function handleFormData() {
     /**
      * Removes any known part of Nextcloud/ownCloud/oCIS app paths from the end
      * of the guess the base path.
-     * @param {string[]} shortpath The path, split at th /s 
-     * @returns string[] An array of the remaining path elements
+     * @param {string} path The path 
+     * @returns string The shortend path
      */
-    function guessPath(shortpath) {
-        // Path parts to exclude, taken from Nextcloud, ownCloud, oCIS
+    function guessPath(path) {
+        // URL path parts that mark the start of the internal call route.
+        // Everything before that is considered part of the base path.
+        // Heuristically taken from Nextcloud 30.0.4, ownCloud 10.15.0,
+        // oCIS Web UI 11.0.6
         const known_path_parts = [
-            username.value,
-            "apps",
-            "dashboard",
-            "extstoragemounts",
-            "favorites",
-            "files",
-            "folders",
-            "groupfolders",
-            "identifier",
-            "index.php",
-            "login",
-            "personal",
-            "projects",
-            "recent",
-            "shareoverview",
-            "shares",
-            "signin",
-            "spaces",
-            "trash",
-            "v1",
+            'account', // oCIS
+            'apps', // *cloud after login
+            'files',  // oCIS
+            'index.php', // *cloud, depending on configuration
+            'login', // *cloud before login
+            'settings', // *cloud
+            'signin', // oCIS before login
+            'text-editor', // oCIS
         ];
-        while (known_path_parts.includes(shortpath[shortpath.length - 1])) {
-            shortpath.pop();
+        // Split into parts and remove double slashes
+        const shortpath = path.split('/').filter(e => !!e);
+
+        for (let index = 0; index < shortpath.length; index++) {
+            if (known_path_parts.includes(shortpath[index])) {
+                return shortpath.slice(0, index).join('/');
+            }
         }
-        return shortpath;
+        return shortpath.join(('/'));
     }
 
     /**
@@ -390,7 +384,7 @@ async function handleFormData() {
 function ocisHasNoDownloadLinks() {
     if (ncc.cloud_type === "oCIS") {
         if (!noAutoDownload.checked) {
-        noAutoDownload.checked = true;
+            noAutoDownload.checked = true;
             popup.warn('ocis_no_download_links');
         }
         noAutoDownload.disabled = true;

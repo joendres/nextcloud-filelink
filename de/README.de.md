@@ -39,7 +39,7 @@ hochlädt und dann einen Download-Link in die Mail einfügt.
 
 __*cloud__ gibt es auch in der Addon-Sammlung von Thunderbird:
 
-[![Hol dir das Addon](https://addons.cdn.mozilla.net/static/img/addons-buttons/TB-AMO-button_1.png)](https://addons.thunderbird.net/thunderbird/addon/filelink-nextcloud-owncloud/).
+[![Hol dir das Addon](https://gitlab.com/-/project/16099629/uploads/6d33a533fa762bb5794310e171ffd42d/get-the-addon.svg)](https://addons.thunderbird.net/thunderbird/addon/filelink-nextcloud-owncloud/).
 
 ## Benutzung
 
@@ -225,7 +225,7 @@ geteilt.
 
 __*cloud__ verwendet dieselbe Methode wie die
 Nextcloud/ownCloud-Desktop-Clients, um zu entscheiden, ob die lokalen und
-Remote-Dateien identisch sind. Es betrachtet Dateien als identisch, wenn 
+Remote-Dateien identisch sind. Es betrachtet Dateien als identisch, wenn
 
 * der Name gleich ist und
 * die Größe aufs Byte identisch ist und
