@@ -13,7 +13,7 @@ lint:
   stage: test
   before_script:
     - git submodule update --init
-    - npx install
+    - npm install
   script:
     # web-ext fails if parameters of different run modes are set
     - unset WEB_EXT_API_KEY
