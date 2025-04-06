@@ -6,7 +6,7 @@ Close #558, #557, #545, #543, #325: Make it work with ownCloud Infinite Scale (o
 Close #561, #544, #531, #560, #559: Add option to create file info links instead of download links
 Fix #504, #501, #500: Non-ASCII characters in filenames
 Close #513, #556, #564: Add copyright and license information
-Close #547: Deprecate Nextcloud 25 - 28
+Close #547, #591: Deprecate Nextcloud 25 - 29
 Close #548: Update punycode.js
 Close #550, #453, #566, #553. #552, #549, #490, #565, #555: Internal project cleanup
 
