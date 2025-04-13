@@ -1,7 +1,13 @@
+# Copyright (C) 2020 Johannes Endres
+#
+# SPDX-License-Identifier: MIT
+
 /web-ext-artifacts
 node_modules
-package-lock.json
 .vscode/tasks.json
 .vscode/launch.json
 tests/filenames/x><x.txt
 tests/filenames/x["?:\\|*]x.txt
+public/**/*.html
+/jsshell*/
+.DS_Store

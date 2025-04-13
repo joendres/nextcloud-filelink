@@ -3,7 +3,7 @@
     "message": "Téléverser des fichiers volumineux vers votre Cloud et envoyer le lien par email"
   },
   "extensionName": {
-    "message": "*cloud - FileLink for Nextcloud and ownCloud"
+    "message": "*cloud - FileLink pour Nextcloud et ownCloud"
   },
   "saveButton": {
     "message": "Sauvegarder"
@@ -65,8 +65,17 @@
   "expiry_details": {
     "message": "Nombre de jours durant lequel le lien de téléchargement sera valide, à partir de ce jour. "
   },
+  "noAutoDownload": {
+    "message": "Créer des liens vers les informations de fichier à la place des liens de téléchargement"
+  },
+  "noAutoDownload_details": {
+    "message": "Si vous cochez cette option, cliquer sur le lien généré ouvrira une page sur le serveur cloud. Cette page affichera les informations du fichier ainsi qu'un lien de téléchargement. Si vous décochez la case, le téléchargement démarrera immédiatement."
+  },
+  "warn_ocis_no_download_links": {
+    "message": "Votre serveur ne prend pas en charge les liens de téléchargement instantané : activation de l'option création de liens d'information"
+  },
   "freespace": {
-    "message": "Espace disponible ($FREE$ utilisés sur $FULL$)",
+    "message": "Espace disponible ($FREE$ libres sur $FULL$)",
     "placeholders": {
       "free": {
         "content": "$1"
@@ -92,8 +101,8 @@
     "message": "Attention, la version d'ownCloud ou Nextcloud que vous utilisez est obsolète. Si vous continuez, vous risquez de perdre des données. Contactez l'administrateur de votre serveur pour une mise à jour."
   },
   "obsolete_version": {
-    "description": "This is displayed over the icon if the cloud version is not supported, so it should be quite short and contain at most two lines.",
-    "message": "Version\nobsolète"
+    "message": "Version\nobsolète",
+    "description": "This is displayed over the icon if the cloud version is not supported, so it should be quite short and contain at most two lines."
   },
   "error_401": {
     "message": "Échec de la connexion. Vérifiez le nom d'utilisateur et le mot de passe."
@@ -120,23 +129,23 @@
     "message": "Avec l'en-tête http: vos identifiants sont communiqués au serveur sans aucun chiffrement. Utilisez https: à la place. En cas d'impossibilité, contactez l'admin du serveur."
   },
   "status_menutooltip": {
-    "description": "This is displayed as a tooltip when the mouse pointer hovers over the menu button labelled with 'status_menuname'",
-    "message": "Afficher le statut des téléchargements de *cloud et les mots de passe générés"
+    "message": "Afficher le statut des téléchargements de *cloud et les mots de passe générés",
+    "description": "This is displayed as a tooltip when the mouse pointer hovers over the menu button labelled with 'status_menuname'"
   },
   "status_menuname": {
-    "description": "This short text is displayed on the menu button that opens the status popup next to the *cloud logo",
-    "message": "Statut"
+    "message": "Statut",
+    "description": "This short text is displayed on the menu button that opens the status popup next to the *cloud logo"
   },
   "status_no_uploads": {
     "message": "Aucun téléversement en cours"
   },
   "status_button_clear": {
-    "description": "Button to remove error messages from status popup",
-    "message": "Vider la liste des téléversements achevés"
+    "message": "Vider la liste des téléversements achevés",
+    "description": "Button to remove error messages from status popup"
   },
   "status_preparing": {
-    "description": "This will be displayed in the status popup. If this step fails this string will be combined with one indicating failure, eg 'Preparing file size failed'.",
-    "message": "Préparation du téléversement"
+    "message": "Préparation du téléversement",
+    "description": "This will be displayed in the status popup. If this step fails this string will be combined with one indicating failure, eg 'Preparing file size failed'."
   },
   "status_creating": {
     "message": "Création du dossier"
@@ -157,8 +166,8 @@
     "message": "Vérification de l'espace disponible"
   },
   "status_error": {
-    "description": "This will be combined with one of the states above, eg 'Preparing failed'. If this doesn't work in your language, please tell me.",
-    "message": "$1 : échec"
+    "message": "$1 : échec",
+    "description": "This will be combined with one of the states above, eg 'Preparing failed'. If this doesn't work in your language, please tell me."
   },
   "status_password": {
     "message": "mot de passe: $1"

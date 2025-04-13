@@ -1,0 +1,181 @@
+{
+  "extensionDescription": {
+    "message": "Velké přílohy nahraje na váš cloud a do emailu vloží odkaz pro stažení"
+  },
+  "extensionName": {
+    "message": "*cloud - odkazy pro Nextcloud a ownCloud"
+  },
+  "saveButton": {
+    "message": "Uložit"
+  },
+  "resetButton": {
+    "message": "Obnovit"
+  },
+  "serverUrl": {
+    "message": "URL adresa serveru"
+  },
+  "serverUrl_details": {
+    "message": "Adresa cloud serveru musí začínat na http nebo https.\nPokud server běží na jiném, než standardním portu, vložte číslo portu do adresy za dvojtečku."
+  },
+  "username": {
+    "message": "Jméno uživatele"
+  },
+  "username_details": {
+    "message": "Vaše uživatelské jméno na vašem cloud serveru"
+  },
+  "password": {
+    "message": "Heslo aplikace (token) nebo heslo uživatele"
+  },
+  "password_details": {
+    "message": "Heslo aplikace (doporučené) nebo osobní heslo uživatele.\nPři zadání osobního hesla uživatele se doplněk před uložením pokusí vytvořit heslo aplikace (token) a pokud se to nepodaří, bude vaše heslo uloženo nezašifrované."
+  },
+  "storageFolder": {
+    "message": "Složka na serveru pro ukládání příloh"
+  },
+  "storageFolder_details": {
+    "message": "Složka na cloud serveru, kam budou nahrávány přílohy emailu. Pokud neexistuje, bude vytvořena v průběhu nahrávání."
+  },
+  "useNoDlPassword": {
+    "message": "Bez hesla"
+  },
+  "useNoDlPassword_details": {
+    "message": "Ke stažení není zapotřebí heslo"
+  },
+  "useGeneratedDlPassword": {
+    "message": "Vygenerovat heslo"
+  },
+  "useGeneratedDlPassword_details": {
+    "message": "Pro každý soubor bude vygenerováno náhodné heslo. Po nahrání klikněte na stavovou ikonu *cloud v okně mailu pro zobrazení a kopírování vygenerovaného hesla. Takto získané heslo pak sdělte příjemci emailu - bude ho potřebovat pro stažení přílohy."
+  },
+  "useDlPassword": {
+    "message": "Nastavení hesel pro stahování příloh"
+  },
+  "oneDlPassword": {
+    "message": "Společné heslo pro všechny přílohy"
+  },
+  "useDlPassword_details": {
+    "message": "Vymyslete a zadejte heslo, které ale musí odpovídat pravidlům pro vytváření hesel na vašem cloud serveru (např. délka, malá/velká písmena apod.), jinak nahrání selže. Toto heslo pak sdělte příjemci emailu - bude ho potřebovat pro stažení přílohy."
+  },
+  "expiryDaysBefore": {
+    "message": "Možnost stažení vyprší za "
+  },
+  "expiryDaysAfter": {
+    "message": " dní"
+  },
+  "expiry_details": {
+    "message": "Počet dní (včetně aktuálního dne), do kdy bude odkaz pro stažení aktivní. Po uplanutí nebude možné přílohu stáhnout."
+  },
+  "noAutoDownload": {
+    "message": "Vytvářet odkazy na informace o souboru místo odkazů pro přímé stažení"
+  },
+  "noAutoDownload_details": {
+    "message": "Touto volbou se budou generovat odkazy, které budou zobrazovat webovou\nstránku cloudového serveru s informacemi o souboru, náhledem (pokud je\nto možné) a tlačítkem pro stažení. Bez této volby se budou generovat\nodkazy, které způsobí přímé stažení sdíleného souboru na zařízení\nuživatele."
+  },
+  "warn_ocis_no_download_links": {
+    "message": "Váš cloudový server nepodporuje vytváření odkazů pro přímé stažení,\nproto bude vytvořen odkaz na stránku s informacemi o souboru"
+  },
+  "freespace": {
+    "message": "Volné místo ($FREE$ z $FULL$)",
+    "placeholders": {
+      "free": {
+        "content": "$1"
+      },
+      "full": {
+        "content": "$2"
+      }
+    }
+  },
+  "success": {
+    "message": "Úspěšně uloženo"
+  },
+  "error_0": {
+    "message": "Neznámá chyba ($1)"
+  },
+  "error_typeerror": {
+    "message": "Problém s připojením. Zkontrolujte dostupnost serveru a připojení do sítě"
+  },
+  "error_404": {
+    "message": "Ověření účtu se nezdařilo: nesprávné uživatelské jméno nebo nekompatibilní cloud server nebo chyba sítě"
+  },
+  "warn_unsupported_cloud": {
+    "message": "Verze Nextcloud nebo ownCloud serveru je zastaralá a mohlo by dojít ke ztrátě dat. Požádejte svého správce cloud serveru o aktualizaci"
+  },
+  "obsolete_version": {
+    "message": "Zastaralá\nverze",
+    "description": "This is displayed over the icon if the cloud version is not supported, so it should be quite short and contain at most two lines."
+  },
+  "error_401": {
+    "message": "Přihlášení se nezdařilo. Zkontrolujte správnost uživatelského jména a hesla."
+  },
+  "error_503": {
+    "message": "Server je v režimu údržby. Zkuste to později znovu."
+  },
+  "error_sharing_off": {
+    "message": "Sdílení je na tomto cloud serveru zakázané. Požádejte administrátora cloud serveru, aby sdílení povolil."
+  },
+  "error_invalid_pw": {
+    "message": "Neplatné heslo pro stahování (nahrávání se nezdaří). Odpověď serveru: $1"
+  },
+  "error_password_enforced": {
+    "message": "Váš cloud vyžaduje heslo ke stažení."
+  },
+  "warn_expiry_too_long": {
+    "message": "Správce cloud serveru nastavil maximální dobu vypršení platnosti sdílení na $1 dní. Platnost tohoto sdílění byla tedy zkrácena, aby odpovídala požadavkům serveru, jinak by nahrávání selhalo."
+  },
+  "warn_no_config_check": {
+    "message": "Ověření účtu se nezdařilo. Zřejmě došlo k nějakým problémům s připojením?"
+  },
+  "warn_insecure_http": {
+    "message": "S protokolem http budou vaše přihlašovací údaje přenášeny nešifrovaně. Místo toho použijte šifrovaný protokol https. Pokud nefunguje, požádejte administrátora cloud serveru."
+  },
+  "status_menutooltip": {
+    "message": "Zobrazení stavu nahrávání na cloud a zobrazení vygenerovaných hesel (pokud jsou nějaká)",
+    "description": "This is displayed as a tooltip when the mouse pointer hovers over the menu button labelled with 'status_menuname'"
+  },
+  "status_menuname": {
+    "message": "Stav",
+    "description": "This short text is displayed on the menu button that opens the status popup next to the *cloud logo"
+  },
+  "status_no_uploads": {
+    "message": "Žádné aktivní nahrávání"
+  },
+  "status_button_clear": {
+    "message": "Smazat informace o dokončeném nahrávání",
+    "description": "Button to remove error messages from status popup"
+  },
+  "status_preparing": {
+    "message": "Příprava",
+    "description": "This will be displayed in the status popup. If this step fails this string will be combined with one indicating failure, eg 'Preparing file size failed'."
+  },
+  "status_creating": {
+    "message": "Vytváření složky"
+  },
+  "status_moving": {
+    "message": "Přesouvání konfliktního soubor"
+  },
+  "status_uploading": {
+    "message": "Nahrávání"
+  },
+  "status_sharing": {
+    "message": "Sdílení"
+  },
+  "status_checkingsize": {
+    "message": "Kontrola maximální velikosti souboru"
+  },
+  "status_checkingspace": {
+    "message": "Kontrola volného místa"
+  },
+  "status_error": {
+    "message": "$1 selhalo",
+    "description": "This will be combined with one of the states above, eg 'Preparing failed'. If this doesn't work in your language, please tell me."
+  },
+  "status_password": {
+    "message": "heslo: $1"
+  },
+  "warn_nonascii_password": {
+    "message": "Vaše heslo obsahuje znaky, které pravděpodobně způsobí problémy s přihlášením. Použijte místo toho heslo aplikace (token)."
+  },
+  "advanced_options": {
+    "message": "Rozšířené možnosti"
+  }
+}

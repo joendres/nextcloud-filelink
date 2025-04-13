@@ -65,6 +65,15 @@
   "expiry_details": {
     "message": "A napok száma a letöltés elérhető lesz, a mai napot is beleértve."
   },
+  "noAutoDownload": {
+    "message": "A fájladatokra mutató hivatkozásokat hozzon létre, ne letöltési hivatkozásokat"
+  },
+  "noAutoDownload_details": {
+    "message": "Ha engedélyezi ezt a beállítást, az üzenetben található hivatkozásra kattintva megnyílik egy oldal a felhőkiszolgálón. Ez az oldal információkat tartalmaz a fájlról és a letöltési linkről. Ha letiltja ezt a beállítást, a letöltés azonnal elindul."
+  },
+  "warn_ocis_no_download_links": {
+    "message": "A kiszolgáló nem támogatja az azonnali letöltési hivatkozásokat: Fájlinformációs hivatkozások létrehozása"
+  },
   "freespace": {
     "message": "Szabad hely ($FREE$/$FULL$)",
     "placeholders": {
@@ -92,8 +101,8 @@
     "message": "A Nextcloud vagy a ownCloud elavult verziója. Elveszítheti az adatokat. Kérje meg a felhőrendszergazdát, hogy frissítse."
   },
   "obsolete_version": {
-    "description": "This is displayed over the icon if the cloud version is not supported, so it should be quite short and contain at most two lines.",
-    "message": "Elavult\nverzió"
+    "message": "Elavult\nverzió",
+    "description": "This is displayed over the icon if the cloud version is not supported, so it should be quite short and contain at most two lines."
   },
   "error_401": {
     "message": "Bejelentkezés sikertelen. Ellenőrizze a felhasználónevet és a jelszót."
@@ -120,23 +129,23 @@
     "message": "A bejelentkezési adatokat titkosítatlanul továbbítják a HTTP-kapcsolat használatával. A bejelentkezéshez használja a HTTPS-kapcsolatot. Ha ez nem sikerül, kérje a rendszergazdák segítségét."
   },
   "status_menutooltip": {
-    "description": "This is displayed as a tooltip when the mouse pointer hovers over the menu button labelled with 'status_menuname'",
-    "message": "*cloud feltöltések állapotának és a létrehozott jelszavak (ha vannak) megjelenítése"
+    "message": "*cloud feltöltések állapotának és a létrehozott jelszavak (ha vannak) megjelenítése",
+    "description": "This is displayed as a tooltip when the mouse pointer hovers over the menu button labelled with 'status_menuname'"
   },
   "status_menuname": {
-    "description": "This short text is displayed on the menu button that opens the status popup next to the *cloud logo",
-    "message": "Állapot"
+    "message": "Állapot",
+    "description": "This short text is displayed on the menu button that opens the status popup next to the *cloud logo"
   },
   "status_no_uploads": {
     "message": "Nincsenek folyamatban feltöltések"
   },
   "status_button_clear": {
-    "description": "Button to remove error messages from status popup",
-    "message": "Teljesített feltöltések törlése"
+    "message": "Teljesített feltöltések törlése",
+    "description": "Button to remove error messages from status popup"
   },
   "status_preparing": {
-    "description": "This will be displayed in the status popup. If this step fails this string will be combined with one indicating failure, eg 'Preparing file size failed'.",
-    "message": "Előkészítés"
+    "message": "Előkészítés",
+    "description": "This will be displayed in the status popup. If this step fails this string will be combined with one indicating failure, eg 'Preparing file size failed'."
   },
   "status_creating": {
     "message": "Mappa létrehozása"
@@ -157,8 +166,8 @@
     "message": "Szabad hely ellenőrzése"
   },
   "status_error": {
-    "description": "This will be combined with one of the states above, eg 'Preparing failed'. If this doesn't work in your language, please tell me.",
-    "message": "$1 sikertelen"
+    "message": "$1 sikertelen",
+    "description": "This will be combined with one of the states above, eg 'Preparing failed'. If this doesn't work in your language, please tell me."
   },
   "status_password": {
     "message": "jelszó: $1"

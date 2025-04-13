@@ -1,3 +1,9 @@
+<!--
+Copyright (C) 2020 Johannes Endres
+
+SPDX-License-Identifier: MIT
+-->
+
 # __*cloud__ - FileLink für Nextcloud und ownCloud
 
 Eine MailExtension für Thunderbird (68+), die große Attachments in die Cloud
@@ -7,12 +13,15 @@ hochlädt und dann einen Download-Link in die Mail einfügt.
 
 ## Voraussetzungen
 
-* Nextcloud: Version 23 oder neuer (ältere Versionen funktionieren eventuell,
+* Thunderbird: 68.2.1 oder neuer
+* Ein Account auf einem Server mit einer unterstützen Version von Nextcloud oder ownCloud.
+  * Nextcloud: Version 30 oder neuer (ältere Versionen funktionieren eventuell,
   werden aber [von Nextcloud nicht mehr
   unterstützt](https://github.com/nextcloud/server/wiki/Maintenance-und-Release-Schedule))
-* ownCloud: Version 10.0.10 oder neuer (10.0.9 und ältere Versionen enthalten
+  * ownCloud: Version 10.0.10 oder neuer (10.0.9 und ältere Versionen enthalten
   einen Fehler, durch den __*cloud__ nicht funktioniert).
-* Thunderbird: 68.2.1 oder neuer
+
+  Dieser Server muss nicht selbst betrieben werden; es gibt viele Angebote für "[Hosted Nextcloud](https://nextcloud.com/de/providers/)" und "[Hosted ownCloud](https://owncloud.com/partners/find-a-partner/?_sft_partner-type=service-provider)".
 
 ## Installation
 
@@ -30,7 +39,7 @@ hochlädt und dann einen Download-Link in die Mail einfügt.
 
 __*cloud__ gibt es auch in der Addon-Sammlung von Thunderbird:
 
-[![Hol dir das Addon](https://addons.cdn.mozilla.net/static/img/addons-buttons/TB-AMO-button_1.png)](https://addons.thunderbird.net/thunderbird/addon/filelink-nextcloud-owncloud/).
+[![Hol dir das Addon](https://gitlab.com/-/project/16099629/uploads/6d33a533fa762bb5794310e171ffd42d/get-the-addon.svg)](https://addons.thunderbird.net/thunderbird/addon/filelink-nextcloud-owncloud/).
 
 ## Benutzung
 
@@ -50,6 +59,13 @@ drei Möglichkeiten, den Upload zu starten:
 
 ## Bekannte Probleme
 
+### Dateinamen mit Sonderzeichen werden nicht geteilt
+
+In einigen Unter-Versionen von Thunderbird 102.2 gab es Probleme bei Dateinamen mit Sonderzeichen
+oder in nicht-amerikanischen Schriftsystemen wie Griechisch. Der Upload funktionierte, aber
+das Teilen der hochgeladenen Datei schlug fehl. Dies ist in Thunderbird 102.5.0 behoben; bitte
+aktualisiere Thunderbird, wenn du solche Probleme erlebst.
+
 ### Du möchtest den Text ändern, den Thunderbird mit dem Link in die Mail einbaut
 
 Viele Benutzer möchten einen anderen Text mit der Download-URL in die Nachricht
@@ -61,19 +77,14 @@ sie in seine Vorlage und fügt das Ganze in Ihre Nachricht ein (technische
 Details auf Englisch
 [hier](https://gitlab.com/joendres/filelink-nextcloud/-/issues/238#note_383881835)
 und
-[hier](https://thunderbird-webextensions.readthedocs.io/en/68/cloudFile.html#onfileupload-account-fileinfo)).
+[hier](https://webextension-api.thunderbird.net/en/stable/cloudFile.html#onfileupload)).
 
-Es gibt einen Änderungsvorschlag für Thunderbird, [diese Vorlage bearbeitbar zu
-machen (englisch)](https://bugzilla.mozilla.org/show_bug.cgi?id=1643729).
-Vielleicht möchtest du diesen Vorschlag mit deiner Stimme oder einem hilfreichen
-Kommentar zu unterstützen.
-
-### Dateien von Netzwerkfreigaben werden in die Cloud hochgeladen *und* angehängt
+### Dateien von Netzwerkfreigaben werden in die Cloud hochgeladen _und_ angehängt
 
 Es gab einen [Fehler in
 Thunderbird](https://bugzilla.mozilla.org/show_bug.cgi?id=793118): Wenn man eine
 Datei von einer Netzwerkfreigabe anhängte, wurde sie in die Cloud hochgeladen
-und der Link wurde in die Mail eingefügt, aber *zusätzlich* wurde die Datei auch
+und der Link wurde in die Mail eingefügt, aber _zusätzlich_ wurde die Datei auch
 an die Mail angehängt. Dies wurde in Thunderbird 68.11.0 und 78.0.1 behoben.
 Wenn dieses Problem bei dir noch auftritt, aktualisiere bitte Thunderbird.
 
@@ -97,7 +108,7 @@ Wenn dir dies passiert, zeige __*cloud__ die tatsächlichen Cloud-URL:
      Schritt weiter.
    * In älteren Versionen von Nextcloud und in ownCloud siehst du normalerweise
      die App "Dateien". Auch dann geht es mit dem nächsten Schritt weiter.
-   * Wenn du dich weder im "Dashboard" noch in der "Dateien" -App befindest,
+   * Wenn du dich weder im "Dashboard" noch in der "Dateien"-App befindest,
      klickst du auf das Ordnersymbol im Hauptmenü der Cloud, um zur App
      "Dateien" zu gelangen.
 1. Kopiere die vollständige URL aus der URL-Leiste des Browsers
@@ -128,8 +139,8 @@ Verbindung zum Server herzustellen. Es gibt zwei Lösungen:
 
 ### Probleme beim Hochladen
 
-Das *Download*-Passwort muss *allen* Regeln für Passwörter entsprechen, die der
-Admin deiner Cloud konfiguriert hat. Andernfalls schlägt der *Upload* fehl.
+Das _Download_-Passwort muss _allen_ Regeln für Passwörter entsprechen, die der
+Admin deiner Cloud konfiguriert hat. Andernfalls schlägt der _Upload_ fehl.
 
 ### Der Upload klappt, aber das Teilen funktioniert nicht
 
@@ -149,12 +160,12 @@ Dank.
 
 ### Download-Passwörter
 
-Wenn du Download-Passwörter verwendest, gib sie *niemals* in eine E-Mail ein,
+Wenn du Download-Passwörter verwendest, gib sie niemals in eine E-Mail ein,
 sondern teile sie dem Empfänger über einen separaten, sicheren Kanal mit, z.B.
 über einen Messenger oder einen Telefonanruf.
 
 Warum? Aus Sicherheitsgründen enthalten die generierten Download-Links einen
-langen, zufälligen Teil. Ein Angreifer (nennen wir sie Eva) kann den Link für
+langen, zufälligen Teil. Eine Angreiferin (nennen wir sie Eva) kann den Link für
 eine Datei nicht erraten oder alle möglichen Links durchprobieren, um eine Datei
 zu finden. Um Zugriff auf deine Datei zu erhalten, müsste Eva die E-Mail
 abfangen.
@@ -162,11 +173,11 @@ abfangen.
 Die Links sind also für sich genommen ziemlich sicher und für die Empfänger
 recht komfortabel, weil sie nur auf den Link klicken müssen.
 
-Wenn du Download-Passwörter verwendest, füge sie *niemals* in dieselbe
+Wenn du Download-Passwörter verwendest, füge sie niemals in dieselbe
 E-Mail wie den Link ein. Denn wenn Eva den Link lesen kann, kann sie auch das
 Passwort lesen. Also macht ein Download-Passwort in derselben E-Mail die
 Übertragung nicht sicherer, sondern nur kompliziert für den Empfänger. Gleiches
-gilt für eine separate E-Mail mit dem Passwort: Wenn Eve die erste E-Mail mit
+gilt für eine separate E-Mail mit dem Passwort: Wenn Eva die erste E-Mail mit
 dem Link abfangen kann, ist sie sehr wahrscheinlich auch in der Lage, die zweite
 E-Mail abzufangen.
 
@@ -176,30 +187,23 @@ Anstatt dein Passwort zu speichern, ist es sicherer, in __*cloud__ ein "App
 Token" zu verwenden. Es gibt zwei Möglichkeiten, um ein solches Token zu
 erhalten:
 
-* *Wenn du Nextcloud oder ownCloud verwendest:* Öffne dein Konto im Browser und
+* _Wenn du Nextcloud oder ownCloud verwendest:_ Öffne dein Konto im Browser und
   Gehe zu Einstellungen -> Sicherheit und generiere unten auf der Seite ein
   neues Token. Kopiere und füge es in das Feld "App-Token" der
   __*cloud__-Einstellungen in Thunderbird ein.
 
-* *Nur wenn du Nextcloud verwendest:* Gib dein Passwort in die
+* _Nur wenn du Nextcloud verwendest:_ Gib dein Passwort in die
   __*cloud__-Einstellungen in Thunderbird ein. Beim Speichern wird das Add-On
-  *versuchen* ein Token von deiner Nextcloud zu bekommen und benutzt es dann
+  _versuchen_ ein Token von deiner Nextcloud zu bekommen und benutzt es dann
   anstelle deines Passworts. Du erkennst die Änderung, da anschließend das Feld
   Passwort vollständig mit Punkten ausgefüllt ist (App-Token sind ziemlich
-  lang). \
-  **ABER!** Wenn das Abrufen des Tokens aus irgendeinem Grund fehlschlägt (z.B.
-  weil die Nextcloud nicht erreichbar ist, Timeout, falscher Benutzername, ...),
-  speichert das Add-On dein *Passwort unverschlüsselt*.
+  lang).
 
 ### Umgang mit hochgeladenen Dateien
 
-Wenn du eine Datei anhängst, die sich bereits mit *identischem Inhalt* im
+Wenn du eine Datei anhängst, die sich bereits im
 Anhänge-Ordner in der Cloud befindet, lädt __*cloud__ diese Datei nicht erneut
 hoch. Stattdessen wird die vorhandene Datei freigegeben.
-
-Um dies zu ermöglichen, löscht __*cloud__ niemals Dateien aus der Cloud. Im
-Laufe der Zeit kann dein Anhänge-Ordner ziemlich groß werden. Dann kannst du
-einfach alte Anhänge löschen, die du nicht mehr brauchst.
 
 Du kannst dieses Verhalten ausnutzen, wenn du sehr große (oder viele) Dateien
 freigeben möchtest: Synchronisiere mithilfe des Desktop-Clients deinen
@@ -207,21 +211,29 @@ Anhänge-Ordner mit einem Ordner auf deinem Computer. Wenn du anschließend eine
 synchronisierte Datei deinem Computer an eine Nachricht anhängst, erkennt
 __*cloud__, dass sie bereits hochgeladen ist.
 
+Um dies zu ermöglichen, löscht __*cloud__ niemals Dateien aus der Cloud. Im
+Laufe der Zeit kann dein Anhänge-Ordner ziemlich groß werden. Dann kannst du
+einfach alte Anhänge löschen, die du nicht mehr brauchst.
+
 Wenn du eine Datei anhängst, die mit demselben Namen aber unterschiedlichem
 Inhalt schon in der Cloud liegt, wird sie dort nicht überschrieben. Stattdessen
 verschiebt __*cloud__ die vorhandene Datei in einem Unterordner des
-Anhangsordners; der ursprüngliche Download-Link bleibt gültig und verweist auf
+Anhänge-Ordners; der ursprüngliche Download-Link bleibt gültig und verweist auf
 den alten Inhalt.\
 Anschließend wird die neue Datei hochgeladen und mit einem neuen Freigabelink
 geteilt.
 
 __*cloud__ verwendet dieselbe Methode wie die
 Nextcloud/ownCloud-Desktop-Clients, um zu entscheiden, ob die lokalen und
-Remote-Dateien identisch sind.
+Remote-Dateien identisch sind. Es betrachtet Dateien als identisch, wenn
+
+* der Name gleich ist und
+* die Größe aufs Byte identisch ist und
+* die letzte Änderung in derselben Sekunde stattfand.
 
 ## Beiträge
 
-* [Johannes Endres](@joendres), Erstimplementierung, Maintainer
+* [Johannes Endres](@joendres), ursprüngliche Implementierung, Maintainer
 * [Josep Manel Mendoza](@josepmanel), katalanische und spanische Übersetzungen
 * [Gorom](@Go-rom), französische Übersetzung
 * [Jun Futagawa](@jfut), Implementierung generierter zufälliger Passwörter
@@ -230,14 +242,18 @@ Remote-Dateien identisch sind.
 * [Pietro Federico Sacchi](https://crowdin.com/profile/sacchi.pietro), italienische Übersetzung
 * [Asier Iturralde Sarasola](@aldatsa), baskische Übersetzung
 * [Anatolii Balbutckii](@abalbuc), russische Übersetzung
-* Basierend auf [FileLink Provider für
+* [mixneko](@mixneko), traditionelle chinesische Übersetzung
+* Basiert auf [FileLink Provider for
   Dropbox](https://github.com/darktrojan/dropbox) von [Geoff
   Lankow](https://darktrojan.github.io/)
-* Inspiriert von [Nextcloud für
+* Inspiriert durch [Nextcloud für
   Filelink](https://github.com/nextcloud/nextcloud-filelink) von [Olivier
   Paroz](https://github.com/oparoz) und [Guillaume
   Viguier-Just](https://github.com/guillaumev).
-* Enthält [punycode.js](https://github.com/bestiejs/punycode.js), Copyright
-  Mathias Bynens,
-  [MIT-Lizenz](https://github.com/bestiejs/punycode.js/blob/master/LICENSE-MIT.txt)
+* Dank an [@JasonBayton](https://bayton.org/about/) für seine [Nextcloud Demo
+  Server](https://bayton.org/2017/02/introducing-nextcloud-demo-servers/) von
+  vielen (alten) Versionen, die bei den ersten Tests sehr geholfen haben.
+* Enthält [punycode.js](https://github.com/mathiasbynens/punycode.js), Copyright
+  Mathias Bynens, [MIT
+  Lizenz](https://github.com/mathiasbynens/punycode.js/blob/master/LICENSE-MIT.txt)
 * Enthält [photon-components-web](https://firefoxux.github.io/photon-components-web/)

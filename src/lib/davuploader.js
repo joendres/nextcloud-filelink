@@ -1,3 +1,7 @@
+// Copyright (C) 2020 Johannes Endres
+//
+// SPDX-License-Identifier: MIT
+
 /** AbortControllers for all active uploads */
 const allAbortControllers = new Map();
 
@@ -40,18 +44,16 @@ class DavUploader {
         if (!stat) {
             // There is no conflicting file in the cloud
             return this._doUpload(uploadId, fileName, fileObject);
-        } else {
+        } else if (Math.abs(stat.mtime - fileObject.lastModified) < 1000 &&
             // There is a file of the same name
             // The mtime is in milliseconds, but on the cloud it's only accurate to seconds
-            if (Math.abs(stat.mtime - fileObject.lastModified) < 1000 &&
-                stat.size === fileObject.size) {
-                // It's the same as the local file
-                return { ok: true, };
-            } else {
-                // It's different, move it out of the way
-                await this._moveFileToDir(uploadId, fileName, "old_shares/" + (stat.mtime / 1000 | 0));
-                return this._doUpload(uploadId, fileName, fileObject);
-            }
+            stat.size === fileObject.size) {
+            // It's the same as the local file
+            return { ok: true, };
+        } else {
+            // It's different, move it out of the way
+            await this._moveFileToDir(uploadId, fileName, "old_shares/" + (stat.mtime / 1000 | 0));
+            return this._doUpload(uploadId, fileName, fileObject);
         }
     }
 
@@ -118,7 +120,9 @@ class DavUploader {
                         size: Number(xmlDoc.getElementsByTagName("d:getcontentlength")[0].textContent),
                     };
                 }
-            } catch (_) { }
+            } catch (_) {
+                // ignore errors
+            }
         }
         return null;
     }
@@ -136,7 +140,7 @@ class DavUploader {
         attachmentStatus.get(uploadId).set_status('moving');
         const dest_header = {
             "Destination":
-                this._davUrl + utils.encodepath(this._storageFolder + "/" + newPath + "/" + fileName),
+                '/' + this._davUrl + utils.encodepath(this._storageFolder + "/" + newPath + "/" + fileName),
         };
         if (await this._recursivelyCreateFolder(this._storageFolder + "/" + newPath)) {
             const retval = await this._doDavCall(this._storageFolder + "/" + fileName, "MOVE", null, dest_header);
@@ -178,7 +182,9 @@ class DavUploader {
                 const xmlDoc = new DOMParser().parseFromString(await response.text(), 'application/xml');
                 let free = parseInt(xmlDoc.getElementsByTagName("d:quota-available-bytes")[0].textContent);
                 return (isNaN(free) || free < 0) ? -1 : free;
-            } catch (_) { }
+            } catch (_) {
+                // ignore errors
+            }
         }
         return -1;
     }
@@ -228,7 +234,6 @@ class DavUploader {
             }
             else {
                 attachmentStatus.get(uploadId).fail();
-                console.error(error); // jshint ignore: line
                 if (!response) {
                     response = {};
                 }
@@ -264,8 +269,7 @@ class DavUploader {
         }
 
         return fetch(url, fetchInfo).
-            catch(error => {
-                console.error(error); // jshint ignore: line
+            catch(() => {
                 return { ok: false, };
             });
     }

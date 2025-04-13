@@ -65,6 +65,15 @@
   "expiry_details": {
     "message": "Zenbat egunez egongo den deskarga bat eskuragarri, gaurkoa barne"
   },
+  "noAutoDownload": {
+    "message": "Sortu fitxategiaren informaziorako estekak, ez deskargarako estekak"
+  },
+  "noAutoDownload_details": {
+    "message": "Aukera hau ezartzen baduzu, mezuko estekan klik egitean hodeiko zerbitzariko orri bat irekiko da. Orri horretan fitxategiari buruzko informazioa eta deskargarako esteka daude. Aukera hau ez baduzu ezartzen, deskarga berehala hasiko da."
+  },
+  "warn_ocis_no_download_links": {
+    "message": "Zure zerbitzariak ez ditu onartzen uneko deskargarako estekak: Fitxategiaren informaziorako estekak sortzen"
+  },
   "freespace": {
     "message": "Leku librea ($FREE$ / $FULL$)",
     "placeholders": {
@@ -92,8 +101,8 @@
     "message": "Nextcloud edo ownClouden bertsio zaharkitua. Datuak galdu ditzakezu. Eskatu hodeiaren administratzaileari eguneratzeko"
   },
   "obsolete_version": {
-    "description": "This is displayed over the icon if the cloud version is not supported, so it should be quite short and contain at most two lines.",
-    "message": "Bertsio\nzaharkitua"
+    "message": "Bertsio\nzaharkitua",
+    "description": "This is displayed over the icon if the cloud version is not supported, so it should be quite short and contain at most two lines."
   },
   "error_401": {
     "message": "Saio hasierak huts egin du. Egiaztatu erabiltzaile-izena eta pasahitza."
@@ -120,23 +129,23 @@
     "message": "http:-rekin zure saio hasierako datuak enkriptatu gabe transferituko dira. Hobe https: erabiltzea. Ez badabil, jakinarazi zure administratzaileari."
   },
   "status_menutooltip": {
-    "description": "This is displayed as a tooltip when the mouse pointer hovers over the menu button labelled with 'status_menuname'",
-    "message": "Erakutsi *cloud igoeren egoera eta sortutako pasahitzak (baldin badaude)"
+    "message": "Erakutsi *cloud igoeren egoera eta sortutako pasahitzak (baldin badaude)",
+    "description": "This is displayed as a tooltip when the mouse pointer hovers over the menu button labelled with 'status_menuname'"
   },
   "status_menuname": {
-    "description": "This short text is displayed on the menu button that opens the status popup next to the *cloud logo",
-    "message": "Egoera"
+    "message": "Egoera",
+    "description": "This short text is displayed on the menu button that opens the status popup next to the *cloud logo"
   },
   "status_no_uploads": {
     "message": "Igoera aktiborik ez"
   },
   "status_button_clear": {
-    "description": "Button to remove error messages from status popup",
-    "message": "Garbitu osatutako igoerak"
+    "message": "Garbitu osatutako igoerak",
+    "description": "Button to remove error messages from status popup"
   },
   "status_preparing": {
-    "description": "This will be displayed in the status popup. If this step fails this string will be combined with one indicating failure, eg 'Preparing file size failed'.",
-    "message": "Prestatzen"
+    "message": "Prestatzen",
+    "description": "This will be displayed in the status popup. If this step fails this string will be combined with one indicating failure, eg 'Preparing file size failed'."
   },
   "status_creating": {
     "message": "Karpeta sortzen"
@@ -157,8 +166,8 @@
     "message": "Leku librea egiaztatzen"
   },
   "status_error": {
-    "description": "This will be combined with one of the states above, eg 'Preparing failed'. If this doesn't work in your language, please tell me.",
-    "message": "$1 huts egin du"
+    "message": "$1 huts egin du",
+    "description": "This will be combined with one of the states above, eg 'Preparing failed'. If this doesn't work in your language, please tell me."
   },
   "status_password": {
     "message": "pasahitza: $1"

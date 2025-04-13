@@ -1,3 +1,9 @@
+<!--
+Copyright (C) 2020 Johannes Endres
+
+SPDX-License-Identifier: MIT
+-->
+
 ## Why?
 
 Please replace this sentence with a description of why this new feature would be useful/nice to have/necessary for which users of the Addon.

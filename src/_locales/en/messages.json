@@ -65,6 +65,15 @@
   "expiry_details": {
     "message": "The number of days the download will be available, including today"
   },
+  "noAutoDownload": {
+    "message": "Create links to the file info page, not download links"
+  },
+  "noAutoDownload_details": {
+    "message": "If you set this option, clicking the link in the message will open a page on the cloud server. This page will contain information about the file and the download link. If you don't set this option, the download will start immediately."
+  },
+  "warn_ocis_no_download_links": {
+    "message": "Your server does not support instant download links: Creating file info links"
+  },
   "freespace": {
     "message": "Free Space ($FREE$ of $FULL$)",
     "placeholders": {
@@ -92,8 +101,8 @@
     "message": "Obsolete version of Nextcloud or ownCloud. You might lose data. Ask your cloud admin to update"
   },
   "obsolete_version": {
-    "description": "This is displayed over the icon if the cloud version is not supported, so it should be quite short and contain at most two lines.",
-    "message": "Obsolete\nversion"
+    "message": "Obsolete\nversion",
+    "description": "This is displayed over the icon if the cloud version is not supported, so it should be quite short and contain at most two lines."
   },
   "error_401": {
     "message": "Login failed. Check user name and password."
@@ -120,23 +129,23 @@
     "message": "With http: your log-in data will be transferred unencrypted. Use https: instead. If that doesn't work, ask your admin."
   },
   "status_menutooltip": {
-    "description": "This is displayed as a tooltip when the mouse pointer hovers over the menu button labelled with 'status_menuname'",
-    "message": "Show *cloud uploads status and generated passwords (if any)"
+    "message": "Show *cloud uploads status and generated passwords (if any)",
+    "description": "This is displayed as a tooltip when the mouse pointer hovers over the menu button labelled with 'status_menuname'"
   },
   "status_menuname": {
-    "description": "This short text is displayed on the menu button that opens the status popup next to the *cloud logo",
-    "message": "Status"
+    "message": "Status",
+    "description": "This short text is displayed on the menu button that opens the status popup next to the *cloud logo"
   },
   "status_no_uploads": {
     "message": "No active uploads"
   },
   "status_button_clear": {
-    "description": "Button to remove error messages from status popup",
-    "message": "Clear complete uploads"
+    "message": "Clear complete uploads",
+    "description": "Button to remove error messages from status popup"
   },
   "status_preparing": {
-    "description": "This will be displayed in the status popup. If this step fails this string will be combined with one indicating failure, eg 'Preparing file size failed'.",
-    "message": "Preparing"
+    "message": "Preparing",
+    "description": "This will be displayed in the status popup. If this step fails this string will be combined with one indicating failure, eg 'Preparing file size failed'."
   },
   "status_creating": {
     "message": "Creating folder"
@@ -157,8 +166,8 @@
     "message": "Checking free space"
   },
   "status_error": {
-    "description": "This will be combined with one of the states above, eg 'Preparing failed'. If this doesn't work in your language, please tell me.",
-    "message": "$1 failed"
+    "message": "$1 failed",
+    "description": "This will be combined with one of the states above, eg 'Preparing failed'. If this doesn't work in your language, please tell me."
   },
   "status_password": {
     "message": "password: $1"

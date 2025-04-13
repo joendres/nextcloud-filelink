@@ -1,0 +1,48 @@
+version = 1
+
+# Copyright (C) 2024 Johannes Endres
+#
+# SPDX-License-Identifier: MIT
+
+SPDX-PackageName = "*cloud - FileLink for Nextcloud and ownCloud"
+SPDX-PackageSupplier = "Johannes Endres <je@johannes-endres.de>"
+SPDX-PackageDownloadLocation = "https://gitlab.com/joendres/filelink-nextcloud"
+
+[[annotations]]
+path = "src/prefspane/images/nextcloud-logo.svg"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "Nextcloud GmbH"
+SPDX-License-Identifier = "AGPL-3.0-only"
+
+[[annotations]]
+path = "src/prefspane/images/owncloud-logo.svg"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "ownCloud GmbH"
+SPDX-License-Identifier = "AGPL-3.0-only"
+
+[[annotations]]
+path = [
+    "src/photon-components-web/**",
+    "src/prefspane/images/Check.svg",
+    "src/prefspane/images/Close.svg",
+    "src/prefspane/images/Help.svg",
+    "src/prefspane/images/Warning.svg",
+    "src/progress/Copy.svg",
+]
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2018 The Firefox UX Team"
+SPDX-License-Identifier = "MPL-2.0"
+SPDX-FileComment = "*cloud uses the distribution version of photon-components-web that doesn't include copyright and license. So I guessed that information from https://github.com/FirefoxUX/photon-components-web"
+
+[[annotations]]
+path = "public/get-the-addon.svg"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "2024 The Thunderbird Team"
+SPDX-License-Identifier = "MPL-2.0"
+SPDX-FileComment = "Source of the file is https://github.com/thunderbird/webext-support"
+
+# Generated files
+[[annotations]]
+path = "package-lock.json"
+SPDX-FileCopyrightText = "NONE"
+SPDX-License-Identifier = "MIT"

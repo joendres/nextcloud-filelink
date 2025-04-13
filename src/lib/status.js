@@ -1,3 +1,7 @@
+// Copyright (C) 2020 Johannes Endres
+//
+// SPDX-License-Identifier: MIT
+
 /**
  * Global Map to hold Status objects for all active uploads, indexed by the uploadId created in background.js
  */
@@ -97,5 +101,4 @@ class MsgHandler {
     }
 }
 
-/* Make jshint happy */
 /* exported attachmentStatus, Status */

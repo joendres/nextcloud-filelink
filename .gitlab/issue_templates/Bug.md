@@ -1,3 +1,9 @@
+<!--
+Copyright (C) 2020 Johannes Endres
+
+SPDX-License-Identifier: MIT
+-->
+
 ## Expected Behavior
 
 
@@ -15,6 +21,9 @@
   - Platform:
   - Thunderbird Version:
   - Addon Version:
+
+  - Nextcloud / ownCloud: 
+  - Version: 
 
 ## If you have the same problem
 If you have ***additional information on the bug***, please post comments with that information. 
