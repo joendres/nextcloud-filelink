@@ -1,5 +1,9 @@
+// Copyright (C) 2020 Johannes Endres
+//
+// SPDX-License-Identifier: MIT
+
 // Establish messaging with background worker
-var port;
+let port = null;
 
 window.addEventListener("load", () => {
     port = browser.runtime.connect();
@@ -93,7 +97,6 @@ function fill_status_row(status, row) {
     }
 }
 
-/* Make jshint happy */
 // Automatic variables defined by ids in html
 /* global no_uploads, status_lines, buttonClear, buttonCopy */
 // Functions defined in other scripts imported in html file

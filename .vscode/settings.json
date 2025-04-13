@@ -1,41 +1,78 @@
+/*
+Copyright (C) 2020 Johannes Endres
+SPDX-License-Identifier: MIT
+ */
 {
     "cSpell.words": [
+        "Benachrichtigungsleiste",
+        "closebtn",
+        "davuploader",
+        "joendres",
+        "MKCOL",
+        "mtimes",
+        "Nextcloud",
+        "nonascii",
+        "ocis",
+        "prefspane",
+        "unencrypted",
+        "Uploader",
+        "webdav"
+    ],
+    "cSpell.ignoreWords": [
         "abalbuc",
+        "ADFS",
         "aldatsa",
+        "Aleš",
         "Anatolii",
         "Asier",
         "Balbutckii",
         "Bynens",
-        "closebtn",
         "Comunicaciones",
-        "davuploader",
         "Elie",
         "Futagawa",
         "Geoff",
         "Gorom",
         "Iturralde",
         "jfut",
-        "joendres",
         "Josep",
+        "josepmanel",
         "Lankow",
         "lmamane",
         "Manel",
-        "MKCOL",
-        "mtimes",
-        "Nextcloud",
+        "mixneko",
         "Óvári",
         "Paroz",
-        "prefspane",
+        "Petržík",
+        "Prandini",
         "Ultreia",
-        "unencrypted",
-        "Uploader",
-        "Viguier",
-        "webdav"
+        "Vechkanova",
+        "Viguier"
     ],
     "cSpell.language": "de,en",
     "cSpell.allowCompoundWords": true,
+    "cSpell.ignorePaths": [
+        "web-ext-config.cjs",
+        "package-lock.json",
+        "node_modules",
+        "vscode-extension",
+        ".git/{info,lfs,logs,refs,objects}/**",
+        ".git/{index,*refs,*HEAD}",
+        "/.git*",
+        ".vscode",
+        ".vscode-insiders",
+        "src/punycode",
+        "src/photon-components-web"
+    ],
     "git.fetchOnPull": true,
     "git.untrackedChanges": "separate",
-    "gitlab.enableExperimentalFeatures": true,
-    "gitlab.showPipelineUpdateNotifications": true
+    "gitlab.showPipelineUpdateNotifications": false,
+    "todo-tree.filtering.excludeGlobs": [
+        "**/node_modules/*/**",
+        "**/src/photon-components-web/**",
+        "**/src/punycode/**"
+    ],
+    "sonarlint.connectedMode.project": {
+        "connectionId": "joendres",
+        "projectKey": "joendres_filelink-nextcloud"
+    }
 }

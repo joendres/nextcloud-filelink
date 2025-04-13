@@ -1,3 +1,7 @@
+// Copyright (C) 2020 Johannes Endres
+//
+// SPDX-License-Identifier: MIT
+
 const accountId = new URL(location.href).searchParams.get("accountId");
 const ncc = new CloudConnection(accountId);
 
@@ -84,6 +88,7 @@ async function showVersion() {
         logo.src = {
             "Nextcloud": "images/nextcloud-logo.svg",
             "ownCloud": "images/owncloud-logo.svg",
+            "oCIS": "images/owncloud-logo.svg",
             "Unsupported": "../../icon48.png",
         }[ncc.cloud_type];
 
@@ -190,6 +195,7 @@ async function loadFormData() {
     }
     adjustDLPasswordElementStates();
 
+    ocisHasNoDownloadLinks();
 }
 //#endregion
 
@@ -236,20 +242,11 @@ async function handleFormData() {
         // Remove extra slashes from folder path
         storageFolder.value = "/" + storageFolder.value.split('/').filter(e => "" !== e).join('/');
 
+        // As we check the string format before, this cannot fail(TM)
         const url = new URL(serverUrl.value);
-        // Remove double slashes from url
-        const shortpath = url.pathname.split('/').filter(e => "" !== e);
 
         // If user pasted complete url of file app, extract cloud base url
-        if (shortpath[shortpath.length - 2] === 'apps' &&
-            (shortpath[shortpath.length - 1] === 'files' || shortpath[shortpath.length - 1] === 'dashboard')) {
-            shortpath.pop();
-            shortpath.pop();
-            if (shortpath[shortpath.length - 1] === 'index.php') {
-                shortpath.pop();
-            }
-        }
-        serverUrl.value = url.origin + '/' + shortpath.join('/');
+        serverUrl.value = url.origin + '/' + guessPath(url.pathname);
 
         // Make sure, url end with a slash
         if (!serverUrl.value.endsWith('/')) {
@@ -259,6 +256,38 @@ async function handleFormData() {
         if (!password.value.match(/^[\x21-\x7e]+$/)) {
             popup.warn('nonascii_password');
         }
+    }
+
+    /**
+     * Removes any known part of Nextcloud/ownCloud/oCIS app paths from the end
+     * of the guess the base path.
+     * @param {string} path The path 
+     * @returns string The shortend path
+     */
+    function guessPath(path) {
+        // URL path parts that mark the start of the internal call route.
+        // Everything before that is considered part of the base path.
+        // Heuristically taken from Nextcloud 30.0.4, ownCloud 10.15.0,
+        // oCIS Web UI 11.0.6
+        const known_path_parts = [
+            'account', // oCIS
+            'apps', // *cloud after login
+            'files',  // oCIS
+            'index.php', // *cloud, depending on configuration
+            'login', // *cloud before login
+            'settings', // *cloud
+            'signin', // oCIS before login
+            'text-editor', // oCIS
+        ];
+        // Split into parts and remove double slashes
+        const shortpath = path.split('/').filter(e => !!e);
+
+        for (let index = 0; index < shortpath.length; index++) {
+            if (known_path_parts.includes(shortpath[index])) {
+                return shortpath.slice(0, index).join('/');
+            }
+        }
+        return shortpath.join(('/'));
     }
 
     /**
@@ -309,6 +338,7 @@ async function handleFormData() {
             if (true === ncc.public_shares_enabled) {
                 checkEnforcedExpiry();
                 checkEnforcedDLPassword();
+                ocisHasNoDownloadLinks();
                 await validateDLPassword();
                 ncc.store();
             } else if ('undefined' === typeof ncc.public_shares_enabled) {
@@ -348,6 +378,20 @@ async function handleFormData() {
 }
 
 /**
+ * ownCloud Infinite Scale does not support the /download postfix on shared
+ * links. Force file info links for oCIS servers.
+ */
+function ocisHasNoDownloadLinks() {
+    if (ncc.cloud_type === "oCIS") {
+        if (!noAutoDownload.checked) {
+            noAutoDownload.checked = true;
+            popup.warn('ocis_no_download_links');
+        }
+        noAutoDownload.disabled = true;
+    }
+}
+
+/**
  * Check for maximum expiry on server
  */
 function checkEnforcedExpiry() {
@@ -381,7 +425,7 @@ function stopLookingBusy() {
     document.querySelector("body").classList.remove('busy');
 }
 //#endregion
-// Make jshint happy
+
 // Defined in ../lib/cloudconnection.js
 /* global CloudConnection */
 // Defined in popup/popup.js
@@ -394,3 +438,4 @@ function stopLookingBusy() {
 /* globals freespacelabel, freespace, password, storageFolder, disableable_fieldset */
 // Defined in ../lib/localize.js
 /* globals addLocalizedLabels */
+/* globals noAutoDownload */

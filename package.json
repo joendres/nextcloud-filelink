@@ -1,0 +1,57 @@
+{
+  "//": [
+    "Copyright (C) 2024 Johannes Endres",
+    "SPDX-License-Identifier: MIT"
+  ],
+  "name": "filelink-nextcloud",
+  "version": "3.16.0",
+  "description": "*cloud - FileLink for Nextcloud and ownCloud",
+  "devDependencies": {
+    "@eslint/eslintrc": "*",
+    "@eslint/js": "*",
+    "@types/thunderbird-webext-browser": "*",
+    "eslint": "*",
+    "globals": "*",
+    "web-ext": "7"
+  },
+  "private": true,
+  "browser": "src/background.js",
+  "scripts": {
+    "start": "npx web-ext run"
+  },
+  "repository": "gitlab:joendres/filelink-nextcloud.git",
+  "author": {
+    "name": "Johannes Endres",
+    "email": "je@johannes-endres.de"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://gitlab.com/joendres/filelink-nextcloud/issues",
+    "email": "cloud@johannes-endres.de"
+  },
+  "homepage": "https://addons.thunderbird.net/thunderbird/addon/filelink-nextcloud-owncloud/",
+  "webExt": {
+    "ignoreFiles": [
+      "punycode/package.json",
+      "punycode/README.md",
+      "punycode/punycode.es6.js",
+      "punycode/scripts",
+      "punycode/tests",
+      "photon-components-web/index.js",
+      "photon-components-web/images/arrow-grey-40-*.svg",
+      "photon-components-web/images/open-in-new-16-*.svg",
+      "photon-components-web/images/searchfield-cancel-*.svg",
+      "**/*.license"
+    ],
+    "sourceDir": "src",
+    "run": {
+      "devtools": true
+    },
+    "build": {
+      "overwriteDest": true
+    },
+    "lint": {
+      "selfHosted": true
+    }
+  }
+}

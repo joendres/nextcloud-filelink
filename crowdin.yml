@@ -1,0 +1,8 @@
+# Copyright (C) 2020 Johannes Endres
+# SPDX-License-Identifier: MIT
+
+project_id: "527610"
+files:
+  - source: /src/_locales/en/messages.json
+    translation: /src/_locales/%two_letters_code%/%original_file_name%
+    update_option: update_as_unapproved

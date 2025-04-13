@@ -1,3 +1,15 @@
+Copyright (C) 2020-2025 Johannes Endres
+SPDX-License-Identifier: MIT
+
+3.16.0
+Close #558, #557, #545, #543, #325: Make it work with ownCloud Infinite Scale (oCIS)
+Close #561, #544, #531, #560, #559: Add option to create file info links instead of download links
+Fix #504, #501, #500: Non-ASCII characters in filenames
+Close #513, #556, #564: Add copyright and license information
+Close #547, #591: Deprecate Nextcloud 25 - 29
+Close #548: Update punycode.js
+Close #550, #453, #566, #553. #552, #549, #490, #565, #555: Internal project cleanup
+
 3.15.0
 Close #476 (and dup #219) Add TemplateInfo on password status and expiry date
 
@@ -84,7 +96,7 @@ Fix several typos in messages, comments and CHANGELOG
 Close #188 Hide advanced options
 Close #189 Check free space before upload
 Fix #203 wrong error message
-Close #205 hungarian localization
+Close #205 Hungarian localization
 Close #211 Handle maintenance mode in preferences pane
 Some code cleanup
 
@@ -148,7 +160,7 @@ Lots of internal changes
 3.4.1 2020-02-21
 
 - Close #81: French translation of new messages
-- Close #82: Catalan and spanish translations of new messages
+- Close #82: Catalan and Spanish translations of new messages
 - Close #73: Shows outdated free space info while editing account
 - Internal Project optimization & cleanup in davuploader
 

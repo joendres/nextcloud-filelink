@@ -1,3 +1,7 @@
+// Copyright (C) 2020 Johannes Endres
+//
+// SPDX-License-Identifier: MIT
+
 //#region  Configurable options and useful constants
 const apiUrlBase = "ocs/v1.php";
 const apiUrlUserInfo = "/cloud/users/";
@@ -6,8 +10,12 @@ const apiUrlShares = "/apps/files_sharing/api/v1/shares";
 const apiUrlGetApppassword = "/core/getapppassword";
 const apiUrlCapabilities = "/cloud/capabilities";
 const davUrlBase = "remote.php/dav/files/";
-const ncMinimalVersion = 25;
+
+// Minimal supported versions of the three cloud types
+const ncMinimalVersion = 30;
 const ocMinimalVersion = 10 * 10000 + 0 * 100 + 10;
+const ocisMinimalVersion = 5;
+
 // const DAV_MAX_FILE_SIZE = 0x100000000 - 1; /* Almost 4GB, Nextcloud and ownCloud accept larger files */
 const DAV_MAX_FILE_SIZE = Number.MAX_SAFE_INTEGER;
 //#endregion
@@ -220,10 +228,16 @@ class CloudConnection {
                 this.cloud_supported = data.version.major >= ncMinimalVersion;
             } else if (data.capabilities.core.status && data.capabilities.core.status.productname) {
                 this.cloud_productname = data.capabilities.core.status.productname;
-                this.cloud_type = "ownCloud";
-                this.cloud_supported = parseInt(data.version.major) * 10000 +
-                    parseInt(data.version.minor) * 100 +
-                    parseInt(data.version.micro) >= ocMinimalVersion;
+                if (data.capabilities.core.status.product === "Infinite Scale") {
+                    this.cloud_type = "oCIS";
+                    this.cloud_supported = (parseSemver(data.capabilities.core.status.productversion)).major >= ocisMinimalVersion;
+                    this.cloud_versionstring = data.capabilities.core.status.productversion;
+                } else {
+                    this.cloud_type = "ownCloud";
+                    this.cloud_supported = parseInt(data.version.major) * 10000 +
+                        parseInt(data.version.minor) * 100 +
+                        parseInt(data.version.micro) >= ocMinimalVersion;
+                }
             } else if (data.version.major >= ncMinimalVersion) {
                 this.cloud_productname = 'Nextcloud';
                 this.cloud_type = "Nextcloud";
@@ -252,7 +266,7 @@ class CloudConnection {
                 Boolean(this.storageFolder) &&
                 !(this.enforce_password && !this.useDlPassword) &&
                 (!this.useDlPassword || this.useGeneratedDlPassword || Boolean(this.downloadPassword)) &&
-                !(this.useExpiry && !Boolean(this.expiryDays)) &&
+                !(this.useExpiry && !this.expiryDays) &&
                 !(Boolean(this.expiry_max_days) && this.useExpiry && this.expiry_max_days < this.expiryDays),
         });
     }
@@ -265,7 +279,7 @@ class CloudConnection {
         const data = await this._doApiCall(apiUrlUserID);
         if (data.id) {
             // Nextcloud and ownCloud use this RE to check usernames created manually
-            if (data.id.match(/^[a-zA-Z0-9 _\.@\-']+$/)) {
+            if (data.id.match(/^[a-zA-Z0-9 _.@\-']+$/)) {
                 this.userId = data.id;
             } else {
                 /* The userid contains characters that ownCloud and Nextcloud
@@ -337,7 +351,7 @@ class CloudConnection {
         }
         /* If we generate a password locally, the generation via web service didn't work. In that case
         validation also doesn't work, so the locally generateed password cannot be validated. */
-        return pw ? pw : generatePassword(16);
+        return pw || generatePassword(16);
     }
     //#endregion
 
@@ -452,12 +466,16 @@ class CloudConnection {
         } catch (_) {
             return null;
         }
-        if (!u.protocol.match(/^https?:$/)) {
+        if (!RegExp(/^https?:$/).exec(u.protocol)) {
             return null;
         }
-        const encoderUrl = u.origin.replace(u.hostname, punycode.toUnicode(u.hostname)) +
+        let encoderUrl = u.origin.replace(u.hostname, punycode.toUnicode(u.hostname)) +
             utils.encodepath(u.pathname);
-        return encoderUrl + (encoderUrl.endsWith("/") ? "" : "/") + "download";
+
+        if (!this.noAutoDownload) {
+            encoderUrl += (encoderUrl.endsWith("/") ? "" : "/") + "download";
+        }
+        return encoderUrl;
     }
     //#endregion
 
@@ -518,6 +536,7 @@ class CloudConnection {
     //#endregion
 }
 
+/* global parseSemver */
 /* global utils*/
 /* global DavUploader  */
 /* global punycode */

@@ -65,6 +65,15 @@
   "expiry_details": {
     "message": "Il numero di giorni in cui il download sarà disponibile, incluso oggi"
   },
+  "noAutoDownload": {
+    "message": "Creazione di link per informazioni sui file, invece che di link per il download"
+  },
+  "noAutoDownload_details": {
+    "message": "Attivando questa opzione e dunque cliccando il link sul messaggio si aprirà una pagina sul server di Cloud. Questa pagina contiene informazioni sul file e sul link per il download. Se non attivi questa opzione, un semplice clic inizierà il download."
+  },
+  "warn_ocis_no_download_links": {
+    "message": "Il server non supporta alcuni link per il download. Vengono creati dei link per le informazioni sui file"
+  },
   "freespace": {
     "message": "Spazio libero ($FREE$ di $FULL$)",
     "placeholders": {
@@ -92,8 +101,8 @@
     "message": "Versione obsoleta di Nextcloud o ownCloud. Potresti perdere dati. Chiedere all'amministratore del cloud di aggiornare"
   },
   "obsolete_version": {
-    "description": "This is displayed over the icon if the cloud version is not supported, so it should be quite short and contain at most two lines.",
-    "message": "Versione\nobsoleta"
+    "message": "Versione\nobsoleta",
+    "description": "This is displayed over the icon if the cloud version is not supported, so it should be quite short and contain at most two lines."
   },
   "error_401": {
     "message": "Accesso non riuscito. Controllare il nome utente e la password."
@@ -120,23 +129,23 @@
     "message": "Con http: i dati di accesso verranno trasferiti non crittografati. Usa https: invece. Se non funziona, chiedi al tuo amministratore."
   },
   "status_menutooltip": {
-    "description": "This is displayed as a tooltip when the mouse pointer hovers over the menu button labelled with 'status_menuname'",
-    "message": "Mostra lo stato *cloud uploads e le password generate"
+    "message": "Mostra lo stato *cloud uploads e le password generate",
+    "description": "This is displayed as a tooltip when the mouse pointer hovers over the menu button labelled with 'status_menuname'"
   },
   "status_menuname": {
-    "description": "This short text is displayed on the menu button that opens the status popup next to the *cloud logo",
-    "message": "Stato"
+    "message": "Stato",
+    "description": "This short text is displayed on the menu button that opens the status popup next to the *cloud logo"
   },
   "status_no_uploads": {
     "message": "Nessun caricamento attivo"
   },
   "status_button_clear": {
-    "description": "Button to remove error messages from status popup",
-    "message": "Cancella notifiche caricamenti completi"
+    "message": "Cancella notifiche caricamenti completi",
+    "description": "Button to remove error messages from status popup"
   },
   "status_preparing": {
-    "description": "This will be displayed in the status popup. If this step fails this string will be combined with one indicating failure, eg 'Preparing file size failed'.",
-    "message": "Preparazione"
+    "message": "Preparazione",
+    "description": "This will be displayed in the status popup. If this step fails this string will be combined with one indicating failure, eg 'Preparing file size failed'."
   },
   "status_creating": {
     "message": "Creazione cartella"
@@ -157,8 +166,8 @@
     "message": "Controllo spazio libero"
   },
   "status_error": {
-    "description": "This will be combined with one of the states above, eg 'Preparing failed'. If this doesn't work in your language, please tell me.",
-    "message": "$1 non riuscito/a"
+    "message": "$1 non riuscito/a",
+    "description": "This will be combined with one of the states above, eg 'Preparing failed'. If this doesn't work in your language, please tell me."
   },
   "status_password": {
     "message": "password: $ 1"

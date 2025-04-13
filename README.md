@@ -1,6 +1,12 @@
+<!--
+Copyright (C) 2020 Johannes Endres
+
+SPDX-License-Identifier: MIT
+-->
+
 # __*cloud__ - FileLink for Nextcloud and ownCloud
 
-[Deutsche Dokumentation](doc/README.de.md)
+[Deutsche Dokumentation](de/README.de.md)
 
 A MailExtension for Thunderbird (68+) that uploads large attachments to your
 Cloud and generates a link you can send by mail instead of the file.
@@ -12,24 +18,27 @@ Cloud and generates a link you can send by mail instead of the file.
 * Thunderbird: 68.2.1 or newer
 * An account on a server running a supported version of Nextcloud or ownCloud,
   more specifically:
-  * [Nextcloud](https://nextcloud.com/): version 25 or newer (older versions
+  * [Nextcloud](https://nextcloud.com/) version 30 or newer (older versions
     might work, but are [not supported by
     Nextcloud](https://github.com/nextcloud/server/wiki/Maintenance-and-Release-Schedule))
-  * [ownCloud](https://owncloud.com/): version 10.0.10+ (10.0.9 and older
+  * [ownCloud](https://owncloud.com/) version 10.0.10+ (10.0.9 and older
     versions contain bugs that prevent __*cloud__ from working).
+  * [ownCloud Infinite Scale](https://owncloud.com/infinite-scale/) version 5 or newer (older versions
+    might work, but are [not supported by
+    ownCloud](https://owncloud.dev/ocis/release_roadmap/))
 
   If you can't or don't want to run your own server, there are many offers for
-  hosted Nextcloud and ownCloud services.
+  [hosted Nextcloud](https://nextcloud.com/providers/) and [hosted ownCloud](https://owncloud.com/partners/find-a-partner/?_sft_partner-type=service-provider) services.
 
 ## User guide
 
 ### Installation
 
-1. Go to Preferences -> Compose -> Attachments (in Thunderbird 68 Attachments -> Outgoing)
-1. Click the link "Find more providers..." at the bottom of the page.
-1. Find __*cloud__ in the list and click the "Add to Thunderbird" button.
-1. On the "Options" tab click the button "Add *cloud".
-1. Configure. Only three settings are strictly necessary:
+1. Go to Preferences -> Compose -> Attachments
+2. Click the link "Find more providers..." at the bottom of the page.
+3. Find __*cloud__ in the list and click the "Add to Thunderbird" button.
+4. On the "Options" tab click the button "Add *cloud".
+5. Configure. Only three settings are strictly necessary:
    * Server URL
    * Username
    * App token or password
@@ -37,7 +46,7 @@ Cloud and generates a link you can send by mail instead of the file.
 __*cloud__ is also available via Thunderbird's Add-on
 repository:
 
-[![Get the Addon](https://addons.cdn.mozilla.net/static/img/addons-buttons/TB-AMO-button_1.png)](https://addons.thunderbird.net/thunderbird/addon/filelink-nextcloud-owncloud/).
+[![Get the Addon](https://gitlab.com/-/project/16099629/uploads/6d33a533fa762bb5794310e171ffd42d/get-the-addon.svg)](https://addons.thunderbird.net/thunderbird/addon/filelink-nextcloud-owncloud/)
 
 ### Usage
 
@@ -57,6 +66,13 @@ three ways to start the upload:
 
 ### Known issues
 
+#### Filenames with Unicode special character cause problems
+
+In some minor versions of Thunderbird 102.2 filenames with specials characters
+or in non-US script systems like Greek case problems. The upload works, but
+sharing the uploaded file fails. This is fixed in Thunderbird 102.5.0; please
+update Thunderbird.
+
 #### You don't like the text/HTML/links inserted into the message
 
 Many users would like to change the text that is inserted into the message along
@@ -68,19 +84,15 @@ its template around it and inserts the whole thing into your message (technical
 details
 [here](https://gitlab.com/joendres/filelink-nextcloud/-/issues/238#note_383881835)
 and
-[here](https://thunderbird-webextensions.readthedocs.io/en/68/cloudFile.html#onfileupload-account-fileinfo)).
+[here](https://webextension-api.thunderbird.net/en/stable/cloudFile.html#onfileupload)).
 
-There is a feature suggestion for Thunderbird, to [make this template
-editable](https://bugzilla.mozilla.org/show_bug.cgi?id=1643729). You might
-consider backing this suggestion with your vote or a helpful comment.
-
-#### Files from network shares uploaded to cloud *and* attached
+#### Files from network shares uploaded to cloud _and_ attached
 
 There was a [bug in
 Thunderbird](https://bugzilla.mozilla.org/show_bug.cgi?id=793118): If you
 attached a file from a network share, it was uploaded to the cloud and the share
-link was inserted into your mail, but the file was *also attached to the
-message*. This was fixed in Thunderbird 68.11.0 and 78.0.1. If you're still
+link was inserted into your mail, but the file was _also attached to the
+message_. This was fixed in Thunderbird 68.11.0 and 78.0.1. If you're still
 experiencing this issue, update Thunderbird.
 
 #### URL works in browser but not in *cloud
@@ -106,7 +118,7 @@ If this happens to you, point __*cloud__  to the actual cloud location:
 1. Copy the complete url from the url bar of your browser
 1. Paste it into the server url field in __*cloud__'s configuration (in Thunderbird).
 
-When you save the settings, __*cloud__ will remove unnecessary parts.
+As soon as you save the settings, __*cloud__ will remove unnecessary parts.
 
 ##### Reason 2: https certificate
 
@@ -129,41 +141,41 @@ solutions:
 
 #### Upload problems
 
-The *download* password has to comply with *all* the rules for passwords on
-your cloud, otherwise the *upload* will fail. There are default rules of
+The _download_ password has to comply with _all_ the rules for passwords on
+your cloud, otherwise the _upload_ will fail. There are default rules of
 Nextcloud and ownCloud, and your admin might have configured some different
 rules.
 
 #### Files are uploaded correctly but sharing fails
 
-This is usually caused by a misconfiguration of your cloud server. Please point
+This is usually caused by a misconfiguration of the cloud server. Please point
 your cloud admin to the section on [Apache and
-mod_rewrite](#apache-and-modrewrite) below.
+mod_rewrite](#apache-and-mod_rewrite) below.
 
 #### Still not working?
 
 If things still don't work, I'd appreciate a problem report by
-[email](mailto:cloud@johannes-endres.de).  Thanks.
+[email](mailto:cloud@johannes-endres.de). Thanks.
 
 ### Good to know
 
 #### Download passwords
 
-**If you use download passwords, _never_ put them into an email, but give them
-to the recipient via a separate, secure channel eg a messenger or a telefone
-call.**
+If you use download passwords, don't put them into an email, but give them
+to the recipient via a separate, secure channel eg a messenger or a telephone
+call.
 
 Why? As a security measure the generated download links contain a long, almost
 random part. So an attacker (let's call her Eve) can't guess the link for a file
 or scan all possible links to find a file. The only reasonable way for Eve to
-gain access to your file is to intercept the mail. (If you are interested in
+gain access to your file is to intercept the email. (If you are interested in
 technical details, read this
 [posting](https://gitlab.com/joendres/filelink-nextcloud/-/issues/221#note_367524670)).
 
 So the links are fairly secure by themselves and quite comfortable for the
 recipient, because she only has to click the link.
 
-If you use download passwords, *never* put them into the same email as the link.
+If you use download passwords, never put them into the same email as the link.
 Because if Eve can read the link, she can also read the password. So a download
 password in the same email doesn't make the transfer more secure, but only more
 complicated for the recipient. The same goes for a separate email with the
@@ -175,24 +187,21 @@ probably also able to intercept the second email.
 Instead of storing your password it's more secure to use an "App Token" with
 __*cloud__. There are two ways to get such a token:
 
-* *If you are using Nextcloud or ownCloud:* Open your account in the browser and
+* _If you are using Nextcloud or ownCloud:_ Open your account in the browser and
   go to Settings -> Security -> App Token and at the bottom of the page generate
   a new token. Copy&paste it into the "App token" field of the Attachments
   preferences page in Thunderbird.
 
-* *Only if you are using Nextcloud:* Type your user password into the
+* _Only if you are using Nextcloud:_ Type your user password into the
   Attachments/Outgoing preferences page in Thunderbird. Upon saving, the Add-On will
-  *try* to get a token from your Nextcloud and use it instead of your password.
+  _try_ to get a token from your Nextcloud and use it instead of your password.
   You will notice the change, because afterwards the password field is filled
   with dots completely (app tokens are quite long).\
-  **BUT!** if getting the token fails for any reason (e.g. your Nextcloud is not
-  reachable, timeout, wrong username, ...), the Add-On will *store your password
-  unencrypted*.
 
 #### Handling of existing files
 
 If you attach a file that's already in the attachments folder in your cloud
-*with identical contents*, that file is not uploaded again. Instead the
+_with identical contents_, that file is not uploaded again. Instead the
 existing file is shared.
 
 To make this possible, __*cloud__ never deletes files in your cloud. Over time
@@ -212,7 +221,11 @@ Then the new file is uploaded and shared with a new share link.
 
 __*cloud__ uses the same method as the
 Nextcloud/ownCloud desktop clients to decide if the local and remote files are
-identical.
+identical:
+
+* identical name and
+* identical size (in bytes) and
+* last modification within the same second.
 
 ## Information for cloud administrators
 
@@ -220,11 +233,11 @@ identical.
 
 Some settings in Nextcloud/ownCloud are relevant for this Add-On:
 
-* **Settings -> Sharing -> Allow apps to use the Share API** has to be enabled
-* **Settings -> Sharing -> Allow users to share via link** has to be enabled
-* **The app "Share Files" has to be active.** In ownCloud the Apps management is
-  part of the Administrator's settings, in Nextcloud it's accessible directly
-  from the Admin's profile menu.
+* __Settings -> Sharing -> Allow apps to use the Share API__ has to be enabled
+* __Settings -> Sharing -> Allow users to share via link__ has to be enabled
+* __The app "Share Files" has to be active.__ In ownCloud the Apps management is
+  part of the administrator's settings, in Nextcloud it's accessible directly
+  from the admin's profile menu.
 
 ### Redirects
 
@@ -257,116 +270,23 @@ both require mod_rewrite to be active if run in the Apache http server. Without
 mod_rewrite __*cloud__ fails with different error scenarios depending on other
 details of the configuration.
 
-## Contributing
+### Basic Auth
 
-The project lives on GitLab: <https://gitlab.com/joendres/filelink-nextcloud>.
-
-### Reporting bugs and suggesting features
-
-If you find a bug or have an idea for a feature:
-
-1. Go to the [issues
-   board](https://gitlab.com/joendres/filelink-nextcloud/-/boards) and check if
-   there is an open issue already.
-1. If there no issue describing your problem or your idea, there are two options
-   to submit a new one:
-   * Open a new issue on the issues board.
-   * If you don't have a gitlab account, just send an e-mail to the
-     [Service Desk](mailto:cloud@johannes-endres.de).
-
-### Pre-release versions
-
-There usually are two development versions of __*cloud__:
-
-* Release-x.y for the next release that has new features or visible changes for users
-* Bugfix-x.y.z for the next release that only fixes bugs
-
-These versions usually are more or less functional. They have corresponding
-branches in the repository.
-
-All other branches are work in progress and guaranteed not to work :wink:.
-
-### Testing
-
-If you'd like to help with testing, first install one of the development versions:
-
-1. Clone or download one the development branches
-1. Pack the contents of the "src" subdirectory (not the subdir itself) into a zip file
-1. In Thunderbird go to the Add-ons Manager and from the rotary menu select
-   "Install Add-on from file"
-1. Choose your zip file and install
-
-If you find a bug please use one of the [options
-above](#reporting-bugs-and-suggesting-features) to report it.
-
-### Localization / Translation
-
-If you'd like to help translate __*cloud__ into your language:
-
-   1. Just download the [english strings
-      file](https://gitlab.com/joendres/filelink-nextcloud/-/raw/master/src/_locales/en/messages.json)
-   1. Translate the `message`s in that file
-      * Do not translate the `description`; they don't show up anywhere, they're just in there for your reference.
-      * If you're not sure about a string's context, just put all your questions in an email or an issue. I'll be glad to clarify.
-   1. Mail it to [me](mailto:cloud@johannes-endres.de) or put it into an
-      [issue](https://gitlab.com/joendres/filelink-nextcloud/-/issues) stating
-      the language
-
-Alternatively, if you know how to use gitlab.com and how [Internationalization
-in Mozilla
-WebExtensions](https://developer.mozilla.org/docs/Mozilla/Add-ons/WebExtensions/Internationalization)
-works, you may of course just add a new locale in the correct folder and create
-a merge request.
-
-### Code
-
-If you'd like to fix a bug or implement a feature
-
-* Just branch from the latest Release-x.y or Bugfix-x.y.z branch
-* Use [jshint](https://jshint.com/) to check your code.
-* Optional: When your code is ready, `git merge` the original branch and resolve
-  conflicts. I'll handle all conflicts that arise later.
-* If you add strings, just add them to the english locales (and any other
-  language you are fluent in), *don't* add english strings to other locales
-
-### Dev resources
-
-* [Nextcloud Client
-  APIs](https://docs.nextcloud.com/server/stable/developer_manual/client_apis/index.html)
-* [ownCloud External
-  API](https://doc.owncloud.com/server/developer_manual/core/apis/ocs-capabilities.html)
-* [Thunderbird WebExtension
-  APIs](https://webextension-api.thunderbird.net/)
-* [Firefox' JavaScript APIs for WebExtensions](https://developer.mozilla.org/docs/Mozilla/Add-ons/WebExtensions/API),
-  most of these are also available in Thunderbird
-* [Example extensions for Thunderbird WebExtensions
-  APIs](https://github.com/thundernest/sample-extensions)
-* [Getting started with
-  web-ext](https://extensionworkshop.com/documentation/develop/getting-started-with-web-ext)
-  If you are developing WebExtensions, you want to use this tool. For debugging
-  just set the ```firefox``` config option to your thunderbird binary.
-* [Photon Components](https://firefoxux.github.io/photon-components-web) contain
-  CSS styles and some additional resources to replicate the standard styles used
-  in Thunderbird
-* [Firefox Brand + Design Assets](https://design.firefox.com/) are also useful
-  for Thunderbird, especially the icon library.
-* [What you need to know about making add-ons for
-  Thunderbird](https://developer.thunderbird.net/add-ons/).
-* There are demo instances of [Nextcloud](https://try.nextcloud.com/) and
-  [ownCloud](https://demo.owncloud.com) you might use for initial testing.
+Currently __*cloud__ only supports HTTP Basic Auth. In ownCloud Infinite Scale (oCIS) Basic Auth is disabled by default and [has to be enabled](https://doc.owncloud.com/ocis/next/deployment/services/s-list/auth-basic.html).
 
 ## Contributions
 
 * [Johannes Endres](@joendres), initial implementation, maintainer
-* [Josep Manel Mendoza](@josepmanel), catalan and spanish localizations
-* [Gorom](@Go-rom), french localization
+* [Josep Manel Mendoza](@josepmanel), Catalan and Spanish localizations
+* [Gorom](@Go-rom), French localization
 * [Jun Futagawa](@jfut), implementation of generated random passwords
 * [Lionel Elie Mamane](@lmamane), solution of the LDAP/getapppassword problem
-* [Óvári](@ovari1), hungarian localization
-* [Pietro Federico Sacchi](https://crowdin.com/profile/sacchi.pietro), italian localization
-* [Asier Iturralde Sarasola](@aldatsa), basque localization
-* [Anatolii Balbutckii](@abalbuc), russian localization
-* [mixneko](@mixneko), traditional chinese localization
+* [Óvári](@ovari1), Hungarian localization
+* [Pietro Federico Sacchi](https://crowdin.com/profile/sacchi.pietro), Italian localization
+* [Asier Iturralde Sarasola](@aldatsa), Basque localization
+* [Anatolii Balbutckii](@abalbuc), Russian localization
+* Aleš Petržík, Czech localization
+* [mixneko](@mixneko), traditional Chinese localization
 * Based on [FileLink Provider for
   Dropbox](https://github.com/darktrojan/dropbox) by [Geoff
   Lankow](https://darktrojan.github.io/)
@@ -374,10 +294,12 @@ If you'd like to fix a bug or implement a feature
   Filelink](https://github.com/nextcloud/nextcloud-filelink) by [Olivier
   Paroz](https://github.com/oparoz) and [Guillaume
   Viguier-Just](https://github.com/guillaumev).
-* Thanks to [@JasonBayton](https://twitter.com/jasonbayton) for his [Nextcloud demo
+* Thanks to [@JasonBayton](https://bayton.org/about/) for his [Nextcloud demo
   servers](https://bayton.org/2017/02/introducing-nextcloud-demo-servers/) of
   many (old) versions, that helped in the initial testing a lot.
-* Contains [punycode.js](https://github.com/bestiejs/punycode.js), Copyright
+* Contains [punycode.js](https://github.com/mathiasbynens/punycode.js), Copyright
   Mathias Bynens, [MIT
-  license](https://github.com/bestiejs/punycode.js/blob/master/LICENSE-MIT.txt)
+  license](https://github.com/mathiasbynens/punycode.js/blob/master/LICENSE-MIT.txt)
 * Contains [photon-components-web](https://firefoxux.github.io/photon-components-web/)
+
+If you'd like to contribute, see [CONTRIBUTING](CONTRIBUTING.md)

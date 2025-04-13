@@ -65,6 +65,15 @@
   "expiry_details": {
     "message": "El número de días que la descarga estará disponible, incluyendo hoy."
   },
+  "noAutoDownload": {
+    "message": "Crear enlace de información de archivos, no descarga inmediata"
+  },
+  "noAutoDownload_details": {
+    "message": "Si seleccionas esta opción, al hacer clic en el enlace del mensaje se abrirá una página en el servidor de la nube. Esta página contendrá información sobre el archivo y el enlace de descarga. Si no configuras esta opción, la descarga comenzará inmediatamente."
+  },
+  "warn_ocis_no_download_links": {
+    "message": "Su servidor no admite enlaces de descarga instantánea: Crear enlace de información de archivos"
+  },
   "freespace": {
     "message": "Espacio disponible ($FREE$ de $FULL$)",
     "placeholders": {
@@ -92,8 +101,8 @@
     "message": "Versión obsoleta de Nextcloud o ownCloud. Puedes perder datos. Contacta con tu administrador para actualizar."
   },
   "obsolete_version": {
-    "description": "This is displayed over the icon if the cloud version is not supported, so it should be quite short and contain at most two lines.",
-    "message": "Versión\nobsoleta"
+    "message": "Versión\nobsoleta",
+    "description": "This is displayed over the icon if the cloud version is not supported, so it should be quite short and contain at most two lines."
   },
   "error_401": {
     "message": "El inicio de sessión falló. Comprueba el usuario y la contraseña."
@@ -120,23 +129,23 @@
     "message": "Con http: tus datos se envían sin encriptar. Utiliza https: en su lugar. Si no lo tenéis configurado, contactad con vuestro administrador."
   },
   "status_menutooltip": {
-    "description": "This is displayed as a tooltip when the mouse pointer hovers over the menu button labelled with 'status_menuname'",
-    "message": "Muestra las subidas y las contraseñas generadas para *cloud (si existen)"
+    "message": "Muestra las subidas y las contraseñas generadas para *cloud (si existen)",
+    "description": "This is displayed as a tooltip when the mouse pointer hovers over the menu button labelled with 'status_menuname'"
   },
   "status_menuname": {
-    "description": "This short text is displayed on the menu button that opens the status popup next to the *cloud logo",
-    "message": "Estado"
+    "message": "Estado",
+    "description": "This short text is displayed on the menu button that opens the status popup next to the *cloud logo"
   },
   "status_no_uploads": {
     "message": "Sin cargas activas"
   },
   "status_button_clear": {
-    "description": "Button to remove error messages from status popup",
-    "message": "Limpia las cargas completadas"
+    "message": "Limpia las cargas completadas",
+    "description": "Button to remove error messages from status popup"
   },
   "status_preparing": {
-    "description": "This will be displayed in the status popup. If this step fails this string will be combined with one indicating failure, eg 'Preparing file size failed'.",
-    "message": "Preparando"
+    "message": "Preparando",
+    "description": "This will be displayed in the status popup. If this step fails this string will be combined with one indicating failure, eg 'Preparing file size failed'."
   },
   "status_creating": {
     "message": "Creando la carpeta"
@@ -157,8 +166,8 @@
     "message": "Comprobando el espacio libre"
   },
   "status_error": {
-    "description": "This will be combined with one of the states above, eg 'Preparing failed'. If this doesn't work in your language, please tell me.",
-    "message": "Error: $1"
+    "message": "Error: $1",
+    "description": "This will be combined with one of the states above, eg 'Preparing failed'. If this doesn't work in your language, please tell me."
   },
   "status_password": {
     "message": "contraseña: $1"

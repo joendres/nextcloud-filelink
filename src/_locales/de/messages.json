@@ -27,13 +27,13 @@
     "message": "App-Token oder Passwort"
   },
   "password_details": {
-    "message": "Ein App Passwort (Einstellungen -> Sicherheit -> App Passwort auf der Cloud) oder notfalls dein Cloud-Passwort.\nNur mit Nextcloud: Das Add-On versucht, vor dem Speichern ein App Passwort zu erzeugen. Aber falls das fehlschlägt, wir das Passwort unverschlüsselt gespeichert."
+    "message": "Ein App-Passwort (Einstellungen -> Sicherheit -> App Passwort auf der Cloud) oder notfalls dein Cloud-Passwort.\nNur mit Nextcloud: Das Add-on versucht, vor dem Speichern ein App-Passwort zu erzeugen. Aber falls das fehlschlägt, wir das Passwort unverschlüsselt gespeichert."
   },
   "storageFolder": {
     "message": "Speicherpfad in der Cloud"
   },
   "storageFolder_details": {
-    "message": "Das Verzeichnis, in dem die Dateien abgelegt werden. Falls es nicht existiert, wird es automatisch angelegt."
+    "message": "Das Cloud-Verzeichnis, in dem die Dateien abgelegt werden. Falls es nicht existiert, wird es automatisch angelegt."
   },
   "useNoDlPassword": {
     "message": "Kein Passwort"
@@ -45,7 +45,7 @@
     "message": "Ein zufälliges Passwort pro Datei"
   },
   "useGeneratedDlPassword_details": {
-    "message": "Für jede Datei wird ein zufälliges Passwort erzeugt. Es erscheint nach dem Upload im Status-Dialog."
+    "message": "Für jede Datei wird ein zufälliges Passwort erzeugt. Es erscheint nach dem Upload im *cloud-Status-Dialog."
   },
   "useDlPassword": {
     "message": "Download-Passwörter"
@@ -65,8 +65,17 @@
   "expiry_details": {
     "message": "Die Anzahl der Tage, für die der Download verfügbar bleibt, inklusive heute"
   },
+  "noAutoDownload": {
+    "message": "Links zur Datei-Information statt Download-Links"
+  },
+  "noAutoDownload_details": {
+    "message": "Wenn Sie diese Option aktivieren, wird durch Klicken auf den Link in der Nachricht eine Seite auf dem Cloud-Server geöffnet. Diese Seite enthält Informationen über die Datei und den Download-Link. Wenn Sie diese Option nicht aktivieren, startet ein Klick sofort den Download."
+  },
+  "warn_ocis_no_download_links": {
+    "message": "Der Server unterstützt keine Download-Links. Links zur Datei-Info werden erzeugt"
+  },
   "freespace": {
-    "message": "Freier Speicher: $FREE$ von $FULL$",
+    "message": "Freier Speicher ($FREE$ von $FULL$)",
     "placeholders": {
       "free": {
         "content": "$1"
@@ -92,8 +101,8 @@
     "message": "Datenverlust droht: Veraltete Version von Nextcloud oder ownCloud. Bitte den Cloud-Admin um ein Update"
   },
   "obsolete_version": {
-    "description": "This is displayed over the icon if the cloud version is not supported, so it should be quite short and contain at most two lines.",
-    "message": "Veraltete\nVersion"
+    "message": "Veraltete\nVersion",
+    "description": "This is displayed over the icon if the cloud version is not supported, so it should be quite short and contain at most two lines."
   },
   "error_401": {
     "message": "Login fehlgeschlagen. Wahrscheinlich ist der Username oder das Passwort falsch."
@@ -120,23 +129,23 @@
     "message": "Mit http: werden die Login-Daten unverschlüsselt übertragen. Benutze lieber https:. Wenn das nicht funktioniert, frage den Admin."
   },
   "status_menutooltip": {
-    "description": "This is displayed as a tooltip when the mouse pointer hovers over the menu button labelled with 'status_menuname'",
-    "message": "Zeige *cloud-Upload-Status und generierte Passwörter (falls vorhanden)"
+    "message": "Zeige *cloud-Upload-Status und generierte Passwörter (falls vorhanden)",
+    "description": "This is displayed as a tooltip when the mouse pointer hovers over the menu button labelled with 'status_menuname'"
   },
   "status_menuname": {
-    "description": "This short text is displayed on the menu button that opens the status popup next to the *cloud logo",
-    "message": "Status"
+    "message": "Status",
+    "description": "This short text is displayed on the menu button that opens the status popup next to the *cloud logo"
   },
   "status_no_uploads": {
     "message": "Keine aktiven Uploads"
   },
   "status_button_clear": {
-    "description": "Button to remove error messages from status popup",
-    "message": "Erledigte Uploads entfernen"
+    "message": "Erledigte Uploads entfernen",
+    "description": "Button to remove error messages from status popup"
   },
   "status_preparing": {
-    "description": "This will be displayed in the status popup. If this step fails this string will be combined with one indicating failure, eg 'Preparing file size failed'.",
-    "message": "Vorbereiten"
+    "message": "Vorbereiten",
+    "description": "This will be displayed in the status popup. If this step fails this string will be combined with one indicating failure, eg 'Preparing file size failed'."
   },
   "status_creating": {
     "message": "Erstellen des Upload-Ordners"
@@ -157,14 +166,14 @@
     "message": "Speicherplatz prüfen"
   },
   "status_error": {
-    "description": "This will be combined with one of the states above, eg 'Preparing failed'. If this doesn't work in your language, please tell me.",
-    "message": "Fehler beim $1"
+    "message": "Fehler beim $1",
+    "description": "This will be combined with one of the states above, eg 'Preparing failed'. If this doesn't work in your language, please tell me."
   },
   "status_password": {
     "message": "Passwort: $1"
   },
   "warn_nonascii_password": {
-    "message": "Das Passwort enthält Zeichen, die oft Login-Probleme verursachen. Benutze hier besser ein App Passwort (unter \"Sicherheit\" in den Einstellungen deiner Cloud)."
+    "message": "Das Passwort enthält Zeichen, die oft Login-Probleme verursachen. Benutze hier besser ein App-Passwort (unter \"Sicherheit\" in den Einstellungen deiner Cloud)."
   },
   "advanced_options": {
     "message": "Erweiterte Optionen"

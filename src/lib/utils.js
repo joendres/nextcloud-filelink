@@ -1,3 +1,7 @@
+// Copyright (C) 2020 Johannes Endres
+//
+// SPDX-License-Identifier: MIT
+
 class utils {
     /**
      * Encode everything that might need encoding in pathnames, including those

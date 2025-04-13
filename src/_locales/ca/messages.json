@@ -1,6 +1,6 @@
 {
   "extensionDescription": {
-    "message": "Puja els adjunts grans al teu núvol i envia l'enllaç per correu electrònic."
+    "message": "Puja els adjunts grans al teu núvol i envia l'enllaç per correu electrònic"
   },
   "extensionName": {
     "message": "*cloud - FileLink per Nextcloud i ownCloud"
@@ -9,7 +9,7 @@
     "message": "Desar"
   },
   "resetButton": {
-    "message": "Reinciar"
+    "message": "Reiniciar"
   },
   "serverUrl": {
     "message": "URL del servidor"
@@ -21,13 +21,13 @@
     "message": "Usuari"
   },
   "username_details": {
-    "message": "El teu nom d'usuari al servidor."
+    "message": "El teu nom d'usuari al servidor"
   },
   "password": {
     "message": "Testimoni o clau"
   },
   "password_details": {
-    "message": "Un testimoni d'aplicació (preferible) o la teva clau d'usuari.\nNomés amb Nextcloud: el complement provarà a convertir la clau en un testimoni d'aplicació abans d'emmagatzemar-la. Si no pot fer-ho, l'emmagatzemarà sense encriptar.."
+    "message": "Un testimoni d'aplicació (preferible) o la teva clau d'usuari.\nNomés amb Nextcloud: el complement provarà de convertir la clau en un testimoni d'aplicació abans d'emmagatzemar-la. Si no pot fer-ho, l'emmagatzemarà sense encriptar."
   },
   "storageFolder": {
     "message": "Ubicació al servidor"
@@ -39,7 +39,7 @@
     "message": "Sense clau"
   },
   "useNoDlPassword_details": {
-    "message": "No es requerix una clau per la descàrrega"
+    "message": "No es requereix una clau per la descàrrega"
   },
   "useGeneratedDlPassword": {
     "message": "Usa una clau generada"
@@ -54,7 +54,7 @@
     "message": "Una clau per totes les descàrregues"
   },
   "useDlPassword_details": {
-    "message": "Aquesta clau ha de complir les regles que l'administrador del servidor ha fixat (longitud, tipus de caràcters, ...). Si no és així, la càrrega fallarà. Hauràs de comunicar la clau als destinataris; la necessitaran per la descàrrega dels adjunts."
+    "message": "Aquesta clau ha de complir les regles que l'administrador del servidor ha fixat (longitud, tipus de caràcters...). Si no és així, la càrrega fallarà. Hauràs de comunicar la clau als destinataris; la necessitaran per la descàrrega dels adjunts."
   },
   "expiryDaysBefore": {
     "message": "Expirar la descàrrega en "
@@ -64,6 +64,15 @@
   },
   "expiry_details": {
     "message": "El nombre de dies que la descàrrega estarà disponible, incloent-hi avui."
+  },
+  "noAutoDownload": {
+    "message": "Crear enllaços a la informació del fitxer en lloc de la descàrrega directa"
+  },
+  "noAutoDownload_details": {
+    "message": "En activar aquesta opció, en clicar a l'enllaç s'obrirà una pàgina al vostre servidor al núvol. Aquesta pàgina conté informació del fitxer i l'enllaç de descàrrega. Si no activeu aquesta opció, l'arxiu es descarregarà directament."
+  },
+  "warn_ocis_no_download_links": {
+    "message": "El vostre servidor no té suport per descàrrega directa: Creant enllaços a la informació de l'arxiu"
   },
   "freespace": {
     "message": "Espai disponible ($FREE$ de $FULL$)",
@@ -83,17 +92,17 @@
     "message": "Error desconegut ($1)"
   },
   "error_typeerror": {
-    "message": "Sense connexió. Comprova la URL del servidor i la connexió de xarxa."
+    "message": "Sense connexió. Comprova l'URL del servidor i la connexió de xarxa"
   },
   "error_404": {
-    "message": "L'usuari no existeix o no trobo un núvol compatible a la URL donada."
+    "message": "L'usuari no existeix o no trobo un núvol compatible a l'URL donat"
   },
   "warn_unsupported_cloud": {
     "message": "Versió obsoleta de Nextcloud o ownCloud. Pots perdre dades. Contacta el teu administrador per actualitzar."
   },
   "obsolete_version": {
-    "description": "This is displayed over the icon if the cloud version is not supported, so it should be quite short and contain at most two lines.",
-    "message": "Versió\nobsoleta"
+    "message": "Versió\nobsoleta",
+    "description": "This is displayed over the icon if the cloud version is not supported, so it should be quite short and contain at most two lines."
   },
   "error_401": {
     "message": "L'inici de sessió ha fallat. Comprova l'usuari i la clau."
@@ -111,7 +120,7 @@
     "message": "El teu núvol requereix una clau per la descàrrega."
   },
   "warn_expiry_too_long": {
-    "message": "L'administrador a fixat un temps d'expiració màxim de $1 dies. EL valor s'ha ajustat, si no la càrrega fallarà."
+    "message": "L'administrador ha fixat un temps d'expiració màxim de $1 dies. El valor s'ha ajustat, si no la càrrega fallarà."
   },
   "warn_no_config_check": {
     "message": "Ha fallat la verificació del compte. Comprova la connexió de xarxa."
@@ -120,23 +129,23 @@
     "message": "Amb http: les teves dades són enviades sense encriptar. Feu servir https: millor. Si no ho teniu configurat, contacteu amb el vostre administrador."
   },
   "status_menutooltip": {
-    "description": "This is displayed as a tooltip when the mouse pointer hovers over the menu button labelled with 'status_menuname'",
-    "message": "Mostra les pujades y las claus generadas per *cloud (si existeixen)"
+    "message": "Mostra les pujades i les claus generades per *cloud (si existeixen)",
+    "description": "This is displayed as a tooltip when the mouse pointer hovers over the menu button labelled with 'status_menuname'"
   },
   "status_menuname": {
-    "description": "This short text is displayed on the menu button that opens the status popup next to the *cloud logo",
-    "message": "Estat"
+    "message": "Estat",
+    "description": "This short text is displayed on the menu button that opens the status popup next to the *cloud logo"
   },
   "status_no_uploads": {
     "message": "Cap càrrega activa"
   },
   "status_button_clear": {
-    "description": "Button to remove error messages from status popup",
-    "message": "Neteja les completades"
+    "message": "Neteja les completades",
+    "description": "Button to remove error messages from status popup"
   },
   "status_preparing": {
-    "description": "This will be displayed in the status popup. If this step fails this string will be combined with one indicating failure, eg 'Preparing file size failed'.",
-    "message": "Preparant"
+    "message": "Preparant",
+    "description": "This will be displayed in the status popup. If this step fails this string will be combined with one indicating failure, eg 'Preparing file size failed'."
   },
   "status_creating": {
     "message": "Creant la carpeta"
@@ -157,14 +166,14 @@
     "message": "Comprovant l'espai lliure"
   },
   "status_error": {
-    "description": "This will be combined with one of the states above, eg 'Preparing failed'. If this doesn't work in your language, please tell me.",
-    "message": "error: $1"
+    "message": "error: $1",
+    "description": "This will be combined with one of the states above, eg 'Preparing failed'. If this doesn't work in your language, please tell me."
   },
   "status_password": {
     "message": "clau: $1"
   },
   "warn_nonascii_password": {
-    "message": "La clau conté caràcters que poden donar problemes a l'accedir. Fes servir una clau d'aplicació en el seu lloc."
+    "message": "La clau conté caràcters que poden donar problemes en accedir. Fes servir una clau d'aplicació en el seu lloc."
   },
   "advanced_options": {
     "message": "Opcions avançades"

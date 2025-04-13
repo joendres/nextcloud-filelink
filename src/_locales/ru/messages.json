@@ -65,6 +65,15 @@
   "expiry_details": {
     "message": "Количество дней, когда выгруженный файл будет доступен, включая сегодня"
   },
+  "noAutoDownload": {
+    "message": "Ссылки для получения информации о файле вместо ссылки для скачивания"
+  },
+  "noAutoDownload_details": {
+    "message": "Если вы активируете эту опцию, клик по ссылке в сообщении откроет страницу на облачном сервере. На этой странице содержится информация о файле и ссылка для скачивание. Если вы не активируете эту опцию, один клик сразу же начнет скачивание."
+  },
+  "warn_ocis_no_download_links": {
+    "message": "Сервер не поддерживает ссылки на скачивание. Ссылки на информацию о файле генерируются"
+  },
   "freespace": {
     "message": "Свободное Место ($FREE$ из $FULL$)",
     "placeholders": {
@@ -92,8 +101,8 @@
     "message": "Устаревшая версия Nextcloud или ownCloud. Вы можете потерять данные. Попросите администратора вашег облака обновить версию"
   },
   "obsolete_version": {
-    "description": "This is displayed over the icon if the cloud version is not supported, so it should be quite short and contain at most two lines.",
-    "message": "Устаревшая\nверсия"
+    "message": "Устаревшая\nверсия",
+    "description": "This is displayed over the icon if the cloud version is not supported, so it should be quite short and contain at most two lines."
   },
   "error_401": {
     "message": "Авторизация не удалась. Проверьте имя и пароль."
@@ -120,23 +129,23 @@
     "message": "С  http: префиксом в URL адресе ваши данные авторизации будут передаваться в незашифрованном виде. Используйте https: префикс в URL адресе. Если это не работает, уточните у вашего администратора облака."
   },
   "status_menutooltip": {
-    "description": "This is displayed as a tooltip when the mouse pointer hovers over the menu button labelled with 'status_menuname'",
-    "message": "Показать *cloud-статус выгрузок в облако и сгенерированные пароли(если они есть)"
+    "message": "Показать *cloud-статус выгрузок в облако и сгенерированные пароли(если они есть)",
+    "description": "This is displayed as a tooltip when the mouse pointer hovers over the menu button labelled with 'status_menuname'"
   },
   "status_menuname": {
-    "description": "This short text is displayed on the menu button that opens the status popup next to the *cloud logo",
-    "message": "Статус"
+    "message": "Статус",
+    "description": "This short text is displayed on the menu button that opens the status popup next to the *cloud logo"
   },
   "status_no_uploads": {
     "message": "Нет активных выгрузок"
   },
   "status_button_clear": {
-    "description": "Button to remove error messages from status popup",
-    "message": "Очистить список выгруженных файлов"
+    "message": "Очистить список выгруженных файлов",
+    "description": "Button to remove error messages from status popup"
   },
   "status_preparing": {
-    "description": "This will be displayed in the status popup. If this step fails this string will be combined with one indicating failure, eg 'Preparing file size failed'.",
-    "message": "Подготовка"
+    "message": "Подготовка",
+    "description": "This will be displayed in the status popup. If this step fails this string will be combined with one indicating failure, eg 'Preparing file size failed'."
   },
   "status_creating": {
     "message": "Создание папки"
@@ -157,8 +166,8 @@
     "message": "Проверка свободного места"
   },
   "status_error": {
-    "description": "This will be combined with one of the states above, eg 'Preparing failed'. If this doesn't work in your language, please tell me.",
-    "message": "$1 не удалась(сбой)"
+    "message": "$1 не удалась(сбой)",
+    "description": "This will be combined with one of the states above, eg 'Preparing failed'. If this doesn't work in your language, please tell me."
   },
   "status_password": {
     "message": "пароль: $1"
