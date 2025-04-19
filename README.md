@@ -18,7 +18,7 @@ Cloud and generates a link you can send by mail instead of the file.
 * Thunderbird: 68.2.1 or newer
 * An account on a server running a supported version of Nextcloud or ownCloud,
   more specifically:
-  * [Nextcloud](https://nextcloud.com/) version 30 or newer (older versions
+  * [Nextcloud](https://nextcloud.com/) version 31 or newer (older versions
     might work, but are [not supported by
     Nextcloud](https://github.com/nextcloud/server/wiki/Maintenance-and-Release-Schedule))
   * [ownCloud](https://owncloud.com/) version 10.0.10+ (10.0.9 and older

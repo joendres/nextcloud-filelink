@@ -1,6 +1,9 @@
 Copyright (C) 2020-2025 Johannes Endres
 SPDX-License-Identifier: MIT
 
+3.17.0
+Close #594: Deprecate Nextcloud 30
+
 3.16.0
 Close #558, #557, #545, #543, #325: Make it work with ownCloud Infinite Scale (oCIS)
 Close #561, #544, #531, #560, #559: Add option to create file info links instead of download links

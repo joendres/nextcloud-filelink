@@ -12,7 +12,7 @@ const apiUrlCapabilities = "/cloud/capabilities";
 const davUrlBase = "remote.php/dav/files/";
 
 // Minimal supported versions of the three cloud types
-const ncMinimalVersion = 30;
+const ncMinimalVersion = 31;
 const ocMinimalVersion = 10 * 10000 + 0 * 100 + 10;
 const ocisMinimalVersion = 5;
 
