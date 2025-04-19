@@ -15,7 +15,7 @@ hochlädt und dann einen Download-Link in die Mail einfügt.
 
 * Thunderbird: 68.2.1 oder neuer
 * Ein Account auf einem Server mit einer unterstützen Version von Nextcloud oder ownCloud.
-  * Nextcloud: Version 30 oder neuer (ältere Versionen funktionieren eventuell,
+  * Nextcloud: Version 31 oder neuer (ältere Versionen funktionieren eventuell,
   werden aber [von Nextcloud nicht mehr
   unterstützt](https://github.com/nextcloud/server/wiki/Maintenance-und-Release-Schedule))
   * ownCloud: Version 10.0.10 oder neuer (10.0.9 und ältere Versionen enthalten
