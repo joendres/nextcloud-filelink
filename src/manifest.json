@@ -18,6 +18,9 @@
         "management_url": "prefspane/management.html",
         "data_format": "File"
     },
+    "options_ui": {
+        "page": "options/options.html"
+    },
     "permissions": [
         "<all_urls>",
         "storage",
