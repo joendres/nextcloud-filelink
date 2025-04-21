@@ -5,6 +5,21 @@
   "extensionName": {
     "message": "*cloud - FileLink für Nextcloud und ownCloud"
   },
+  "optionsPointToAccountsHeader": {
+    "message": "Konfiguration des Add-ons"
+  },
+  "optionsPointToAccounts": {
+    "message": "Derzeit gibt es keine globalen Optionen für *cloud. Für die Kontoverwaltung öffne die Thunderbird-Einstellungen, wähle \"Verfassen\" und scrolle dann nach unten zu \"Anhänge\"."
+  },
+  "optionsEnjoyHeader": {
+    "message": "Gefällt dir dieses Add-on?"
+  },
+  "optionsButtonDonate": {
+    "message": "❤️ Spenden"
+  },
+  "optionsButtonReview": {
+    "message": "Schreibe eine Bewertung"
+  },
   "saveButton": {
     "message": "Speichern"
   },
