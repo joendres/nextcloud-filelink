@@ -5,3 +5,5 @@
 (() => {
     addLocalizedLabels();
 })();
+
+/* globals addLocalizedLabels */
