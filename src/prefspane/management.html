@@ -11,8 +11,15 @@ SPDX-License-Identifier: MIT
   <meta charset="utf-8" />
 
   <title>*cloud</title>
-  <link rel="stylesheet" href="../photon-components-web/index.css">
-  <link rel="stylesheet" href="management.css">
+
+  <link rel="stylesheet" href="chrome://global/skin/global.css" />
+  <!-- <link rel="stylesheet" href="chrome://global/skin/popup.css" /> -->
+  <link rel="stylesheet" href="chrome://messenger/skin/input-fields.css" />
+  <!-- <link rel="stylesheet" href="chrome://messenger/skin/preferences/applications.css" /> -->
+  <link rel="stylesheet" href="chrome://global/skin/in-content/common.css" />
+  <link rel="stylesheet" href="chrome://messenger/skin/preferences/preferences.css" />
+
+  <!-- <link rel="stylesheet" href="management.css"> -->
   <link rel="stylesheet" href="popup/popup.css">
 
   <script src="../lib/cloudconnection.js" defer></script>
@@ -33,7 +40,7 @@ SPDX-License-Identifier: MIT
       </div>
     </div>
     <div id="header_right">
-      <a id="service_url" tabindex="-1" class="link">
+      <a id="service_url" tabindex="-1" >
         <img id="logo" src="../../icon48.png" alt="*cloud Logo" />
         <div id="cloud_version">&nbsp;</div>
         <div id="obsolete_string" hidden data-message="obsolete_version"></div>
@@ -47,134 +54,134 @@ SPDX-License-Identifier: MIT
     <fieldset id="disableable_fieldset">
 
       <p>
-      <div class="labelline">
-        <label for="serverUrl" class="input__label" data-message="serverUrl"></label>
-        <div class="helpbutton"><img src="images/Help.svg" alt="Help icon">
-          <div class="card card--shadow" data-message="serverUrl_details"></div>
+      <div >
+        <label for="serverUrl"  data-message="serverUrl"></label>
+        <div ><img src="images/Help.svg" alt="Help icon">
+          <div  data-message="serverUrl_details"></div>
         </div>
       </div>
       <input id="serverUrl" type="url" pattern="https?://.*" required placeholder="https://example.com"
-        class="input__field" value="" />
+         value="" />
       </p>
 
       <p>
-      <div class="labelline">
-        <label for="username" class="input__label" data-message="username"></label>
-        <div class="helpbutton"><img src="images/Help.svg" alt="Help icon">
-          <div class="card card--shadow" data-message="username_details"></div>
+      <div >
+        <label for="username"  data-message="username"></label>
+        <div ><img src="images/Help.svg" alt="Help icon">
+          <div  data-message="username_details"></div>
         </div>
       </div>
-      <input id="username" type="text" required class="input__field" value="" />
+      <input id="username" type="text" required  value="" />
       </p>
 
       <p>
-      <div class="labelline">
-        <label for="password" class="input__label" data-message="password"></label>
-        <div class="helpbutton"><img src="images/Help.svg" alt="Help icon">
-          <div class="card card--shadow" data-message="password_details"></div>
+      <div >
+        <label for="password"  data-message="password"></label>
+        <div ><img src="images/Help.svg" alt="Help icon">
+          <div  data-message="password_details"></div>
         </div>
       </div>
-      <input id="password" type="password" required class="input__field" value="" />
+      <input id="password" type="password" required  value="" />
       </p>
 
       <details id="advanced_options">
         <summary data-message="advanced_options"></summary>
         <p>
-        <div class="labelline">
-          <label for="storageFolder" class="input__label" data-message="storageFolder"></label>
-          <div class="helpbutton"><img src="images/Help.svg" alt="Help icon">
-            <div class="card card--shadow" data-message="storageFolder_details"></div>
+        <div >
+          <label for="storageFolder"  data-message="storageFolder"></label>
+          <div ><img src="images/Help.svg" alt="Help icon">
+            <div  data-message="storageFolder_details"></div>
           </div>
         </div>
-        <input id="storageFolder" type="text" required class="input__field" value="/Mail-attachments" />
+        <input id="storageFolder" type="text" required  value="/Mail-attachments" />
         </p>
 
         <p>
-        <div class="labelline">
-          <input id="useExpiry" type="checkbox" class="input checkbox" />
-          <span class="spacer">
-            <label for="useExpiry" class="input__label" data-message="expiryDaysBefore"></label>
-            <input type="number" id="expiryDays" min="1" step="1" value="7" disabled class="input__field">
-            <label class="input__label" data-message="expiryDaysAfter"></label>
+        <div >
+          <input id="useExpiry" type="checkbox"  />
+          <span >
+            <label for="useExpiry"  data-message="expiryDaysBefore"></label>
+            <input type="number" id="expiryDays" min="1" step="1" value="7" disabled >
+            <label  data-message="expiryDaysAfter"></label>
           </span>
-          <div class="helpbutton"><img src="images/Help.svg" alt="Help icon">
-            <div class="card card--shadow" data-message="expiry_details"></div>
+          <div ><img src="images/Help.svg" alt="Help icon">
+            <div  data-message="expiry_details"></div>
           </div>
         </div>
         </p>
 
         <p>
-        <div class="labelline">
-          <span class="spacer">
-            <input id="noAutoDownload" type="checkbox" class="input checkbox" />
-            <label for="noAutoDownload" class="input__label" data-message="noAutoDownload"></label>
+        <div >
+          <span >
+            <input id="noAutoDownload" type="checkbox"  />
+            <label for="noAutoDownload"  data-message="noAutoDownload"></label>
           </span>
-          <div class="helpbutton"><img src="images/Help.svg" alt="Help icon">
-            <div class="card card--shadow" data-message="noAutoDownload_details"></div>
+          <div ><img src="images/Help.svg" alt="Help icon">
+            <div  data-message="noAutoDownload_details"></div>
           </div>
         </div>
         </p>
 
         <p>
-        <div class="labelline">
-          <label class="input__label" data-message="useDlPassword"></label>
+        <div >
+          <label  data-message="useDlPassword"></label>
           <input id="useDlPassword" type="checkbox" disabled hidden />
         </div>
-        <div class="labelline">
-          <span class="spacer">
-            <input id="useNoDlPassword" type="radio" name="DLPRadio" checked class="input radio" />
-            <label for="useNoDlPassword" class="input__label" data-message="useNoDlPassword"></label>
+        <div >
+          <span >
+            <input id="useNoDlPassword" type="radio" name="DLPRadio" checked  />
+            <label for="useNoDlPassword"  data-message="useNoDlPassword"></label>
           </span>
-          <div class="helpbutton"><img src="images/Help.svg" alt="Help icon">
-            <div class="card card--shadow" data-message="useNoDlPassword_details"></div>
+          <div ><img src="images/Help.svg" alt="Help icon">
+            <div  data-message="useNoDlPassword_details"></div>
           </div>
         </div>
-        <div class="labelline">
-          <span class="spacer">
-            <input id="useGeneratedDlPassword" type="radio" name="DLPRadio" class="input radio" />
-            <label for="useGeneratedDlPassword" class="input__label" data-message="useGeneratedDlPassword"></label>
+        <div >
+          <span >
+            <input id="useGeneratedDlPassword" type="radio" name="DLPRadio"  />
+            <label for="useGeneratedDlPassword"  data-message="useGeneratedDlPassword"></label>
           </span>
-          <div class="helpbutton"><img src="images/Help.svg" alt="Help icon">
-            <div class="card card--shadow" data-message="useGeneratedDlPassword_details"></div>
+          <div ><img src="images/Help.svg" alt="Help icon">
+            <div  data-message="useGeneratedDlPassword_details"></div>
           </div>
         </div>
-        <div class="labelline">
-          <span class="spacer">
-            <input id="oneDLPassword" type="radio" name="DLPRadio" class="input radio" />
-            <label for="oneDLPassword" class="input__label" data-message="oneDlPassword"></label>
+        <div >
+          <span >
+            <input id="oneDLPassword" type="radio" name="DLPRadio"  />
+            <label for="oneDLPassword"  data-message="oneDlPassword"></label>
           </span>
-          <div class="helpbutton"><img src="images/Help.svg" alt="Help icon">
-            <div class="card card--shadow" data-message="useDlPassword_details"></div>
+          <div ><img src="images/Help.svg" alt="Help icon">
+            <div  data-message="useDlPassword_details"></div>
           </div>
         </div>
-        <input id="downloadPassword" type="text" disabled class="input__field" value="" />
+        <input id="downloadPassword" type="text" disabled  value="" />
         </p>
       </details>
       <p>
-        <button id="saveButton" class="button button--primary" type="submit" disabled
+        <button id="saveButton"  type="submit" disabled
           data-message="saveButton"></button>
-        <button id="resetButton" class="button" type="reset" disabled data-message="resetButton"></button>
+        <button id="resetButton"  type="reset" disabled data-message="resetButton"></button>
       </p>
     </fieldset>
   </form>
 
   <!-- Message bar templates -->
-  <div id="success_popup" class="msg_bar success_bar" hidden>
-    <span class="msg_bar_icon"> </span>
-    <span class="msg_bar_closebtn"></span>
-    <span class="popup_message"></span>
+  <div id="success_popup"  hidden>
+    <span > </span>
+    <span ></span>
+    <span ></span>
   </div>
 
-  <div id="warning_popup" class="msg_bar warning_bar" hidden>
-    <span class="msg_bar_icon"> </span>
-    <span class="msg_bar_closebtn"></span>
-    <span class="popup_message"></span>
+  <div id="warning_popup"  hidden>
+    <span > </span>
+    <span ></span>
+    <span ></span>
   </div>
 
-  <div id="error_popup" class="msg_bar error_bar" hidden>
-    <span class="msg_bar_icon"> </span>
-    <span class="msg_bar_closebtn"></span>
-    <span class="popup_message"></span>
+  <div id="error_popup"  hidden>
+    <span > </span>
+    <span ></span>
+    <span ></span>
   </div>
 </body>
 
