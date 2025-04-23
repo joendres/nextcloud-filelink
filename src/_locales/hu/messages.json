@@ -5,6 +5,21 @@
   "extensionName": {
     "message": "*cloud - óriásfájl-küldése a Nextcloud és ownCloud számára"
   },
+  "optionsPointToAccountsHeader": {
+    "message": "Beállítások"
+  },
+  "optionsPointToAccounts": {
+    "message": "Jelenleg nincsenek globális lehetőségek a *cloud-kiegészítőhöz. A fiókkezeléshez nyissa meg a Thunderbird beállításait, válassza a „Szerkesztés” lehetőséget, majd görgessen le a „Mellékletek” részhez."
+  },
+  "optionsEnjoyHeader": {
+    "message": "Hasznos kiegészítő?"
+  },
+  "optionsButtonDonate": {
+    "message": "❤️ Adományozás"
+  },
+  "optionsButtonReview": {
+    "message": "Vélemény írása"
+  },
   "saveButton": {
     "message": "Mentés"
   },
