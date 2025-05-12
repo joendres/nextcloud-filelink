@@ -51,5 +51,7 @@ async function convert_file(in_file, out_file) {
 
         writeFileSync(out_dir + out_file,
             htmlhead + "<title>" + title + "</title>" + html);
+    } else {
+        console.error(json.message);
     }
 }
