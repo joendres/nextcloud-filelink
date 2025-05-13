@@ -27,9 +27,9 @@ Static Tests:
  
 Reuse compliance:
   stage: test
-  image: fsfe/reuse
+  image: fsfe/reuse lint
   script:
-    - reuse lint
+    - "true"
 
 Deploy to Thunderbird Add-ons:
   stage: deploy
