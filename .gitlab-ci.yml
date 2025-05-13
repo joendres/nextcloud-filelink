@@ -24,8 +24,9 @@ Static Tests:
     - npx web-ext lint
     - npx eslint src
     - "! grep -r --exclude-dir=photon-components-web TODO src"
-    - uname -a
-    - apk add reuse
+    - cat /etc/*release
+    - cat /etc/issue
+    - apt-tet install reuse
     - reuse lint
 
 Deploy to Thunderbird Add-ons:
