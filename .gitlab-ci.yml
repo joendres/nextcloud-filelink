@@ -24,11 +24,8 @@ Static Tests:
     - npx web-ext lint
     - npx eslint src
     - "! grep -r --exclude-dir=photon-components-web TODO src"
-    - python --version
-    - pip --version
-    - pipx --version
-    - apt-get install reuse
-    - reuse lint
+    - apt-get install --yes pipx
+    - pipx run reuse lint
 
 Deploy to Thunderbird Add-ons:
   stage: deploy
