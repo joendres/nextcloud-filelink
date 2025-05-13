@@ -17,15 +17,19 @@ default:
 variables:
   GIT_SUBMODULE_STRATEGY: normal
 
-##Jobs
+## Jobs
 Static Tests:
   stage: test
   script:
     - npx web-ext lint
     - npx eslint src
     - "! grep -r --exclude-dir=photon-components-web TODO src"
-    - apt-get install --yes pipx
-    - pipx run reuse lint
+ 
+Reuse compliance:
+  stage: test
+  image: fsfe/reuse
+  script:
+    - reuse lint
 
 Deploy to Thunderbird Add-ons:
   stage: deploy
