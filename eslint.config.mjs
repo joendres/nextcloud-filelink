@@ -39,5 +39,11 @@ export default [
           "caughtErrorsIgnorePattern": "^_$"
         }],
     }
-  }
+  },
+  {
+    files: ["build-tools/**/*.{js,mjs,cjs}"],
+    plugins: { js },
+    extends: ["js/recommended"],
+    sourceType: "module"
+  },
 ];
