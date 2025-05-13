@@ -29,7 +29,8 @@ Reuse compliance:
   stage: test
   image: python:3
   script:
-    - pipx run reuse lint
+    - pip3 install reuse
+    - reuse lint
 
 Deploy to Thunderbird Add-ons:
   stage: deploy
