@@ -24,8 +24,9 @@ Static Tests:
     - npx web-ext lint
     - npx eslint src
     - "! grep -r --exclude-dir=photon-components-web TODO src"
-    - cat /etc/*release
-    - cat /etc/issue
+    - python --version
+    - pip --version
+    - pipx --version
     - apt-get install reuse
     - reuse lint
 
