@@ -66,6 +66,20 @@ three ways to start the upload:
 
 ### Known issues
 
+#### Incorrect links for almost identical files
+
+If you share a file that has
+
+* the same name _and_
+* identical size _and_
+* identical modification time (to the second)
+
+as a file that has been shared before, __*cloud__ considers this to be the same file and does not upload it again. Instead, __*cloud__ creates a share link to the first file. 
+
+If you've got files that are the same in these three ways but have different content, this can lead to the wrong file being shared. This could happen, for example, if you use a program that generates several files in different folders quickly.
+
+At the moment, the only thing you can do is change the file names or set different modification times (use the 'touch' command on Unix systems).
+
 #### Filenames with Unicode special character cause problems
 
 In some minor versions of Thunderbird 102.2 filenames with specials characters
@@ -219,7 +233,7 @@ existing file to a subfolder of the attachments folder; the original share
 link will remain valid and point to the old content.\
 Then the new file is uploaded and shared with a new share link.
 
-__*cloud__ uses the same method as the
+__*cloud__ uses a similar method as the
 Nextcloud/ownCloud desktop clients to decide if the local and remote files are
 identical:
 

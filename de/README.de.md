@@ -59,6 +59,20 @@ drei Möglichkeiten, den Upload zu starten:
 
 ## Bekannte Probleme
 
+### Falsche Links be fast identischen Dateien
+
+Wenn Sie eine Datei freigeben, die
+
+* den gleichen Namen _und_
+* identische Größe _und_
+* identische Änderungszeit (auf die Sekunde genau)
+
+hat wie eine Datei, die bereits freigegeben wurde, betrachtet __*cloud__ diese als dieselbe Datei und lädt sie nicht erneut hoch. Stattdessen erstellt __*cloud__ einen Freigabelink zur ersten Datei. 
+
+Wenn Sie Dateien haben, die auf diese drei Arten gleich sind, aber unterschiedliche Inhalte haben, kann dies dazu führen, dass die falsche Datei freigegeben wird. Das kann zum Beispiel passieren, wenn Sie ein Programm verwenden, das schnell mehrere Dateien in verschiedenen Ordnern erzeugt.
+
+Im Moment können Sie nur die Dateinamen ändern oder unterschiedliche Änderungszeiten festlegen (verwenden Sie den Befehl „touch“ auf Unix-Systemen).
+
 ### Dateinamen mit Sonderzeichen werden nicht geteilt
 
 In einigen Unter-Versionen von Thunderbird 102.2 gab es Probleme bei Dateinamen mit Sonderzeichen
