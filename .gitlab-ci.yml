@@ -25,7 +25,7 @@ Static Tests:
     - npx eslint src
     - "! grep -r --exclude-dir=photon-components-web TODO src"
  
-Reuse compliance:
+REUSE compliance:
   stage: test
   image: python:3
   script:
