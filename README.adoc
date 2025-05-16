@@ -1,4 +1,4 @@
-== ++__*++cloud++__++ - FileLink for Nextcloud and ownCloud
+= *cloud - FileLink for Nextcloud and ownCloud
 
 link:de/README.de.md[Deutsche Dokumentation]
 
@@ -6,9 +6,9 @@ A MailExtension for Thunderbird (68{plus}) that uploads large
 attachments to your Cloud and generates a link you can send by mail
 instead of the file.
 
-++[[++_TOC_++]]++
+:toc:
 
-=== Requirements
+== Requirements
 
 * Thunderbird: 68.2.1 or newer
 * An account on a server running a supported version of Nextcloud or
@@ -18,7 +18,7 @@ might work, but are
 https://github.com/nextcloud/server/wiki/Maintenance-and-Release-Schedule[not
 supported by Nextcloud])
 ** https://owncloud.com/[ownCloud] version 10.0.10{plus} (10.0.9 and
-older versions contain bugs that prevent ++__*++cloud++__++ from
+older versions contain bugs that prevent **cloud* from
 working).
 ** https://owncloud.com/infinite-scale/[ownCloud Infinite Scale] version
 5 or newer (older versions might work, but are
@@ -29,28 +29,28 @@ for https://nextcloud.com/providers/[hosted Nextcloud] and
 https://owncloud.com/partners/find-a-partner/?_sft_partner-type=service-provider[hosted
 ownCloud] services.
 
-=== User guide
+== User guide
 
-==== Installation
+=== Installation
 
 [arabic]
-. Go to Preferences -++>++ Compose -++>++ Attachments
+. Go to Preferences -> Compose -> Attachments
 . Click the link "`Find more providers…`" at the bottom of the page.
-. Find ++__*++cloud++__++ in the list and click the "`Add to
+. Find **cloud* in the list and click the "`Add to
 Thunderbird`" button.
-. On the "`Options`" tab click the button “Add ++*++cloud”.
+. On the "`Options`" tab click the button “Add **cloud*”.
 . Configure. Only three settings are strictly necessary:
 * Server URL
 * Username
 * App token or password
 
-++__*++cloud++__++ is also available via Thunderbird’s Add-on
+**cloud* is also available via Thunderbird’s Add-on
 repository:
 
 https://addons.thunderbird.net/thunderbird/addon/filelink-nextcloud-owncloud/[image:https://gitlab.com/-/project/16099629/uploads/6d33a533fa762bb5794310e171ffd42d/get-the-addon.svg[Get
 the Addon]]
 
-==== Usage
+=== Usage
 
 After you have configured at least one Nextcloud or ownCloud server
 there are three ways to start the upload:
@@ -60,7 +60,7 @@ there are three ways to start the upload:
 Thunderbird will then show a yellow notification bar at the bottom of
 the message window with a "`Link`" button. To get this button for
 smaller attachments you can change the threshold: Go to Preferences
--++>++ Compose -++>++ Attachments and change the value "`Offer to
+-> Compose -> Attachments and change the value "`Offer to
 share…`".
 . In the message window in the attachments menu (downward arrow in the
 "`Attach`" button), there is an entry "`Filelink`". It lets you choose a
@@ -68,9 +68,9 @@ file and uploads it immediately.
 . After you added an attachment you can choose "`Convert to…`" from that
 attachments context menu (right click on the attachment).
 
-==== Known issues
+=== Known issues
 
-===== Incorrect links for almost identical files
+==== Incorrect links for almost identical files
 
 If you share a file that has
 
@@ -78,9 +78,9 @@ If you share a file that has
 * identical size _and_
 * identical modification time (to the second)
 
-as a file that has been shared before, ++__*++cloud++__++ considers this
+as a file that has been shared before, **cloud* considers this
 to be the same file and does not upload it again. Instead,
-++__*++cloud++__++ creates a share link to the first file.
+**cloud* creates a share link to the first file.
 
 If you’ve got files that are the same in these three ways but have
 different content, this can lead to the wrong file being shared. This
@@ -91,19 +91,19 @@ At the moment, the only thing you can do is change the file names or set
 different modification times (use the '`touch`' command on Unix
 systems).
 
-===== Filenames with Unicode special character cause problems
+==== Filenames with Unicode special character cause problems
 
 In some minor versions of Thunderbird 102.2 filenames with specials
 characters or in non-US script systems like Greek case problems. The
 upload works, but sharing the uploaded file fails. This is fixed in
 Thunderbird 102.5.0; please update Thunderbird.
 
-===== You don’t like the text/HTML/links inserted into the message
+==== You don’t like the text/HTML/links inserted into the message
 
 Many users would like to change the text that is inserted into the
 message along with the download url, eg add the expiration date, change
 the cloud service link, remove some of the text or style the HTML less
-prominently. Addons like ++__*++cloud++__++ have no chance to do that,
+prominently. Addons like **cloud* have no chance to do that,
 because the template text surrounding the url is part of Thunderbird.
 The Addon only supplies the url, Thunderbird wraps its template around
 it and inserts the whole thing into your message (technical details
@@ -111,7 +111,7 @@ https://gitlab.com/joendres/filelink-nextcloud/-/issues/238#note_383881835[here]
 and
 https://webextension-api.thunderbird.net/en/stable/cloudFile.html#onfileupload[here]).
 
-===== Files from network shares uploaded to cloud _and_ attached
+==== Files from network shares uploaded to cloud _and_ attached
 
 There was a https://bugzilla.mozilla.org/show_bug.cgi?id=793118[bug in
 Thunderbird]: If you attached a file from a network share, it was
@@ -120,18 +120,18 @@ but the file was _also attached to the message_. This was fixed in
 Thunderbird 68.11.0 and 78.0.1. If you’re still experiencing this issue,
 update Thunderbird.
 
-===== URL works in browser but not in ++*++cloud
+==== URL works in browser but not in **cloud*
 
 In some situations the url you use to access your Nextcloud/ownCloud
 account in the browser doesn’t work as the server URL in
-++__*++cloud++__++.
+**cloud*.
 
-====== Reason 1: Redirect
+===== Reason 1: Redirect
 
 If your access url is redirected to the actual cloud location (plus some
-technicality), ++__*++cloud++__++ can’t find the actual url.
+technicality), **cloud* can’t find the actual url.
 
-If this happens to you, point ++__*++cloud++__++ to the actual cloud
+If this happens to you, point **cloud* to the actual cloud
 location:
 
 [arabic]
@@ -145,16 +145,16 @@ app. Continue to the next step.
 * If you are neither in the "`Dashboard`" nor the "`Files`" app, click
 on the folder icon in the cloud’s top menu to go to the "`Files`" app.
 . Copy the complete url from the url bar of your browser
-. Paste it into the server url field in ++__*++cloud++__++’s
+. Paste it into the server url field in **cloud*’s
 configuration (in Thunderbird).
 
-As soon as you save the settings, ++__*++cloud++__++ will remove
+As soon as you save the settings, **cloud* will remove
 unnecessary parts.
 
-====== Reason 2: https certificate
+===== Reason 2: https certificate
 
 If the admin of your cloud used something called a "`self signed
-certificate`", Thunderbird (not ++__*++cloud++__++) refuses to connect
+certificate`", Thunderbird (not **cloud*) refuses to connect
 to the server. There are two solutions:
 
 [arabic]
@@ -173,27 +173,27 @@ which Thunderbird accepts.
 .. Click "`Get Certificate`"
 .. Click "`Confirm Security Exception`"
 
-===== Upload problems
+==== Upload problems
 
 The _download_ password has to comply with _all_ the rules for passwords
 on your cloud, otherwise the _upload_ will fail. There are default rules
 of Nextcloud and ownCloud, and your admin might have configured some
 different rules.
 
-===== Files are uploaded correctly but sharing fails
+==== Files are uploaded correctly but sharing fails
 
 This is usually caused by a misconfiguration of the cloud server. Please
 point your cloud admin to the section on
-link:#apache-and-mod_rewrite[Apache and mod++_++rewrite] below.
+link:#apache-and-mod_rewrite[Apache and mod_rewrite] below.
 
-===== Still not working?
+==== Still not working?
 
 If things still don’t work, I’d appreciate a problem report by
 mailto:cloud@johannes-endres.de[email]. Thanks.
 
-==== Good to know
+=== Good to know
 
-===== Download passwords
+==== Download passwords
 
 If you use download passwords, don’t put them into an email, but give
 them to the recipient via a separate, secure channel eg a messenger or a
@@ -217,13 +217,13 @@ separate email with the password: If Eve can intercept the first email
 with the link, she is very probably also able to intercept the second
 email.
 
-===== Password vs. App Token
+==== Password vs. App Token
 
 Instead of storing your password it’s more secure to use an "`App
-Token`" with ++__*++cloud++__++. There are two ways to get such a token:
+Token`" with **cloud*. There are two ways to get such a token:
 
 * _If you are using Nextcloud or ownCloud:_ Open your account in the
-browser and go to Settings -++>++ Security -++>++ App Token and at the
+browser and go to Settings -> Security -> App Token and at the
 bottom of the page generate a new token. Copy&paste it into the "`App
 token`" field of the Attachments preferences page in Thunderbird.
 * _Only if you are using Nextcloud:_ Type your user password into the
@@ -233,13 +233,13 @@ of your password. You will notice the change, because afterwards the
 password field is filled with dots completely (app tokens are quite
 long). +
 
-===== Handling of existing files
+==== Handling of existing files
 
 If you attach a file that’s already in the attachments folder in your
 cloud _with identical contents_, that file is not uploaded again.
 Instead the existing file is shared.
 
-To make this possible, ++__*++cloud++__++ never deletes files in your
+To make this possible, **cloud* never deletes files in your
 cloud. Over time your attachments folder may grow to considerable size.
 It’s safe to delete old attachments. Your admin may automate that, using
 "`Flows`" in Nextcloud or ownCloud.
@@ -247,76 +247,76 @@ It’s safe to delete old attachments. Your admin may automate that, using
 You can use this behavior if you want to share large (or many) files:
 Sync your attachments folder to a folder on your computer using the
 desktop client. If you then attach a synced file from your computer to a
-message, ++__*++cloud++__++ will notice that it’s already uploaded.
+message, **cloud* will notice that it’s already uploaded.
 
 If you attach a file with the same name but different contents as a
 cloud file, the cloud file will not be overwritten. Instead
-++__*++cloud++__++ moves the existing file to a subfolder of the
+**cloud* moves the existing file to a subfolder of the
 attachments folder; the original share link will remain valid and point
 to the old content. +
 Then the new file is uploaded and shared with a new share link.
 
-++__*++cloud++__++ uses a similar method as the Nextcloud/ownCloud
+**cloud* uses a similar method as the Nextcloud/ownCloud
 desktop clients to decide if the local and remote files are identical:
 
 * identical name and
 * identical size (in bytes) and
 * last modification within the same second.
 
-=== Information for cloud administrators
+== Information for cloud administrators
 
-==== Server settings
+=== Server settings
 
 Some settings in Nextcloud/ownCloud are relevant for this Add-On:
 
-* *Settings -++>++ Sharing -++>++ Allow apps to use the Share API* has
+* *Settings -> Sharing -> Allow apps to use the Share API* has
 to be enabled
-* *Settings -++>++ Sharing -++>++ Allow users to share via link* has to
+* *Settings -> Sharing -> Allow users to share via link* has to
 be enabled
 * *The app "`Share Files`" has to be active.* In ownCloud the Apps
 management is part of the administrator’s settings, in Nextcloud it’s
 accessible directly from the admin’s profile menu.
 
-==== Redirects
+=== Redirects
 
 In some configurations a start url like `https://cloud.example.com` is
 redirected to the actual url of the cloud eg
-`https://example.com/cloud`. ++__*++cloud++__++ has to access many
+`https://example.com/cloud`. **cloud* has to access many
 different paths below this url, eg. `status.php`. If these are not also
-redirected (`https://cloud.example.com/status.php` -++>++
-`https://example.com/cloud/status.php`), ++__*++cloud++__++ can’t access
+redirected (`https://cloud.example.com/status.php` ->
+`https://example.com/cloud/status.php`), **cloud* can’t access
 them and doesn’t work. There is no way for the extension to find the
 actual base url with some certainty.
 
 There is a link:#url-works-in-browser-but-not-in-cloud[workaround]:
 Users can find out the actual url and configure it in
-++__*++cloud++__++. But it’s easier for users if all urls are
+**cloud*. But it’s easier for users if all urls are
 redirected. So it would be greatly appreciated if you would do that in
 your cloud instance (if you have to use redirects at all). Thanks.
 
-==== Self-signed certificates
+=== Self-signed certificates
 
-By default Thunderbird (not ++__*++cloud++__++) refuses https
+By default Thunderbird (not **cloud*) refuses https
 connections using self-signed certificates. It’s a lot easier for your
 users, if you install a https://letsencrypt.org/getting-started/[Let’s
 encrypt] certificate. There are great How-tos on their site.
 
-==== Apache and mod++_++rewrite
+=== Apache and mod_rewrite
 
 https://docs.nextcloud.com/server/latest/admin_manual/installation/source_installation.html#additional-apache-configurations[Nextcloud]
 andhttps://doc.owncloud.com/server/next/admin_manual/installation/manual_installation/manual_installation_apache.html#additional-apache-configurations[ownCloud]
-both require mod++_++rewrite to be active if run in the Apache http
-server. Without mod++_++rewrite ++__*++cloud++__++ fails with different
+both require mod_rewrite to be active if run in the Apache http
+server. Without mod_rewrite **cloud* fails with different
 error scenarios depending on other details of the configuration.
 
-==== Basic Auth
+=== Basic Auth
 
-Currently ++__*++cloud++__++ only supports HTTP Basic Auth. In ownCloud
+Currently **cloud* only supports HTTP Basic Auth. In ownCloud
 Infinite Scale (oCIS) Basic Auth is disabled by default and
 https://doc.owncloud.com/ocis/next/deployment/services/s-list/auth-basic.html[has
 to be enabled].
 
-=== Contributions
+== Contributions
 
 * link:@joendres[Johannes Endres], initial implementation, maintainer
 * link:@josepmanel[Josep Manel Mendoza], Catalan and Spanish
