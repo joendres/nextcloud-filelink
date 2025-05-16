@@ -1,12 +1,11 @@
 = *cloud - FileLink for Nextcloud and ownCloud
+:toc: preamble
 
 link:de/README.de.md[Deutsche Dokumentation]
 
 A MailExtension for Thunderbird (68{plus}) that uploads large
 attachments to your Cloud and generates a link you can send by mail
 instead of the file.
-
-:toc:
 
 == Requirements
 
