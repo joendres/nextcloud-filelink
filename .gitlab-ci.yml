@@ -1,29 +1,39 @@
-# Copyright (C) 2020 Johannes Endres
+# Copyright (C) 2025 Johannes Endres
 #
 # SPDX-License-Identifier: MIT
 
-image: node:lts
-
+## Global configuration
 cache:
   key: node_modules
   paths:
     - node_modules/
 
-lint:
-  stage: test
+default:
+  image: node:lts
   before_script:
-    - git submodule update --init
-    - npm install
+    - "which npm && npm install --loglevel error"
+
+# Get submodules
+variables:
+  GIT_SUBMODULE_STRATEGY: normal
+
+## Jobs
+Static Tests:
+  stage: test
   script:
     - npx web-ext lint
     - npx eslint src
     - "! grep -r --exclude-dir=photon-components-web TODO src"
+ 
+REUSE compliance:
+  stage: test
+  image: python:3
+  script:
+    - pip3 install reuse
+    - reuse lint
 
-sign:
+Deploy to Thunderbird Add-ons:
   stage: deploy
-  before_script:
-    - npm install --loglevel error web-ext@7
-    - git submodule update --init
   script:
     # web-ext sign always fails (as documented), so manipulate the return code
     - "npx web-ext sign -s src --channel=listed --api-url-prefix=https://addons.thunderbird.net/api/v3 || true"
@@ -34,31 +44,28 @@ sign:
     # Only sign tagged releases
     - if: '$CI_COMMIT_TAG =~ /^\d+\.\d+\.\d+$/'
 
-release_job:
+Create a release:
   stage: deploy
   image: registry.gitlab.com/gitlab-org/release-cli:latest
   needs:
-    - job: sign
-      artifacts: true
+    - job: Deploy to Thunderbird Add-ons
   rules:
     - if: '$CI_COMMIT_TAG =~ /^\d+\.\d+\.\d+$/'
-  before_script:
-    - git submodule update --init
   script:
-    - echo "Creating Release"
+    - "true"
   release:
     name: 'Release $CI_COMMIT_TAG'
     description: 'Release $CI_COMMIT_TAG'
     tag_name: '$CI_COMMIT_TAG'
-    ref: '$CI_COMMIT_SHA'
     assets:
       links:
         - name: 'Installation via Thunderbird Add-ons'
           url: "https://addons.thunderbird.net/de/thunderbird/addon/filelink-nextcloud-owncloud/versions/$CI_COMMIT_TAG"
 
-deploy-pages:
+Build pages:
   stage: deploy
   script:
+  # This script only works if GITLAB_PROJECT_TOKEN is a valid token
     - node build-tools/build-pages.mjs
   pages: true
   artifacts:
@@ -68,4 +75,4 @@ deploy-pages:
     name: "Pages"
     url: "${CI_PAGES_URL}"
   rules:
-  - if: $CI_COMMIT_REF_PROTECTED == "true"
+    - if: '$CI_COMMIT_TAG =~ /^\d+\.\d+\.\d+$/'

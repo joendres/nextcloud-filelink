@@ -1,9 +1,3 @@
-<!--
-Copyright (C) 2020 Johannes Endres
-
-SPDX-License-Identifier: MIT
--->
-
 Thank you for your support request regarding [*cloud - FileLink for Nextcloud and ownCloud](https://gitlab.com/joendres/filelink-nextcloud)! I'll respond as soon as I can.
 
 Please keep in mind, that *cloud is my spare time project and I might not be able to respond instantly.
