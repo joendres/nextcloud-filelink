@@ -2,8 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
-import { readFileSync, writeFileSync } from "fs";
-import { dirname, normalize } from "path";
+import { readFileSync, writeFileSync } from "node:fs";
+import { dirname, normalize } from "node:path";
 
 const url = "https://gitlab.com/api/v4/markdown";
 const out_dir = "./public/";
@@ -19,6 +19,8 @@ for (const file in files) {
 }
 
 async function convert_file(in_file, out_file) {
+    console.log("Converting", in_file);
+
     let lang = dirname(normalize(in_file));
     lang = lang.match(/\w{2,5}/) ? lang : "en";
     const htmlhead = `<!DOCTYPE html><html lang="${lang}"><meta charset="UTF-8"><link rel="stylesheet" href="style.css">`;
@@ -30,7 +32,13 @@ async function convert_file(in_file, out_file) {
         gfm: true,
         project: "joendres/filelink-nextcloud",
     };
-    const title = text.match(/^#\s+(.+)/m)[1].replaceAll("_", "");
+
+    // Take html title from first H1 of markdown
+    const headings = text.match(/^#\s+(.+)/m);
+    const title = (headings && headings[1]) ?
+        // Remove emphasis
+        headings[1].replaceAll("_", "")
+        : "";
 
     const fetchInit = {
         method: "POST",
@@ -42,7 +50,13 @@ async function convert_file(in_file, out_file) {
     };
 
     const response = await fetch(url, fetchInit);
+    if (!response.ok) {
+        console.error("API call failed:", response.statusText);
+        process.exit(1);
+    }
+
     const json = await response.json();
+    // No need for error handling as this will throw on errors and as a consequence abort the script
 
     if (json.html) {
         const html = json.html
@@ -51,5 +65,8 @@ async function convert_file(in_file, out_file) {
 
         writeFileSync(out_dir + out_file,
             htmlhead + "<title>" + title + "</title>" + html);
+    } else {
+        console.error("No HTML in API response:", json.message);
+        process.exit(1);
     }
 }
