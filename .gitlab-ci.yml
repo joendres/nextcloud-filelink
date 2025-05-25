@@ -2,16 +2,20 @@
 #
 # SPDX-License-Identifier: MIT
 
-## Global configuration
-cache:
-  key: node_modules
-  paths:
-    - node_modules/
-
 default:
+  artifacts:
+    untracked: false
+    access: developer
+    expire_in: "30 days"
+
+.node_job:
   image: node:lts
   before_script:
-    - "which npm && npm install --loglevel error"
+    - npm install --loglevel=error
+  cache:
+    key: node_modules
+    paths:
+      - node_modules/
 
 # Get submodules
 variables:
@@ -19,12 +23,13 @@ variables:
 
 ## Jobs
 Static Tests:
+  extends: .node_job
   stage: test
   script:
     - npx web-ext lint
     - npx eslint src
     - "! grep -r --exclude-dir=photon-components-web TODO src"
- 
+
 REUSE compliance:
   stage: test
   image: python:3
@@ -33,6 +38,7 @@ REUSE compliance:
     - reuse lint
 
 Deploy to Thunderbird Add-ons:
+  extends: .node_job
   stage: deploy
   script:
     # web-ext sign always fails (as documented), so manipulate the return code
@@ -54,18 +60,19 @@ Create a release:
   script:
     - "true"
   release:
-    name: 'Release $CI_COMMIT_TAG'
-    description: 'Release $CI_COMMIT_TAG'
-    tag_name: '$CI_COMMIT_TAG'
+    name: "Release $CI_COMMIT_TAG"
+    description: "Release $CI_COMMIT_TAG"
+    tag_name: "$CI_COMMIT_TAG"
     assets:
       links:
-        - name: 'Installation via Thunderbird Add-ons'
+        - name: "Installation via Thunderbird Add-ons"
           url: "https://addons.thunderbird.net/de/thunderbird/addon/filelink-nextcloud-owncloud/versions/$CI_COMMIT_TAG"
 
 Build pages:
+  extends: .node_job
   stage: deploy
   script:
-  # This script only works if GITLAB_PROJECT_TOKEN is a valid token
+    # This script only works if GITLAB_PROJECT_TOKEN is a valid token
     - node build-tools/build-pages.mjs
   pages: true
   artifacts:

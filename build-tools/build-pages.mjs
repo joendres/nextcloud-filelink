@@ -1,11 +1,18 @@
 // Copyright (C) 2024 Johannes Endres
 //
 // SPDX-License-Identifier: MIT
+//
+// This script converts markdown files to HTML using the GitLab API
 
 import { readFileSync, writeFileSync } from "node:fs";
 import { dirname, normalize } from "node:path";
 
-const url = "https://gitlab.com/api/v4/markdown";
+// Take the GitLab API URL from the environment variable CI_API_V4_URL if available,
+// otherwise use the default GitLab API URL.
+const url = (process.env.CI_API_V4_URL || "https://gitlab.com/api/v4") + "/markdown";
+
+// This is the default artifacts dir in GitLab CI/CD
+// Change it to whatever pages.path is in your .gitlab-ci.yml
 const out_dir = "./public/";
 
 const files = {
