@@ -36,7 +36,7 @@ Deploy to Thunderbird Add-ons:
   stage: deploy
   script:
     # web-ext sign always fails (as documented), so manipulate the return code
-    - "npx web-ext sign -s src --channel=listed --api-url-prefix=https://addons.thunderbird.net/api/v3 || true"
+    - "npx web-ext sign || true"
   environment:
     name: Add-ons for Thunderbird
     url: https://addons.thunderbird.net/de/thunderbird/addon/filelink-nextcloud-owncloud/

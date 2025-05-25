@@ -3,9 +3,7 @@
     "Copyright (C) 2024 Johannes Endres",
     "SPDX-License-Identifier: MIT"
   ],
-  "name": "filelink-nextcloud",
-  "version": "3.16.0",
-  "description": "*cloud - FileLink for Nextcloud and ownCloud",
+  "dependencies": {},
   "devDependencies": {
     "@eslint/eslintrc": "*",
     "@eslint/js": "*",
@@ -15,21 +13,9 @@
     "web-ext": "7"
   },
   "private": true,
-  "browser": "src/background.js",
   "scripts": {
     "start": "npx web-ext run"
   },
-  "repository": "gitlab:joendres/filelink-nextcloud.git",
-  "author": {
-    "name": "Johannes Endres",
-    "email": "je@johannes-endres.de"
-  },
-  "license": "MIT",
-  "bugs": {
-    "url": "https://gitlab.com/joendres/filelink-nextcloud/issues",
-    "email": "cloud@johannes-endres.de"
-  },
-  "homepage": "https://addons.thunderbird.net/thunderbird/addon/filelink-nextcloud-owncloud/",
   "webExt": {
     "ignoreFiles": [
       "punycode/package.json",
@@ -52,6 +38,10 @@
     },
     "lint": {
       "selfHosted": true
+    },
+    "sign": {
+      "channel": "listed",
+      "apiUrlPrefix": "https://addons.thunderbird.net/api/v4"
     }
   }
 }
