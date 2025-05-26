@@ -9,8 +9,6 @@ loadFormData()
     .then(updateHeader)
     .then(showErrors);
 
-addLocalizedLabels();
-
 serverUrl.addEventListener("input", updateHeader);
 username.addEventListener("input", updateGauge);
 accountForm.addEventListener('input', updateButtons);
@@ -437,5 +435,4 @@ function stopLookingBusy() {
 /* globals provider_name, logo, cloud_version, obsolete_string, freespaceGauge */
 /* globals freespacelabel, freespace, password, storageFolder, disableable_fieldset */
 // Defined in ../lib/localize.js
-/* globals addLocalizedLabels */
 /* globals noAutoDownload */
