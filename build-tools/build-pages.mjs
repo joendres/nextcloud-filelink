@@ -7,6 +7,7 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import { dirname, normalize } from "node:path";
 import process from "node:process";
+import { JSDOM } from "jsdom";
 
 // Take the GitLab API URL from the environment variable CI_API_V4_URL if available,
 // otherwise use the default GitLab API URL.
@@ -31,7 +32,7 @@ async function convert_file(in_file, out_file) {
 
     let lang = dirname(normalize(in_file));
     lang = lang.match(/\w{2,5}/) ? lang : "en";
-    const htmlhead = `<!DOCTYPE html><html lang="${lang}"><meta charset="UTF-8"><link rel="stylesheet" href="style.css">`;
+    const htmlhead = `<!DOCTYPE html><html lang="${lang}"><meta charset="UTF-8"><link rel="stylesheet" href="style.css">\n`;
 
     const text = readFileSync(in_file, "utf-8");
 
@@ -40,13 +41,6 @@ async function convert_file(in_file, out_file) {
         gfm: true,
         project: "joendres/filelink-nextcloud",
     };
-
-    // Take html title from first H1 of markdown
-    const headings = text.match(/^#\s+(.+)/m);
-    const title = (headings && headings[1]) ?
-        // Remove emphasis
-        headings[1].replaceAll("_", "")
-        : "";
 
     const fetchInit = {
         method: "POST",
@@ -67,12 +61,35 @@ async function convert_file(in_file, out_file) {
     // No need for error handling as this will throw on errors and as a consequence abort the script
 
     if (json.html) {
-        const html = json.html
-            .replace(/user-content-/g, "")
-            .replace(/https:[-./\w]+?\/((\w\w\/)?[.\w]+.md)/g, (_, p1) => files[p1]);
+        const dom = new JSDOM(htmlhead + json.html);
 
-        writeFileSync(out_dir + out_file,
-            htmlhead + "<title>" + title + "</title>" + html);
+        // Take html title from first H1 of markdown
+        const headings = text.match(/^#\s+(.+)/m);
+        if (headings && headings[1]) {
+            // Remove emphasis
+            dom.window.document.title = headings[1].replaceAll("_", "");
+        }
+
+        // Remove "user-content-" from all IDs
+        for (const el of dom.window.document.querySelectorAll("[id^='user-content-']")) {
+            el.id = el.id.replace(/^user-content-/, "");
+        }
+
+        const masterUrl = process.env.CI_PROJECT_URL + '/-/blob/master/';
+        // Fix links to markdown files that are converted to HTML in this script
+        for (const el of dom.window.document.querySelectorAll('a[href^="' + masterUrl + '"]')) {
+            el.href = el.href.replace(
+                new RegExp(`^${masterUrl}(` + Object.keys(files).join('|') + ')'),
+                (_, p1) => files[p1]);
+        }
+
+        const publicUrl = masterUrl + 'public/';
+        // Fix links to images in the public directory
+        for (const el of dom.window.document.querySelectorAll('img[data-src^="' + publicUrl + '"]')) {
+            el.dataset.src = el.dataset.src.replace(new RegExp(publicUrl), '');
+        }
+
+        writeFileSync(out_dir + out_file, dom.serialize());
     } else {
         console.error("No HTML in API response:", json.message);
         process.exit(1);

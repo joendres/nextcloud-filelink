@@ -46,7 +46,7 @@ Cloud and generates a link you can send by mail instead of the file.
 __*cloud__ is also available via Thunderbird's Add-on
 repository:
 
-[![Get the Addon](https://gitlab.com/-/project/16099629/uploads/6d33a533fa762bb5794310e171ffd42d/get-the-addon.svg)](https://addons.thunderbird.net/thunderbird/addon/filelink-nextcloud-owncloud/)
+[![Get the Addon](https://gitlab.com/joendres/filelink-nextcloud/-/blob/master/public/get-the-addon.svg)](https://addons.thunderbird.net/thunderbird/addon/filelink-nextcloud-owncloud/)
 
 ### Usage
 
@@ -74,7 +74,7 @@ If you share a file that has
 * identical size _and_
 * identical modification time (to the second)
 
-as a file that has been shared before, __*cloud__ considers this to be the same file and does not upload it again. Instead, __*cloud__ creates a share link to the first file. 
+as a file that has been shared before, __*cloud__ considers this to be the same file and does not upload it again. Instead, __*cloud__ creates a share link to the first file.
 
 If you've got files that are the same in these three ways but have different content, this can lead to the wrong file being shared. This could happen, for example, if you use a program that generates several files in different folders quickly.
 
