@@ -31,10 +31,10 @@ Static Tests:
   stage: test
   interruptible: true
   rules:
-    - if: $CI_COMMIT_TITLE =~ /^(docs|ci):/
+    - if: $CI_COMMIT_TITLE =~ /^(docs|ci|build):/
       when: never
     # Categorized commit
-    - if: $CI_COMMIT_TITLE =~ /^(build|f(ix|eat)!?|perf|test|refactor|style):/
+    - if: $CI_COMMIT_TITLE =~ /^(f(ix|eat)!?|perf|test|refactor|style):/
   script:
     - npx web-ext lint
     - npx eslint src
@@ -56,6 +56,20 @@ Check build tools:
     - if: $CI_COMMIT_TITLE =~ /^build:/
   script:
     - npx eslint build-tools
+
+Bump version:
+  # Autmatically increment the version and add a tag, triggering the release 
+  extends: .node_job
+  stage: deploy
+  rules:
+    - if: $CI_COMMIT_BRANCH == "master" && $CI_COMMIT_TITLE =~ /^(feat|fix)!?:/
+  script:
+    - LAST_VERSION=`git tag -l | egrep '^[0-9]+\.[0-9]+\.[0-9]+$' | sort -n | tail -1`
+    - NEW_VERSION=`node build-tools/bump-semver.js ${CI_COMMIT_TITLE%:*} $LAST_VERSION`
+    - git tag $NEW_VERSION
+    # PROJECT_ACCESS_TOKEN must have role "Developer" and scope "write_repository"
+    - git remote add master ${CI_REPOSITORY_URL/gitlab-ci-token*@/release_bot:$PROJECT_ACCESS_TOKEN@}
+    - git push --tags master
 
 Deploy to Thunderbird Add-ons:
   extends: .node_job

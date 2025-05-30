@@ -43,7 +43,8 @@ export default [
   {
     files: ["build-tools/**/*.{js,mjs,cjs}"],
     languageOptions: {
-      sourceType: "module"
+      sourceType: "module",
+      "ecmaVersion": 2020,
     },
   },
 ];
