@@ -42,6 +42,8 @@ export default [
   },
   {
     files: ["build-tools/**/*.{js,mjs,cjs}"],
-    sourceType: "module"
+    languageOptions: {
+      sourceType: "module"
+    },
   },
 ];

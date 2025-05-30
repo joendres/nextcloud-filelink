@@ -2,29 +2,39 @@
 #
 # SPDX-License-Identifier: MIT
 
+variables:
+  # Get submodules automatically
+  GIT_SUBMODULE_STRATEGY: normal
+  # Use more efficient fs driver
+  DOCKER_DRIVER: overlay2
+
 default:
   artifacts:
     untracked: false
     access: developer
     expire_in: "30 days"
 
+# Template for jobs that use node
 .node_job:
   image: node:lts
   before_script:
     - npm install --loglevel=error
+  # Cache installed node modules as this might be faster than reinstalling them
   cache:
     key: node_modules
     paths:
       - node_modules/
 
-# Get submodules
-variables:
-  GIT_SUBMODULE_STRATEGY: normal
-
 ## Jobs
 Static Tests:
   extends: .node_job
   stage: test
+  interruptible: true
+  rules:
+    - if: $CI_COMMIT_TITLE =~ /^(docs|ci):/
+      when: never
+    # Categorized commit
+    - if: $CI_COMMIT_TITLE =~ /^(build|f(ix|eat)!?|perf|test|refactor|style):/
   script:
     - npx web-ext lint
     - npx eslint src
@@ -33,9 +43,19 @@ Static Tests:
 REUSE compliance:
   stage: test
   image: python:3
+  interruptible: true
   script:
     - pip3 install reuse
     - reuse lint
+
+Check build tools:
+  extends: .node_job
+  stage: test
+  interruptible: true
+  rules:
+    - if: $CI_COMMIT_TITLE =~ /^build:/
+  script:
+    - npx eslint build-tools
 
 Deploy to Thunderbird Add-ons:
   extends: .node_job
@@ -76,10 +96,12 @@ Build pages:
     - node build-tools/build-pages.mjs
   pages: true
   artifacts:
-    paths:
-      - public
+    expire_in: 1 hour
   environment:
     name: "Pages"
-    url: "${CI_PAGES_URL}"
+    url: "$CI_PAGES_URL"
   rules:
+    # Explicit update of documentation
+    - if: $CI_COMMIT_BRANCH == "master" && $CI_COMMIT_TITLE =~ /^docs:/
+    # Release that might affect documentation
     - if: '$CI_COMMIT_TAG =~ /^\d+\.\d+\.\d+$/'
