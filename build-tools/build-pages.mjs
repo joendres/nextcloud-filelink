@@ -6,6 +6,7 @@
 
 import { readFileSync, writeFileSync } from "node:fs";
 import { dirname, normalize } from "node:path";
+import process from "node:process";
 
 // Take the GitLab API URL from the environment variable CI_API_V4_URL if available,
 // otherwise use the default GitLab API URL.
@@ -68,7 +69,7 @@ async function convert_file(in_file, out_file) {
     if (json.html) {
         const html = json.html
             .replace(/user-content-/g, "")
-            .replace(/https:[-.\/\w]+?\/((\w\w\/)?[.\w]+.md)/g, (_, p1) => files[p1]);
+            .replace(/https:[-./\w]+?\/((\w\w\/)?[.\w]+.md)/g, (_, p1) => files[p1]);
 
         writeFileSync(out_dir + out_file,
             htmlhead + "<title>" + title + "</title>" + html);
