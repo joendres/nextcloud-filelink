@@ -39,7 +39,7 @@ hochlädt und dann einen Download-Link in die Mail einfügt.
 
 __*cloud__ gibt es auch in der Addon-Sammlung von Thunderbird:
 
-[![Hol dir das Addon](https://gitlab.com/-/project/16099629/uploads/6d33a533fa762bb5794310e171ffd42d/get-the-addon.svg)](https://addons.thunderbird.net/thunderbird/addon/filelink-nextcloud-owncloud/).
+[![Hol dir das Addon](https://gitlab.com/joendres/filelink-nextcloud/-/blob/master/public/get-the-addon.svg)](https://addons.thunderbird.net/thunderbird/addon/filelink-nextcloud-owncloud/).
 
 ## Benutzung
 
@@ -67,7 +67,7 @@ Wenn Sie eine Datei freigeben, die
 * identische Größe _und_
 * identische Änderungszeit (auf die Sekunde genau)
 
-hat wie eine Datei, die bereits freigegeben wurde, betrachtet __*cloud__ diese als dieselbe Datei und lädt sie nicht erneut hoch. Stattdessen erstellt __*cloud__ einen Freigabelink zur ersten Datei. 
+hat wie eine Datei, die bereits freigegeben wurde, betrachtet __*cloud__ diese als dieselbe Datei und lädt sie nicht erneut hoch. Stattdessen erstellt __*cloud__ einen Freigabelink zur ersten Datei.
 
 Wenn Sie Dateien haben, die auf diese drei Arten gleich sind, aber unterschiedliche Inhalte haben, kann dies dazu führen, dass die falsche Datei freigegeben wird. Das kann zum Beispiel passieren, wenn Sie ein Programm verwenden, das schnell mehrere Dateien in verschiedenen Ordnern erzeugt.
 

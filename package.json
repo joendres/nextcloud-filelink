@@ -3,13 +3,13 @@
     "Copyright (C) 2024 Johannes Endres",
     "SPDX-License-Identifier: MIT"
   ],
-  "dependencies": {},
   "devDependencies": {
     "@eslint/eslintrc": "*",
     "@eslint/js": "*",
     "@types/thunderbird-webext-browser": "*",
     "eslint": "*",
     "globals": "*",
+    "jsdom": "^26.1.0",
     "web-ext": "7"
   },
   "private": true,
