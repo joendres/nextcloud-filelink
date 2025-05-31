@@ -83,10 +83,15 @@ async function convert_file(in_file, out_file) {
                 (_, p1) => files[p1]);
         }
 
-        const publicUrl = masterUrl + 'public/';
+        const publicUrl = process.env.CI_PROJECT_URL + '/-/raw/master/public/';
         // Fix links to images in the public directory
         for (const el of dom.window.document.querySelectorAll('img[data-src^="' + publicUrl + '"]')) {
-            el.dataset.src = el.dataset.src.replace(new RegExp(publicUrl), '');
+            el.dataset.src = el.dataset.src.slice(publicUrl.length);
+        }
+
+        // Simplify html by removing all data-sourcepos attributes
+        for (const el of dom.window.document.querySelectorAll('[data-sourcepos]')) {
+            el.removeAttribute('data-sourcepos');
         }
 
         writeFileSync(out_dir + out_file, dom.serialize());
