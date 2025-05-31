@@ -46,7 +46,7 @@ Cloud and generates a link you can send by mail instead of the file.
 __*cloud__ is also available via Thunderbird's Add-on
 repository:
 
-[![Get the Addon](https://gitlab.com/joendres/filelink-nextcloud/-/blob/master/public/get-the-addon.svg)](https://addons.thunderbird.net/thunderbird/addon/filelink-nextcloud-owncloud/)
+[![Get the Addon](https://gitlab.com/joendres/filelink-nextcloud/-/raw/master/public/get-the-addon.svg)](https://addons.thunderbird.net/thunderbird/addon/filelink-nextcloud-owncloud/)
 
 ### Usage
 
