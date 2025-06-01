@@ -60,7 +60,10 @@ async function convert_file(in_file, out_file) {
     const json = await response.json();
     // No need for error handling as this will throw on errors and as a consequence abort the script
 
-    if (json.html) {
+    if (!json.html) {
+        console.error("No HTML in API response:", json.message);
+        process.exit(1);
+    } else {
         const dom = new JSDOM(htmlhead + json.html);
 
         // Take html title from first H1 of markdown
@@ -70,33 +73,20 @@ async function convert_file(in_file, out_file) {
             dom.window.document.title = headings[1].replaceAll("_", "");
         }
 
-        // Remove "user-content-" from all IDs
-        for (const el of dom.window.document.querySelectorAll("[id^='user-content-']")) {
-            el.id = el.id.replace(/^user-content-/, "");
+        // Remove "user-content-" from all IDs to fix anchors
+        const userContent = 'user-content-';
+        for (const el of dom.window.document.querySelectorAll(`[id^="${userContent}"]`)) {
+            el.id = el.id.slice(userContent.length);
         }
 
-        const masterUrl = process.env.CI_PROJECT_URL + '/-/blob/master/';
         // Fix links to markdown files that are converted to HTML in this script
-        for (const el of dom.window.document.querySelectorAll('a[href^="' + masterUrl + '"]')) {
+        const masterUrl = process.env.CI_PROJECT_URL + '/-/blob/master/';
+        for (const el of dom.window.document.querySelectorAll(`a[href^="${masterUrl}"]`)) {
             el.href = el.href.replace(
                 new RegExp(`^${masterUrl}(` + Object.keys(files).join('|') + ')'),
                 (_, p1) => files[p1]);
         }
 
-        const publicUrl = process.env.CI_PROJECT_URL + '/-/raw/master/public/';
-        // Fix links to images in the public directory
-        for (const el of dom.window.document.querySelectorAll('img[data-src^="' + publicUrl + '"]')) {
-            el.dataset.src = el.dataset.src.slice(publicUrl.length);
-        }
-
-        // Simplify html by removing all data-sourcepos attributes
-        for (const el of dom.window.document.querySelectorAll('[data-sourcepos]')) {
-            el.removeAttribute('data-sourcepos');
-        }
-
         writeFileSync(out_dir + out_file, dom.serialize());
-    } else {
-        console.error("No HTML in API response:", json.message);
-        process.exit(1);
     }
 }
