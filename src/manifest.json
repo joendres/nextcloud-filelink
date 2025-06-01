@@ -10,7 +10,6 @@
     "homepage_url": "https://gitlab.com/joendres/filelink-nextcloud#cloud-filelink-for-nextcloud-and-owncloud",
     "author": "Johannes Endres",
     "version": "0.0.0",
-    "version_name": "version will be replaced with the actual version in the build pipeline",
     "icons": {
         "48": "icon48.png"
     },

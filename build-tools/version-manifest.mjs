@@ -23,7 +23,6 @@ const version = process.argv[2];
 
 // Set the version in the manifest
 manifest.version = version;
-manifest.version_name = version;
 
 // Write the manifest back to the file
 writeFileSync(manifestFile, JSON.stringify(manifest, null, 4));
