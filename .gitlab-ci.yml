@@ -12,11 +12,11 @@ default:
   artifacts:
     untracked: false
     access: developer
-    expire_in: "30 days"
+    expire_in: "10 days"
 
 # Template for jobs that use node
 .node_job:
-  image: node:lts
+  image: node:lts-alpine
   before_script:
     - npm install --loglevel=error
   # Cache installed node modules as this might be faster than reinstalling them
@@ -33,8 +33,8 @@ Static Tests:
   rules:
     - if: $CI_COMMIT_TITLE =~ /^(docs|ci|build):/
       when: never
-    # Categorized commit
-    - if: $CI_COMMIT_TITLE =~ /^(f(ix|eat)!?|perf|test|refactor|style):/
+    # Categorized commit of source
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event' && $CI_COMMIT_TITLE =~ /^(f(ix|eat)!?|perf|test|refactor|style):/
   script:
     - npx web-ext lint
     - npx eslint src
@@ -42,10 +42,14 @@ Static Tests:
 
 REUSE compliance:
   stage: test
-  image: python:3
+  image:
+    name: fsfe/reuse:latest
+    entrypoint: [""]
   interruptible: true
+  rules:
+    # Categorized commit
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event' && $CI_COMMIT_TITLE =~ /^(docs|ci|build|f(ix|eat)!?|perf|test|refactor|style):/
   script:
-    - pip3 install reuse
     - reuse lint
 
 Check build tools:
@@ -53,7 +57,7 @@ Check build tools:
   stage: test
   interruptible: true
   rules:
-    - if: $CI_COMMIT_TITLE =~ /^build:/
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event' && $CI_COMMIT_TITLE =~ /^build:/
   script:
     - npx eslint build-tools
 
@@ -64,6 +68,7 @@ Bump version:
   rules:
     - if: $CI_COMMIT_BRANCH == "master" && $CI_COMMIT_TITLE =~ /^(feat|fix)!?:/
   script:
+    - apk add git grep
     - LAST_VERSION=`git tag -l | egrep '^[0-9]+\.[0-9]+\.[0-9]+$' | sort -n | tail -1`
     - NEW_VERSION=`node build-tools/bump-semver.js ${CI_COMMIT_TITLE%:*} $LAST_VERSION`
     - git tag $NEW_VERSION
