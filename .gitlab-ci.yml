@@ -18,6 +18,7 @@ default:
 .node_job:
   image: node:lts-alpine
   before_script:
+    - apk add grep
     - npm install --loglevel=error
   # Cache installed node modules as this might be faster than reinstalling them
   cache:
@@ -68,7 +69,7 @@ Bump version:
   rules:
     - if: $CI_COMMIT_BRANCH == "master" && $CI_COMMIT_TITLE =~ /^(feat|fix)!?:/
   script:
-    - apk add git grep
+    - apk add git
     - LAST_VERSION=`git tag -l | egrep '^[0-9]+\.[0-9]+\.[0-9]+$' | sort -n | tail -1`
     - NEW_VERSION=`node build-tools/bump-semver.js ${CI_COMMIT_TITLE%:*} $LAST_VERSION`
     - git tag $NEW_VERSION
