@@ -1,5 +1,5 @@
 {
-    "applications": {
+    "browser_specific_settings": {
         "gecko": {
             "id": "cloud@johannes-endres.de",
             "strict_min_version": "68.2.1"
