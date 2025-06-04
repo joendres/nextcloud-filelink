@@ -21,6 +21,13 @@ SPDX-FileCopyrightText = "ownCloud GmbH"
 SPDX-License-Identifier = "AGPL-3.0-only"
 
 [[annotations]]
+path = "src/prefspane/images/ocis-app-icon.png"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "ownCloud GmbH"
+SPDX-License-Identifier = "AGPL-3.0-only"
+SPDX-FileComment = "Source: https://github.com/owncloud/web/tree/master/packages/web-runtime/themes/owncloud/assets"
+
+[[annotations]]
 path = [
     "src/photon-components-web/**",
     "src/prefspane/images/Check.svg",
