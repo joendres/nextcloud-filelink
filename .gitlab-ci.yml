@@ -71,7 +71,7 @@ Bump version:
   script:
     - apk add git
     - LAST_VERSION=`git tag -l | egrep '^[0-9]+\.[0-9]+\.[0-9]+$' | sort -n | tail -1`
-    - NEW_VERSION=`node build-tools/bump-semver.js ${CI_COMMIT_TITLE%:*} $LAST_VERSION`
+    - NEW_VERSION=`node build-tools/bump-semver.mjs ${CI_COMMIT_TITLE%:*} $LAST_VERSION`
     - git tag $NEW_VERSION
     # GITLAB_PROJECT_TOKEN must have role "Developer" and scope "write_repository"
     - git remote add master ${CI_REPOSITORY_URL/gitlab-ci-token*@/release_bot:$GITLAB_PROJECT_TOKEN@}
@@ -81,6 +81,7 @@ Deploy to Thunderbird Add-ons:
   extends: .node_job
   stage: deploy
   script:
+    - node build-tools/version-manifest.mjs $CI_COMMIT_TAG
     # web-ext sign always fails (as documented), so manipulate the return code
     - "npx web-ext sign || true"
   environment:
