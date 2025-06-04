@@ -247,6 +247,23 @@ class CloudConnection {
                 this.cloud_supported = false;
             }
         }
+        // Get the faviconUrl from the server
+        const faviconUrl = await getFaviconUrl(this.serverUrl);
+        // If there is one, use it
+        if (faviconUrl) {
+            this.cloud_logo_url = faviconUrl;
+        } else
+            // if there is no favicon and none is already set, use the default
+            // logo for the cloud type
+            if (!this.cloud_logo_url) {
+                this.cloud_logo_url = {
+                    "Nextcloud": "images/nextcloud-logo.svg",
+                    "ownCloud": "images/owncloud-logo.svg",
+                    "oCIS": "images/ocis-app-icon.png",
+                    "Unsupported": "../../icon48.png",
+                }[this.cloud_type];
+            }
+
         this.store();
         return data;
     }
@@ -543,4 +560,5 @@ class CloudConnection {
 /* global Status */
 /* global attachmentStatus */
 /* global generatePassword */
+/* global getFaviconUrl */
 /* exported CloudConnection */
