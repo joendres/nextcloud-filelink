@@ -12,7 +12,8 @@
 */
 async function getFaviconUrl(baseUrl) {
     try {
-        const response = await fetch(baseUrl);
+        // Omit credentials to always fetch the favicon of the login page.
+        const response = await fetch(baseUrl, { credentials: "omit" });
         if (!response.ok) {
             return null;
         }
@@ -37,7 +38,7 @@ async function getFaviconUrl(baseUrl) {
         faviconUrl.pathname = linkHrefUrl.pathname;
         faviconUrl.search = linkHrefUrl.search;
         faviconUrl.hash = linkHrefUrl.hash;
-        
+
         // This might be the wrong URL if 
         // 1. the icon url does not start with a slash, and
         // 2. login page is not at the root of the server
