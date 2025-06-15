@@ -39,7 +39,7 @@ Static Tests:
   script:
     - npx web-ext lint
     - npx eslint src
-    - "! grep -r --exclude-dir=photon-components-web TODO src"
+    - "! grep -Er --exclude-dir=photon-components-web '(TODO|debug)' src"
 
 REUSE compliance:
   stage: test
@@ -70,7 +70,7 @@ Bump version:
     - if: $CI_COMMIT_BRANCH == "master" && $CI_COMMIT_TITLE =~ /^(feat|fix)!?:/
   script:
     - apk add git
-    - LAST_VERSION=`git tag -l | egrep '^[0-9]+\.[0-9]+\.[0-9]+$' | sort -n | tail -1`
+    - LAST_VERSION=`git tag -l | grep -E '^[0-9]+\.[0-9]+\.[0-9]+$' | sort -n | tail -1`
     - NEW_VERSION=`node build-tools/bump-semver.mjs ${CI_COMMIT_TITLE%:*} $LAST_VERSION`
     - git tag $NEW_VERSION
     # GITLAB_PROJECT_TOKEN must have role "Developer" and scope "write_repository"
@@ -86,7 +86,7 @@ Deploy to Thunderbird Add-ons:
     - "npx web-ext sign || true"
   environment:
     name: Add-ons for Thunderbird
-    url: https://addons.thunderbird.net/de/thunderbird/addon/filelink-nextcloud-owncloud/
+    url: https://addons.thunderbird.net/thunderbird/addon/filelink-nextcloud-owncloud/
   rules:
     # Only sign tagged releases
     - if: '$CI_COMMIT_TAG =~ /^\d+\.\d+\.\d+$/'
