@@ -30,7 +30,7 @@
             "lib/utils.js",
             "lib/generatePassword.js",
             "lib/status.js",
-            "lib/davuploader.js",
+            "lib/davclient.js",
             "lib/getFaviconUrl.js",
             "lib/cloudconnection.js",
             "lib/parsesemver.js",

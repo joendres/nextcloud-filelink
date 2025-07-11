@@ -75,13 +75,10 @@
     "message": "Your server does not support instant download links: Creating file info links"
   },
   "freespace": {
-    "message": "Free Space ($FREE$ of $FULL$)",
+    "message": "Free Space: $FREE$",
     "placeholders": {
       "free": {
         "content": "$1"
-      },
-      "full": {
-        "content": "$2"
       }
     }
   },

@@ -5,10 +5,13 @@
 /** AbortControllers for all active uploads */
 const allAbortControllers = new Map();
 
+// const DAV_MAX_FILE_SIZE = 0x100000000 - 1; /* Almost 4GB, Nextcloud and ownCloud accept larger files */
+const DAV_MAX_FILE_SIZE = Number.MAX_SAFE_INTEGER;
+
 /**
  * This class encapsulates communication with a WebDAV service
  */
-class DavUploader {
+class DAVClient {
     /**
      *
      * @param {string} server_url The URL of the server
@@ -173,20 +176,32 @@ class DavUploader {
     }
 
     /**
-     * @returns {number} Free space in bytes or -1 if no info available
+     * Get the available space in folder's quota
+     * 
+     * @param {string} folder The folder for which the quota is to be queried
+     * @returns {Promise<{spaceRemaining:number,status:number}>} The available space (in bytes) or -1 and the HTTP status of the API call
      */
-    async _getFreeSpace() {
-        const response = await this._doDavCall("/.", "PROPFIND");
+    async getQuotaAvailableBytes(folder) {
+        let spaceRemaining = -1;
+        // Try to get quota
+        let response = await this._doDavCall(
+            folder,
+            "PROPFIND",
+            '<D:propfind xmlns:D="DAV:"><D:prop><D:quota-available-bytes/></D:prop></D:propfind>',
+            { "Depth": "0" }
+        );
         if (response.ok && response.status < 300) {
             try {
                 const xmlDoc = new DOMParser().parseFromString(await response.text(), 'application/xml');
-                let free = parseInt(xmlDoc.getElementsByTagName("d:quota-available-bytes")[0].textContent);
-                return (isNaN(free) || free < 0) ? -1 : free;
+                spaceRemaining = parseInt(xmlDoc.getElementsByTagName("d:quota-available-bytes")[0].textContent);
+                if (!(spaceRemaining >= 0)) {
+                    spaceRemaining = -1;
+                }
             } catch (_) {
                 // ignore errors
             }
         }
-        return -1;
+        return { spaceRemaining, status: response.status };
     }
 
     /**
@@ -203,13 +218,6 @@ class DavUploader {
             attachmentStatus.get(uploadId).fail();
             return { ok: false, };
         }
-        // Check it there is enough free space
-        attachmentStatus.get(uploadId).set_status('checkingspace');
-        const free = await this._getFreeSpace();
-        if (free !== -1 && free < fileObject.size) {
-            attachmentStatus.get(uploadId).fail();
-            return { ok: false, };
-        }
 
         // Make sure storageFolder exists. Creation implicitly checks for
         // existence of folder, so the extra webservice call for checking first
@@ -218,6 +226,20 @@ class DavUploader {
         if (!(await this._recursivelyCreateFolder(this._storageFolder))) {
             attachmentStatus.get(uploadId).fail();
             throw new Error("Upload failed: Can't create folder");
+        }
+
+        // Check it there is enough free space
+        // This is done after creating the folder because we need the folder
+        // to check quota on the right file system.
+        attachmentStatus.get(uploadId).set_status('checkingspace');
+        // This doesn't give the right number on oCIS
+        // (https://github.com/owncloud/ocis/issues/8197). As that is
+        // currently a rare problem, fix it later (#670) or wait until oCIS
+        // fixes it.
+        const { spaceRemaining } = await this.getQuotaAvailableBytes(this._storageFolder);
+        if (spaceRemaining !== -1 && spaceRemaining < fileObject.size) {
+            attachmentStatus.get(uploadId).fail();
+            return { ok: false, };
         }
 
         let response;
@@ -319,6 +341,5 @@ class DavUploader {
         });
     }
 }
-/* global DAV_MAX_FILE_SIZE */
 /* global attachmentStatus, utils */
-/* exported DavUploader */
+/* exported DAVClient */

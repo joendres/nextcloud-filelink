@@ -30,7 +30,7 @@ messenger.cloudFile.onFileUpload.addListener(async (account, { id, name, data })
 messenger.cloudFile.onFileUploadAbort.addListener(
     (account, fileId) => {
         /* global allAbortControllers */
-        // defined in davuploader.js
+        // defined in davclient.js
         const abortController = allAbortControllers.get(makeUploadId(account, fileId));
         if (abortController) {
             abortController.abort();

@@ -75,13 +75,10 @@
     "message": "Zure zerbitzariak ez ditu onartzen uneko deskargarako estekak: Fitxategiaren informaziorako estekak sortzen"
   },
   "freespace": {
-    "message": "Leku librea ($FREE$ / $FULL$)",
+    "message": "Leku librea: $FREE$",
     "placeholders": {
       "free": {
         "content": "$1"
-      },
-      "full": {
-        "content": "$2"
       }
     }
   },

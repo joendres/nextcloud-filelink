@@ -75,13 +75,10 @@
     "message": "A kiszolgáló nem támogatja az azonnali letöltési hivatkozásokat: Fájlinformációs hivatkozások létrehozása"
   },
   "freespace": {
-    "message": "Szabad hely ($FREE$/$FULL$)",
+    "message": "Szabad hely: $FREE$",
     "placeholders": {
       "free": {
         "content": "$1"
-      },
-      "full": {
-        "content": "$2"
       }
     }
   },

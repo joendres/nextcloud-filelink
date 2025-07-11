@@ -26,41 +26,14 @@ body {
     box-sizing: border-box;
 }
 
-.input__field, .input__label {
+.input__field,
+.input__label {
     width: 100%;
 }
 
 #header {
     display: flex;
     align-items: flex-end;
-}
-
-#header_left {
-    width: 100%;
-}
-
-#freespaceGauge {
-    display: flex;
-    visibility: hidden;
-    white-space: nowrap;
-}
-
-#freespace {
-    width: 100%;
-    margin: 0 4px;
-}
-
-#freespacelabel {
-    max-width: 75%;
-}
-
-#header_right {
-    width: 48px;
-    padding-left: 4px;
-}
-
-#logo {
-    width: 100%;
 }
 
 .labelline {
@@ -110,6 +83,34 @@ h2 {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+
+#header_left {
+    width: 100%;
+}
+
+#freespaceDisplay {
+    display: flex;
+    visibility: hidden;
+    white-space: nowrap;
+}
+
+#freespacelabel {
+    max-width: 75%;
+}
+
+.freespace_low {
+    color: red;
+    font-weight: bolder;
+}
+
+#header_right {
+    width: 48px;
+    padding-left: 4px;
+}
+
+#logo {
+    width: 100%;
 }
 
 #obsolete_string {

@@ -17,9 +17,11 @@ SPDX-License-Identifier: MIT
 
   <script src="../lib/localize.js" defer></script>
 
-  <script src="../lib/getFaviconUrl.js" defer></script>
-  <script src="../lib/parsesemver.js" defer></script>
-  <script src="../lib/cloudconnection.js" defer></script>
+  <script src="../lib/getFaviconUrl.js"></script>
+  <script src="../lib/parsesemver.js"></script>
+  <script src="../lib/utils.js"></script>
+  <script src="../lib/davclient.js"></script>
+  <script src="../lib/cloudconnection.js"></script>
   <script src="popup/popup.js" defer></script>
   <script src="management.js" defer></script>
 
@@ -29,9 +31,8 @@ SPDX-License-Identifier: MIT
   <div id="header">
     <div id="header_left">
       <h2 id="provider_name">*cloud</h2>
-      <div id="freespaceGauge">
+      <div id="freespaceDisplay">
         <label id="freespacelabel" data-message="freespace"></label>
-        <meter id="freespace" min="0" max="0" value="0"> </meter>
       </div>
     </div>
     <div id="header_right">

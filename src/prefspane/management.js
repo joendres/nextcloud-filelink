@@ -10,7 +10,7 @@ loadFormData()
     .then(showErrors);
 
 serverUrl.addEventListener("input", updateHeader);
-username.addEventListener("input", updateGauge);
+username.addEventListener("input", updateFreeSpaceDisplay);
 accountForm.addEventListener('input', updateButtons);
 document.getElementsByName("DLPRadio")
     .forEach(inp => inp.addEventListener("change", () => {
@@ -98,45 +98,46 @@ async function showVersion() {
 /**
  * Update free space gauge
  */
-async function updateGauge() {
-    freespaceGauge.style.visibility = "hidden";
-    // Only show gauge if relevant form data match the account data
+async function updateFreeSpaceDisplay() {
+    // the default mail.compose.big_attachments.threshold_kb
+    const threshold_kb = 5120;
+
+    freespaceDisplay.style.visibility = "hidden";
+    freespacelabel.classList.remove('freespace_low');
+    // Only show free space if relevant form data match the account data
     if (username.value === ncc.username && serverUrl.value === ncc.serverUrl) {
-        let theAccount = await messenger.cloudFile.getAccount(accountId);
-        // Update the free space gauge
-        const free = parseInt(theAccount.spaceRemaining);
-        const full = free + parseInt(theAccount.spaceUsed);
-        if (free >= 0 && full >= 0 &&
-            free <= Number.MAX_SAFE_INTEGER && full <= Number.MAX_SAFE_INTEGER &&
-            isFinite(free) && isFinite(full)) {
+        // Update the free space display
+        if (ncc.spaceRemaining >= 0 && ncc.spaceRemaining <= Number.MAX_SAFE_INTEGER) {
             freespacelabel.textContent = browser.i18n.getMessage("freespace", [
-                humanReadable(free),
-                humanReadable(full),]);
-            freespace.max = full;
-            freespace.value = free;
-            freespace.low = full / 10;
-            freespaceGauge.style.visibility = "visible";
+                humanReadable(ncc.spaceRemaining),]);
+            freespaceDisplay.style.visibility = "visible";
+            if (ncc.spaceRemaining < threshold_kb) {
+                freespacelabel.classList.add('freespace_low');
+            }
         }
     }
 
+    /**
+     * Format a positiv size in bytes with decimal based units like GB or TB. The number is truncated at the decimal point.
+     * @param {number} bytes 
+     * @returns A number followed by a space and the unit. "0 B" for negative input.
+     */
     function humanReadable(bytes) {
-        const units = ["B", "kB", "MB", "GB", "TB", "PB",];
-        let n = bytes;
-        let s = "";
-        let i = -1;
-        do {
-            s = n.toPrecision(2);
-            n /= 1000;
-            if (i++ >= units.length) {
-                throw ReferenceError("parameter bytes too big");
-            }
-        } while (s.match(/e/));
-        return s.replace(/(\.\d+)0$/, "$1").replace(/\.0$/, "") + units[i];
+        const units = [' B', ' KB', ' MB', ' GB', ' TB', ' PB',];
+
+        if (!(bytes > 0)) return '0 B';
+
+        const pow = Math.min(
+            Math.floor(Math.log10(bytes) / 3),
+            units.length - 1
+        );
+
+        return (bytes / Math.pow(1000, pow)).toFixed(0) + units[pow];
     }
 }
 
 function updateHeader() {
-    return Promise.all([showVersion(), updateGauge(),]);
+    return Promise.all([showVersion(), updateFreeSpaceDisplay(),]);
 }
 
 function showErrors() {
@@ -218,6 +219,7 @@ async function handleFormData() {
         }
     }
 
+    updateHeader();
     await ncc.updateConfigured();
     ncc.store();
 
@@ -427,7 +429,7 @@ function stopLookingBusy() {
 /* globals serverUrl, username, expiryDays */
 /* globals downloadPassword, useDlPassword, useNoDlPassword, useGeneratedDlPassword, oneDLPassword*/
 /* globals useExpiry, saveButton, accountForm, resetButton, service_url, advanced_options */
-/* globals provider_name, logo, cloud_version, obsolete_string, freespaceGauge */
-/* globals freespacelabel, freespace, password, storageFolder, disableable_fieldset */
+/* globals provider_name, logo, cloud_version, obsolete_string, freespaceDisplay */
+/* globals freespacelabel, password, storageFolder, disableable_fieldset */
 // Defined in ../lib/localize.js
 /* globals noAutoDownload */
