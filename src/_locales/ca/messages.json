@@ -75,13 +75,10 @@
     "message": "El vostre servidor no té suport per descàrrega directa: Creant enllaços a la informació de l'arxiu"
   },
   "freespace": {
-    "message": "Espai disponible ($FREE$ de $FULL$)",
+    "message": "Espai disponible: $FREE$",
     "placeholders": {
       "free": {
         "content": "$1"
-      },
-      "full": {
-        "content": "$2"
       }
     }
   },

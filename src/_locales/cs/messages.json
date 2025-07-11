@@ -75,13 +75,10 @@
     "message": "Váš cloudový server nepodporuje vytváření odkazů pro přímé stažení,\nproto bude vytvořen odkaz na stránku s informacemi o souboru"
   },
   "freespace": {
-    "message": "Volné místo ($FREE$ z $FULL$)",
+    "message": "Volné místo: $FREE$",
     "placeholders": {
       "free": {
         "content": "$1"
-      },
-      "full": {
-        "content": "$2"
       }
     }
   },

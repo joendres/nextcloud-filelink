@@ -15,9 +15,6 @@ const davUrlBase = "remote.php/dav/files/";
 const ncMinimalVersion = 30;
 const ocMinimalVersion = 10 * 10000 + 0 * 100 + 10;
 const ocisMinimalVersion = 5;
-
-// const DAV_MAX_FILE_SIZE = 0x100000000 - 1; /* Almost 4GB, Nextcloud and ownCloud accept larger files */
-const DAV_MAX_FILE_SIZE = Number.MAX_SAFE_INTEGER;
 //#endregion
 
 /**
@@ -74,7 +71,7 @@ class CloudConnection {
 
         upload_status.set_status('preparing');
 
-        const uploader = new DavUploader(
+        const uploader = new DAVClient(
             this.serverUrl, this.username, this.password, davUrlBase + this.userId, this.storageFolder);
 
         const response = await uploader.uploadFile(uploadId, fileName, fileObject);
@@ -135,30 +132,53 @@ class CloudConnection {
 
     //#region Public Methods
     /**
-     * Gets free/used space from web service and sets the parameters in
-     * Thunderbirds cloudFileAccount
-     * @returns {*} A data object that may contain error information (see _doApiCall)
+     * Get free space from web service and save it in the CloudConnection object
      */
     async updateFreeSpaceInfo() {
+        this.spaceRemaining = -1;
+
+        if (this.cloud_type === 'oCIS')
+            // oCIS does not return the available quota on PROPFIND, but the
+            // entire quota: https://github.com/owncloud/ocis/issues/8197, so
+            // use user quota instead
+            this.spaceRemaining = await this.getUserQuota();
+        else
+            this.spaceRemaining = await this.getDAVQuota();
+
+        this.store();
+        // Don't tell Thunderbird about the free space
+        // (cloudFile.updateAccount()) because it would not start larger
+        // uploads and hence break the chance to re-use an existing upload
+    }
+
+    /**
+     * Use WebDAV PROPFIND to get free space
+     */
+    async getDAVQuota() {
+        const dc = new DAVClient(this.serverUrl, this.username, this.password, davUrlBase + this.userId, this.storageFolder);
+
+        let folder = this.storageFolder;
+        let quotaInfo = await dc.getQuotaAvailableBytes(folder);
+        // If the folder doesn't exist (yet), got up the tree
+        while (quotaInfo.status === 404 && folder !== '/') {
+            folder = folder.split('/').slice(0, -1).join('/') || '/';
+            quotaInfo = await dc.getQuotaAvailableBytes(folder);
+        };
+        return quotaInfo.spaceRemaining;
+    }
+
+    /**
+     * Use user quota to determine free space
+     */
+    async getUserQuota() {
         let spaceRemaining = -1;
-        let spaceUsed = -1;
 
         const data = await this._doApiCall(apiUrlUserInfo + this.userId);
-        if (data && data.quota) {
-            if ("free" in data.quota) {
-                const free = parseInt(data.quota.free);
-                spaceRemaining = free >= 0 && free <= Number.MAX_SAFE_INTEGER ? free : -1;
-            }
-            if ("used" in data.quota) {
-                const used = parseInt(data.quota.used);
-                spaceUsed = used >= 0 && used <= Number.MAX_SAFE_INTEGER ? used : -1;
-            }
+        if (data && data.quota && "free" in data.quota) {
+            const free = parseInt(data.quota.free);
+            spaceRemaining = free >= 0 && free <= Number.MAX_SAFE_INTEGER ? free : -1;
         }
-        const uploadSizeLimit = spaceRemaining >= 0 ? Math.min(spaceRemaining, DAV_MAX_FILE_SIZE) : DAV_MAX_FILE_SIZE;
-
-        await messenger.cloudFile.updateAccount(this._accountId, { spaceRemaining, spaceUsed, uploadSizeLimit, });
-
-        return data;
+        return spaceRemaining;
     }
 
     /**
@@ -555,7 +575,7 @@ class CloudConnection {
 
 /* global parseSemver */
 /* global utils*/
-/* global DavUploader  */
+/* global DAVClient  */
 /* global punycode */
 /* global Status */
 /* global attachmentStatus */

@@ -75,13 +75,10 @@
     "message": "Su servidor no admite enlaces de descarga instantánea: Crear enlace de información de archivos"
   },
   "freespace": {
-    "message": "Espacio disponible ($FREE$ de $FULL$)",
+    "message": "Espacio disponible: $FREE$",
     "placeholders": {
       "free": {
         "content": "$1"
-      },
-      "full": {
-        "content": "$2"
       }
     }
   },

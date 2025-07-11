@@ -75,13 +75,10 @@
     "message": "Il server non supporta alcuni link per il download. Vengono creati dei link per le informazioni sui file"
   },
   "freespace": {
-    "message": "Spazio libero ($FREE$ di $FULL$)",
+    "message": "Spazio libero: $FREE$",
     "placeholders": {
       "free": {
         "content": "$1"
-      },
-      "full": {
-        "content": "$2"
       }
     }
   },

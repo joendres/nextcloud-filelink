@@ -75,13 +75,10 @@
     "message": "Votre serveur ne prend pas en charge les liens de téléchargement instantané : activation de l'option création de liens d'information"
   },
   "freespace": {
-    "message": "Espace disponible ($FREE$ libres sur $FULL$)",
+    "message": "Espace disponible: $FREE$",
     "placeholders": {
       "free": {
         "content": "$1"
-      },
-      "full": {
-        "content": "$2"
       }
     }
   },

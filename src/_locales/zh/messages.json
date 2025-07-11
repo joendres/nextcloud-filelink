@@ -66,13 +66,10 @@
     "message": "包含今日下載連結可存取的天數。"
   },
   "freespace": {
-    "message": "可用空間 ($FREE$ / $FULL$)",
+    "message": "可用空間 $FREE$",
     "placeholders": {
       "free": {
         "content": "$1"
-      },
-      "full": {
-        "content": "$2"
       }
     }
   },
