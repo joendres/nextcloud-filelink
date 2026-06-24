@@ -248,7 +248,7 @@ async function handleFormData() {
             serverUrl.value += '/';
         }
 
-        if (!password.value.match(/^[\x21-\x7e]+$/)) {
+        if (!password.value.match(/^[\x20-\x7e]+$/)) {
             popup.warn('nonascii_password');
         }
     }
@@ -376,8 +376,9 @@ async function handleFormData() {
  * ownCloud Infinite Scale does not support the /download postfix on shared
  * links. Force file info links for oCIS servers.
  */
+
 function ocisHasNoDownloadLinks() {
-    if (ncc.cloud_type === "oCIS") {
+    if (ncc.isOcisFork()) {
         if (!noAutoDownload.checked) {
             noAutoDownload.checked = true;
             popup.warn('ocis_no_download_links');

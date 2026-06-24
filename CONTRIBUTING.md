@@ -6,7 +6,7 @@ SPDX-License-Identifier: MIT
 
 # Contributing
 
-The project "__*cloud__ - FileLink for Nextcloud and ownCloud" lives on GitLab: <https://gitlab.com/joendres/filelink-nextcloud>.
+The project "__*cloud__ - FileLink for Nextcloud, OpenCloud and ownCloud" lives on GitLab: <https://gitlab.com/joendres/filelink-nextcloud>.
 
 ## Reporting bugs and suggesting features
 

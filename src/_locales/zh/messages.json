@@ -3,7 +3,7 @@
     "message": "上傳附件到您的雲端並透過email發送連結"
   },
   "extensionName": {
-    "message": "*cloud - FileLink for Nextcloud and ownCloud"
+    "message": "*cloud - FileLink for Nextcloud, OpenCloud and ownCloud"
   },
   "saveButton": {
     "message": "儲存"
