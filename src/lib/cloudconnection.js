@@ -15,6 +15,8 @@ const davUrlBase = "remote.php/dav/files/";
 const ncMinimalVersion = 30;
 const ocMinimalVersion = 10 * 10000 + 0 * 100 + 10;
 const ocisMinimalVersion = 5;
+const openMinimalVersion = 3;
+
 //#endregion
 
 /**
@@ -131,13 +133,24 @@ class CloudConnection {
     //#endregion
 
     //#region Public Methods
+
+    /**
+     * oCIS and its forks differ from Nextcloud and ownCloud in similar ways.
+     * This method returns true it the object is connected to one ot these.
+     * 
+     * @returns 
+     */
+    isOcisFork() {
+        return ['oCIS', 'OpenCloud'].includes(this.cloud_type);
+    }
+
     /**
      * Get free space from web service and save it in the CloudConnection object
      */
     async updateFreeSpaceInfo() {
         this.spaceRemaining = -1;
 
-        if (this.cloud_type === 'oCIS')
+        if (this.isOcisFork())
             // oCIS does not return the available quota on PROPFIND, but the
             // entire quota: https://github.com/owncloud/ocis/issues/8197, so
             // use user quota instead
@@ -252,6 +265,10 @@ class CloudConnection {
                     this.cloud_type = "oCIS";
                     this.cloud_supported = (parseSemver(data.capabilities.core.status.productversion)).major >= ocisMinimalVersion;
                     this.cloud_versionstring = data.capabilities.core.status.productversion;
+                } else if (data.capabilities.core.status.product === "OpenCloud") {
+                    this.cloud_type = "OpenCloud";
+                    this.cloud_supported = (parseSemver(data.capabilities.core.status.productversion)).major >= openMinimalVersion;
+                    this.cloud_versionstring = data.capabilities.core.status.productversion;
                 } else {
                     this.cloud_type = "ownCloud";
                     this.cloud_supported = parseInt(data.version.major) * 10000 +
@@ -280,6 +297,7 @@ class CloudConnection {
                     "Nextcloud": "images/nextcloud-logo.svg",
                     "ownCloud": "images/owncloud-logo.svg",
                     "oCIS": "images/ocis-app-icon.png",
+                    "OpenCloud": "images/opencloud-logo.svg",
                     "Unsupported": "../../icon48.png",
                 }[this.cloud_type];
             }

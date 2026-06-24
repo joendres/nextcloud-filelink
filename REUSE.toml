@@ -4,7 +4,7 @@ version = 1
 #
 # SPDX-License-Identifier: MIT
 
-SPDX-PackageName = "*cloud - FileLink for Nextcloud and ownCloud"
+SPDX-PackageName = "*cloud - FileLink for Nextcloud, OpenCloud and ownCloud"
 SPDX-PackageSupplier = "Johannes Endres <je@johannes-endres.de>"
 SPDX-PackageDownloadLocation = "https://gitlab.com/joendres/filelink-nextcloud"
 
@@ -26,6 +26,13 @@ precedence = "aggregate"
 SPDX-FileCopyrightText = "ownCloud GmbH"
 SPDX-License-Identifier = "AGPL-3.0-only"
 SPDX-FileComment = "Source: https://github.com/owncloud/web/tree/master/packages/web-runtime/themes/owncloud/assets"
+
+[[annotations]]
+path = "src/prefspane/images/opencloud-logo.svg"
+precedence = "aggregate"
+SPDX-FileCopyrightText = "OpenCloud GmbH"
+SPDX-License-Identifier = "Apache-2.0"
+SPDX-FileComment = "https://github.com/opencloud-eu/opencloud/blob/main/services/web/assets/themes/opencloud/assets/favicon.svg"
 
 [[annotations]]
 path = [

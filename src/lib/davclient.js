@@ -232,6 +232,7 @@ class DAVClient {
         // This is done after creating the folder because we need the folder
         // to check quota on the right file system.
         attachmentStatus.get(uploadId).set_status('checkingspace');
+
         // This doesn't give the right number on oCIS
         // (https://github.com/owncloud/ocis/issues/8197). As that is
         // currently a rare problem, fix it later (#670) or wait until oCIS
