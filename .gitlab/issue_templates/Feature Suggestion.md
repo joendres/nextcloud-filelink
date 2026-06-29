@@ -10,6 +10,7 @@ Please replace this with a description of the feature. If it enables a specific 
 1.
 
 ## If you love/hate the idea
+
 Please use the :thumbsup: or :thumbsdown: buttons to vote for or against the suggestion.
 
 If you have an idea how to improve the feature, please feel free to post it as a comment ("Yes, and additionally it could...").

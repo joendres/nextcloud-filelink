@@ -9,7 +9,7 @@
     "description": "__MSG_extensionDescription__",
     "homepage_url": "https://gitlab.com/joendres/filelink-nextcloud#cloud-filelink-for-nextcloud-and-owncloud",
     "author": "Johannes Endres",
-    "version": "0.0.0",
+    "version": "3.17.2",
     "icons": {
         "48": "icon48.png"
     },
