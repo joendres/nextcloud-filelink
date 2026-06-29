@@ -62,44 +62,28 @@ Check build tools:
   script:
     - npx eslint build-tools
 
-Bump version:
-  # Autmatically increment the version and add a tag, triggering the release
-  extends: .node_job
-  stage: deploy
-  rules:
-    - if: $CI_COMMIT_BRANCH == "master" && $CI_COMMIT_TITLE =~ /^(feat|fix)!?:/
-  script:
-    - apk add git
-    - LAST_VERSION=`git tag -l | grep -E '^[0-9]+\.[0-9]+\.[0-9]+$' | sort -n | tail -1`
-    - NEW_VERSION=`node build-tools/bump-semver.mjs ${CI_COMMIT_TITLE%:*} $LAST_VERSION`
-    - git tag $NEW_VERSION
-    # GITLAB_PROJECT_TOKEN must have role "Developer" and scope "write_repository"
-    - git remote add master ${CI_REPOSITORY_URL/gitlab-ci-token*@/release_bot:$GITLAB_PROJECT_TOKEN@}
-    - git push --tags master
-
 Deploy to Thunderbird Add-ons:
   extends: .node_job
   stage: deploy
   script:
-    - node build-tools/version-manifest.mjs $CI_COMMIT_TAG
+    # Check if the version in manifest.json and $CI_COMMIT_TAG match
+    - grep -E \"version\":\\s+\"$CI_COMMIT_TAG\" src/manifest.json
     # web-ext sign always fails (as documented), so manipulate the return code
     - "npx web-ext sign || true"
-  environment:
-    name: Add-ons for Thunderbird
-    url: https://addons.thunderbird.net/thunderbird/addon/filelink-nextcloud-owncloud/
   rules:
     # Only sign tagged releases
     - if: '$CI_COMMIT_TAG =~ /^\d+\.\d+\.\d+$/'
 
 Create a release:
   stage: deploy
-  image: registry.gitlab.com/gitlab-org/release-cli:latest
+  image: registry.gitlab.com/gitlab-org/cli:latest
   needs:
     - job: Deploy to Thunderbird Add-ons
   rules:
     - if: '$CI_COMMIT_TAG =~ /^\d+\.\d+\.\d+$/'
   script:
-    - "true"
+    # Check if the version in manifest.json and $CI_COMMIT_TAG match
+    - grep -E \"version\":\\s+\"$CI_COMMIT_TAG\" src/manifest.json
   release:
     description: "$(cat build-tools/release-notes-template.md)\n$CI_COMMIT_MESSAGE"
     tag_name: "$CI_COMMIT_TAG"
@@ -113,9 +97,6 @@ Build pages:
   pages: true
   artifacts:
     expire_in: 1 hour
-  environment:
-    name: "Pages"
-    url: "$CI_PAGES_URL"
   rules:
     # Explicit update of documentation
     - if: $CI_COMMIT_BRANCH == "master" && $CI_COMMIT_TITLE =~ /^docs:/
