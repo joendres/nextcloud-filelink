@@ -4,7 +4,7 @@ Copyright (C) 2020 Johannes Endres
 SPDX-License-Identifier: MIT
 -->
 
-# __*cloud__ - *cloud - FileLink for Nextcloud OpenCloud ownCloud
+# __*cloud__ - FileLink for Nextcloud OpenCloud ownCloud
 
 [Deutsche Dokumentation](de/README.de.md)
 
