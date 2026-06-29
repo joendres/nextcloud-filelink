@@ -3,7 +3,7 @@
     "message": "Carica allegati di grandi dimensioni sul tuo cloud e invia il link via email"
   },
   "extensionName": {
-    "message": "*cloud - FileLink per Nextcloud e ownCloud"
+    "message": "*cloud - FileLink per Nextcloud OpenCloud ownCloud"
   },
   "saveButton": {
     "message": "Salva"

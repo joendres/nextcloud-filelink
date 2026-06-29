@@ -3,7 +3,7 @@
     "message": "Выгрузить вложение превышающее лимиты почты в облако и послать ссылку по почте"
   },
   "extensionName": {
-    "message": "*cloud - облачный провайдер FileLink для Nextcloud и ownCloud технологий"
+    "message": "*cloud - облачный провайдер FileLink для Nextcloud openCloud ownCloud технологий"
   },
   "saveButton": {
     "message": "Сохранить"
