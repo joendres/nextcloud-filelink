@@ -1,7 +1,25 @@
 Copyright (C) 2020-2025 Johannes Endres
 SPDX-License-Identifier: MIT
 
-3.16.0
+3.18.0 2026-06-29
+Close #681 Make it work with OpenCloud
+Remove automatic versioning
+
+3.17.2 2025-07-11
+fix: get quota of correct file system
+
+3.17.1 2025-06-09
+fix: Favicon sometimes changed after first success login
+
+3.17.0 2025-06-04
+Close #625 Add favicon of cloud service to management page
+
+3.16.1 2025-05-18
+Fix #605 Resharing of the same file via TB's menu entry failed under spcial conditions
+Close #607 Document another condition in README that might lead to wrong file being shared
+Several improvements to project scripts
+
+3.16.0 2025-04-13
 Close #558, #557, #545, #543, #325: Make it work with ownCloud Infinite Scale (oCIS)
 Close #561, #544, #531, #560, #559: Add option to create file info links instead of download links
 Fix #504, #501, #500: Non-ASCII characters in filenames
