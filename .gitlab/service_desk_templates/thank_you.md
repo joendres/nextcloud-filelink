@@ -1,4 +1,4 @@
-Thank you for your support request regarding [*cloud - FileLink for Nextcloud, OpenCloud and ownCloud](https://gitlab.com/joendres/filelink-nextcloud)! I'll respond as soon as I can.
+Thank you for your support request regarding [*cloud - *cloud - FileLink for Nextcloud OpenCloud ownCloud](https://gitlab.com/joendres/filelink-nextcloud)! I'll respond as soon as I can.
 
 Please keep in mind, that *cloud is my spare time project and I might not be able to respond instantly.
 

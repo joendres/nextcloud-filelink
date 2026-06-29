@@ -4,7 +4,7 @@ version = 1
 #
 # SPDX-License-Identifier: MIT
 
-SPDX-PackageName = "*cloud - FileLink for Nextcloud, OpenCloud and ownCloud"
+SPDX-PackageName = "*cloud - *cloud - FileLink for Nextcloud OpenCloud ownCloud"
 SPDX-PackageSupplier = "Johannes Endres <je@johannes-endres.de>"
 SPDX-PackageDownloadLocation = "https://gitlab.com/joendres/filelink-nextcloud"
 

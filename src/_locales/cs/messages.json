@@ -3,7 +3,7 @@
     "message": "Velké přílohy nahraje na váš cloud a do emailu vloží odkaz pro stažení"
   },
   "extensionName": {
-    "message": "*cloud - odkazy pro Nextcloud a ownCloud"
+    "message": "*cloud - odkazy pro Nextcloud OpenCloud ownCloud"
   },
   "saveButton": {
     "message": "Uložit"
