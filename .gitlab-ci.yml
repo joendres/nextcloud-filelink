@@ -35,7 +35,7 @@ Static Tests:
     - if: $CI_COMMIT_TITLE =~ /^(docs|ci|build):/
       when: never
     # Categorized commit of source
-    - if: $CI_PIPELINE_SOURCE == 'merge_request_event' && $CI_COMMIT_TITLE =~ /^(f(ix|eat)!?|perf|test|refactor|style):/
+    - if: $CI_COMMIT_TITLE =~ /^(fix|eat|perf|test|refactor|style):/
   script:
     - npx web-ext lint
     - npx eslint src
@@ -49,7 +49,7 @@ REUSE compliance:
   interruptible: true
   rules:
     # Categorized commit
-    - if: $CI_PIPELINE_SOURCE == 'merge_request_event' && $CI_COMMIT_TITLE =~ /^(docs|ci|build|f(ix|eat)!?|perf|test|refactor|style):/
+    - if: $CI_COMMIT_TITLE =~ /^(docs|ci|build|fix|feat|perf|test|refactor|style):/
   script:
     - reuse lint
 
@@ -58,7 +58,7 @@ Check build tools:
   stage: test
   interruptible: true
   rules:
-    - if: $CI_PIPELINE_SOURCE == 'merge_request_event' && $CI_COMMIT_TITLE =~ /^build:/
+    - if: $CI_COMMIT_TITLE =~ /^build:/
   script:
     - npx eslint build-tools
 
