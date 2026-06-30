@@ -60,3 +60,14 @@ SPDX-FileComment = "Source of the file is https://github.com/thunderbird/webext-
 path = "package-lock.json"
 SPDX-FileCopyrightText = "NONE"
 SPDX-License-Identifier = "MIT"
+
+# Make REUSE API happy
+# This should be in the file as 
+# "//": [
+#     "Copyright (C) 2024 Johannes Endres",
+#     "SPDX-License-Identifier: MIT"
+#   ],
+[[annotations]]
+path = "package.json"
+SPDX-FileCopyrightText = "2024 Johannes Endres"
+SPDX-License-Identifier = "MIT"

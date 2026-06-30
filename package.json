@@ -1,8 +1,4 @@
 {
-  "//": [
-    "Copyright (C) 2024 Johannes Endres",
-    "SPDX-License-Identifier: MIT"
-  ],
   "devDependencies": {
     "@eslint/eslintrc": "*",
     "@eslint/js": "*",
