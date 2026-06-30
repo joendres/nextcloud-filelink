@@ -35,7 +35,7 @@ Static Tests:
     - if: $CI_COMMIT_TITLE =~ /^(docs|ci|build):/
       when: never
     # Categorized commit of source
-    - if: $CI_COMMIT_TITLE =~ /^(fix|eat|perf|test|refactor|style):/
+    - if: $CI_COMMIT_TITLE =~ /^(fix|feat|perf|test|refactor|style):/
   script:
     - npx web-ext lint
     - npx eslint src
