@@ -66,11 +66,10 @@ async function convert_file(in_file, out_file) {
     } else {
         const dom = new JSDOM(htmlhead + json.html);
 
-        // Take html title from first H1 of markdown
-        const headings = text.match(/^#\s+(.+)/m);
-        if (headings && headings[1]) {
-            // Remove emphasis
-            dom.window.document.title = headings[1].replaceAll("_", "");
+        //  Take it from first h1 in DOM
+        const firstH1 = dom.window.document.querySelector('h1');
+        if (firstH1) {
+            dom.window.document.title = firstH1.textContent;
         }
 
         // Remove "user-content-" from all IDs to fix anchors

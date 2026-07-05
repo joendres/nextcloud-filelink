@@ -13,30 +13,28 @@ hochlädt und dann einen Download-Link in die Mail einfügt.
 
 ## Voraussetzungen
 
-* Thunderbird: 68.2.1 oder neuer
-* Ein Account auf einem Server mit einer unterstützen Version von Nextcloud,
+1. Thunderbird: 68.2.1 oder neuer
+1. Ein Account auf einem Server mit einer unterstützen Version von Nextcloud,
   OpenCloud oder ownCloud, genauer gesagt:
-  * [Nextcloud](https://nextcloud.com/) Version 30 oder neuer (ältere
+   * [Nextcloud](https://nextcloud.com/) Version 32 oder neuer (ältere
     Versionen könnten funktionieren, werden jedoch [von
     Nextcloud](https://github.com/nextcloud/server/wiki/Maintenance-and-Release-Schedule)
     nicht mehr unterstützt))
-  * [OpenCloud](https://opencloud.eu/) Version 3.5 oder neuer (ältere Versionen
-    könnten funktionieren, wurden jedoch nicht getestet).
-  * [ownCloud](https://owncloud.com/) Version 10.0.10+ (10.0.9 und ältere
-    Versionen enthalten einen Fehler, durch den __*cloud__ nicht
-    funktioniert).
-  * [ownCloud Infinite Scale](https://owncloud.com/infinite-scale/) (oCIS)
+   * [OpenCloud](https://opencloud.eu/) Version 3.5 oder neuer (ältere Versionen
+    könnten funktionieren, wurden jedoch nicht getestet)
+   * [ownCloud](https://owncloud.com/) Version 10.0.10 oder neuer
+   * [ownCloud Infinite Scale](https://owncloud.com/infinite-scale/) (oCIS)
     Version 5 oder neuer (ältere Versionen funktionieren möglicherweise,
     werden aber [nicht von
-    ownCloud](https://owncloud.dev/ocis/release_roadmap/) unterstützt).
-    Hierfür benötigen Sie etwas Hilfe von Ihrem Administrator, da oCIS
-    standardmäßig __*cloud__ nicht unterstützt.
+    ownCloud](https://owncloud.dev/ocis/release_roadmap/) unterstützt)\
+    _Achtung:_ Hierfür benötigst du etwas Hilfe von deinem Administrator, da oCIS
+    standardmäßig __*cloud__ nicht unterstützt
 
-  Wenn Sie keinen eigenen Server betreiben können oder wollen, gibt es
-  zahlreiche Angebote für
-  * [gehostete Nextcloud](https://nextcloud.com/providers/)
-  * [gehostete OpenCloud](https://opencloud.eu/en/about-us/partner)
-  * [gehostete
+   Wenn du keinen eigenen Server betreiben kannst oder willst, gibt es
+   zahlreiche Angebote für
+   * [gehostete Nextcloud](https://nextcloud.com/providers/)
+   * [gehostete OpenCloud](https://opencloud.eu/en/about-us/partner)
+   * [gehostete
     ownCloud](https://owncloud.com/partners/find-a-partner/?_sft_partner-type=service-provider)
   
 ## Installation
@@ -45,14 +43,7 @@ hochlädt und dann einen Download-Link in die Mail einfügt.
 1. Klicke dann unten auf den Link "Weitere Anbieter finden..."
 1. Finde __*cloud__ in der Liste und drücke den "Zu Thunderbird hinzufügen"-Knopf
 
-### Variante
-
-__*cloud__ gibt es auch in der Addon-Sammlung von Thunderbird:
-
-[![Hol dir das
-Addon](https://gitlab.com/joendres/filelink-nextcloud/-/raw/master/public/get-the-addon.svg)](https://addons.thunderbird.net/thunderbird/addon/filelink-nextcloud-owncloud/).
-
-### Einrichtung
+## Einrichtung
 
 1. Nun gibt es auf der "Anhänge"-Seite einen neuen Knopf "*cloud hinzufügen",
    den du drückst
@@ -62,15 +53,18 @@ Addon](https://gitlab.com/joendres/filelink-nextcloud/-/raw/master/public/get-th
    * Username
    * App-Token
 
-#### App-Token für Nextcloud oder ownCloud abrufen
+### App-Token für Nextcloud oder ownCloud abrufen
 
 1. Öffne dein Nextcloud- oder ownCloud-Konto im Browser.
 2. Gehe zu "Einstellungen" -> "Sicherheit" -> "App-Token".
 3. Erstelle unten auf der Seite ein neues Token.
 4. Kopiere es und füge es in das Feld "App-Token" auf der Einstellungsseite
   von __*cloud__ in Thunderbird ein.
+1. Kopiere auch den _Benutzername_ auf der Einstellungsseite von __*cloud__
+  in Thunderbird. Dieser kann sich von deinem normalen Benutzernamen
+  unterscheiden.
 
-#### App-Token für OpenCloud abrufen
+### App-Token für OpenCloud abrufen
 
 1. Öffne ein OpenCloud-Konto im Browser.
 2. Gehe zu "Einstellungen" -> "App-Token".
@@ -80,19 +74,19 @@ Addon](https://gitlab.com/joendres/filelink-nextcloud/-/raw/master/public/get-th
 5. Kopiere das App-Token aus dem folgenden Dialogfeld und füge es in das Feld
   "App-Token" auf der __*cloud__-Einstellungsseite in Thunderbird ein.
 
-#### App-Token für ownCloud Infinite Scale (oCIS) abrufen
+### App-Token für ownCloud Infinite Scale (oCIS) abrufen
 
 1. Öffne dein oCIS-Konto im Browser
 2. Klicke den "Anwendungsumschalter" in der oberen linken Ecke, links neben
    dem ownCloud-Logo
-3. Wähle "App-Token"  
-   Falls diese Option im Menü "Anwendungen" fehlt, bitte deinen Cloud-
-   Administrator, die App "App-Token" aus dem oCIS App Store zu installieren.
+3. Wähle "App-Token"\
+   _Falls diese Option im Menü "Anwendungen" fehlt, bitte deinen
+   Cloud-Administrator, die App "App-Token" aus dem oCIS App Store zu installieren._
 4. Klicke auf die Schaltfläche "Erstellen"
 5. Kopiere das App-Token im nächsten Dialogfeld und füge es in das Feld
   "App-Token" auf der __*cloud__-Einstellungsseite in Thunderbird ein.
 
-#### Automatisches App-Token für Nextcloud
+### Automatisches App-Token für Nextcloud
 
 Bei Nextcloud wird __*cloud__ _versuchen_, ein App-Token für dich zu beziehen:
 
