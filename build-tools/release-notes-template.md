@@ -5,6 +5,6 @@ SPDX-License-Identifier: MIT
 -->
 # Installation
 
-[![Get the Addon](https://gitlab.com/joendres/filelink-nextcloud/-/raw/master/public/get-the-addon.svg)](https://addons.thunderbird.net/thunderbird/addon/filelink-nextcloud-owncloud/)
+[![Get the Addon](https://raw.githubusercontent.com/thunderbird/webext-support/refs/heads/master/images/get-the-addon.svg)](https://addons.thunderbird.net/thunderbird/addon/filelink-nextcloud-owncloud/)
 
 ## Changes

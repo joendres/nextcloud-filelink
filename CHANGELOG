@@ -1,6 +1,15 @@
 Copyright (C) 2020-2025 Johannes Endres
 SPDX-License-Identifier: MIT
 
+3.19.0 2026-07-05
+Close #587 If a single download password is set, also show it in the status popup
+Close #687 Make it work with MagentaCLOUD (Deutsche Telekom)
+Close #704 Deprecate unsupported Nextcloud versions
+Close #694 Improve guessing of cloud type
+Close #703, #700 Simplify user documentation
+Close #701 Switch homepage to gitlab page
+Close #710, #709, #706, #679 several refactorings
+
 3.18.0 2026-06-29
 Close #681 Make it work with OpenCloud
 Remove automatic versioning

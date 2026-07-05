@@ -2,29 +2,20 @@
 //
 // SPDX-License-Identifier: MIT
 
-//#region  Configurable options and useful constants
+// Configurable options and useful constants
 const apiUrlBase = "ocs/v1.php";
 const apiUrlUserInfo = "/cloud/users/";
 const apiUrlUserID = "/cloud/user";
 const apiUrlShares = "/apps/files_sharing/api/v1/shares";
-const apiUrlGetApppassword = "/core/getapppassword";
+const apiUrlGetAppToken = "/core/getapppassword";
 const apiUrlCapabilities = "/cloud/capabilities";
 const davUrlBase = "remote.php/dav/files/";
-
-// Minimal supported versions of the three cloud types
-const ncMinimalVersion = 30;
-const ocMinimalVersion = 10 * 10000 + 0 * 100 + 10;
-const ocisMinimalVersion = 5;
-const openMinimalVersion = 3;
-
-//#endregion
 
 /**
  * This class encapsulates all calls to the Nextcloud or ownCloud web services
  * (API and DAV)
  */
 class CloudConnection {
-    //#region Constructors, load & store
     /**
      * @param {*} accountId Whatever Thunderbird uses as an account identifier
      */
@@ -55,11 +46,8 @@ class CloudConnection {
         for (const key in accountInfo[id]) {
             this[key] = accountInfo[id][key];
         }
-        return this;
     }
-    //#endregion
 
-    //#region Event Handlers
     /**
      * Upload a single file
      *
@@ -130,18 +118,14 @@ class CloudConnection {
     async deleteAccount() {
         browser.storage.local.remove(this._accountId);
     }
-    //#endregion
-
-    //#region Public Methods
 
     /**
      * oCIS and its forks differ from Nextcloud and ownCloud in similar ways.
      * This method returns true it the object is connected to one ot these.
-     * 
-     * @returns 
      */
     isOcisFork() {
-        return ['oCIS', 'OpenCloud'].includes(this.cloud_type);
+        return CLOUDTYPE.OPENCLOUD === this.cloud_type
+            || CLOUDTYPE.INFINITESCALE === this.cloud_type;
     }
 
     /**
@@ -198,9 +182,16 @@ class CloudConnection {
      * Delete all the properties that are read from the server's capabilities to clean out old values
      */
     forgetCapabilities() {
-        ['_password_validate_url', '_password_generate_url', 'api_enabled',
-            'public_shares_enabled', 'enforce_password', 'expiry_max_days',
-            'cloud_versionstring', 'cloud_productname', 'cloud_type', 'cloud_supported',]
+        [
+            '_password_validate_url',
+            '_password_generate_url',
+            'public_shares_enabled',
+            'enforce_password',
+            'expiry_max_days',
+            'cloud_versionstring',
+            'cloud_productname',
+            'cloud_type',
+            'cloud_supported',]
             .forEach(p => delete this[p]);
     }
 
@@ -208,102 +199,43 @@ class CloudConnection {
      * Get useful information from the server and store it as properties
      */
     async updateCapabilities() {
+        // Initialize in case the API call fails
+        this.cloud_type = CLOUDTYPE.OTHER;
+        this.cloud_versionstring = "";
+
         const data = await this._doApiCall(apiUrlCapabilities);
-        if (!data._failed && data.capabilities) {
-            // Don't test data.capabilities.files_sharing.api_enabled because the next line contains it all
+
+        if (!data._failed) {
+
+            const capabilities = new CloudCapabilities(data);
+
             // Is public sharing enabled?
-            this.public_shares_enabled = !!data.capabilities.files_sharing &&
-                !!data.capabilities.files_sharing.public && !!data.capabilities.files_sharing.public.enabled;
+            this.public_shares_enabled = capabilities.publicSharesEnabled();
             if (this.public_shares_enabled) {
                 // Remember if a download password is required
-                if (data.capabilities.files_sharing.public.password) {
-                    if (data.capabilities.files_sharing.public.password.enforced_for &&
-                        'boolean' === typeof data.capabilities.files_sharing.public.password.enforced_for.read_only) {
-                        // ownCloud
-                        this.enforce_password = !!data.capabilities.files_sharing.public.password.enforced_for.read_only;
-                    } else {
-                        //Nextcloud                        
-                        this.enforce_password = !!data.capabilities.files_sharing.public.password.enforced;
-                    }
-                }
+                this.enforce_password = capabilities.passwordRequired();
                 // Remember maximum expiry set on server
-                delete this.expiry_max_days;
-                if (data.capabilities.files_sharing.public.expire_date &&
-                    data.capabilities.files_sharing.public.expire_date.enforced &&
-                    isFinite(data.capabilities.files_sharing.public.expire_date.days) &&
-                    data.capabilities.files_sharing.public.expire_date.days > 0) {
-                    this.expiry_max_days = parseInt(data.capabilities.files_sharing.public.expire_date.days);
-                }
+                this.expiry_max_days = capabilities.expiryMaxDays();
             }
 
             // Remember password policy urls if they are present (AFAIK only in NC 17+)
-            if (data.capabilities.password_policy && data.capabilities.password_policy.api) {
-                try {
-                    const u = new URL(data.capabilities.password_policy.api.validate);
-                    if (u.host === (new URL(this.serverUrl)).host) {
-                        this._password_validate_url = u.origin + u.pathname;
-                    }
-                } catch (_) { /* Error just means there is no url */ }
-                try {
-                    const u = new URL(data.capabilities.password_policy.api.generate);
-                    if (u.host === (new URL(this.serverUrl)).host) {
-                        this._password_generate_url = u.origin + u.pathname;
-                    }
-                } catch (_) { /* Error just means there is no url */ }
-            }
+            this._password_validate_url = capabilities.passwordValidateUrl(this.serverUrl);
+            this._password_generate_url = capabilities.passwordGenerateUrl(this.serverUrl);
 
-            // Take version from capabilities
-            this.cloud_versionstring = data.version.string;
-            // Take name & type from capabilities
-            if (data.capabilities.theming && data.capabilities.theming.name) {
-                this.cloud_productname = data.capabilities.theming.name;
-                this.cloud_type = "Nextcloud";
-                this.cloud_supported = data.version.major >= ncMinimalVersion;
-            } else if (data.capabilities.core.status && data.capabilities.core.status.productname) {
-                this.cloud_productname = data.capabilities.core.status.productname;
-                if (data.capabilities.core.status.product === "Infinite Scale") {
-                    this.cloud_type = "oCIS";
-                    this.cloud_supported = (parseSemver(data.capabilities.core.status.productversion)).major >= ocisMinimalVersion;
-                    this.cloud_versionstring = data.capabilities.core.status.productversion;
-                } else if (data.capabilities.core.status.product === "OpenCloud") {
-                    this.cloud_type = "OpenCloud";
-                    this.cloud_supported = (parseSemver(data.capabilities.core.status.productversion)).major >= openMinimalVersion;
-                    this.cloud_versionstring = data.capabilities.core.status.productversion;
-                } else {
-                    this.cloud_type = "ownCloud";
-                    this.cloud_supported = parseInt(data.version.major) * 10000 +
-                        parseInt(data.version.minor) * 100 +
-                        parseInt(data.version.micro) >= ocMinimalVersion;
-                }
-            } else if (data.version.major >= ncMinimalVersion) {
-                this.cloud_productname = 'Nextcloud';
-                this.cloud_type = "Nextcloud";
-                this.cloud_supported = true;
-            } else {
-                this.cloud_type = "Unsupported";
-                this.cloud_supported = false;
-            }
+            this.cloud_versionstring = capabilities.versionstring();
+            // Deduce type from capabilities
+            this.cloud_type = capabilities.guessCloudType();
+            // Find out, if it's a supported version
+            this.cloud_supported = capabilities.supportedVersion();
+
+            // Get the name of the instance
+            this.cloud_productname = capabilities.getInstanceName();
         }
+
         // Get the faviconUrl from the server
-        const faviconUrl = await getFaviconUrl(this.serverUrl);
-        // If there is one, use it
-        if (faviconUrl) {
-            this.cloud_logo_url = faviconUrl;
-        } else
-            // if there is no favicon and none is already set, use the default
-            // logo for the cloud type
-            if (!this.cloud_logo_url) {
-                this.cloud_logo_url = {
-                    "Nextcloud": "images/nextcloud-logo.svg",
-                    "ownCloud": "images/owncloud-logo.svg",
-                    "oCIS": "images/ocis-app-icon.png",
-                    "OpenCloud": "images/opencloud-logo.svg",
-                    "Unsupported": "../../icon48.png",
-                }[this.cloud_type];
-            }
+        this.cloud_logo_url = await getFaviconUrl(this.serverUrl, this.cloud_type);
 
         this.store();
-        return data;
     }
 
     /**
@@ -353,7 +285,7 @@ class CloudConnection {
      * replaces the current password with it
      */
     async convertToApppassword() {
-        const data = await this._doApiCall(apiUrlGetApppassword);
+        const data = await this._doApiCall(apiUrlGetAppToken);
         if (data && data.apppassword) {
             // Test if the apppassword really works with the given username
             const oldpassword = this.password;
@@ -408,9 +340,7 @@ class CloudConnection {
         validation also doesn't work, so the locally generateed password cannot be validated. */
         return pw || generatePassword(16);
     }
-    //#endregion
 
-    //#region Internal helpers
     /**
      * Get a share link for the file, reusing an existing one with the same
      * parameters
@@ -497,7 +427,7 @@ class CloudConnection {
         const data = await this._doApiCall(apiUrlShares, 'POST', { "Content-Type": "application/x-www-form-urlencoded", }, shareFormData);
 
         if (data && data.url) {
-            if (this.useDlPassword && this.useGeneratedDlPassword) {
+            if (this.useDlPassword) {
                 const status = attachmentStatus.get(uploadId);
                 status.password = this.downloadPassword;
                 status.set_status('generatedpassword');
@@ -532,9 +462,7 @@ class CloudConnection {
         }
         return encoderUrl;
     }
-    //#endregion
 
-    //#region Wrapper for web service calls
     /**
      * Call a function of the Nextcloud/ownCloud web service API
      *
@@ -588,10 +516,8 @@ class CloudConnection {
             return { _failed: true, status: error.name, statusText: error.message, };
         }
     }
-    //#endregion
 }
 
-/* global parseSemver */
 /* global utils*/
 /* global DAVClient  */
 /* global punycode */
@@ -599,4 +525,6 @@ class CloudConnection {
 /* global attachmentStatus */
 /* global generatePassword */
 /* global getFaviconUrl */
+/* global CloudCapabilities */
+/* global CLOUDTYPE */
 /* exported CloudConnection */

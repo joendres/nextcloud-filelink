@@ -13,63 +13,55 @@ cloud and generates a link you can send by mail instead of the file.
 
 [[_TOC_]]
 
-## Requirements
+## What You'll Need (Requirements)
 
-* Thunderbird: 68.2.1 or newer
-* An account on a server running a supported version of Nextcloud, OpenCloud or ownCloud,
-  more specifically:
-  * [Nextcloud](https://nextcloud.com/) version 30 or newer (older versions
+1. Thunderbird 68.2.1 or newer
+2. An account on a server running Nextcloud, OpenCloud or ownCloud:
+   * [Nextcloud](https://nextcloud.com/) version 32 or newer (older versions
     might work, but are [not supported by
     Nextcloud](https://github.com/nextcloud/server/wiki/Maintenance-and-Release-Schedule))
-  * [OpenCloud](https://opencloud.eu/) version 3.5 or newer (older versions
+   * [OpenCloud](https://opencloud.eu/) version 3.5 or newer (older versions
     might work, but have not been tested).
-  * [ownCloud](https://owncloud.com/) version 10.0.10+ (10.0.9 and older
-    versions contain bugs that prevent __*cloud__ from working).
-  * [ownCloud Infinite Scale](https://owncloud.com/infinite-scale/) (oCIS)
+   * [ownCloud](https://owncloud.com/) version 10.0.10 or newer.
+   * [ownCloud Infinite Scale](https://owncloud.com/infinite-scale/) (oCIS)
     version 5 or newer (older versions might work, but are [not supported by
-    ownCloud](https://owncloud.dev/ocis/release_roadmap/)) This will need some
+    ownCloud](https://owncloud.dev/ocis/release_roadmap/))\
+    _Caution:_ You will need some
     help from your administrator as oCIS does not support __*cloud__ by
     default.
 
-  If you can't or don't want to run your own server, there are many offers for
-  * [hosted Nextcloud](https://nextcloud.com/providers/)
-  * [hosted
-  ownCloud](https://owncloud.com/partners/find-a-partner/?_sft_partner-type=service-provider)
-  * [hosted OpenCloud](https://opencloud.eu/en/about-us/partner)
-  
-  services.
+   If you can't or don't want to run your own server, many companies offer to run it for you as a hosted service:
+   * [List of Nextcloud providers](https://nextcloud.com/providers/)
+   * [List of OpenCloud providers](https://opencloud.eu/en/about-us/partner)
+   * [List of
+  ownCloud providers](https://owncloud.com/partners/find-a-partner/?_sft_partner-type=service-provider)
 
-## User guide
-
-### Install
+## Install
 
 1. Go to Preferences -> Compose -> Attachments
 2. Click the link "Find more providers..." at the bottom of the page.
 3. Find __*cloud__ in the list and click the "Add to Thunderbird" button.
 
-__*cloud__ is also available via Thunderbird's Add-on
-repository:
-
-[![Get the Addon](https://gitlab.com/joendres/filelink-nextcloud/-/raw/master/public/get-the-addon.svg)](https://addons.thunderbird.net/thunderbird/addon/filelink-nextcloud-owncloud/)
-
-### Configure
+## Configure
 
 1. In thunderbird go to Preferences -> Compose -> Attachments
 2. Click the button "Add *cloud".
 3. Only three settings are strictly necessary:
-   * Server-URL
-   * Username
-   * App Token (or password)
+    * Server-URL
+    * Username
+    * App Token (or password)
 
-#### Getting an App Token for Nextcloud or ownCloud
+### Getting an App Token for Nextcloud or ownCloud
 
 1. Open your Nextcloud or ownCloud account in the browser
 2. Go to Settings -> Security -> App Token
 3. At the bottom of the page generate a new token.
 4. Copy&paste it into the "App Token" field of the __*cloud__ preferences page
   in Thunderbird.
+1. Also copy the _username_ into the  __*cloud__ preferences page
+  in Thunderbird. It might differ from your login username.
 
-#### Getting an App Token for OpenCloud
+### Getting an App Token for OpenCloud
 
 1. Open your OpenCloud account in the browser
 2. Go to Preferences -> App Tokens
@@ -79,19 +71,19 @@ repository:
 5. Copy the App Token from the next dialog and paste it into the "App Token"
   field of the __*cloud__ preferences page in Thunderbird.
 
-#### Getting an App Token for ownCloud Infinite Scale (oCIS)
+### Getting an App Token for ownCloud Infinite Scale (oCIS)
 
 1. Open your oCIS account in the browser
 1. Click on the "Application Switcher" in top left corner, left of the
    ownCloud logo
-1. Choose "App Tokens"  
-   If this option is missing from the Applications menu, ask your cloud
-   administrator to install the "App Tokens" app from the oCIS App Store.
+1. Choose "App Tokens"\
+   _If this option is missing from the Applications menu, ask your cloud
+   administrator to install the "App Tokens" app from the oCIS App Store._
 1. Click the "Create" button
 1. Copy the App Token in the next dialog and paste it into the "App Token"
   field of the __*cloud__ preferences page in Thunderbird.
 
-#### Automatic App Token for Nextcloud
+### Automatic App Token for Nextcloud
 
 With Nextcloud __*cloud__ will _try_ to obtain an App Token for you:
 
@@ -102,7 +94,7 @@ With Nextcloud __*cloud__ will _try_ to obtain an App Token for you:
   afterwards the password field is filled with dots completely (app tokens are
   quite long).
 
-### Use
+## Use
 
 After you have added at least one account there are
 three ways to start the upload:
@@ -118,9 +110,9 @@ three ways to start the upload:
 3. After you added an attachment you can choose "Convert to..." from that
    attachments context menu (right click on the attachment).
 
-### Known issues
+## Known issues
 
-#### Incorrect links for almost identical files
+### Incorrect links for almost identical files
 
 If you share a file that has
 
@@ -140,7 +132,7 @@ folders quickly.
 At the moment, the only solution is to change the file names or set different
 modification times (use the `touch` command on Unix systems).
 
-#### You don't like the text/HTML/links inserted into the message
+### You don't like the text/HTML/links inserted into the message
 
 Many users would like to change the text that is inserted into the message
 along with the download url, eg add the expiration date, change the cloud
@@ -150,12 +142,12 @@ surrounding the url is part of Thunderbird. The Addon only supplies the url,
 Thunderbird wraps its template around it and inserts the whole thing into your
 message.
 
-#### URL works in browser but not in *cloud
+### URL works in browser but not in *cloud
 
 In some situations the url you use to access your Nextcloud/ownCloud account in
 the browser doesn't work as the server URL in __*cloud__.
 
-##### Reason 1: Redirect
+#### Reason 1: Redirect
 
 If your access url is redirected to the actual cloud location (plus some
 technicality), __*cloud__ can't find the actual url.
@@ -165,17 +157,17 @@ If this happens to you, point __*cloud__  to the actual cloud location:
 1. Open your cloud in a browser.
 1. Log in.
 1. Depending on your cloud version you now have different views:
-   * In Nextcloud you see the "Dashboard", just continue to the next step.
-   * In Opencloud, ownCloud and ownCloud Infinite Scale your see the "Files" app.
+    * In Nextcloud you see the "Dashboard", just continue to the next step.
+    * In Opencloud, ownCloud and ownCloud Infinite Scale your see the "Files" app.
      Continue to the next step.
-   * If you are neither in the "Dashboard" nor the "Files" app, click on the
+    * If you are neither in the "Dashboard" nor the "Files" app, click on the
      folder icon in the cloud's top menu to go to the "Files" app.
 1. Copy the complete url from the url bar of your browser
 1. Paste it into the server url field in __*cloud__'s configuration (in Thunderbird).
 
 As soon as you save the settings, __*cloud__ will remove unnecessary parts.
 
-##### Reason 2: https certificate
+#### Reason 2: https certificate
 
 If the admin of your cloud used something called a "self signed certificate",
 Thunderbird (not __*cloud__) refuses to connect to the server. There are two
@@ -194,27 +186,27 @@ solutions:
    1. Click "Get Certificate"
    1. Click "Confirm Security Exception"
 
-#### Upload problems
+### Upload problems
 
 The _download_ password has to comply with _all_ the rules for passwords on
 your cloud, otherwise the _upload_ will fail. There are default rules of
 Nextcloud and ownCloud, and your admin might have configured some different
 rules.
 
-#### Files are uploaded correctly but sharing fails
+### Files are uploaded correctly but sharing fails
 
 This is usually caused by a misconfiguration of the cloud server. Please point
 your cloud admin to the section on [Apache and
 mod_rewrite](#apache-and-mod_rewrite) below.
 
-#### Filenames with Unicode special character cause problems
+### Filenames with Unicode special character cause problems
 
 In some minor versions of Thunderbird 102.2 filenames with specials characters
 or in non-US script systems like Greek cause problems. The upload works, but
 sharing the uploaded file fails. This is fixed in Thunderbird 102.5.0; please
 update Thunderbird.
 
-#### Files from network shares uploaded to cloud _and_ attached
+### Files from network shares uploaded to cloud _and_ attached
 
 There was a [bug in
 Thunderbird](https://bugzilla.mozilla.org/show_bug.cgi?id=793118): If you
@@ -223,14 +215,14 @@ share link was inserted into your mail, but the file was _also attached to the
 message_. This was fixed in Thunderbird 68.11.0 and 78.0.1. If you're still
 experiencing this issue, update Thunderbird.
 
-#### Still not working?
+### Still not working?
 
 If things still don't work, I'd appreciate a problem report by
 [email](mailto:cloud@johannes-endres.de). Thanks.
 
-### Good to know
+## Good to know
 
-#### Download passwords
+### Download passwords
 
 If you use download passwords, don't put them into an email, but give them to
 the recipient via a separate, secure channel eg a messenger or a telephone
@@ -253,7 +245,7 @@ only more complicated for the recipient. The same goes for a separate email
 with the password: If Eve can intercept the first email with the link, she is
 very probably also able to intercept the second email.
 
-#### Handling of existing files
+### Handling of existing files
 
 If you attach a file that's already in the attachments folder in your cloud
 _with identical contents_, that file is not uploaded again. Instead the
@@ -304,8 +296,8 @@ enable it:
 1. Enable the [Auth App
    Service](https://doc.owncloud.com/ocis/next/admin/deployment/services/s-list/auth-app.html).
    This requires _two_ environment variables:
-   * OCIS_ADD_RUN_SERVICES=auth-app
-   * PROXY_ENABLE_APP_AUTH=true
+    * OCIS_ADD_RUN_SERVICES=auth-app
+    * PROXY_ENABLE_APP_AUTH=true
 2. (recommended) Add the app [App
    Tokens](https://github.com/mschlachter/ocis-app-tokens) to your oCIS
    instance. This allows users to create their own App Tokens.
