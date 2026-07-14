@@ -119,14 +119,6 @@ class CloudConnection {
         browser.storage.local.remove(this._accountId);
     }
 
-    /**
-     * oCIS and its forks differ from Nextcloud and ownCloud in similar ways.
-     * This method returns true it the object is connected to one ot these.
-     */
-    isOcisFork() {
-        return CLOUDTYPE.OPENCLOUD === this.cloud_type
-            || CLOUDTYPE.INFINITESCALE === this.cloud_type;
-    }
 
     /**
      * Get free space from web service and save it in the CloudConnection object
@@ -134,7 +126,7 @@ class CloudConnection {
     async updateFreeSpaceInfo() {
         this.spaceRemaining = -1;
 
-        if (this.isOcisFork())
+        if (this.has_dav_quota_bug)
             // oCIS does not return the available quota on PROPFIND, but the
             // entire quota: https://github.com/owncloud/ocis/issues/8197, so
             // use user quota instead
@@ -191,7 +183,10 @@ class CloudConnection {
             'cloud_versionstring',
             'cloud_productname',
             'cloud_type',
-            'cloud_supported',]
+            'cloud_supported',
+            'has_dav_quota_bug',
+            'no_download_links',
+        ]
             .forEach(p => delete this[p]);
     }
 
@@ -199,10 +194,6 @@ class CloudConnection {
      * Get useful information from the server and store it as properties
      */
     async updateCapabilities() {
-        // Initialize in case the API call fails
-        this.cloud_type = CLOUDTYPE.OTHER;
-        this.cloud_versionstring = "";
-
         const data = await this._doApiCall(apiUrlCapabilities);
 
         if (!data._failed) {
@@ -227,6 +218,11 @@ class CloudConnection {
             this.cloud_type = capabilities.guessCloudType();
             // Find out, if it's a supported version
             this.cloud_supported = capabilities.supportedVersion();
+
+            // Does the cloud support download links?
+            this.no_download_links = capabilities.isOcisFork();
+            // Does its WebDAV implementation return the wrong quota on PROPFIND?
+            this.has_dav_quota_bug = capabilities.isOcisFork();
 
             // Get the name of the instance
             this.cloud_productname = capabilities.getInstanceName();
@@ -518,7 +514,7 @@ class CloudConnection {
     }
 }
 
-/* global utils*/
+/* global utils */
 /* global DAVClient  */
 /* global punycode */
 /* global Status */
@@ -526,5 +522,4 @@ class CloudConnection {
 /* global generatePassword */
 /* global getFaviconUrl */
 /* global CloudCapabilities */
-/* global CLOUDTYPE */
 /* exported CloudConnection */

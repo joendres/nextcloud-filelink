@@ -9,7 +9,7 @@
     "description": "__MSG_extensionDescription__",
     "homepage_url": "https://joendres.gitlab.io/filelink-nextcloud/",
     "author": "Johannes Endres",
-    "version": "3.19.0",
+    "version": "3.19.1",
     "icons": {
         "48": "icon48.png"
     },
@@ -34,7 +34,7 @@
             "lib/getFaviconUrl.js",
             "lib/cloudcapabilities.js",
             "lib/cloudconnection.js",
-            "punycode/punycode.js",
+            "vendor/punycode.min.js",
             "background.js"
         ]
     },

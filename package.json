@@ -14,11 +14,6 @@
   },
   "webExt": {
     "ignoreFiles": [
-      "punycode/package.json",
-      "punycode/README.md",
-      "punycode/punycode.es6.js",
-      "punycode/scripts",
-      "punycode/tests",
       "photon-components-web/index.js",
       "photon-components-web/images/arrow-grey-40-*.svg",
       "photon-components-web/images/open-in-new-16-*.svg",

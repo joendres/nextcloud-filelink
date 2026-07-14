@@ -22,7 +22,7 @@ cloud and generates a link you can send by mail instead of the file.
     Nextcloud](https://github.com/nextcloud/server/wiki/Maintenance-and-Release-Schedule))
    * [OpenCloud](https://opencloud.eu/) version 3.5 or newer (older versions
     might work, but have not been tested).
-   * [ownCloud](https://owncloud.com/) version 10.0.10 or newer.
+   * [ownCloud Classic](https://owncloud.com/) version 10.0.10 or newer.
    * [ownCloud Infinite Scale](https://owncloud.com/infinite-scale/) (oCIS)
     version 5 or newer (older versions might work, but are [not supported by
     ownCloud](https://owncloud.dev/ocis/release_roadmap/))\
@@ -51,14 +51,14 @@ cloud and generates a link you can send by mail instead of the file.
     * Username
     * App Token (or password)
 
-### Getting an App Token for Nextcloud or ownCloud
+### Getting an App Token for Nextcloud or ownCloud Classic
 
-1. Open your Nextcloud or ownCloud account in the browser
+1. Open your Nextcloud or ownCloud Classic account in the browser
 2. Go to Settings -> Security -> App Token
 3. At the bottom of the page generate a new token.
 4. Copy&paste it into the "App Token" field of the __*cloud__ preferences page
   in Thunderbird.
-1. Also copy the _username_ into the  __*cloud__ preferences page
+5. Also copy the _username_ into the  __*cloud__ preferences page
   in Thunderbird. It might differ from your login username.
 
 ### Getting an App Token for OpenCloud
@@ -112,6 +112,31 @@ three ways to start the upload:
 
 ## Known issues
 
+### Files are uploaded correctly but sharing fails
+
+#### Cause 1: Nextcloud's sharing limit
+
+By default, Nextcloud allows a user to create at most 20 share links within
+any 10-minute interval. If you send emails with many attachments in a short
+time, this limit may be reached.
+
+Solution: Ask your cloud administrator to raise the limit. A [section in the
+cloud admin documentation](ADMIN.md#rate-limit-on-sharing) explains how to
+change the limit.
+
+#### Cause 2: Invalid download password
+
+The _download_ password has to comply with _all_ the rules for passwords on
+your cloud, otherwise the _upload_ will fail. There are default rules of
+Nextcloud, OpenCloud and ownCloud, and your admin might have configured some different
+rules.
+
+#### Cause 3: Server misconfiguration
+
+Sharing problems man also be caused by a misconfiguration of the cloud server. Please
+point your cloud admin to the section on [Apache and
+mod_rewrite](ADMIN.md#mod_rewrite) in the cloud admin documentation.
+
 ### Incorrect links for almost identical files
 
 If you share a file that has
@@ -144,10 +169,10 @@ message.
 
 ### URL works in browser but not in *cloud
 
-In some situations the url you use to access your Nextcloud/ownCloud account in
+In some situations the url you use to access your Nextcloud/OpenCloud/ownCloud account in
 the browser doesn't work as the server URL in __*cloud__.
 
-#### Reason 1: Redirect
+#### Cause 1: Redirect
 
 If your access url is redirected to the actual cloud location (plus some
 technicality), __*cloud__ can't find the actual url.
@@ -158,7 +183,7 @@ If this happens to you, point __*cloud__  to the actual cloud location:
 1. Log in.
 1. Depending on your cloud version you now have different views:
     * In Nextcloud you see the "Dashboard", just continue to the next step.
-    * In Opencloud, ownCloud and ownCloud Infinite Scale your see the "Files" app.
+    * In Opencloud, ownCloud Classic and ownCloud Infinite Scale your see the "Files" app.
      Continue to the next step.
     * If you are neither in the "Dashboard" nor the "Files" app, click on the
      folder icon in the cloud's top menu to go to the "Files" app.
@@ -167,14 +192,14 @@ If this happens to you, point __*cloud__  to the actual cloud location:
 
 As soon as you save the settings, __*cloud__ will remove unnecessary parts.
 
-#### Reason 2: https certificate
+#### Cause 2: https certificate
 
 If the admin of your cloud used something called a "self signed certificate",
 Thunderbird (not __*cloud__) refuses to connect to the server. There are two
 solutions:
 
 1. (preferred) Tell your admin about the problem. She might [install another type
-   of certificate](#self-signed-certificates), which Thunderbird accepts.
+   of certificate](ADMIN.md#self-signed-certificates), which Thunderbird accepts.
 1. (if 1. is not possible) Force Thunderbird to accept the certificate:
    1. Open Thunderbird's preferences
    1. Go to "Privacy & Security"
@@ -185,19 +210,6 @@ solutions:
    1. Enter your cloud's address in the "Location" field
    1. Click "Get Certificate"
    1. Click "Confirm Security Exception"
-
-### Upload problems
-
-The _download_ password has to comply with _all_ the rules for passwords on
-your cloud, otherwise the _upload_ will fail. There are default rules of
-Nextcloud and ownCloud, and your admin might have configured some different
-rules.
-
-### Files are uploaded correctly but sharing fails
-
-This is usually caused by a misconfiguration of the cloud server. Please point
-your cloud admin to the section on [Apache and
-mod_rewrite](#apache-and-mod_rewrite) below.
 
 ### Filenames with Unicode special character cause problems
 
@@ -254,7 +266,7 @@ existing file is shared.
 To make this possible, __*cloud__ never deletes files in your cloud. Over time
 your attachments folder may grow to considerable size. It's safe to delete old
 attachments. Your admin may automate that, using "Flows" in Nextcloud or
-ownCloud.
+ownCloud Classic.
 
 You can use this behavior if you want to share large (or many) files: Sync
 your attachments folder to a folder on your computer using the desktop client.
@@ -267,85 +279,12 @@ existing file to a subfolder of the attachments folder; the original share
 link will remain valid and point to the old content.\
 Then the new file is uploaded and shared with a new share link.
 
-__*cloud__ uses a similar method as the Nextcloud/ownCloud desktop clients to
+__*cloud__ uses a similar method as the Nextcloud/OpenCloud/ownCloud desktop clients to
 decide if the local and remote files are identical:
 
 * identical name and
 * identical size (in bytes) and
 * last modification within the same second.
-
-## Information for cloud administrators
-
-### Server settings
-
-#### Nextcloud and ownCloud
-
-* __Settings -> Sharing -> Allow apps to use the Share API__ has to be enabled
-* __Settings -> Sharing -> Allow users to share via link__ has to be enabled
-* __The app "Share Files" has to be active.__ In ownCloud the Apps management
-  is part of the administrator's settings, in Nextcloud it's accessible
-  directly from the admin's profile menu.
-
-#### ownCloud Infinite Scale (oCIS)
-
-oCIS does not support __*cloud__ out of the box. You have to two options to
-enable it:
-
-##### Enable App Tokens (preferred)
-
-1. Enable the [Auth App
-   Service](https://doc.owncloud.com/ocis/next/admin/deployment/services/s-list/auth-app.html).
-   This requires _two_ environment variables:
-    * OCIS_ADD_RUN_SERVICES=auth-app
-    * PROXY_ENABLE_APP_AUTH=true
-2. (recommended) Add the app [App
-   Tokens](https://github.com/mschlachter/ocis-app-tokens) to your oCIS
-   instance. This allows users to create their own App Tokens.
-
-##### Enable HTTP Basic Auth (not recommended)
-
-The [oCIS documentation](https://doc.owncloud.com/ocis/7.3/deployment/services/s-list/proxy.html#authentication) explicitly says:
->
-> * Basic Auth (Only use in development, __never in production__ setups!)
-
-and
->
-> * In a production deployment, you want to have basic authentication [...]
-_disabled_ which is the default state.
-
-[Activating the Auth Basic Service](https://doc.owncloud.com/ocis/next/deployment/services/s-list/auth-basic.html) does not enable App Tokens but allows the users to use their passwords with __*cloud__.
-
-### Redirects
-
-In some configurations a start url like `https://cloud.example.com` is
-redirected to the actual url of the cloud eg `https://example.com/cloud`.
-__*cloud__ has to access many different paths below this url, eg.
-`status.php`. If these are not also redirected
-(`https://cloud.example.com/status.php` ->
-`https://example.com/cloud/status.php`), __*cloud__ can't access them and
-doesn't work. There is no way for the extension to find the actual base url
-with some certainty.
-
-There is a [workaround](#url-works-in-browser-but-not-in-cloud): Users can
-find out the actual url and configure it in __*cloud__. But it's easier for
-users if all urls are redirected. So it would be greatly appreciated if you
-would do that in your cloud instance (if you have to use redirects at all).
-Thanks.
-
-### Self-signed certificates
-
-By default Thunderbird (not __*cloud__) refuses https connections using
-self-signed certificates. It's a lot easier for your users, if you install a
-[Let's encrypt](https://letsencrypt.org/getting-started/) certificate. There
-are great How-tos on their site.
-
-### Apache and mod_rewrite
-
-[Nextcloud](https://docs.nextcloud.com/server/latest/admin_manual/installation/source_installation.html#additional-apache-configurations)
-and[ownCloud](https://doc.owncloud.com/server/next/admin_manual/installation/manual_installation/manual_installation_apache.html#additional-apache-configurations)
-both require mod_rewrite to be active if run in the Apache http server.
-Without mod_rewrite __*cloud__ fails with different error scenarios depending
-on other details of the configuration.
 
 ## Contributions
 
@@ -376,4 +315,3 @@ on other details of the configuration.
   license](https://github.com/mathiasbynens/punycode.js/blob/master/LICENSE-MIT.txt)
 * Contains [photon-components-web](https://firefoxux.github.io/photon-components-web/)
 
-If you'd like to contribute, see [CONTRIBUTING](CONTRIBUTING.md)

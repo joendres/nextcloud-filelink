@@ -378,11 +378,11 @@ async function handleFormData() {
  */
 
 function ocisHasNoDownloadLinks() {
-    if (ncc.isOcisFork()) {
+    if (ncc.no_download_links) {
         if (!noAutoDownload.checked) {
-            noAutoDownload.checked = true;
             popup.warn('ocis_no_download_links');
         }
+        noAutoDownload.checked = true;
         noAutoDownload.disabled = true;
     }
 }

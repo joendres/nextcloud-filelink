@@ -22,7 +22,7 @@ hochlädt und dann einen Download-Link in die Mail einfügt.
     nicht mehr unterstützt))
    * [OpenCloud](https://opencloud.eu/) Version 3.5 oder neuer (ältere Versionen
     könnten funktionieren, wurden jedoch nicht getestet)
-   * [ownCloud](https://owncloud.com/) Version 10.0.10 oder neuer
+   * [ownCloud Classic](https://owncloud.com/) Version 10.0.10 oder neuer
    * [ownCloud Infinite Scale](https://owncloud.com/infinite-scale/) (oCIS)
     Version 5 oder neuer (ältere Versionen funktionieren möglicherweise,
     werden aber [nicht von
@@ -53,7 +53,7 @@ hochlädt und dann einen Download-Link in die Mail einfügt.
    * Username
    * App-Token
 
-### App-Token für Nextcloud oder ownCloud abrufen
+### App-Token für Nextcloud oder ownCloud Classic abrufen
 
 1. Öffne dein Nextcloud- oder ownCloud-Konto im Browser.
 2. Gehe zu "Einstellungen" -> "Sicherheit" -> "App-Token".
@@ -116,6 +116,27 @@ gibt es drei Möglichkeiten, den Upload zu starten:
 
 ## Bekannte Probleme
 
+### Der Upload klappt, aber das Teilen funktioniert nicht
+
+#### Ursache 1: Sharing-Limit von Nextcloud
+
+Nextcloud erlaubt standardmäßig pro Nutzer maximal 20 Freigabe-Links innerhalb
+von 10 Minuten. Wenn du in kurzer Zeit viele E-Mails mit Anhängen verschickst,
+kann dieses Limit erreicht werden.
+
+Lösung: Bitte deinen Cloud-Administrator, das Limit zu erhöhen.
+
+#### Ursache 2: Download-Passwort
+
+Das _Download_-Passwort muss _allen_ Regeln für Passwörter entsprechen, die der
+Admin deiner Cloud konfiguriert hat. Andernfalls schlägt der _Upload_ fehl.
+
+#### Ursache 3: Apache mod_rewrite nicht aktiv
+
+Manchmal liegt es auch an einer falschen Einstellung auf dem Cloud-Server.
+Verweise deinen Cloud-Administrator auf den Abschnitt
+[Apache and mod_rewrite](../ADMIN.md#mod_rewrite) in der Admin-Dokumentation.
+
 ### Falsche Links bei fast identischen Dateien
 
 Wenn du eine Datei freigibst, die
@@ -148,8 +169,8 @@ ein.
 
 ### URL funktioniert im Browser, aber nicht in den Einstellungen von *cloud
 
-In einigen Situationen funktioniert die URL, mit der du auf dein Nextcloud-
-oder ownCloud-Konto zugreifen kannst, nicht in __*cloud__.
+In einigen Situationen funktioniert die URL, mit der du auf dein Nextcloud-,
+OpenCloud oder ownCloud-Konto zugreifen kannst, nicht in __*cloud__.
 
 #### Ursache 1: URL-Umleitung (Redirect)
 
@@ -164,7 +185,7 @@ Wenn dir dies passiert, zeige __*cloud__ die tatsächlichen Cloud-URL:
 1. Abhängig von der Cloud-Version hast du jetzt unterschiedliche Ansichten:
    * In Nextcloud seit Version 20 siehst du das "Dashboard"; mach einfach mit
      dem nächsten Schritt weiter.
-   * In älteren Versionen von Nextcloud und in ownCloud siehst du
+   * In OpenCloud und in ownCloud siehst du
      normalerweise die App "Dateien". Auch dann geht es mit dem nächsten
      Schritt weiter.
    * Wenn du dich weder im "Dashboard" noch in der "Dateien"-App befindest,
@@ -183,9 +204,10 @@ Verbindung zum Server herzustellen. Es gibt zwei Lösungen:
 
 1. (besser) Informiere deinen Administrator über das Problem. Er sollte
    [einen anderen Zertifikat-Typ
-   installieren](https://gitlab.com/joendres/filelink-nextcloud#self-signed-certificates),
+   installieren](../ADMIN.md#self-signed-certificates),
    das Thunderbird akzeptiert.
-1. (falls 1. nicht möglich ist) Thunderbird zwingen, das Zertifikat zu akzeptieren:
+1. (falls 1. nicht möglich ist) Thunderbird zwingen, das Zertifikat zu
+   akzeptieren:
    1. Öffne die Einstellungen von Thunderbird
    1. Gehe zu "Datenschutz & Sicherheit"
    1. Scrolle ganz nach unten zum Bereich "Zertifikate"
@@ -195,19 +217,6 @@ Verbindung zum Server herzustellen. Es gibt zwei Lösungen:
    1. Gib die Adresse der Cloud in das Feld "Adresse" ein
    1. Klicke auf "Zertifikat herunterladen".
    1. Klicke auf "Sicherheits-Ausnahmeregel bestätigen".
-
-### Probleme beim Hochladen
-
-Das _Download_-Passwort muss _allen_ Regeln für Passwörter entsprechen, die der
-Admin deiner Cloud konfiguriert hat. Andernfalls schlägt der _Upload_ fehl.
-
-### Der Upload klappt, aber das Teilen funktioniert nicht
-
-Das liegt normalerweise an einer falschen Einstellung auf dem Cloud-Server. Das
-kann nur der dortige Admin korrigieren. Verweise ihn auf den Abschnitt ["Apache
-and
-mod_rewrite"](https://gitlab.com/joendres/filelink-nextcloud#apache-and-modrewrite)
-in der Admin-Dokumentation.
 
 ### Dateinamen mit Sonderzeichen werden nicht geteilt
 
@@ -283,8 +292,9 @@ Anschließend wird die neue Datei hochgeladen und mit einem neuen Freigabelink
 geteilt.
 
 __*cloud__ verwendet dieselbe Methode wie die
-Nextcloud/ownCloud-Desktop-Clients, um zu entscheiden, ob die lokalen und
-Remote-Dateien identisch sind. Es betrachtet Dateien als identisch, wenn
+Nextcloud/OpenCloud/ownCloud-Desktop-Clients, um zu entscheiden, ob die
+lokalen und Remote-Dateien identisch sind. Es betrachtet Dateien als
+identisch, wenn
 
 * der Name gleich ist und
 * die Größe aufs Byte identisch ist und

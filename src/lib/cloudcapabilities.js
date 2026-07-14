@@ -195,6 +195,15 @@ class CloudCapabilities {
         }
         return undefined;
     }
+
+    /**
+     * Is it oCIS or similar?
+     */
+    isOcisFork() {
+        const type = this.guessCloudType();
+        return CLOUDTYPE.OPENCLOUD === type
+            || CLOUDTYPE.INFINITESCALE === type;
+    }
 }
 
 /* exported CloudCapabilities */

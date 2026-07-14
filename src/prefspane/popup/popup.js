@@ -2,17 +2,13 @@
 //
 // SPDX-License-Identifier: MIT
 
-const msgContainer = document.getElementById("msg_container");
-const errorPopup = document.getElementById("error_popup");
-const warningPopup = document.getElementById("warning_popup");
-const successPopup = document.getElementById("success_popup");
-
 class popup {
     /**
      * Show an error
      * @param {string} err_id The id of te error to show a message for, eg. use the status code or error type
      */
     static async error(err_id) {
+        const errorPopup = document.getElementById("error_popup");
         this._openPopup(errorPopup,
             browser.i18n.getMessage(`error_${err_id}`, Array.from(arguments).slice(1)) ||
             // No message for this error, show the default one
@@ -24,6 +20,7 @@ class popup {
      * @param {string} messageId The id of the localized string
      */
     static async warn(messageId) {
+        const warningPopup = document.getElementById("warning_popup");
         this._openPopup(warningPopup, browser.i18n.getMessage(`warn_${messageId}`, Array.from(arguments).slice(1)));
     }
 
@@ -33,6 +30,7 @@ class popup {
      * @param {string} [messageId] The id of the message in _locales.
      */
     static async success(messageId = "success") {
+        const successPopup = document.getElementById("success_popup");
         const p = this._openPopup(successPopup, browser.i18n.getMessage(messageId));
         setTimeout(() => p.remove(), 3000);
     }
@@ -43,6 +41,7 @@ class popup {
      * @param {string} message The message to display
      */
     static _openPopup(popup, message) {
+        const msgContainer = document.getElementById("msg_container");
         const new_box = popup.cloneNode(true);
         new_box.querySelector(".popup_message").textContent = message;
         new_box.hidden = false;
@@ -61,6 +60,7 @@ class popup {
      * Close all popups that might be open
      */
     static async clear() {
+        const msgContainer = document.getElementById("msg_container");
         while (msgContainer.firstChild) {
             msgContainer.firstChild.remove();
         }
@@ -71,6 +71,7 @@ class popup {
      * @returns {boolean}
      */
     static empty() {
+        const msgContainer = document.getElementById("msg_container");
         return !msgContainer.firstChild;
     }
 }
