@@ -1,6 +1,11 @@
 Copyright (C) 2020-2025 Johannes Endres
 SPDX-License-Identifier: MIT
 
+3.19.1 2026-07-14
+Close #723 Improve documentation, Nextcloud share limit 
+Close #717 Make punycode a vendored library
+Close #657, #667, #705, #722, #731 More refactorings
+
 3.19.0 2026-07-05
 Close #587 If a single download password is set, also show it in the status popup
 Close #687 Make it work with MagentaCLOUD (Deutsche Telekom)

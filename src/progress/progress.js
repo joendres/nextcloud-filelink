@@ -10,6 +10,7 @@ window.addEventListener("load", () => {
     port.onMessage.addListener(updateStatusDisplay);
 
     // Unsuccessful uploads remain in the popup window until this button is pressed
+    const buttonClear = document.getElementById('buttonClear');
     buttonClear.addEventListener('click', () => port.postMessage('clearcomplete'));
 });
 
@@ -19,6 +20,10 @@ window.addEventListener("load", () => {
  * @param {Map<*,Status>} uploads The Map with Status objects for all active uploads as received via message
  */
 function updateStatusDisplay(uploads) {
+    const status_lines = document.getElementById('status_lines');
+    const buttonClear = document.getElementById('buttonClear');
+    const no_uploads = document.getElementById('no_uploads');
+
     // Remove extra rows
     while (status_lines.rows.length > uploads.size) {
         status_lines.deleteRow(-1);
@@ -62,6 +67,8 @@ function updateStatusDisplay(uploads) {
  * @param {number} row The row number to fill
  */
 function fill_status_row(status, row) {
+    const status_lines = document.getElementById('status_lines');
+
     status_lines.rows[row].cells[0].textContent = status.filename;
 
     const status_cell = status_lines.rows[row].cells[1];
@@ -85,6 +92,8 @@ function fill_status_row(status, row) {
         progress.value = status.progress;
     } else if (status.status === 'generatedpassword') {
         status_cell.textContent = browser.i18n.getMessage('status_password', status.password);
+
+        const buttonCopy = document.getElementById('buttonCopy');
         const copyButton = buttonCopy.cloneNode(true);
         copyButton.addEventListener('click', () => navigator.clipboard.writeText(status.password));
         copyButton.removeAttribute('id');
@@ -95,7 +104,3 @@ function fill_status_row(status, row) {
         status_cell.textContent = browser.i18n.getMessage(`status_${status.status}`);
     }
 }
-
-// Automatic variables defined by ids in html
-/* global no_uploads, status_lines, buttonClear, buttonCopy */
-// Functions defined in other scripts imported in html file

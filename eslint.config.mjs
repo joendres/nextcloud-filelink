@@ -9,10 +9,10 @@ import pluginJs from "@eslint/js";
 export default [
   {
     ignores: [
-      "**/src/background/punycode.es6.js",
       "**/src/photon-components-web/",
-      "**/src/punycode/",
+      "**/src/vendor/",
       "**/*config.*js",
+      "**/src/punycode/",
     ]
   },
   {
@@ -32,6 +32,7 @@ export default [
   pluginJs.configs.recommended,
   {
     rules: {
+      "no-console": "error",
       "no-unused-vars": [
         "error",
         {
@@ -45,6 +46,9 @@ export default [
     languageOptions: {
       sourceType: "module",
       "ecmaVersion": 2020,
+    },
+    rules: {
+      "no-console": ["error", { "allow": ["error", "log"] }],
     },
   },
 ];

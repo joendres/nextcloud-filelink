@@ -60,7 +60,6 @@ class DAVClient {
         }
     }
 
-    //#region Helpers for uploadFile
     /**
      * Create a complete folder path, returns true if that path already exists
      *
@@ -265,7 +264,7 @@ class DAVClient {
         }
         allAbortControllers.delete(uploadId);
         return response;
-    }    //#endregion
+    }
 
     /**
      * Calls one function of the WebDAV service

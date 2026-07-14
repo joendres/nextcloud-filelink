@@ -20,7 +20,7 @@ const out_dir = "./public/";
 const files = {
     "README.md": "index.html",
     "de/README.de.md": "de/index.html",
-    "CONTRIBUTING.md": "contributing.html"
+    "ADMIN.md": "admin.html",
 };
 
 for (const file in files) {
@@ -79,11 +79,18 @@ async function convert_file(in_file, out_file) {
         }
 
         // Fix links to markdown files that are converted to HTML in this script
-        const masterUrl = process.env.CI_PROJECT_URL + '/-/blob/master/';
+        let masterUrl = process.env.CI_PROJECT_URL + '/-/blob/master/';
         for (const el of dom.window.document.querySelectorAll(`a[href^="${masterUrl}"]`)) {
             el.href = el.href.replace(
                 new RegExp(`^${masterUrl}(` + Object.keys(files).join('|') + ')'),
                 (_, p1) => files[p1]);
+        }
+
+        masterUrl = process.env.CI_PROJECT_URL + '/-/blob/';
+        for (const el of dom.window.document.querySelectorAll(`a[href^="${masterUrl}"]`)) {
+            el.href = el.href.replace(
+                new RegExp(`^${masterUrl}(` + Object.keys(files).join('|') + ')'),
+                (_, p1) => '../' + files[p1]);
         }
 
         writeFileSync(out_dir + out_file, dom.serialize());
