@@ -6,14 +6,14 @@ SPDX-License-Identifier: MIT
 
 # __*cloud__ - FileLink für Nextcloud OpenCloud ownCloud
 
-Eine MailExtension für Thunderbird (68+), die große Attachments in die Cloud
+Eine MailExtension für Thunderbird (115+), die große Attachments in die Cloud
 hochlädt und dann einen Download-Link in die Mail einfügt.
 
 [[_TOC_]]
 
 ## Voraussetzungen
 
-1. Thunderbird: 68.2.1 oder neuer
+1. Thunderbird: 115.0 oder neuer
 1. Ein Account auf einem Server mit einer unterstützen Version von Nextcloud,
   OpenCloud oder ownCloud, genauer gesagt:
    * [Nextcloud](https://nextcloud.com/) Version 32 oder neuer (ältere
@@ -217,24 +217,6 @@ Verbindung zum Server herzustellen. Es gibt zwei Lösungen:
    1. Gib die Adresse der Cloud in das Feld "Adresse" ein
    1. Klicke auf "Zertifikat herunterladen".
    1. Klicke auf "Sicherheits-Ausnahmeregel bestätigen".
-
-### Dateinamen mit Sonderzeichen werden nicht geteilt
-
-In einigen Unter-Versionen von Thunderbird 102.2 gab es Probleme bei
-Dateinamen mit Sonderzeichen oder in nicht-amerikanischen Schriftsystemen wie
-Griechisch. Der Upload funktionierte, aber das Teilen der hochgeladenen Datei
-schlug fehl. Dies ist in Thunderbird 102.5.0 behoben; bitte aktualisiere
-Thunderbird, wenn du solche Probleme erlebst.
-
-### Dateien von Netzwerkfreigaben werden in die Cloud hochgeladen _und_ angehängt
-
-Es gab einen [Fehler in
-Thunderbird](https://bugzilla.mozilla.org/show_bug.cgi?id=793118): Wenn man
-eine Datei von einer Netzwerkfreigabe anhängte, wurde sie in die Cloud
-hochgeladen und der Link wurde in die Mail eingefügt, aber _zusätzlich_ wurde
-die Datei auch an die Mail angehängt. Dies wurde in Thunderbird 68.11.0 und
-78.0.1 behoben. Wenn dieses Problem bei dir noch auftritt, aktualisiere bitte
-Thunderbird.
 
 ### Funktioniert immer noch nicht?
 

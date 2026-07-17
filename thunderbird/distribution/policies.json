@@ -1,0 +1,58 @@
+{
+  "policies": {
+    "Preferences": {
+      "//": "The folowing 2(!) preferences create the account that will be configured in *cloud. Note the internal id 'preconfigured'",
+      "mail.cloud_files.accounts.preconfigured.displayName": {
+        "Value": "Preconfigured Cloud"
+      },
+      "mail.cloud_files.accounts.preconfigured.type": {
+        "Value": "ext-cloud@johannes-endres.de",
+        "Status": "locked"
+      },
+      "//": "Only for the development environment: Configure Thunderbird for debugging via VS Code",
+      "devtools.debugger.remote-enabled": {
+        "Value": true
+      },
+      "devtools.chrome.enabled": {
+        "Value": true
+      },
+      "devtools.debugger.prompt-connection": {
+        "Value": false
+      }
+    },
+    "3rdparty": {
+      "Extensions": {
+        "cloud@johannes-endres.de": {
+          "accounts": {
+            "preconfigured": {
+              "//": "Settings for the account with internal id 'preconfigured' that was created in the 'Preferences' section",
+              "serverUrl": {
+                "Value": "http://localhost:8080",
+                "Status": "locked",
+                "//": "For a test server running in docker on the development machine"
+              },
+              "username": {
+                "Value": "admin"
+              },
+              "password": {
+                "Value": "Password+123"
+              },
+              "storageFolder": {
+                "Value": "/Anhänge"
+              },
+              "unexpected": {
+                "Value": "The Spanish Inquisition",
+                "//": "Test for an invalid settings key"
+              }
+            }
+          }
+        }
+      }
+    },
+    "//": "Make sure the tested version of Thunderbird stays the same",
+    "AppAutoUpdate": false,
+    "DisableAppUpdate": true,
+    "//": "Telemetry doesn't make sense for the test installation",
+    "DisableTelemetry": true
+  }
+}

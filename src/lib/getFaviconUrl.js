@@ -2,6 +2,8 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { CLOUDTYPE } from "./cloudcapabilities.js";
+
 /** 
 *
 * Fetches the favicon URL from the given base URL. If the favicon link is not
@@ -66,5 +68,4 @@ async function getFaviconUrl(baseUrl, cloud_type) {
     return faviconUrl ? faviconUrl : "../../icon48.png";
 }
 
-/* global CLOUDTYPE */
-/* exported getFaviconUrl */
+export { getFaviconUrl };

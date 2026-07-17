@@ -1,0 +1,29 @@
+// SPDX-FileCopyrightText: 2026 Johannes Endres
+//
+// SPDX-License-Identifier: MIT
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Thunderbird",
+            "type": "firefox",
+            "request": "launch",
+            "timeout": 60,
+            "reAttach": true,
+            // Don't set the executable here, but in the prefernces dialog
+            // because it's operating system dependent
+            // "firefoxExecutable": "${workspaceFolder}/thunderbird/thunderbird",
+            "firefoxArgs": [
+                "-start-debugger-server"
+            ],
+            "reloadOnChange": {
+                "watch": "${workspaceFolder}/src/**",
+                "ignore": "**/node_modules/**"
+            },
+            "profileDir": "${workspaceFolder}/thunderbird/profile-for-debugging/",
+            "keepProfileChanges": false,
+            "internalConsoleOptions": "openOnSessionStart",
+            "addonPath": "${workspaceFolder}/src/"
+        }
+    ]
+}

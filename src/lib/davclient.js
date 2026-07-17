@@ -2,8 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
-/** AbortControllers for all active uploads */
-const allAbortControllers = new Map();
+import { encodepath, promisedTimeout } from "./utils.js";
+import { UploadStatus } from "./uploadstatus.js";
+import { activeUploadRequests } from "./activeuploadrequests.js";
 
 // const DAV_MAX_FILE_SIZE = 0x100000000 - 1; /* Almost 4GB, Nextcloud and ownCloud accept larger files */
 const DAV_MAX_FILE_SIZE = Number.MAX_SAFE_INTEGER;
@@ -93,7 +94,7 @@ class DAVClient {
                 case 423: // Locked
                     // Maybe a parallel upload is currently creating the folder, so wait a little and try again
                     // This timeout is longer in reality because it adds to the waiting time in the queue
-                    await utils.promisedTimeout(400 + Math.floor(Math.random() * 200));
+                    await promisedTimeout(400 + Math.floor(Math.random() * 200));
                     retry_count++;
                     break;
                 default:
@@ -139,10 +140,10 @@ class DAVClient {
      * @throws If any problem occurs
      */
     async _moveFileToDir(uploadId, fileName, newPath) {
-        attachmentStatus.get(uploadId).set_status('moving');
+        await UploadStatus.moving(uploadId);
         const dest_header = {
             "Destination":
-                '/' + this._davUrl + utils.encodepath(this._storageFolder + "/" + newPath + "/" + fileName),
+                '/' + this._davUrl + encodepath(this._storageFolder + "/" + newPath + "/" + fileName),
         };
         if (await this._recursivelyCreateFolder(this._storageFolder + "/" + newPath)) {
             const retval = await this._doDavCall(this._storageFolder + "/" + fileName, "MOVE", null, dest_header);
@@ -150,7 +151,7 @@ class DAVClient {
                 return retval;
             }
         }
-        attachmentStatus.get(uploadId).fail();
+        UploadStatus.fail(uploadId);
         throw new Error("Couldn't move file.");
     }
 
@@ -212,25 +213,25 @@ class DAVClient {
      */
     async _doUpload(uploadId, fileName, fileObject) {
         // Is the file bigger than the maximum size for WebDAV?
-        attachmentStatus.get(uploadId).set_status('checkingsize');
+        await UploadStatus.checkingsize(uploadId);
         if (fileObject.size > DAV_MAX_FILE_SIZE) {
-            attachmentStatus.get(uploadId).fail();
+            UploadStatus.fail(uploadId);;
             return { ok: false, };
         }
 
         // Make sure storageFolder exists. Creation implicitly checks for
         // existence of folder, so the extra webservice call for checking first
         // isn't necessary.
-        attachmentStatus.get(uploadId).set_status('creating');
+        await UploadStatus.creating(uploadId);
         if (!(await this._recursivelyCreateFolder(this._storageFolder))) {
-            attachmentStatus.get(uploadId).fail();
+            UploadStatus.fail(uploadId);;
             throw new Error("Upload failed: Can't create folder");
         }
 
         // Check it there is enough free space
         // This is done after creating the folder because we need the folder
         // to check quota on the right file system.
-        attachmentStatus.get(uploadId).set_status('checkingspace');
+        await UploadStatus.checkingspace(uploadId);
 
         // This doesn't give the right number on oCIS
         // (https://github.com/owncloud/ocis/issues/8197). As that is
@@ -238,7 +239,7 @@ class DAVClient {
         // fixes it.
         const { spaceRemaining } = await this.getQuotaAvailableBytes(this._storageFolder);
         if (spaceRemaining !== -1 && spaceRemaining < fileObject.size) {
-            attachmentStatus.get(uploadId).fail();
+            UploadStatus.fail(uploadId);;
             return { ok: false, };
         }
 
@@ -255,14 +256,14 @@ class DAVClient {
                 response = { aborted: true, url: "", };
             }
             else {
-                attachmentStatus.get(uploadId).fail();
+                UploadStatus.fail(uploadId);;
                 if (!response) {
                     response = {};
                 }
                 response.ok = false;
             }
         }
-        allAbortControllers.delete(uploadId);
+        delete activeUploadRequests[uploadId];
         return response;
     }
 
@@ -278,7 +279,7 @@ class DAVClient {
     _doDavCall(path, method, body, additional_headers) {
         let url = this._serverurl;
         url += this._davUrl;
-        url += utils.encodepath(path);
+        url += encodepath(path);
 
         let fetchInfo = {
             method,
@@ -306,7 +307,7 @@ class DAVClient {
     async _xhrUpload(uploadId, path, data) {
         let url = this._serverurl;
         url += this._davUrl;
-        url += utils.encodepath(path);
+        url += encodepath(path);
 
         // Remove session password as it interferes with credentials 
         await browser.cookies.remove({ url, name: "oc_sessionPassphrase", firstPartyDomain: "", });
@@ -326,9 +327,9 @@ class DAVClient {
             uploadRequest.addEventListener("abort", reject);
             uploadRequest.addEventListener("timeout", reject);
 
-            uploadRequest.addEventListener("loadstart", () => attachmentStatus.get(uploadId).set_status('uploading'));
+            uploadRequest.addEventListener("loadstart", () => UploadStatus.uploading(uploadId));
             uploadRequest.upload.addEventListener("progress", e => {
-                attachmentStatus.get(uploadId).set_progress(e.total ? e.loaded * 1.0 / e.total : 0);
+                UploadStatus.progress(uploadId, e.total ? e.loaded * 1.0 / e.total : 0);
             });
 
             uploadRequest.open("PUT", url);
@@ -336,10 +337,10 @@ class DAVClient {
                 uploadRequest.setRequestHeader(key, this._davHeaders[key]);
             }
 
-            allAbortControllers.set(uploadId, uploadRequest);
+            activeUploadRequests[uploadId] = uploadRequest;
             uploadRequest.send(data);
         });
     }
 }
-/* global attachmentStatus, utils */
-/* exported DAVClient */
+
+export { DAVClient };

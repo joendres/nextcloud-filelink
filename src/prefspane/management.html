@@ -17,13 +17,7 @@ SPDX-License-Identifier: MIT
 
   <script src="../lib/localize.js" defer></script>
 
-  <script src="../lib/getFaviconUrl.js"></script>
-  <script src="../lib/utils.js"></script>
-  <script src="../lib/davclient.js"></script>
-  <script src="../lib/cloudcapabilities.js"></script>
-  <script src="../lib/cloudconnection.js"></script>
-  <script src="popup/popup.js" defer></script>
-  <script src="management.js" defer></script>
+  <script src="management.js" type="module"></script>
 
 </head>
 
@@ -57,7 +51,7 @@ SPDX-License-Identifier: MIT
         </div>
       </div>
       <input id="serverUrl" type="url" pattern="https?://.*" required placeholder="https://example.com"
-        class="input__field" value="" />
+        class="input__field"  />
       </p>
 
       <p>
@@ -67,7 +61,7 @@ SPDX-License-Identifier: MIT
           <div class="card card--shadow" data-message="username_details"></div>
         </div>
       </div>
-      <input id="username" type="text" required class="input__field" value="" />
+      <input id="username" type="text" required class="input__field"  />
       </p>
 
       <p>
@@ -77,7 +71,7 @@ SPDX-License-Identifier: MIT
           <div class="card card--shadow" data-message="password_details"></div>
         </div>
       </div>
-      <input id="password" type="password" required class="input__field" value="" />
+      <input id="password" type="password" required class="input__field"  />
       </p>
 
       <details id="advanced_options">
@@ -89,7 +83,7 @@ SPDX-License-Identifier: MIT
             <div class="card card--shadow" data-message="storageFolder_details"></div>
           </div>
         </div>
-        <input id="storageFolder" type="text" required class="input__field" value="/Mail-attachments" />
+        <input id="storageFolder" type="text" required class="input__field"/>
         </p>
 
         <p>
@@ -97,7 +91,7 @@ SPDX-License-Identifier: MIT
           <input id="useExpiry" type="checkbox" class="input checkbox" />
           <span class="spacer">
             <label for="useExpiry" class="input__label" data-message="expiryDaysBefore"></label>
-            <input type="number" id="expiryDays" min="1" step="1" value="7" disabled class="input__field">
+            <input type="number" id="expiryDays" min="1" step="1" disabled class="input__field">
             <label class="input__label" data-message="expiryDaysAfter"></label>
           </span>
           <div class="helpbutton"><img src="images/Help.svg" alt="Help icon">
@@ -150,7 +144,7 @@ SPDX-License-Identifier: MIT
             <div class="card card--shadow" data-message="useDlPassword_details"></div>
           </div>
         </div>
-        <input id="downloadPassword" type="text" disabled class="input__field" value="" />
+        <input id="downloadPassword" type="text" disabled class="input__field"  />
         </p>
       </details>
       <p>

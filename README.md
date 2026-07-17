@@ -8,14 +8,16 @@ SPDX-License-Identifier: MIT
 
 [Deutsche Dokumentation](de/README.de.md)
 
-A MailExtension for Thunderbird (68+) that uploads large attachments to your
+A MailExtension for Thunderbird (115+) that uploads large attachments to your
 cloud and generates a link you can send by mail instead of the file.
 
 [[_TOC_]]
 
+[Information for cloud administrators](ADMIN.md)
+
 ## What You'll Need (Requirements)
 
-1. Thunderbird 68.2.1 or newer
+1. Thunderbird 115.0 or newer
 2. An account on a server running Nextcloud, OpenCloud or ownCloud:
    * [Nextcloud](https://nextcloud.com/) version 32 or newer (older versions
     might work, but are [not supported by
@@ -210,22 +212,6 @@ solutions:
    1. Enter your cloud's address in the "Location" field
    1. Click "Get Certificate"
    1. Click "Confirm Security Exception"
-
-### Filenames with Unicode special character cause problems
-
-In some minor versions of Thunderbird 102.2 filenames with specials characters
-or in non-US script systems like Greek cause problems. The upload works, but
-sharing the uploaded file fails. This is fixed in Thunderbird 102.5.0; please
-update Thunderbird.
-
-### Files from network shares uploaded to cloud _and_ attached
-
-There was a [bug in
-Thunderbird](https://bugzilla.mozilla.org/show_bug.cgi?id=793118): If you
-attached a file from a network share, it was uploaded to the cloud and the
-share link was inserted into your mail, but the file was _also attached to the
-message_. This was fixed in Thunderbird 68.11.0 and 78.0.1. If you're still
-experiencing this issue, update Thunderbird.
 
 ### Still not working?
 

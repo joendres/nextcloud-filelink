@@ -76,4 +76,4 @@ class popup {
     }
 }
 
-/* exported popup */
+export { popup };

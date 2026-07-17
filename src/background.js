@@ -2,24 +2,16 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { UploadStatus } from "./lib/uploadstatus.js";
+import { CloudConnection } from "./lib/cloudconnection.js";
+import { activeUploadRequests } from "./lib/activeuploadrequests.js";
+import { DistributionPolicy } from "./lib/distributionpolicy.js";
+
 messenger.cloudFile.getAllAccounts()
     .then(
         allAccounts => {
             allAccounts.forEach(account => updateAccount(account.id));
         });
-
-// If the current TB version does not support button labels, it uses the title instead
-if (!messenger.composeAction.setLabel) {
-    const manifest = browser.runtime.getManifest();
-    if (manifest.compose_action && manifest.compose_action.default_label) {
-        messenger.composeAction.setTitle({
-            title: manifest.compose_action.default_label.replace(
-                /^__MSG_([@\w]+)__$/, (matched, key) => {
-                    return browser.i18n.getMessage(key) || matched;
-                }),
-        });
-    }
-}
 
 messenger.cloudFile.onFileUpload.addListener(async (account, { id, name, data }) => {
     const ncc = new CloudConnection(account.id);
@@ -29,23 +21,26 @@ messenger.cloudFile.onFileUpload.addListener(async (account, { id, name, data })
 
 messenger.cloudFile.onFileUploadAbort.addListener(
     (account, fileId) => {
-        /* global allAbortControllers */
-        // defined in davclient.js
-        const abortController = allAbortControllers.get(makeUploadId(account, fileId));
+        const uploadId = makeUploadId(account, fileId);
+        const abortController = activeUploadRequests[uploadId];
         if (abortController) {
             abortController.abort();
         }
-        Status.remove(makeUploadId(account, fileId));
+        UploadStatus.remove(uploadId);
     });
 
 /** Don't delete any files because we want to reuse uploads.  */
 messenger.cloudFile.onFileDeleted.addListener(
     (account, fileId) => {
-        Status.remove(makeUploadId(account, fileId));
+        UploadStatus.remove(makeUploadId(account, fileId));
     });
 
-/** Nothing to be done, so don't add a listener */
-// messenger.cloudFile.onAccountAdded.addListener(async account => { */
+messenger.cloudFile.onAccountAdded.addListener(async account => {
+    const ncc = new CloudConnection(account.id);
+    await ncc.load();
+    ncc.setDefaults();
+    await ncc.store();
+});
 
 messenger.cloudFile.onAccountDeleted.addListener(accountId => {
     const ncc = new CloudConnection(accountId);
@@ -55,16 +50,27 @@ messenger.cloudFile.onAccountDeleted.addListener(accountId => {
 async function updateAccount(accountId) {
     const ncc = new CloudConnection(accountId);
     await ncc.load();
+
+    // Set preferences from enterprise policies, if this is a managed account.
+    // Other accounts stay unchanged.
+    await DistributionPolicy.configure(ncc);
+
+    // Make sure the necessary settings are present. Does not overwrite
+    // existing values.
+    ncc.setDefaults();
+
     upgradeOldConfigurations();
 
-    // Check if login works
-    const answer = await ncc.updateUserId();
-    ncc.laststatus = null;
-    if (answer._failed) {
-        ncc.laststatus = answer.status;
-    } else {
-        await Promise.all([ncc.updateFreeSpaceInfo(), ncc.updateCapabilities(),]);
-        await ncc.updateConfigured();
+    if (ncc.hasLoginData()) {
+        // Check if login works
+        const answer = await ncc.updateUserId();
+        ncc.laststatus = null;
+        if (answer._failed) {
+            ncc.laststatus = answer.status;
+        } else {
+            await Promise.all([ncc.updateFreeSpaceInfo(), ncc.updateCapabilities(),]);
+            await ncc.updateConfigured();
+        }
     }
     ncc.store();
 
@@ -84,5 +90,3 @@ async function updateAccount(accountId) {
 function makeUploadId(account, fileId) {
     return `${account.id}_${fileId}`;
 }
-
-/* global CloudConnection, Status */

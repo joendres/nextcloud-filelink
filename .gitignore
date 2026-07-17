@@ -2,12 +2,63 @@
 #
 # SPDX-License-Identifier: MIT
 
-/web-ext-artifacts
-node_modules
-.vscode/tasks.json
-.vscode/launch.json
+# Directories with generated files
+web-ext-artifacts
+public/**/*.html
+
+# Test files with names that can't exist under Windows
 tests/filenames/x><x.txt
 tests/filenames/x["?:\\|*]x.txt
-public/**/*.html
-/jsshell*/
+
+# Install Thunderbird Linux or Windows into this directory
+thunderbird/*
+# Example policies.json resides here, put it in git
+!thunderbird/distribution
+
+## Common excludes, see https://github.com/github/gitignore
+## Node
+# Dependency directories
+node_modules/
+
+## macOS
+# General
 .DS_Store
+.localized
+__MACOSX/
+.AppleDouble
+.LSOverride
+Icon[]
+
+# Resource forks
+._*
+
+## Linux
+*~
+
+# temporary files which can be created if a process still has a handle open of a deleted file
+.fuse_hidden*
+
+# Metadata left by Dolphin file manager, which comes with KDE Plasma
+.directory
+
+## Windows
+# Windows thumbnail cache files
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+
+# Folder config file
+[Dd]esktop.ini
+
+# Windows shortcuts
+*.lnk
+
+## Visual Studio Code
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+!.vscode/*.code-snippets
+!*.code-workspace
