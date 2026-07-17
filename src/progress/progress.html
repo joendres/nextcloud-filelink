@@ -9,17 +9,30 @@ SPDX-License-Identifier: MIT
 
 <head>
     <meta charset="utf-8">
+    <title>Compose Action Popup</title>
+
     <script src="../lib/localize.js" defer></script>
-    <script src="progress.js" defer></script>
+    <script src="progress.js" type="module"></script>
+
     <link rel="stylesheet" href="../photon-components-web/index.css">
     <link rel="stylesheet" href="progress.css">
 </head>
 
 <body>
-    <div id="no_uploads" data-message="status_no_uploads"></div>
-    <table id="status_lines"></table>
-    <button id="buttonClear" class="button--primary button--micro hidden" data-message="status_button_clear"></button>
-    <button id="buttonCopy" class="button--micro copy hidden"><img src="Copy.svg"></button>
+    <div data-message="status_no_uploads"></div>
+    <table></table>
+
+    <button id="buttonClear" class="button--primary button--micro" hidden data-message="status_button_clear"></button>
+
+    <template id="row_template">
+        <tr>
+            <td></td>
+            <td></td>
+            <td>
+                <button class="button--micro" hidden><img src="Copy.svg"></button>
+            </td>
+        </tr>
+    </template>
 </body>
 
 </html>

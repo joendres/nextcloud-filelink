@@ -2,105 +2,178 @@
 //
 // SPDX-License-Identifier: MIT
 
-// Establish messaging with background worker
-let port = null;
-
-window.addEventListener("load", () => {
-    port = browser.runtime.connect();
-    port.onMessage.addListener(updateStatusDisplay);
-
-    // Unsuccessful uploads remain in the popup window until this button is pressed
-    const buttonClear = document.getElementById('buttonClear');
-    buttonClear.addEventListener('click', () => port.postMessage('clearcomplete'));
-});
+import { STATUS, UploadStatus } from "../lib/uploadstatus.js";
 
 /**
- * Fills the status popup with content
- * 
- * @param {Map<*,Status>} uploads The Map with Status objects for all active uploads as received via message
+ * Initialize the status page: populate the table with all currently active
+ * uploads, register a listener for future status changes, and wire up the
+ * "Clear completed" button.
  */
-function updateStatusDisplay(uploads) {
-    const status_lines = document.getElementById('status_lines');
-    const buttonClear = document.getElementById('buttonClear');
-    const no_uploads = document.getElementById('no_uploads');
-
-    // Remove extra rows
-    while (status_lines.rows.length > uploads.size) {
-        status_lines.deleteRow(-1);
+(async () => {
+    const allStatus = await UploadStatus.getAll();
+    for (const uploadId in allStatus) {
+        showStatusRow(uploadId, allStatus[uploadId]);
     }
 
-    buttonClear.classList.add('hidden');
-    if (uploads.size === 0) {
-        no_uploads.hidden = false;
+    browser.storage.session.onChanged.addListener(updateChangedStatus);
+
+    const clearButton = document.getElementById('buttonClear');
+    clearButton.addEventListener('click', UploadStatus.clearComplete);
+
+    hideShowClearButton();
+})();
+
+/**
+ * Check whether the table contains any uploads that have completed or failed,
+ * i.e. rows that the user could clear.
+ * @returns {boolean} True if at least one completed or failed upload is present
+ */
+function tableHasCompletedUploads() {
+    const table = document.querySelector('table');
+    // Is there an upload in error state?
+    if (table.querySelector('.error')) {
+        return true;
+    }
+    // Is there something to copy (a copy button in the table visible)?
+    for (const button of table.querySelectorAll('button')) {
+        if (!button.hidden) {
+            return true;
+        }
+    }
+    return false;
+}
+
+/**
+ * Show the "Clear completed" button if there are completed or failed uploads,
+ * otherwise hide it.
+ */
+function hideShowClearButton() {
+    const clearButton = document.getElementById('buttonClear');
+    if (tableHasCompletedUploads()) {
+        clearButton.hidden = false;
     } else {
-        no_uploads.hidden = true;
-        if (has_information()) {
-            buttonClear.classList.remove('hidden');
-        }
-        // Make sure, we have enough lines for all uploads
-        while (status_lines.rows.length < uploads.size) {
-            const line = status_lines.insertRow();
-            line.insertCell(0);
-            line.insertCell(1);
-        }
-        // Fill the rows of the table
-        // CAUTION: For a Map, the second argument to the callback is the key, not a number as in an array
-        let row = 0;
-        uploads.forEach(upload => fill_status_row(upload, row++));
-    }
-
-    /**
-     * @returns {Boolean} true if any of the uploads is in error state
-     */
-    function has_information() {
-        for (const a of uploads) {
-            if (true === a[1].error || a[1].status === 'generatedpassword') { return true; }
-        }
-        return false;
+        clearButton.hidden = true;
     }
 }
 
 /**
- * Fill one row of the table with information from a Status object
- * 
- * @param {Status} status The Status object to display
- * @param {number} row The row number to fill
+ * Handle a `browser.storage.session.onChanged` event by updating or removing
+ * the affected table rows and refreshing the "Clear completed" button.
+ * @param {Object} changes Object of uploadId: {oldValue, newValue} change objects
  */
-function fill_status_row(status, row) {
-    const status_lines = document.getElementById('status_lines');
-
-    status_lines.rows[row].cells[0].textContent = status.filename;
-
-    const status_cell = status_lines.rows[row].cells[1];
-    if (status.error) {
-        status_cell.classList.add('error');
-        status_cell.textContent =
-            browser.i18n.getMessage('status_error',
-                browser.i18n.getMessage(`status_${status.status}`));
-    } else if (status.status === 'uploading') {
-        let progress;
-        if (status_cell.firstChild instanceof HTMLProgressElement) {
-            progress = status_cell.firstChild;
+function updateChangedStatus(changes) {
+    for (const uploadId in changes) {
+        const newValue = changes[uploadId].newValue;
+        if (newValue) {
+            showStatusRow(uploadId, newValue);
         } else {
-            progress = document.createElement('progress');
-            if (status_cell.firstChild) {
-                status_cell.replaceChild(progress, status_cell.firstChild);
-            } else {
-                status_cell.appendChild(progress);
-            }
+            removeRow(uploadId);
         }
-        progress.value = status.progress;
-    } else if (status.status === 'generatedpassword') {
-        status_cell.textContent = browser.i18n.getMessage('status_password', status.password);
-
-        const buttonCopy = document.getElementById('buttonCopy');
-        const copyButton = buttonCopy.cloneNode(true);
-        copyButton.addEventListener('click', () => navigator.clipboard.writeText(status.password));
-        copyButton.removeAttribute('id');
-        copyButton.classList.remove('hidden');
-        status_cell.appendChild(copyButton);
-    } else {
-        status_cell.classList.remove('error');
-        status_cell.textContent = browser.i18n.getMessage(`status_${status.status}`);
     }
+    hideShowClearButton();
+}
+
+/**
+ * Remove the table row for an upload, if it exists.
+ * @param {string} uploadId The unique ID of the upload
+ */
+function removeRow(uploadId) {
+    const tr = document.getElementById(uploadId);
+    if (tr) {
+        tr.remove();
+    }
+}
+
+/**
+ * Create or update the table row for an upload to reflect its current status.
+ * @param {string} uploadId The unique ID of the upload
+ * @param {{ filename: string, error: boolean, status: string,
+ * progress?: number, password?: string }} newValue The new status object
+ */
+function showStatusRow(uploadId, newValue) {
+    const tr = getStatusRow(uploadId, newValue.filename);
+    const statusCell = tr.querySelectorAll('td')[1];
+    const copyButton = tr.querySelector('button');
+
+    if (newValue.error) {
+        showError(newValue.status);
+    } else {
+        switch (newValue.status) {
+            case STATUS.UPLOADING:
+                showProgress(newValue.progress);
+                break;
+
+            case STATUS.HASPASSWORD:
+                showPassword(newValue.password);
+                break;
+
+            default:
+                showStatus(newValue.status);
+                break;
+        }
+    }
+
+    /** Display a plain localized status string in the status cell. */
+    function showStatus(status) {
+        statusCell.classList.remove('error');
+        statusCell.textContent = browser.i18n.getMessage(`status_${status}`);
+
+    }
+
+    /** Display a localized error message in the status cell and apply error styling. */
+    function showError(status) {
+        statusCell.classList.add('error');
+        statusCell.textContent =
+            browser.i18n.getMessage('status_error',
+                browser.i18n.getMessage(`status_${status}`));
+    }
+
+    /** Display the download password and reveal the copy-to-clipboard button. */
+    function showPassword(password) {
+        statusCell.textContent = browser.i18n.getMessage('status_password', password);
+        copyButton.hidden = false;
+        copyButton.addEventListener('click', () => navigator.clipboard.writeText(password));
+    }
+
+    /** Render or update a <progress> element in the status cell. */
+    function showProgress(progress) {
+        const meter = document.createElement('progress');
+        meter.value = progress;
+        if (statusCell.firstChild) {
+            statusCell.firstChild.replaceWith(meter);
+        } else {
+            statusCell.appendChild(meter);
+        }
+    }
+}
+
+/**
+ * Return the existing table row for an upload, or create and append a new one.
+ * @param {string} uploadId The unique ID of the upload (used as the row's id)
+ * @param {string} filename The name of the file being uploaded
+ * @returns {HTMLTableRowElement}
+ */
+function getStatusRow(uploadId, filename) {
+    let tr = document.getElementById(uploadId);
+    if (!tr) {
+        tr = makeNewRow(uploadId, filename);
+        document.querySelector("table").appendChild(tr);
+    }
+    return tr;
+}
+
+/**
+ * Create a new table row from the `#row_template` element.
+ * @param {string} uploadId Used as the row's id attribute
+ * @param {string} filename Displayed in the first cell of the row
+ * @returns {HTMLTableRowElement}
+ */
+function makeNewRow(uploadId, filename) {
+    const template = document.getElementById('row_template');
+    const fragment = document.importNode(template.content, true)
+    const tr = fragment.querySelector('tr');
+
+    tr.id = uploadId;
+    tr.querySelector('td').textContent = filename;
+    return tr;
 }

@@ -8,15 +8,15 @@
     color: var(--red-60);
 }
 
-.hidden {
-    display: none;
+[hidden] {
+    display: none !important;
 }
 
-.copy {
-    float: right;
-    margin-left: 4px;
-}
-
-td {
-    vertical-align: text-bottom;
+table {
+    /* Move the table up a littles, to hide the "no uploads" element if th
+    table has rows */
+    position: relative;
+    top: -1.1em;
+    /* The background color from photon */
+    background-color: var(--grey-10);
 }

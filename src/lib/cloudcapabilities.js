@@ -206,5 +206,4 @@ class CloudCapabilities {
     }
 }
 
-/* exported CloudCapabilities */
-/* exported CLOUDTYPE */
+export { CloudCapabilities, CLOUDTYPE };

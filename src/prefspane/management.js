@@ -2,6 +2,9 @@
 //
 // SPDX-License-Identifier: MIT
 
+import { CloudConnection } from "../lib/cloudconnection.js";
+import { popup } from "./popup/popup.js";
+
 const accountId = new URL(location.href).searchParams.get("accountId");
 const ncc = new CloudConnection(accountId);
 
@@ -190,6 +193,13 @@ async function loadFormData() {
     adjustDLPasswordElementStates();
 
     ocisHasNoDownloadLinks();
+
+    // disable settings marked as "locked" in enterprise policy
+    if (ncc.lockedSettings) {
+        for (const id of ncc.lockedSettings) {
+            document.getElementById(id).disabled = true;
+        }
+    }
 }
 //#endregion
 
@@ -422,15 +432,10 @@ function stopLookingBusy() {
 }
 //#endregion
 
-// Defined in ../lib/cloudconnection.js
-/* global CloudConnection */
-// Defined in popup/popup.js
-/* global popup */
 // Defined in managemet.html as id
 /* globals serverUrl, username, expiryDays */
 /* globals downloadPassword, useDlPassword, useNoDlPassword, useGeneratedDlPassword, oneDLPassword*/
 /* globals useExpiry, saveButton, accountForm, resetButton, service_url, advanced_options */
 /* globals provider_name, logo, cloud_version, obsolete_string, freespaceDisplay */
 /* globals freespacelabel, password, storageFolder, disableable_fieldset */
-// Defined in ../lib/localize.js
 /* globals noAutoDownload */

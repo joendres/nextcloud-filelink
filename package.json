@@ -1,12 +1,11 @@
 {
   "devDependencies": {
-    "@eslint/eslintrc": "*",
-    "@eslint/js": "*",
+    "@eslint/js": "^10.0.1",
     "@types/thunderbird-webext-browser": "*",
-    "eslint": "*",
+    "eslint": "^10.7.0",
     "globals": "*",
     "jsdom": "^26.1.0",
-    "web-ext": "7"
+    "web-ext": "^7.12.0"
   },
   "private": true,
   "scripts": {
@@ -21,7 +20,10 @@
       "**/*.license"
     ],
     "sourceDir": "src",
+    "noInput": true,
     "run": {
+      "firefox": "thunderbird/thunderbird",
+      "firefoxProfile": "thunderbird/profile-for-debugging/",
       "devtools": true
     },
     "build": {

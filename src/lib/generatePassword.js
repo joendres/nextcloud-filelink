@@ -54,4 +54,4 @@ function generatePassword(length) {
     return password.join('');
 }
 
-/* exported generatePassword */
+export { generatePassword };

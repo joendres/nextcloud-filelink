@@ -2,53 +2,50 @@
 //
 // SPDX-License-Identifier: MIT
 
+import js from "@eslint/js";
 import globals from "globals";
-import pluginJs from "@eslint/js";
+import { defineConfig } from "eslint/config";
 
-/** @type {import('eslint').Linter.Config[]} */
-export default [
+export default defineConfig([
   {
+    // Configuration for the Addon sources
+    files: ["src/**/*.{js,mjs,cjs}"],
     ignores: [
-      "**/src/photon-components-web/",
-      "**/src/vendor/",
-      "**/*config.*js",
-      "**/src/punycode/",
-    ]
-  },
-  {
+      "src/photon-components-web/**",
+      "src/vendor/**",
+    ],
+    plugins: { js },
+    extends: ["js/recommended"],
     languageOptions: {
-      // Currently we still support Thunderbird 68.2.1 which has an old JS engine
-      ecmaVersion: 9,
-      sourceType: "script",
+      // The Addon supports Thunderbird 115, choose the correct ECMAScript version
+      ecmaVersion: 2023,
       globals: {
         ...globals.browser,
         ...globals.webextensions,
         // Use messenger instead of browser for Thunderbird API to keep
         // "web-ext lint" happy
         "messenger": "readonly",
-      }
-    }
-  },
-  pluginJs.configs.recommended,
-  {
+      },
+    },
     rules: {
+      // In production the Addon should not write to the console
       "no-console": "error",
       "no-unused-vars": [
         "error",
         {
-          "caughtErrors": "all",
+          // Use _ as the variable name for errors in a catch that will be
+          // ignored afterwards
           "caughtErrorsIgnorePattern": "^_$"
         }],
     }
   },
   {
+    // Configuration for the build tools
     files: ["build-tools/**/*.{js,mjs,cjs}"],
+    plugins: { js },
+    extends: ["js/recommended"],
     languageOptions: {
-      sourceType: "module",
-      "ecmaVersion": 2020,
-    },
-    rules: {
-      "no-console": ["error", { "allow": ["error", "log"] }],
-    },
+      globals: globals.node,
+    }
   },
-];
+]);

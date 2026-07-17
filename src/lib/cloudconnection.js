@@ -2,7 +2,16 @@
 //
 // SPDX-License-Identifier: MIT
 
-// Configurable options and useful constants
+import { UploadStatus } from "./uploadstatus.js";
+import { DAVClient } from "./davclient.js";
+import { CloudCapabilities } from "./cloudcapabilities.js";
+import { getFaviconUrl } from "./getFaviconUrl.js";
+import { generatePassword } from "./generatePassword.js";
+import { encodepath } from "./utils.js";
+// It's the default export
+import punycode from "../vendor/punycode.es6.js";
+
+// API endpoints
 const apiUrlBase = "ocs/v1.php";
 const apiUrlUserInfo = "/cloud/users/";
 const apiUrlUserID = "/cloud/user";
@@ -49,6 +58,20 @@ class CloudConnection {
     }
 
     /**
+     * Set the default values on the CloudConnection if the relevant fields
+     * are empty
+     */
+    setDefaults() {
+        const defaults = {
+            storageFolder: '/Mail-attachments',
+            expiryDays: 14,
+        }
+        for (const key in defaults) {
+            this[key] ??= defaults[key];
+        }
+    }
+
+    /**
      * Upload a single file
      *
      * @param {string} uploadId The id of the upload created in background.js
@@ -56,10 +79,8 @@ class CloudConnection {
      * @param {File} fileObject the local file as a File object
      */
     async uploadFile(uploadId, fileName, fileObject) {
-        const upload_status = new Status(fileName);
-        attachmentStatus.set(uploadId, upload_status);
-
-        upload_status.set_status('preparing');
+        await UploadStatus.create(uploadId, fileName);
+        await UploadStatus.preparing(uploadId);
 
         const uploader = new DAVClient(
             this.serverUrl, this.username, this.password, davUrlBase + this.userId, this.storageFolder);
@@ -69,14 +90,15 @@ class CloudConnection {
         if (response.aborted) {
             return response;
         } else if (response.ok) {
-            upload_status.set_status('sharing');
+            await UploadStatus.sharing(uploadId);
+
             this.updateFreeSpaceInfo();
             let url = this._cleanUrl(await this._getShareLink(fileName, uploadId));
             if (url) {
                 // Add additional information introduced in TB 98
-                let templateInfo = this._fillTemplate();
-                if (upload_status.status !== 'generatedpassword') {
-                    Status.remove(uploadId);
+                const templateInfo = await this.#fillTemplate();
+                if (!(await UploadStatus.hasPassword(uploadId))) {
+                    UploadStatus.remove(uploadId);
                 }
                 return {
                     url,
@@ -86,29 +108,34 @@ class CloudConnection {
             }
         }
 
-        upload_status.fail();
+        UploadStatus.fail(uploadId);
         throw new Error("Upload failed.");
     }
 
     /**
      * Set information used to fill the text template in the message, currently
      * only the fields download_password_protected and download_expiry_date
-     * @returns {CloudFileTemplateInfo} The relevant information for the current upload
+     * @returns {messenger.cloudFile.CloudFileTemplateInfo} The relevant information for the current upload
      */
-    _fillTemplate() {
-        let templateInfo = {
+    async #fillTemplate() {
+        const templateInfo = {
             download_password_protected: this.useDlPassword,
+            service_icon: this.cloud_logo_url,
         };
+
         if (this.useExpiry) {
             templateInfo.download_expiry_date = {
                 timestamp: Date.now() + this.expiryDays * 24 * 60 * 60 * 1000,
-                format: {
-                    day: "2-digit",
-                    month: "2-digit",
-                    year: "numeric",
-                },
             };
         }
+        
+        // If the account has no name configured, use the product_name.
+        // Otherwise the account name is used automatically
+        const cloudFileAccount = await messenger.cloudFile.getAccount(this._accountId);
+        if (!cloudFileAccount.name || cloudFileAccount.name === "*cloud") {
+            templateInfo.service_name = this.cloud_productname;
+        }
+
         return templateInfo;
     }
 
@@ -235,22 +262,43 @@ class CloudConnection {
     }
 
     /**
+     * Check if the account has settings necessary for login. Without these
+     * testing the connection does not make sense. This basically reproduces
+     * the validity check of the management form.
+     */
+    hasLoginData() {
+        return (
+            // serverUrl is present and matches an url
+            typeof this.serverUrl === 'string' &&
+            /^https?:\/\/.+/.test(this.serverUrl) &&
+            // username is a not empty string
+            typeof this.username === 'string' && this.username.length > 0 &&
+            // password is a not empty string
+            typeof this.password === 'string' && this.password.length > 0
+        );
+    }
+
+    /**
      * Sets the "configured" property of Thunderbird's cloudFileAccount
      * to true if it is usable
      */
     async updateConfigured() {
         messenger.cloudFile.updateAccount(this._accountId, {
             configured:
-                this.public_shares_enabled !== false &&
-                Boolean(this.serverUrl) &&
-                Boolean(this.username) &&
-                Boolean(this.userId) &&
-                Boolean(this.password) &&
-                Boolean(this.storageFolder) &&
+                // Are all the necessary settings present?
+                this.hasLoginData() &&
+                this.userId !== undefined &&
+                typeof this.storageFolder === "string" && this.storageFolder.length > 0 &&
+                // Is sharing by link enabled in the cloud?
+                this.public_shares_enabled === true &&
+                // If the server requires a download password, is one configures locally?
                 !(this.enforce_password && !this.useDlPassword) &&
-                (!this.useDlPassword || this.useGeneratedDlPassword || Boolean(this.downloadPassword)) &&
+                // If a download password should be used, is one available?
+                (!this.useDlPassword || this.useGeneratedDlPassword || typeof this.downloadPassword === "string") &&
+                // If links should expire, is a timespan configured?
                 !(this.useExpiry && !this.expiryDays) &&
-                !(Boolean(this.expiry_max_days) && this.useExpiry && this.expiry_max_days < this.expiryDays),
+                // If the server requires expiry of shares, is it configured locally?
+                !(this.expiry_max_days > 0 && this.useExpiry && this.expiry_max_days < this.expiryDays),
         });
     }
 
@@ -345,7 +393,7 @@ class CloudConnection {
      * @returns {string} The share link as returned by the OCS API
      */
     async _getShareLink(fileName, uploadId) {
-        const path_to_share = utils.encodepath(this.storageFolder + "/" + fileName);
+        const path_to_share = encodepath(this.storageFolder + "/" + fileName);
         const expireDate = this.useExpiry ? daysFromTodayIso(this.expiryDays) : undefined;
 
         // It's not possible to retreive an display the password for an existing share
@@ -409,11 +457,12 @@ class CloudConnection {
         let shareFormData = "path=" + path_to_share;
         shareFormData += "&shareType=3"; // 3 = public share
 
+        let downloadPassword = this.downloadPassword;
         if (this.useDlPassword) {
             if (this.useGeneratedDlPassword) {
-                this.downloadPassword = await this.generateDLPassword();
+                downloadPassword = await this.generateDLPassword();
             }
-            shareFormData += "&password=" + encodeURIComponent(this.downloadPassword);
+            shareFormData += "&password=" + encodeURIComponent(downloadPassword);
         }
 
         if (this.useExpiry) {
@@ -424,9 +473,7 @@ class CloudConnection {
 
         if (data && data.url) {
             if (this.useDlPassword) {
-                const status = attachmentStatus.get(uploadId);
-                status.password = this.downloadPassword;
-                status.set_status('generatedpassword');
+                await UploadStatus.password(uploadId, downloadPassword);
             }
             return data.url;
         }
@@ -451,7 +498,7 @@ class CloudConnection {
             return null;
         }
         let encoderUrl = u.origin.replace(u.hostname, punycode.toUnicode(u.hostname)) +
-            utils.encodepath(u.pathname);
+            encodepath(u.pathname);
 
         if (!this.noAutoDownload) {
             encoderUrl += (encoderUrl.endsWith("/") ? "" : "/") + "download";
@@ -514,12 +561,4 @@ class CloudConnection {
     }
 }
 
-/* global utils */
-/* global DAVClient  */
-/* global punycode */
-/* global Status */
-/* global attachmentStatus */
-/* global generatePassword */
-/* global getFaviconUrl */
-/* global CloudCapabilities */
-/* exported CloudConnection */
+export { CloudConnection };
