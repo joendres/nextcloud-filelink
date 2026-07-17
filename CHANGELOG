@@ -1,6 +1,19 @@
 Copyright (C) 2020-2025 Johannes Endres
 SPDX-License-Identifier: MIT
 
+4.0.0 2026-07-18
+
+Require at least version 115 of Thunderbird as some of the changes require
+features not present in older versions
+
+Close #680 Support provisioning of settings using enterprise policies
+Fix #733 Last generated password overwrites user supplied download password
+Close #740 Add productname to link if no specific name available
+Close #668 Let Thunderbird format the date of link expiry
+Close #535 Add cloud's favicon to link
+Fix #463 Remove obsolete info from manifest to stop error message
+Close #739, #737, #732, #725, #721, #718, #653, #573, #339
+
 3.19.1 2026-07-14
 Close #723 Improve documentation, Nextcloud share limit 
 Close #717 Make punycode a vendored library
