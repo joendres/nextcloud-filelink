@@ -2,7 +2,7 @@
     "browser_specific_settings": {
         "gecko": {
             "id": "cloud@johannes-endres.de",
-            "strict_min_version": "115.0.0"
+            "strict_min_version": "115.0"
         }
     },
     "name": "__MSG_extensionName__",
