@@ -34,7 +34,7 @@
         "default_popup": "progress/progress.html",
         "default_label": "__MSG_status_menuname__",
         "default_title": "__MSG_status_menutooltip__",
-        "default_icon": "/icons/icon48.png"
+        "default_icon": "icons/icon48.png"
     },
     "default_locale": "en"
 }
