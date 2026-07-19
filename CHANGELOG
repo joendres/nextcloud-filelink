@@ -5,7 +5,7 @@ SPDX-License-Identifier: MIT
 
 Fix #747 fix: Logos of OpenCloud and ownCloud Infinite Scale missing from messages
 
-4.0.0 2026-07-18
+4.0.0 2026-07-18 (not released to Thunderbird Add-ons)
 
 Require at least version 115 of Thunderbird as some of the changes require
 features not present in older versions
