@@ -1,6 +1,10 @@
 Copyright (C) 2020-2025 Johannes Endres
 SPDX-License-Identifier: MIT
 
+4.0.1 2026-07-18
+
+Fix #747 fix: Logos of OpenCloud and ownCloud Infinite Scale missing from messages
+
 4.0.0 2026-07-18
 
 Require at least version 115 of Thunderbird as some of the changes require
@@ -42,7 +46,7 @@ fix: Favicon sometimes changed after first success login
 Close #625 Add favicon of cloud service to management page
 
 3.16.1 2025-05-18
-Fix #605 Resharing of the same file via TB's menu entry failed under spcial conditions
+Fix #605 Resharing of the same file via TB's menu entry failed under special conditions
 Close #607 Document another condition in README that might lead to wrong file being shared
 Several improvements to project scripts
 
