@@ -59,13 +59,13 @@ async function getFaviconUrl(baseUrl, cloud_type) {
     // if there is no favicon and none is already set, use the default
     // logo for the cloud type
     let faviconUrl = {
-        [CLOUDTYPE.NEXTCLOUD]: "images/nextcloud-logo.svg",
-        [CLOUDTYPE.OWNCLOUD]: "images/owncloud-logo.svg",
-        [CLOUDTYPE.INFINITESCALE]: "images/ocis-app-icon.png",
-        [CLOUDTYPE.OPENCLOUD]: "images/opencloud-logo.svg",
-        [CLOUDTYPE.OTHER]: "../../icon48.png",
+        [CLOUDTYPE.NEXTCLOUD]: "/icons/nextcloud-logo.svg",
+        [CLOUDTYPE.OWNCLOUD]: "/icons/owncloud-logo.svg",
+        [CLOUDTYPE.INFINITESCALE]: "/icons/ocis-app-icon.png",
+        [CLOUDTYPE.OPENCLOUD]: "/icons/opencloud-logo.svg",
+        [CLOUDTYPE.OTHER]: "/icons/icon48.png",
     }[cloud_type];
-    return faviconUrl ? faviconUrl : "../../icon48.png";
+    return faviconUrl ? faviconUrl : "/icons/icon48.png";
 }
 
 export { getFaviconUrl };

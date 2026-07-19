@@ -86,14 +86,14 @@ async function showVersion() {
     if (serverUrl.value.trim() === ncc.serverUrl && 'undefined' !== typeof ncc.cloud_supported) {
         cloud_version.textContent = ncc.cloud_versionstring;
         provider_name.textContent = ncc.cloud_productname || '*cloud';
-        logo.src = ncc.cloud_logo_url || "../../icon48.png";
+        logo.src = ncc.cloud_logo_url || "/icons/icon48.png";
 
         if (!ncc.cloud_supported) {
             obsolete_string.hidden = false;
         }
     } else {
         provider_name.textContent = '*cloud';
-        logo.src = "../../icon48.png";
+        logo.src = "/icons/icon48.png";
         cloud_version.textContent = "";
     }
 }
