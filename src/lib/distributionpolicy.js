@@ -32,7 +32,12 @@ class DistributionPolicy {
      * @returns {Promise<CloudConnection>} The same connection object, with policy values applied
      */
     static async configure(cc) {
-        const policyAccounts = await browser.storage.managed.get("accounts");
+        let policyAccounts;
+        try {
+            policyAccounts = await browser.storage.managed.get("accounts");
+        } catch (_) {
+            return cc;
+        }
         const policyData = policyAccounts?.accounts?.[cc._accountId];
 
         if (policyData) {
