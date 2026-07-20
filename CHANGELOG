@@ -1,7 +1,12 @@
-Copyright (C) 2020-2025 Johannes Endres
+Copyright (C) 2020 Johannes Endres
 SPDX-License-Identifier: MIT
 
-4.0.1 2026-07-18
+4.0.2 2026-07-20
+
+Temp fix #751 Cloud logo missing from message
+Fix #752 Error concerning managed storage on every start
+
+4.0.1 2026-07-19
 
 Fix #747 fix: Logos of OpenCloud and ownCloud Infinite Scale missing from messages
 

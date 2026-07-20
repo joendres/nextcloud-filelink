@@ -5,7 +5,7 @@
 import { UploadStatus } from "./uploadstatus.js";
 import { DAVClient } from "./davclient.js";
 import { CloudCapabilities } from "./cloudcapabilities.js";
-import { getFaviconUrl } from "./getFaviconUrl.js";
+import { getCloudTypeIcon, getFaviconUrl } from "./getFaviconUrl.js";
 import { generatePassword } from "./generatePassword.js";
 import { encodepath } from "./utils.js";
 // It's the default export
@@ -120,15 +120,25 @@ class CloudConnection {
     async #fillTemplate() {
         const templateInfo = {
             download_password_protected: this.useDlPassword,
-            service_icon: this.cloud_logo_url,
         };
+
+        // Workaround:
+        // Thunderbird >=96 and <135.0 allow external URLs and download the icon
+        // Thunderbird >=135 only allow local files, not even dataURIs
+        const browserinfo = await browser.runtime.getBrowserInfo();
+        const version = browserinfo.version.split('.');
+        if (version[0] < 135) {
+            templateInfo.service_icon = this.cloud_logo_url;
+        } else {
+            templateInfo.service_icon = getCloudTypeIcon(this.cloud_type);
+        }
 
         if (this.useExpiry) {
             templateInfo.download_expiry_date = {
                 timestamp: Date.now() + this.expiryDays * 24 * 60 * 60 * 1000,
             };
         }
-        
+
         // If the account has no name configured, use the product_name.
         // Otherwise the account name is used automatically
         const cloudFileAccount = await messenger.cloudFile.getAccount(this._accountId);
