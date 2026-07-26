@@ -1,0 +1,28 @@
+# SPDX-FileCopyrightText: 2026 Johannes Endres
+#
+# SPDX-License-Identifier: MIT
+
+# Sidebar Navigation Configuration
+menu:
+  - title: Getting Started
+    document: /
+  - title: For Admins
+    document: /ADMIN.md
+  - title: Deutsche Dokumentation 🇩🇪
+    document: /README.de.md 
+
+# Top navigation bar items
+navbar:
+  - title: GitLab 🔗
+    url: https://gitlab.com/joendres/filelink-nextcloud
+    target: _blank
+  - title: Thunderbird Add-ons 🔗
+    url: https://addons.thunderbird.net/de/thunderbird/addon/filelink-nextcloud-owncloud
+    target: _blank
+
+# Footer links
+footer:
+  - title: ""
+    items:
+      - label: "Created with Okidoki"
+        url: "https://okidoki.dev"

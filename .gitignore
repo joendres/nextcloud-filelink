@@ -3,22 +3,21 @@
 # SPDX-License-Identifier: MIT
 
 # Directories with generated files
-web-ext-artifacts
-public/**/*.html
+/web-ext-artifacts
+/public
 
-# Test files with names that can't exist under Windows
-tests/filenames/x><x.txt
-tests/filenames/x["?:\\|*]x.txt
+# This will be copied from README.md
+docs/docs/index.md
 
 # Install Thunderbird Linux or Windows into this directory
-thunderbird/*
+/thunderbird/*
 # Example policies.json resides here, put it in git
-!thunderbird/distribution
+!/thunderbird/distribution
 
 ## Common excludes, see https://github.com/github/gitignore
 ## Node
 # Dependency directories
-node_modules/
+/node_modules
 
 ## macOS
 # General
