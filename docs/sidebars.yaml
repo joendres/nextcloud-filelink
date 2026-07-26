@@ -5,7 +5,7 @@
 # Sidebar Navigation Configuration
 menu:
   - title: Getting Started
-    document: /
+    document: /index.md
   - title: For Admins
     document: /ADMIN.md
   - title: Deutsche Dokumentation 🇩🇪
