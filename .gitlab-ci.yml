@@ -92,12 +92,7 @@ Build pages:
   extends: .node_job
   stage: deploy
   script:
-    # Add frontmatter tor README.md. Storing this in the repo would clutter the project page
-    - "echo '---' >docs/docs/index.md"
-    - "echo 'pagenav: true' >>docs/docs/index.md"
-    - "echo 'hideBreadcrumbs: true' >>docs/docs/index.md"
-    - "echo '---' >>docs/docs/index.md"
-    - cat README.md >>docs/docs/index.md
+    - cp README.md docs/docs/index.md
     - cd docs
     - npx okidoki generate
   pages: true
