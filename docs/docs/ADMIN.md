@@ -1,7 +1,3 @@
----
-pagenav: true
-hideBreadcrumbs: true
----
 <!--
 SPDX-FileCopyrightText: (C) 2026 Johannes Endres
 

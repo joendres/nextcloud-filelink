@@ -1,6 +1,4 @@
 ---
-pagenav: true
-hideBreadcrumbs: true
 language: "de"
 label_pagenav: Seiteninhalt
 ---

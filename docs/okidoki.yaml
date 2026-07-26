@@ -25,3 +25,7 @@ search:
 # Navigation configuration
 navigation:
   sidebar: "sidebars.yaml"
+
+globals:
+  pagenav: true
+  hideBreadcrumbs: true
