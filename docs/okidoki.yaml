@@ -1,0 +1,27 @@
+# SPDX-FileCopyrightText: 2026 Johannes Endres
+#
+# SPDX-License-Identifier: MIT
+
+# Site configuration
+site:
+  title: "*cloud - Filelink for Nextcloud OpenCloud ownCloud"
+  description: "A Thunderbird Addon that uploads large attachments to your cloud and generates a link you can send by mail instead of the file"
+  url: "https://joendres.gitlab.io"
+  baseUrl: "/filelink-nextcloud/"
+  favicon: "favicon.ico"
+  logo: "logo.png"
+  language: "en"
+
+# Build configuration
+build:
+  outputDir: "../public"
+  clean: true
+  minify: true
+
+# Search configuration
+search:
+  enabled: false
+
+# Navigation configuration
+navigation:
+  sidebar: "sidebars.yaml"

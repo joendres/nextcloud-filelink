@@ -1,20 +1,24 @@
+---
+pagenav: true
+hideBreadcrumbs: true
+---
 <!--
 SPDX-FileCopyrightText: (C) 2026 Johannes Endres
 
 SPDX-License-Identifier: MIT
 -->
 
-# Information for Cloud Administrators
-
-[[_TOC_]]
+# *cloud for Cloud Administrators
 
 ## Nextcloud
 
 ### Server Settings
 
-* __Settings -> Sharing -> Allow apps to use the Share API__ has to be enabled
-* __Settings -> Sharing -> Allow users to share via link__ has to be enabled
-* __The app "Share Files" has to be active.__
+Some admin setting on the Nextcloud server are necessary for __*cloud__ to work:
+
+* _Settings -> Sharing -> Allow apps to use the Share API_ has to be enabled
+* _Settings -> Sharing -> Allow users to share via link_ has to be enabled
+* The app "Share Files" has to be active.
 
 ### Rate Limit on Sharing
 
@@ -41,9 +45,11 @@ unchanged.
 
 ## ownCloud Classic
 
-* __Settings -> Sharing -> Allow apps to use the Share API__ has to be enabled
-* __Settings -> Sharing -> Allow users to share via link__ has to be enabled
-* __The app "Share Files" has to be active.__
+Some admin setting on the ownCloud Classic server are necessary for __*cloud__ to work:
+
+* _Settings -> Sharing -> Allow apps to use the Share API_ has to be enabled
+* _Settings -> Sharing -> Allow users to share via link_ has to be enabled
+* The app "Share Files" has to be active.
 
 ## ownCloud Infinite Scale (oCIS)
 
@@ -74,27 +80,27 @@ _disabled_ which is the default state.
 
 [Activating the Auth Basic Service](https://doc.owncloud.com/ocis/next/deployment/services/s-list/auth-basic.html) does not enable App Tokens but allows the users to use their passwords with __*cloud__.
 
-## All Webservers
+## All Web Servers
 
 ### Redirects
 
-In some configurations a start url like `https://cloud.example.com` is
-redirected to the actual url of the cloud eg `https://example.com/cloud`.
-__*cloud__ has to access many different paths below this url, eg.
+In some configurations a start URL like `https://cloud.example.com` is
+redirected to the actual URL of the cloud e.g. `https://example.com/cloud`.
+__*cloud__ has to access many different paths below this URL, e.g..
 `status.php`. If these are not also redirected
 (`https://cloud.example.com/status.php` ->
 `https://example.com/cloud/status.php`), __*cloud__ can't access them and
-doesn't work. There is no way for the extension to find the actual base url
+doesn't work. There is no way for the extension to find the actual base URL
 with some certainty.
 
-There is a workaround: Users can find out the actual url and configure it in
-__*cloud__. But it's easier for users if all urls are redirected. So it would
+There is a workaround: Users can find out the actual URL and configure it in
+__*cloud__. But it's easier for users if all URLs are redirected. So it would
 be greatly appreciated if you would do that in your cloud instance (if you
 have to use redirects at all). Thanks.
 
 ### Self-signed certificates
 
-By default Thunderbird (not __*cloud__) refuses https connections using
+By default Thunderbird (not __*cloud__) refuses HTTPS connections using
 self-signed certificates. It's a lot easier for your users, if you install a
 [Let's encrypt](https://letsencrypt.org/getting-started/) certificate. There
 are great How-tos on their site.
@@ -105,7 +111,7 @@ are great How-tos on their site.
 
 [Nextcloud](https://docs.nextcloud.com/server/latest/admin_manual/installation/source_installation.html#additional-apache-configurations)
 and [ownCloud Classic](https://doc.owncloud.com/server/next/admin_manual/troubleshooting/general_troubleshooting.html)
-both require mod_rewrite to be active if run in the Apache http server.
+both require mod_rewrite to be active if run in the Apache HTTP server.
 Without mod_rewrite __*cloud__ fails with different error scenarios depending
 on other details of the configuration.
 
@@ -146,12 +152,13 @@ __*cloud__ accounts can be configured with [Thunderbird Enterprise Policies](htt
 ```
 
 The first two policies under `"Preferences"` create a __*cloud__ account.
-Thunderbird requires these entries to exist before the Addon can configure the
-account; the Addon can't create accounts itself.
+Thunderbird requires these entries to exist before the Add-on can configure the
+account; the Add-on can't create accounts itself.
 
 In both entries you have to have the same internal ID. You can choose any
 string of letters and numbers (no spaces).
-> Do _not_ use an internal ID in the form "account"+number (like account10) as
+
+> {{badge "Warning" "warning"}} Do _not_ use an internal ID in the form "account"+number (like account10) as
 > Thunderbird uses IDs of this format for accounts a user creates manually in
 > the UI.
 
@@ -172,9 +179,10 @@ Currently only these fields can be set via the policies mechanism:
 * password
 * storageFolder
 
-Most other options of a __*cloud__ account (e.g. mandatory download
-password) can be enforced by cloud server configurations. (If you don't agree
-please open an issue explaining why you need which setting.)
+Most other options of a __*cloud__ account (e.g. mandatory download password)
+can be enforced by cloud server configurations. (If you don't agree please
+[open an issue](https://gitlab.com/joendres/filelink-nextcloud/-/issues)
+explaining why you need which setting.)
 
 `"Status": "locked"` on settings of __*cloud__ (under `"3rdparty"`) does not
 strictly lock these settings, it disables the fields in the UI. Advanced users
@@ -197,4 +205,4 @@ be overwritten but will keep user changes.
 * The documentation for [Configuring Firefox using
   policies.json](https://firefox-admin-docs.mozilla.org/guides/policies-configuration/#configuring-firefox-using-policiesjson)
   is far more detailed than the documentation for Thunderbird. But with a
-  grain of salt it applies to Thinderbird, too.
+  grain of salt it applies to Thunderbird, too.

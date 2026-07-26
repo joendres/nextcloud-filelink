@@ -4,7 +4,7 @@
     "@types/thunderbird-webext-browser": "*",
     "eslint": "^10.7.0",
     "globals": "*",
-    "jsdom": "^26.1.0",
+    "okidoki": "github:joendres/okidoki",
     "web-ext": "^7.12.0"
   },
   "private": true,
