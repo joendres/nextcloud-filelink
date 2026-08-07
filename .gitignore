@@ -4,7 +4,10 @@
 
 # Directories with generated files
 /web-ext-artifacts
-/public
+/public/*
+# Google site verification
+!/public/googlebbbbd85efd1cc223.html*
+
 
 # This will be copied from README.md
 docs/docs/index.md
