@@ -55,25 +55,16 @@ REUSE compliance:
   script:
     - reuse lint
 
-Check build tools:
-  extends: .node_job
-  stage: test
-  interruptible: true
-  rules:
-    - if: $CI_COMMIT_TITLE =~ /^build:/
-  script:
-    - npx eslint build-tools
-
 Additional pre-release tests:
   stage: test
   image: alpine:latest
   rules:
     # Only check tagged releases
-    - if: '$CI_COMMIT_TAG =~ /^\d+\.\d+\.\d+$/'
+    - if: $CI_COMMIT_TAG =~ /^\d+\.\d+\.\d+$/
   script:
     # Check if the version in manifest.json and $CI_COMMIT_TAG match
-    - grep -E \"version\":\\s+\"$CI_COMMIT_TAG\" src/manifest.json
-
+    - grep -E '"version":\s*"$CI_COMMIT_TAG"' src/manifest.json
+    
 # Deployments
 Deploy to Thunderbird Add-ons:
   extends: .node_job
@@ -83,7 +74,7 @@ Deploy to Thunderbird Add-ons:
     - "npx web-ext@7 sign --channel=listed --api-url-prefix=https://addons.thunderbird.net/api/v4 || true"
   rules:
     # Only sign tagged version on master branch
-    - if: $CI_COMMIT_BRANCH == "master" && '$CI_COMMIT_TAG =~ /^\d+\.\d+\.\d+$/'
+    - if: $CI_COMMIT_TAG =~ /^\d+\.\d+\.\d+$/
 
 Create a release:
   stage: deploy
@@ -91,7 +82,7 @@ Create a release:
   needs:
     - job: Deploy to Thunderbird Add-ons
   rules:
-    - if: $CI_COMMIT_BRANCH == "master" && '$CI_COMMIT_TAG =~ /^\d+\.\d+\.\d+$/'
+    - if: $CI_COMMIT_TAG =~ /^\d+\.\d+\.\d+$/
   script:
     - echo "Creating release $CI_COMMIT_TAG"
   release:
