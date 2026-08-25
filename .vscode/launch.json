@@ -1,4 +1,4 @@
-// SPDX-FileCopyrightText: 2026 Johannes Endres
+// Copyright (C) 2026 Johannes Endres
 //
 // SPDX-License-Identifier: MIT
 {
@@ -16,13 +16,11 @@
             "firefoxArgs": [
                 "-start-debugger-server"
             ],
-            "reloadOnChange": {
-                "watch": "${workspaceFolder}/src/**",
-                "ignore": "**/node_modules/**"
-            },
+            "reloadOnChange": "${workspaceFolder}/src/**",
             "profileDir": "${workspaceFolder}/thunderbird/profile-for-debugging/",
             "keepProfileChanges": false,
             "internalConsoleOptions": "openOnSessionStart",
+            "clearConsoleOnReload": true,
             "addonPath": "${workspaceFolder}/src/"
         }
     ]

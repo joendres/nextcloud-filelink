@@ -1,0 +1,486 @@
+{
+    "ocs": {
+        "meta": {
+            "status": "ok",
+            "statuscode": 100,
+            "message": "OK",
+            "totalitems": "",
+            "itemsperpage": ""
+        },
+        "data": {
+            "version": {
+                "major": 32,
+                "minor": 0,
+                "micro": 9,
+                "string": "32.0.9",
+                "edition": "",
+                "extendedSupport": false
+            },
+            "capabilities": {
+                "core": {
+                    "pollinterval": 60,
+                    "webdav-root": "remote.php\/webdav",
+                    "reference-api": true,
+                    "reference-regex": "(\\s|\\n|^)(https?:\\\/\\\/)([-A-Z0-9+_.]+(?::[0-9]+)?(?:\\\/[-A-Z0-9+&@#%?=~_|!:,.;()]*)*)(\\s|\\n|$)",
+                    "mod-rewrite-working": true,
+                    "user": {
+                        "language": "de_DE",
+                        "locale": "",
+                        "timezone": "Europe\/Berlin"
+                    }
+                },
+                "bruteforce": {
+                    "delay": 0,
+                    "allow-listed": false
+                },
+                "files": {
+                    "$comment": "\"blacklisted_files\" is deprecated as of Nextcloud 30, use \"forbidden_filenames\" instead",
+                    "blacklisted_files": [
+                        ".htaccess"
+                    ],
+                    "forbidden_filenames": [
+                        ".htaccess"
+                    ],
+                    "forbidden_filename_basenames": [],
+                    "forbidden_filename_characters": [
+                        "\\",
+                        "\/"
+                    ],
+                    "forbidden_filename_extensions": [
+                        ".filepart",
+                        ".part"
+                    ],
+                    "bigfilechunking": true,
+                    "chunked_upload": {
+                        "max_size": 52428800,
+                        "max_parallel_count": 5
+                    },
+                    "file_conversions": [
+                        {
+                            "from": "application\/msword",
+                            "to": "application\/pdf",
+                            "extension": "pdf",
+                            "displayName": "PDF (.pdf)"
+                        },
+                        {
+                            "from": "application\/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                            "to": "application\/pdf",
+                            "extension": "pdf",
+                            "displayName": "PDF (.pdf)"
+                        },
+                        {
+                            "from": "application\/vnd.openxmlformats-officedocument.wordprocessingml.template",
+                            "to": "application\/pdf",
+                            "extension": "pdf",
+                            "displayName": "PDF (.pdf)"
+                        },
+                        {
+                            "from": "application\/vnd.oasis.opendocument.text-template",
+                            "to": "application\/pdf",
+                            "extension": "pdf",
+                            "displayName": "PDF (.pdf)"
+                        },
+                        {
+                            "from": "application\/vnd.oasis.opendocument.text",
+                            "to": "application\/pdf",
+                            "extension": "pdf",
+                            "displayName": "PDF (.pdf)"
+                        },
+                        {
+                            "from": "application\/vnd.ms-excel",
+                            "to": "application\/pdf",
+                            "extension": "pdf",
+                            "displayName": "PDF (.pdf)"
+                        },
+                        {
+                            "from": "application\/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                            "to": "application\/pdf",
+                            "extension": "pdf",
+                            "displayName": "PDF (.pdf)"
+                        },
+                        {
+                            "from": "application\/vnd.openxmlformats-officedocument.spreadsheetml.template",
+                            "to": "application\/pdf",
+                            "extension": "pdf",
+                            "displayName": "PDF (.pdf)"
+                        },
+                        {
+                            "from": "application\/vnd.oasis.opendocument.spreadsheet",
+                            "to": "application\/pdf",
+                            "extension": "pdf",
+                            "displayName": "PDF (.pdf)"
+                        },
+                        {
+                            "from": "application\/vnd.oasis.opendocument.spreadsheet-template",
+                            "to": "application\/pdf",
+                            "extension": "pdf",
+                            "displayName": "PDF (.pdf)"
+                        },
+                        {
+                            "from": "application\/vnd.ms-powerpoint",
+                            "to": "application\/pdf",
+                            "extension": "pdf",
+                            "displayName": "PDF (.pdf)"
+                        },
+                        {
+                            "from": "application\/vnd.openxmlformats-officedocument.presentationml.presentation",
+                            "to": "application\/pdf",
+                            "extension": "pdf",
+                            "displayName": "PDF (.pdf)"
+                        },
+                        {
+                            "from": "application\/vnd.openxmlformats-officedocument.presentationml.template",
+                            "to": "application\/pdf",
+                            "extension": "pdf",
+                            "displayName": "PDF (.pdf)"
+                        },
+                        {
+                            "from": "application\/vnd.oasis.opendocument.presentation",
+                            "to": "application\/pdf",
+                            "extension": "pdf",
+                            "displayName": "PDF (.pdf)"
+                        },
+                        {
+                            "from": "application\/vnd.oasis.opendocument.presentation-template",
+                            "to": "application\/pdf",
+                            "extension": "pdf",
+                            "displayName": "PDF (.pdf)"
+                        },
+                        {
+                            "from": "application\/vnd.visio",
+                            "to": "application\/pdf",
+                            "extension": "pdf",
+                            "displayName": "PDF (.pdf)"
+                        },
+                        {
+                            "from": "application\/vnd.oasis.opendocument.graphics",
+                            "to": "application\/pdf",
+                            "extension": "pdf",
+                            "displayName": "PDF (.pdf)"
+                        },
+                        {
+                            "from": "application\/vnd.oasis.opendocument.graphics-template",
+                            "to": "application\/pdf",
+                            "extension": "pdf",
+                            "displayName": "PDF (.pdf)"
+                        },
+                        {
+                            "from": "application\/vnd.oasis.opendocument.text",
+                            "to": "application\/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                            "extension": "docx",
+                            "displayName": "Word Dokument (.docx)"
+                        },
+                        {
+                            "from": "application\/msword",
+                            "to": "application\/vnd.oasis.opendocument.text",
+                            "extension": "odt",
+                            "displayName": "OpenDocument Textdokument (.odt)"
+                        },
+                        {
+                            "from": "application\/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                            "to": "application\/vnd.oasis.opendocument.text",
+                            "extension": "odt",
+                            "displayName": "OpenDocument Textdokument (.odt)"
+                        },
+                        {
+                            "from": "application\/vnd.oasis.opendocument.text",
+                            "to": "application\/rtf",
+                            "extension": "rtf",
+                            "displayName": "Text (.rtf)"
+                        },
+                        {
+                            "from": "application\/msword",
+                            "to": "application\/rtf",
+                            "extension": "rtf",
+                            "displayName": "Text (.rtf)"
+                        },
+                        {
+                            "from": "application\/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                            "to": "application\/rtf",
+                            "extension": "rtf",
+                            "displayName": "Text (.rtf)"
+                        },
+                        {
+                            "from": "application\/vnd.oasis.opendocument.text",
+                            "to": "text\/plain",
+                            "extension": "txt",
+                            "displayName": "Text (.txt)"
+                        },
+                        {
+                            "from": "application\/msword",
+                            "to": "text\/plain",
+                            "extension": "txt",
+                            "displayName": "Text (.txt)"
+                        },
+                        {
+                            "from": "application\/vnd.openxmlformats-officedocument.wordprocessingml.document",
+                            "to": "text\/plain",
+                            "extension": "txt",
+                            "displayName": "Text (.txt)"
+                        },
+                        {
+                            "from": "application\/vnd.oasis.opendocument.spreadsheet",
+                            "to": "application\/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                            "extension": "xlsx",
+                            "displayName": "Excel Arbeitsmappe (.xlsx)"
+                        },
+                        {
+                            "from": "application\/vnd.ms-excel",
+                            "to": "application\/vnd.oasis.opendocument.spreadsheet",
+                            "extension": "ods",
+                            "displayName": "OpenDocument Tabellendokument (.ods)"
+                        },
+                        {
+                            "from": "application\/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                            "to": "application\/vnd.oasis.opendocument.spreadsheet",
+                            "extension": "ods",
+                            "displayName": "OpenDocument Tabellendokument (.ods)"
+                        },
+                        {
+                            "from": "application\/vnd.oasis.opendocument.presentation",
+                            "to": "application\/vnd.openxmlformats-officedocument.presentationml.presentation",
+                            "extension": "pptx",
+                            "displayName": "PowerPoint Pr\u00e4sentation (.pptx)"
+                        },
+                        {
+                            "from": "application\/vnd.ms-powerpoint",
+                            "to": "application\/vnd.oasis.opendocument.presentation",
+                            "extension": "odp",
+                            "displayName": "OpenDocument Pr\u00e4sentation (.odp)"
+                        },
+                        {
+                            "from": "application\/vnd.openxmlformats-officedocument.presentationml.presentation",
+                            "to": "application\/vnd.oasis.opendocument.presentation",
+                            "extension": "odp",
+                            "displayName": "OpenDocument Pr\u00e4sentation (.odp)"
+                        },
+                        {
+                            "from": "application\/vnd.oasis.opendocument.graphics",
+                            "to": "image\/png",
+                            "extension": "png",
+                            "displayName": "Bild (.png)"
+                        },
+                        {
+                            "from": "application\/vnd.oasis.opendocument.graphics",
+                            "to": "image\/svg+xml",
+                            "extension": "svg",
+                            "displayName": "Bild (.svg)"
+                        }
+                    ],
+                    "windows_compatible_filenames": false,
+                    "directEditing": {
+                        "url": "https:\/\/magentacloud.de\/ocs\/v2.php\/apps\/files\/api\/v1\/directEditing",
+                        "etag": "1dc1b8f0cb70e547508c330170656228",
+                        "supportsFileId": true
+                    },
+                    "undelete": true,
+                    "delete_from_trash": true
+                },
+                "ocm": {
+                    "enabled": true,
+                    "apiVersion": "1.0-proposal1",
+                    "version": "1.1.0",
+                    "endPoint": "https:\/\/magentacloud.de\/ocm",
+                    "publicKey": null,
+                    "provider": "Nextcloud 32.0.9.2",
+                    "resourceTypes": [
+                        {
+                            "name": "file",
+                            "shareTypes": [
+                                "user",
+                                "group"
+                            ],
+                            "protocols": {
+                                "webdav": "\/public.php\/webdav\/"
+                            }
+                        }
+                    ],
+                    "capabilities": [
+                        "\/invite-accepted",
+                        "\/notifications",
+                        "\/shares"
+                    ]
+                },
+                "dav": {
+                    "chunking": "1.0",
+                    "public_shares_chunking": true,
+                    "search_supports_creation_time": true,
+                    "search_supports_upload_time": true,
+                    "search_supports_last_activity": true,
+                    "bulkupload": "1.0",
+                    "absence-supported": true,
+                    "absence-replacement": true
+                },
+                "downloadlimit": {
+                    "enabled": true,
+                    "default-limit": -1
+                },
+                "files_sharing": {
+                    "api_enabled": true,
+                    "public": {
+                        "enabled": true,
+                        "password": {
+                            "enforced": false,
+                            "askForOptionalPassword": false
+                        },
+                        "expire_date": {
+                            "enabled": true,
+                            "days": 365,
+                            "enforced": false
+                        },
+                        "multiple_links": true,
+                        "expire_date_internal": {
+                            "enabled": true,
+                            "days": 365,
+                            "enforced": false
+                        },
+                        "expire_date_remote": {
+                            "enabled": true,
+                            "days": 365,
+                            "enforced": false
+                        },
+                        "send_mail": false,
+                        "upload": true,
+                        "upload_files_drop": true,
+                        "custom_tokens": false
+                    },
+                    "resharing": true,
+                    "user": {
+                        "send_mail": false,
+                        "expire_date": {
+                            "enabled": true
+                        }
+                    },
+                    "group_sharing": false,
+                    "group": {
+                        "enabled": false,
+                        "expire_date": {
+                            "enabled": true
+                        }
+                    },
+                    "default_permissions": 31,
+                    "federation": {
+                        "outgoing": false,
+                        "incoming": false,
+                        "expire_date": {
+                            "enabled": false
+                        },
+                        "expire_date_supported": {
+                            "enabled": false
+                        }
+                    },
+                    "sharee": {
+                        "query_lookup_default": false,
+                        "always_show_unique": true
+                    },
+                    "sharebymail": {
+                        "enabled": true,
+                        "send_password_by_mail": false,
+                        "upload_files_drop": {
+                            "enabled": true
+                        },
+                        "password": {
+                            "enabled": true,
+                            "enforced": false
+                        },
+                        "expire_date": {
+                            "enabled": true,
+                            "enforced": false
+                        }
+                    }
+                },
+                "files_zip": {
+                    "apiVersion": "v1"
+                },
+                "client_integration": {
+                    "files_zip": {
+                        "version": 0.1,
+                        "context-menu": [
+                            {
+                                "name": "Zip-Datei erstellen",
+                                "url": "\/ocs\/v2.php\/apps\/files_zip\/api\/v1\/zip-path",
+                                "method": "POST",
+                                "params": {
+                                    "filePath": "{filePath}"
+                                },
+                                "icon": "\/apps\/files_zip\/img\/files_zip.svg"
+                            }
+                        ]
+                    }
+                },
+                "notifications": {
+                    "ocs-endpoints": [
+                        "list",
+                        "get",
+                        "delete",
+                        "delete-all",
+                        "icons",
+                        "rich-strings",
+                        "action-web",
+                        "user-status",
+                        "exists",
+                        "test-push"
+                    ],
+                    "push": [
+                        "devices",
+                        "object-data",
+                        "delete"
+                    ],
+                    "admin-notifications": [
+                        "ocs",
+                        "cli"
+                    ]
+                },
+                "password_policy": {
+                    "api": {
+                        "generate": "https:\/\/magentacloud.de\/ocs\/v2.php\/apps\/password_policy\/api\/v1\/generate",
+                        "validate": "https:\/\/magentacloud.de\/ocs\/v2.php\/apps\/password_policy\/api\/v1\/validate"
+                    },
+                    "policies": {
+                        "account": {
+                            "minLength": 0,
+                            "enforceHaveIBeenPwned": true,
+                            "enforceNonCommonPassword": false,
+                            "enforceNumericCharacters": false,
+                            "enforceSpecialCharacters": false,
+                            "enforceUpperLowerCase": false
+                        }
+                    },
+                    "minLength": 0,
+                    "enforceNonCommonPassword": false,
+                    "enforceNumericCharacters": false,
+                    "enforceSpecialCharacters": false,
+                    "enforceUpperLowerCase": false
+                },
+                "provisioning_api": {
+                    "version": "1.22.0",
+                    "AccountPropertyScopesVersion": 2,
+                    "AccountPropertyScopesFederatedEnabled": false,
+                    "AccountPropertyScopesPublishedEnabled": false
+                },
+                "support": {
+                    "hasValidSubscription": true,
+                    "desktopEnterpriseChannel": "enterprise"
+                },
+                "theming": {
+                    "name": "MagentaCLOUD",
+                    "productName": "MagentaCLOUD",
+                    "url": "https:\/\/magentacloud.de",
+                    "slogan": "Alle Dateien sicher an einem Ort",
+                    "color": "#e20074",
+                    "color-text": "#ffffff",
+                    "color-element": "#e20074",
+                    "color-element-bright": "#e20074",
+                    "color-element-dark": "#e20074",
+                    "logo": "https:\/\/magentacloud.de\/core\/img\/logo\/logo.svg?v=60",
+                    "background": "#e20074",
+                    "background-text": "#ffffff",
+                    "background-plain": true,
+                    "background-default": true,
+                    "logoheader": "https:\/\/magentacloud.de\/core\/img\/logo\/logo.svg?v=60",
+                    "favicon": "https:\/\/magentacloud.de\/core\/img\/logo\/logo.svg?v=60"
+                }
+            }
+        }
+    }
+}

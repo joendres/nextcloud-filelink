@@ -9,13 +9,13 @@
     "description": "__MSG_extensionDescription__",
     "homepage_url": "https://joendres.gitlab.io/filelink-nextcloud/",
     "author": "Johannes Endres",
-    "version": "4.0.2",
+    "version": "4.1.0",
     "icons": {
         "48": "icons/icon48.png"
     },
     "cloud_file": {
         "name": "*cloud",
-        "management_url": "prefspane/management.html",
+        "management_url": "management/management.html",
         "reuse_uploads": false
     },
     "permissions": [
@@ -26,12 +26,12 @@
     "manifest_version": 2,
     "background": {
         "scripts": [
-            "background.js"
+            "background/background.js"
         ],
         "type": "module"
     },
     "compose_action": {
-        "default_popup": "progress/progress.html",
+        "default_popup": "compose_action/compose_action.html",
         "default_label": "__MSG_status_menuname__",
         "default_title": "__MSG_status_menutooltip__",
         "default_icon": "icons/icon48.png"

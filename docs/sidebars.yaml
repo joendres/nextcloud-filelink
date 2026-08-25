@@ -1,4 +1,4 @@
-# SPDX-FileCopyrightText: 2026 Johannes Endres
+# Copyright (C) 2026 Johannes Endres
 #
 # SPDX-License-Identifier: MIT
 
@@ -9,7 +9,7 @@ menu:
   - title: For Admins
     document: /ADMIN.md
   - title: Deutsche Dokumentation 🇩🇪
-    document: /README.de.md 
+    document: /README.de.md
 
 # Top navigation bar items
 navbar:
