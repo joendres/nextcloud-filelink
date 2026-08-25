@@ -14,6 +14,10 @@ docs/docs/index.md
 # Example policies.json resides here, put it in git
 !/thunderbird/distribution
 
+# artifacts of vitest and playwright
+tests/browser/__screenshots__/
+coverage/
+
 ## Common excludes, see https://github.com/github/gitignore
 ## Node
 # Dependency directories

@@ -1,6 +1,23 @@
 Copyright (C) 2020 Johannes Endres
 SPDX-License-Identifier: MIT
 
+4.1.0 2026-08-25
+
+Fix #795, #802 Cloud type is sometimes wrong
+Fix #781, #813 Free space element out of sync
+Fix #823 Expiry date was sometimes wrong
+Fix #826, #814 Button states were sometimes wrong
+Fix Sometimes an accour appeared wrongly as configured
+Fix Download password wasn't validated
+Close #788 Send cloud icon embedded in message, not as external link
+Close #783 Automatically set cloud enforced settings
+Close #771 Take cloud icon from Nextcloud theme
+Close #729 Activate Save button if account is not configured correctly
+Close #693 Recognize and trim WebDAV url if pasted in configuration form
+Close #656 Don't contact server if only locally relevant settings changed
+Close #627, #643, #734, #735, #742, #743, #750, #753, #758, 759, #761, #763,
+# 786, #814 Extensive refactorings
+
 4.0.2 2026-07-20
 
 Temp fix #751 Cloud logo missing from message
@@ -24,7 +41,7 @@ Fix #463 Remove obsolete info from manifest to stop error message
 Close #739, #737, #732, #725, #721, #718, #653, #573, #339
 
 3.19.1 2026-07-14
-Close #723 Improve documentation, Nextcloud share limit 
+Close #723 Improve documentation, Nextcloud share limit
 Close #717 Make punycode a vendored library
 Close #657, #667, #705, #722, #731 More refactorings
 

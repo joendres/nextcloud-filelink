@@ -1,5 +1,5 @@
 <!--
-SPDX-FileCopyrightText: (C) 2026 Johannes Endres
+Copyright (C) (C) 2026 Johannes Endres
 
 SPDX-License-Identifier: MIT
 -->

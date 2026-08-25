@@ -37,11 +37,11 @@ SPDX-FileComment = "https://github.com/opencloud-eu/opencloud/blob/main/services
 [[annotations]]
 path = [
     "src/photon-components-web/**",
-    "src/prefspane/images/Check.svg",
-    "src/prefspane/images/Close.svg",
-    "src/prefspane/images/Help.svg",
-    "src/prefspane/images/Warning.svg",
-    "src/progress/Copy.svg",
+    "src/management/images/Check.svg",
+    "src/management/images/Close.svg",
+    "src/management/images/Help.svg",
+    "src/management/images/Warning.svg",
+    "src/compose_action/Copy.svg",
 ]
 precedence = "aggregate"
 SPDX-FileCopyrightText = "2018 The Firefox UX Team"
@@ -51,6 +51,11 @@ SPDX-FileComment = "*cloud uses the distribution version of photon-components-we
 # Generated files
 [[annotations]]
 path = "package-lock.json"
+SPDX-FileCopyrightText = "NONE"
+SPDX-License-Identifier = "MIT"
+
+[[annotations]]
+path = ["tests/responses/capabilities/*.json"]
 SPDX-FileCopyrightText = "NONE"
 SPDX-License-Identifier = "MIT"
 

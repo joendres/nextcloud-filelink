@@ -1,6 +1,8 @@
-// SPDX-FileCopyrightText: (C) 2026 Johannes Endres
+// Copyright (C) (C) 2026 Johannes Endres
 //
 // SPDX-License-Identifier: MIT
+
+import { isUploadId } from "./storagelayout.js";
 
 /**
  * The allowed status values for an upload.
@@ -45,9 +47,10 @@ class UploadStatus {
      * @param {string} uploadId The unique ID of the upload
      * @param {Status} status The status of that upload
      */
-    static async #store(uploadId, status) {
+    static #store(uploadId, status) {
         return browser.storage.session.set({ [uploadId]: status });
     }
+
     /**
      * Create a new status entry for an upload and store it in session storage.
      * Also updates the badge to reflect the new total number of active uploads.
@@ -61,7 +64,7 @@ class UploadStatus {
             error: false,
             status: undefined,
         });
-        return UploadStatus.updateBadge();
+        return UploadStatus.#updateBadge();
     }
 
     /**
@@ -71,7 +74,7 @@ class UploadStatus {
      */
     static async #load(uploadId) {
         const o = await browser.storage.session.get(uploadId);
-        return o[uploadId];
+        return o?.[uploadId];
     }
 
     /**
@@ -79,7 +82,13 @@ class UploadStatus {
      * @returns {Promise<{ [uploadId: string]: Status}>} An object indexed by uploadId
      */
     static async getAll() {
-        return browser.storage.session.get();
+        const allStatus = await browser.storage.session.get();
+        for (const key in allStatus) {
+            if (!isUploadId(key)) {
+                delete allStatus[key];
+            }
+        }
+        return allStatus;
     }
 
     /**
@@ -93,7 +102,7 @@ class UploadStatus {
             for (const key in new_status) {
                 status[key] = new_status[key];
             }
-            UploadStatus.#store(uploadId, status);
+            await UploadStatus.#store(uploadId, status);
         }
     }
 
@@ -102,7 +111,7 @@ class UploadStatus {
      * @param {string} uploadId The unique ID of the upload
      * @param {string} status One of the status values defined in STATUS
      */
-    static async #setStatus(uploadId, status) {
+    static #setStatus(uploadId, status) {
         return UploadStatus.#update(uploadId, { status, });
     }
 
@@ -110,28 +119,28 @@ class UploadStatus {
      * Mark an upload as preparing (e.g. reading file metadata).
      * @param {string} uploadId The unique ID of the upload
      */
-    static async preparing(uploadId) {
+    static preparing(uploadId) {
         return UploadStatus.#setStatus(uploadId, STATUS.PREPARING);
     }
     /**
      * Mark an upload as creating its folder on the server.
      * @param {string} uploadId The unique ID of the upload
      */
-    static async creating(uploadId) {
+    static creating(uploadId) {
         return UploadStatus.#setStatus(uploadId, STATUS.CREATING);
     }
     /**
      * Mark an upload as moving a conflicting file out of the way.
      * @param {string} uploadId The unique ID of the upload
      */
-    static async moving(uploadId) {
+    static moving(uploadId) {
         return UploadStatus.#setStatus(uploadId, STATUS.MOVING);
     }
     /**
      * Mark an upload as actively transferring file data.
      * @param {string} uploadId The unique ID of the upload
      */
-    static async uploading(uploadId) {
+    static uploading(uploadId) {
         return UploadStatus.#setStatus(uploadId, STATUS.UPLOADING);
     }
     /**
@@ -139,7 +148,7 @@ class UploadStatus {
      * @param {string} uploadId The unique ID of the upload
      * @returns {Promise<void>}
      */
-    static async sharing(uploadId) {
+    static sharing(uploadId) {
         return UploadStatus.#setStatus(uploadId, STATUS.SHARING);
     }
     /**
@@ -147,7 +156,7 @@ class UploadStatus {
      * @param {string} uploadId The unique ID of the upload
      * @returns {Promise<void>}
      */
-    static async checkingsize(uploadId) {
+    static checkingsize(uploadId) {
         return UploadStatus.#setStatus(uploadId, STATUS.CHECKINGSIZE);
     }
     /**
@@ -155,7 +164,7 @@ class UploadStatus {
      * @param {string} uploadId The unique ID of the upload
      * @returns {Promise<void>}
      */
-    static async checkingspace(uploadId) {
+    static checkingspace(uploadId) {
         return UploadStatus.#setStatus(uploadId, STATUS.CHECKINGSPACE);
     }
 
@@ -164,7 +173,7 @@ class UploadStatus {
      * @param {string} uploadId The unique ID of the upload
      * @param {number} progress A number between 0 and 1
      */
-    static async progress(uploadId, progress) {
+    static progress(uploadId, progress) {
         return UploadStatus.#update(uploadId, { progress, });
     }
 
@@ -173,7 +182,7 @@ class UploadStatus {
      * @param {string} uploadId The unique ID of the upload
      * @param {string} password The download password
      */
-    static async password(uploadId, password) {
+    static password(uploadId, password) {
         return UploadStatus.#update(uploadId, {
             password,
             status: STATUS.HASPASSWORD,
@@ -194,7 +203,7 @@ class UploadStatus {
      * Mark an upload as failed.
      * @param {string} uploadId The unique ID of the upload
      */
-    static async fail(uploadId) {
+    static fail(uploadId) {
         return UploadStatus.#update(uploadId, { error: true });
     }
 
@@ -205,7 +214,7 @@ class UploadStatus {
      */
     static async remove(uploadId) {
         await browser.storage.session.remove(uploadId);
-        return UploadStatus.updateBadge();
+        return UploadStatus.#updateBadge();
     }
 
     /**
@@ -230,7 +239,7 @@ class UploadStatus {
      * active uploads. Clears the badge when there are no active uploads.
      * @returns {Promise<void>}
      */
-    static async updateBadge() {
+    static async #updateBadge() {
         const allStatus = await UploadStatus.getAll();
         const messages = Object.keys(allStatus).length.toString();
 

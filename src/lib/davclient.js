@@ -54,11 +54,10 @@ class DAVClient {
             stat.size === fileObject.size) {
             // It's the same as the local file
             return { ok: true, };
-        } else {
-            // It's different, move it out of the way
-            await this._moveFileToDir(uploadId, fileName, "old_shares/" + (stat.mtime / 1000 | 0));
-            return this._doUpload(uploadId, fileName, fileObject);
         }
+        // It's different, move it out of the way
+        await this._moveFileToDir(uploadId, fileName, "old_shares/" + (stat.mtime / 1000 | 0));
+        return this._doUpload(uploadId, fileName, fileObject);
     }
 
     /**
@@ -92,9 +91,14 @@ class DAVClient {
                 case 201: // Created successfully
                     return true;
                 case 423: // Locked
-                    // Maybe a parallel upload is currently creating the folder, so wait a little and try again
-                    // This timeout is longer in reality because it adds to the waiting time in the queue
-                    await promisedTimeout(400 + Math.floor(Math.random() * 200));
+                    // Maybe a parallel upload is currently creating the
+                    // folder, so wait a little and try again This timeout is
+                    // longer in reality because it adds to the waiting time
+                    // in the queue
+                    // Semgrep-False-Positive: Math.random() only varies a
+                    // retry delay to reduce race conditions; its value is not
+                    // used for any security decisions.
+                    await promisedTimeout(400 + Math.floor(Math.random() * 200)); // nosemgrep: nodejs_scan.javascript-crypto-rule-node_insecure_random_generator
                     retry_count++;
                     break;
                 default:
@@ -184,7 +188,7 @@ class DAVClient {
     async getQuotaAvailableBytes(folder) {
         let spaceRemaining = -1;
         // Try to get quota
-        let response = await this._doDavCall(
+        const response = await this._doDavCall(
             folder,
             "PROPFIND",
             '<D:propfind xmlns:D="DAV:"><D:prop><D:quota-available-bytes/></D:prop></D:propfind>',
@@ -193,10 +197,9 @@ class DAVClient {
         if (response.ok && response.status < 300) {
             try {
                 const xmlDoc = new DOMParser().parseFromString(await response.text(), 'application/xml');
-                spaceRemaining = parseInt(xmlDoc.getElementsByTagName("d:quota-available-bytes")[0].textContent);
-                if (!(spaceRemaining >= 0)) {
-                    spaceRemaining = -1;
-                }
+                const available = xmlDoc.getElementsByTagName("d:quota-available-bytes")[0];
+                const parsedNumber = Number(available?.textContent);
+                if (isFinite(parsedNumber)) { spaceRemaining = parsedNumber; }
             } catch (_) {
                 // ignore errors
             }
@@ -215,7 +218,7 @@ class DAVClient {
         // Is the file bigger than the maximum size for WebDAV?
         await UploadStatus.checkingsize(uploadId);
         if (fileObject.size > DAV_MAX_FILE_SIZE) {
-            UploadStatus.fail(uploadId);;
+            UploadStatus.fail(uploadId);
             return { ok: false, };
         }
 
@@ -224,24 +227,12 @@ class DAVClient {
         // isn't necessary.
         await UploadStatus.creating(uploadId);
         if (!(await this._recursivelyCreateFolder(this._storageFolder))) {
-            UploadStatus.fail(uploadId);;
+            UploadStatus.fail(uploadId);
             throw new Error("Upload failed: Can't create folder");
         }
 
-        // Check it there is enough free space
-        // This is done after creating the folder because we need the folder
-        // to check quota on the right file system.
-        await UploadStatus.checkingspace(uploadId);
-
-        // This doesn't give the right number on oCIS
-        // (https://github.com/owncloud/ocis/issues/8197). As that is
-        // currently a rare problem, fix it later (#670) or wait until oCIS
-        // fixes it.
-        const { spaceRemaining } = await this.getQuotaAvailableBytes(this._storageFolder);
-        if (spaceRemaining !== -1 && spaceRemaining < fileObject.size) {
-            UploadStatus.fail(uploadId);;
-            return { ok: false, };
-        }
+        // Don't check it there is enough free space, because it is not
+        // reliable. Instead just start the upload and handle 507 errors
 
         let response;
         try {
@@ -254,13 +245,13 @@ class DAVClient {
         } catch (error) {
             if (error.type === 'abort') {
                 response = { aborted: true, url: "", };
-            }
-            else {
-                UploadStatus.fail(uploadId);;
-                if (!response) {
-                    response = {};
-                }
+            } else {
+                response = error.target;
                 response.ok = false;
+                if (response.status === 507) {
+                    await UploadStatus.checkingspace(uploadId);
+                }
+                UploadStatus.fail(uploadId);
             }
         }
         delete activeUploadRequests[uploadId];
@@ -272,7 +263,7 @@ class DAVClient {
      *
      * @param {string} path the full file path of the object
      * @param {string} method the HTTP METHOD to use, default GET
-     * @param {Array} [body] Body of the request, eg. file contents
+     * @param {string} [body] Body of the request, eg. file contents
      * @param {*} [additional_headers] Additional headers to include in the request
      * @returns {Promise<Response>}  A Promise that resolves to the Response object
      */
@@ -281,7 +272,7 @@ class DAVClient {
         url += this._davUrl;
         url += encodepath(path);
 
-        let fetchInfo = {
+        const fetchInfo = {
             method,
             headers: additional_headers ? { ...this._davHeaders, ...additional_headers, } : this._davHeaders,
             credentials: "omit",
@@ -290,8 +281,11 @@ class DAVClient {
         if (body) {
             fetchInfo.body = body;
         }
-
-        return fetch(url, fetchInfo).
+        // Semgrep-False-Positive: The request URL is constructed exclusively
+        // from the configured account server URL, the fixed WebDAV endpoint,
+        // and encoded application paths; it is not an arbitrary user-supplied
+        // URL.
+        return fetch(url, fetchInfo). // nosemgrep: nodejs_scan.javascript-ssrf-rule-node_ssrf
             catch(() => {
                 return { ok: false, };
             });
@@ -301,7 +295,7 @@ class DAVClient {
      * 
      * @param {string} uploadId The id of the upload created in background.js
      * @param {string} path The path the file will be uploaded to
-     * @param {Blob} data The file content (as a File object)
+     * @param {File} data The file content (as a File object)
      * @returns {Promise} A promise that resolves to the XHR or rejects with the entire event
      */
     async _xhrUpload(uploadId, path, data) {

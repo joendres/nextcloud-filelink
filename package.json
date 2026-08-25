@@ -2,24 +2,36 @@
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@types/thunderbird-webext-browser": "^127.0.0",
-    "eslint": "^10.8.1",
-    "globals": "^17.9.0",
+    "@vitest/browser-playwright": "^4.1.11",
+    "@vitest/coverage-istanbul": "^4.1.11",
+    "@vitest/eslint-plugin": "^1.6.27",
+    "eslint": "^10.9.0",
+    "globals": "^17.11.0",
+    "jsdom": "^30.0.1",
     "okidoki": "github:joendres/okidoki",
-    "web-ext": "^7.12.0"
+    "playwright": "^1.62.1",
+    "vitest": "^4.1.11",
+    "web-ext": "^10.6.0"
   },
   "dependencies": {
     "punycode": "^2.3.1"
   },
+  "type": "module",
   "private": true,
   "scripts": {
-    "start": "npx web-ext run"
+    "start": "web-ext run",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:unit": "vitest run --project unit",
+    "test:browser": "vitest run --project browser",
+    "postinstall": "playwright install firefox"
   },
   "webExt": {
     "ignoreFiles": [
       "photon-components-web/index.js",
       "photon-components-web/images/arrow-grey-40-*.svg",
-      "photon-components-web/images/open-in-new-16-*.svg",
       "photon-components-web/images/searchfield-cancel-*.svg",
+      "photon-components-web/images/open-in-new-16-*.svg",
       "**/*.license"
     ],
     "sourceDir": "src",
@@ -34,10 +46,10 @@
     },
     "lint": {
       "selfHosted": true
-    },
-    "sign": {
-      "channel": "listed",
-      "apiUrlPrefix": "https://addons.thunderbird.net/api/v4"
     }
+  },
+  "allowScripts": {
+    "fsevents@2.3.3": true,
+    "fsevents@2.3.2": true
   }
 }

@@ -21,7 +21,7 @@ hochlädt und dann einen Download-Link in die Mail einfügt.
    * Nextcloud Version 32 oder neuer (ältere Versionen funktionieren
     möglicherweise, werden jedoch [von Nextcloud nicht mehr
     unterstützt](https://github.com/nextcloud/server/wiki/Maintenance-and-Release-Schedule))
-   * OpenCloud Version 3.5 oder neuer (ältere Versionen funktionieren
+   * OpenCloud Version 4.0 oder neuer (ältere Versionen funktionieren
      möglicherweise, wurden jedoch nicht getestet)
    * ownCloud Classic Version 10.0.10 oder neuer (ältere Versionen haben einen
      Bug, durch den __*cloud__ nicht funktioniert)
@@ -156,6 +156,15 @@ des Cloud-Servers verursacht werden.
 
 __Lösung:__ Weise den Cloud-Administrator auf den Abschnitt zu [Apache und
 mod_rewrite](ADMIN.md#mod-rewrite) in der Cloud-Admin-Dokumentation hin.
+
+## Das Icon für den Cloud-Dienst wird nicht angezeigt. Erscheint es beim Empfänger?
+
+Wenn du einen Link zu einer Nachricht hinzufügen, sollte das Symbol des Cloud-Dienstes
+eben dem Namen des Dienstes erscheinen. Ab Version 135 zeigt Thunderbird
+das Icon an dieser Stelle nicht mehr an. Das ist ein [Fehler in
+Thunderbird](https://bugzilla.mozilla.org/show_bug.cgi?id=2057816).
+
+Beim Empfänger der Nachricht erscheint das Icon trotzdem.
 
 ### Könntest du bitte den Stil des in die Nachricht eingefügten Textes ändern / _X_ hinzufügen / _Y_ entfernen?
 

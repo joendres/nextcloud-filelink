@@ -1,13 +1,30 @@
 {
   "policies": {
     "Preferences": {
-      "//": "The folowing 2(!) preferences create the account that will be configured in *cloud. Note the internal id 'preconfigured'",
-      "mail.cloud_files.accounts.preconfigured.displayName": {
-        "Value": "Preconfigured Cloud"
+      "//": "The folowing 2(!) preferences create the account that will be configured in *cloud. Note the internal id 'nextcloud'",
+      "mail.cloud_files.accounts.nextcloud.displayName": {
+        "Value": "Nextcloud"
       },
-      "mail.cloud_files.accounts.preconfigured.type": {
-        "Value": "ext-cloud@johannes-endres.de",
-        "Status": "locked"
+      "mail.cloud_files.accounts.nextcloud.type": {
+        "Value": "ext-cloud@johannes-endres.de"
+      },
+      "mail.cloud_files.accounts.owncloud.displayName": {
+        "Value": "ownCloud Classic"
+      },
+      "mail.cloud_files.accounts.owncloud.type": {
+        "Value": "ext-cloud@johannes-endres.de"
+      },
+      "mail.cloud_files.accounts.ocis.displayName": {
+        "Value": "Infinite Scale"
+      },
+      "mail.cloud_files.accounts.ocis.type": {
+        "Value": "ext-cloud@johannes-endres.de"
+      },
+      "mail.cloud_files.accounts.opencloud.displayName": {
+        "Value": "OpenCloud"
+      },
+      "mail.cloud_files.accounts.opencloud.type": {
+        "Value": "ext-cloud@johannes-endres.de"
       },
       "//": "Only for the development environment: Configure Thunderbird for debugging via VS Code",
       "devtools.debugger.remote-enabled": {
@@ -18,16 +35,41 @@
       },
       "devtools.debugger.prompt-connection": {
         "Value": false
+      },
+      "//": "Optimize settings for interactive debugging sessions",
+      "//": "Never make the old version the default client",
+      "mail.shell.checkDefaultClient": {
+        "Value": false
+      },
+      "//": "Offer Filelink even for small files",
+      "mail.compose.big_attachments.threshold_kb": {
+        "Value": 0
+      },
+      "//": "No need for the start page",
+      "mailnews.start_page.enabled": {
+        "Value": false
+      },
+      "//": "Less interference with other Thunderbird profiles: Don't mark messages read automatically",
+      "mailnews.mark_message_read.auto": {
+        "Value": false
+      },
+      "//": "Don't clutter OS's search index",
+      "searchintegration.enable": {
+        "Value": false
+      },
+      "//": "No error message when autosave false on fake mail account",
+      "mail.compose.autosave": {
+        "Value": false
       }
     },
     "3rdparty": {
       "Extensions": {
         "cloud@johannes-endres.de": {
           "accounts": {
-            "preconfigured": {
-              "//": "Settings for the account with internal id 'preconfigured' that was created in the 'Preferences' section",
+            "nextcloud": {
+              "//": "Settings for the account with internal id 'nextcloud' that was created in the 'Preferences' section",
               "serverUrl": {
-                "Value": "http://localhost:8080",
+                "Value": "http://localhost:8080/",
                 "Status": "locked",
                 "//": "For a test server running in docker on the development machine"
               },
@@ -38,11 +80,44 @@
                 "Value": "Password+123"
               },
               "storageFolder": {
-                "Value": "/Anhänge"
+                "Value": "/Ättächmeñts"
               },
               "unexpected": {
                 "Value": "The Spanish Inquisition",
                 "//": "Test for an invalid settings key"
+              }
+            },
+            "owncloud": {
+              "serverUrl": {
+                "Value": "http://localhost:8081/"
+              },
+              "username": {
+                "Value": "admin"
+              },
+              "password": {
+                "Value": "Password+123"
+              }
+            },
+            "ocis": {
+              "serverUrl": {
+                "Value": "https://localhost:9201/"
+              },
+              "username": {
+                "Value": "admin"
+              },
+              "password": {
+                "Value": "Password+123"
+              }
+            },
+            "opencloud": {
+              "serverUrl": {
+                "Value": "https://localhost:9200/"
+              },
+              "username": {
+                "Value": "admin"
+              },
+              "password": {
+                "Value": "Password+123"
               }
             }
           }

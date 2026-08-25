@@ -18,15 +18,14 @@ default:
 .node_job:
   image: node:lts-alpine
   before_script:
-    - apk add grep
-    - npm install --loglevel=error
+    - npm install --loglevel=error --allow-git=root
   # Cache installed node modules as this might be faster than reinstalling them
   cache:
     key: node_modules
     paths:
       - node_modules/
 
-## Jobs
+## Tests
 Static Tests:
   extends: .node_job
   stage: test
@@ -36,10 +35,11 @@ Static Tests:
       when: never
     # Categorized commit of source
     - if: $CI_COMMIT_TITLE =~ /^(fix|feat|perf|test|refactor|style):/
+    # Also on tagged releases
+    - if: '$CI_COMMIT_TAG =~ /^\d+\.\d+\.\d+$/'
   script:
     - npx web-ext lint
     - npx eslint src
-    - "! grep -Er --exclude-dir=photon-components-web '(TODO|debug)' src"
 
 REUSE compliance:
   stage: test
@@ -50,6 +50,8 @@ REUSE compliance:
   rules:
     # Categorized commit
     - if: $CI_COMMIT_TITLE =~ /^(docs|ci|build|fix|feat|perf|test|refactor|style):/
+    # Also on tagged releases
+    - if: '$CI_COMMIT_TAG =~ /^\d+\.\d+\.\d+$/'
   script:
     - reuse lint
 
@@ -62,17 +64,26 @@ Check build tools:
   script:
     - npx eslint build-tools
 
+Additional pre-release tests:
+  stage: test
+  image: alpine:latest
+  rules:
+    # Only check tagged releases
+    - if: '$CI_COMMIT_TAG =~ /^\d+\.\d+\.\d+$/'
+  script:
+    # Check if the version in manifest.json and $CI_COMMIT_TAG match
+    - grep -E \"version\":\\s+\"$CI_COMMIT_TAG\" src/manifest.json
+
+# Deployments
 Deploy to Thunderbird Add-ons:
   extends: .node_job
   stage: deploy
   script:
-    # Check if the version in manifest.json and $CI_COMMIT_TAG match
-    - grep -E \"version\":\\s+\"$CI_COMMIT_TAG\" src/manifest.json
     # web-ext sign always fails (as documented), so manipulate the return code
-    - "npx web-ext sign || true"
+    - "npx web-ext@7 sign --channel=listed --api-url-prefix=https://addons.thunderbird.net/api/v4 || true"
   rules:
-    # Only sign tagged releases
-    - if: '$CI_COMMIT_TAG =~ /^\d+\.\d+\.\d+$/'
+    # Only sign tagged version on master branch
+    - if: $CI_COMMIT_BRANCH == "master" && '$CI_COMMIT_TAG =~ /^\d+\.\d+\.\d+$/'
 
 Create a release:
   stage: deploy
@@ -80,12 +91,18 @@ Create a release:
   needs:
     - job: Deploy to Thunderbird Add-ons
   rules:
-    - if: '$CI_COMMIT_TAG =~ /^\d+\.\d+\.\d+$/'
+    - if: $CI_COMMIT_BRANCH == "master" && '$CI_COMMIT_TAG =~ /^\d+\.\d+\.\d+$/'
   script:
-    # Check if the version in manifest.json and $CI_COMMIT_TAG match
-    - grep -E \"version\":\\s+\"$CI_COMMIT_TAG\" src/manifest.json
+    - echo "Creating release $CI_COMMIT_TAG"
   release:
-    description: "$(cat .gitlab/release-notes-template.md)\n$CI_COMMIT_MESSAGE"
+    description: |
+      # Installation
+
+      [![Get the Addon](https://raw.githubusercontent.com/thunderbird/webext-support/refs/heads/master/images/get-the-addon.svg)](https://addons.thunderbird.net/thunderbird/addon/filelink-nextcloud-owncloud/)
+
+      ## Changes
+
+      $CI_COMMIT_MESSAGE
     tag_name: "$CI_COMMIT_TAG"
 
 Build pages:
@@ -103,3 +120,9 @@ Build pages:
     - if: $CI_COMMIT_BRANCH == "master" && $CI_COMMIT_TITLE =~ /^docs:/
     # Release that might affect documentation
     - if: '$CI_COMMIT_TAG =~ /^\d+\.\d+\.\d+$/'
+
+# Gitlab default static analysis
+sast:
+  stage: test
+include:
+  - template: Security/SAST.gitlab-ci.yml

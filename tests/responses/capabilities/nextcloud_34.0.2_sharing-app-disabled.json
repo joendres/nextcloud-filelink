@@ -1,0 +1,140 @@
+{
+  "ocs": {
+    "meta": {
+      "status": "ok",
+      "statuscode": 100,
+      "message": "OK",
+      "totalitems": "",
+      "itemsperpage": ""
+    },
+    "data": {
+      "version": {
+        "major": 34,
+        "minor": 0,
+        "micro": 2,
+        "string": "34.0.2",
+        "edition": "",
+        "extendedSupport": false
+      },
+      "capabilities": {
+        "core": {
+          "pollinterval": 60,
+          "webdav-root": "remote.php/webdav",
+          "reference-api": true,
+          "reference-regex": "(\\s|\\n|^)(https?:\\/\\/)([-A-Z0-9+_.]+(?::[0-9]+)?(?:\\/[-A-Z0-9+&@#%?=~_|!:,.;()]*)*)(\\s|\\n|$)",
+          "mod-rewrite-working": true,
+          "user": {
+            "language": "de_DE",
+            "locale": "",
+            "timezone": "Europe/Berlin"
+          },
+          "can-create-app-token": true
+        },
+        "bruteforce": {
+          "delay": 0,
+          "allow-listed": false
+        },
+        "ocm": {
+          "enabled": true,
+          "apiVersion": "1.0-proposal1",
+          "version": "1.1.0",
+          "endPoint": "http://localhost:8080/ocm",
+          "publicKey": null,
+          "provider": "Nextcloud 34.0.2.1",
+          "resourceTypes": [
+            {
+              "name": "file",
+              "shareTypes": [
+                "user",
+                "group"
+              ],
+              "protocols": {
+                "webdav": "/public.php/webdav/"
+              }
+            }
+          ],
+          "capabilities": [
+            "invite-accepted",
+            "notifications",
+            "shares"
+          ]
+        },
+        "dav": {
+          "chunking": "1.0",
+          "public_shares_chunking": true,
+          "search_supports_creation_time": true,
+          "search_supports_upload_time": true,
+          "search_supports_last_activity": true,
+          "bulkupload": "1.0",
+          "absence-supported": true,
+          "absence-replacement": true
+        },
+        "files": {
+          "$comment": "\"blacklisted_files\" is deprecated as of Nextcloud 30, use \"forbidden_filenames\" instead",
+          "blacklisted_files": [
+            ".htaccess"
+          ],
+          "forbidden_filenames": [
+            ".htaccess"
+          ],
+          "forbidden_filename_basenames": [],
+          "forbidden_filename_characters": [
+            "\\",
+            "/"
+          ],
+          "forbidden_filename_extensions": [
+            ".filepart",
+            ".part"
+          ],
+          "bigfilechunking": true,
+          "chunked_upload": {
+            "max_size": 104857600,
+            "max_parallel_count": 5
+          },
+          "file_conversions": [],
+          "windows_compatible_filenames": false,
+          "directEditing": {
+            "url": "http://localhost:8080/ocs/v2.php/apps/files/api/v1/directEditing",
+            "etag": "4ce473bf0dbeb3a09bb0f38e30bc31c4",
+            "supportsFileId": true
+          }
+        },
+        "provisioning_api": {
+          "version": "1.24.0",
+          "AccountPropertyScopesVersion": 2,
+          "AccountPropertyScopesFederatedEnabled": false,
+          "AccountPropertyScopesPublishedEnabled": false
+        },
+        "theming": {
+          "name": "Nextcloud",
+          "productName": "Nextcloud",
+          "url": "https://nextcloud.com",
+          "imprintUrl": "",
+          "privacyUrl": "",
+          "slogan": "ein sicherer Ort für all Ihre Daten",
+          "color": "#00679e",
+          "color-text": "#ffffff",
+          "color-element": "#00679e",
+          "color-element-bright": "#00679e",
+          "color-element-dark": "#00679e",
+          "logo": "http://localhost:8080/core/img/logo/logo.svg?v=0",
+          "background": "http://localhost:8080/apps/theming/img/background/jo-myoung-hee-fluid.webp",
+          "background-text": "#ffffff",
+          "background-plain": false,
+          "background-default": true,
+          "logoheader": "http://localhost:8080/core/img/logo/logo.svg?v=0",
+          "favicon": "http://localhost:8080/core/img/logo/logo.svg?v=0",
+          "primaryColor": "#00679e",
+          "backgroundColor": "#00679e",
+          "defaultPrimaryColor": "#00679e",
+          "defaultBackgroundColor": "#00679e",
+          "inverted": false,
+          "cacheBuster": "0756640e",
+          "enabledThemes": [
+            "default"
+          ]
+        }
+      }
+    }
+  }
+}

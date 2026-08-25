@@ -16,7 +16,7 @@ cloud and generates a link you can send by mail instead of the file.
 
    * Nextcloud version 32 or newer (older versions might work, but are [not supported by
 Nextcloud](https://github.com/nextcloud/server/wiki/Maintenance-and-Release-Schedule))
-   * OpenCloud version 3.5 or newer (older versions might work, but have not
+   * OpenCloud version 4.0 or newer (older versions might work, but have not
 been tested).
    * ownCloud Classic version 10.0.10 or newer.
    * ownCloud Infinite Scale (oCIS) version 5 or newer (older versions might
@@ -146,6 +146,15 @@ Sharing problems may also be caused by a misconfiguration of the cloud server.
 
 __Solution:__ Point your cloud admin to the section on [Apache and
 mod_rewrite](ADMIN.md#mod_rewrite) in the cloud admin documentation.
+
+### Why is the icon for the cloud service not showing up in my message?
+
+When you add a link to a message the icon of the cloud service should appear
+in the draft next to the service name. Starting with version 135 Thunderbird
+doesn't display the icon here. That's a [bug in
+Thunderbird](https://bugzilla.mozilla.org/show_bug.cgi?id=2057816).
+
+The icon will still appear for the recipient of the message.
 
 ### Could you please change the style of the text that is inserted into the message / add _X_ / remove _Y_?
 

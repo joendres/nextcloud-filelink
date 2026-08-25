@@ -1,0 +1,378 @@
+{
+  "ocs": {
+    "meta": {
+      "status": "ok",
+      "statuscode": 100,
+      "message": "OK",
+      "totalitems": "",
+      "itemsperpage": ""
+    },
+    "data": {
+      "version": {
+        "major": 34,
+        "minor": 0,
+        "micro": 2,
+        "string": "34.0.2",
+        "edition": "",
+        "extendedSupport": false
+      },
+      "capabilities": {
+        "core": {
+          "pollinterval": 60,
+          "webdav-root": "remote.php/webdav",
+          "reference-api": true,
+          "reference-regex": "(\\s|\\n|^)(https?:\\/\\/)([-A-Z0-9+_.]+(?::[0-9]+)?(?:\\/[-A-Z0-9+&@#%?=~_|!:,.;()]*)*)(\\s|\\n|$)",
+          "mod-rewrite-working": true,
+          "user": {
+            "language": "de_DE",
+            "locale": "",
+            "timezone": "UTC"
+          },
+          "can-create-app-token": true
+        },
+        "bruteforce": {
+          "delay": 0,
+          "allow-listed": false
+        },
+        "activity": {
+          "apiv2": [
+            "filters",
+            "filters-api",
+            "previews",
+            "rich-strings"
+          ]
+        },
+        "app_api": {
+          "loglevel": 2,
+          "version": "34.0.0"
+        },
+        "circles": {
+          "version": "34.0.0",
+          "status": {
+            "globalScale": false
+          },
+          "settings": {
+            "frontendEnabled": true,
+            "allowedCircles": 262143,
+            "allowedUserTypes": 31,
+            "membersLimit": -1
+          },
+          "circle": {
+            "constants": {
+              "flags": {
+                "1": "Einzeln",
+                "2": "Persönlich",
+                "4": "System",
+                "8": "Sichtbar",
+                "16": "Offen",
+                "32": "Einladen",
+                "64": "Beitrittsanfrage",
+                "128": "Freunde",
+                "256": "Passwortgeschützt",
+                "512": "Kein Besitzer",
+                "1024": "Versteckt",
+                "2048": "Backend",
+                "4096": "Lokal",
+                "8192": "Root",
+                "16384": "Teameinladung",
+                "32768": "Federated",
+                "65536": "Einhängepunkt"
+              },
+              "source": {
+                "core": {
+                  "1": "Nextcloud-Konto",
+                  "2": "Nextcloud-Gruppe",
+                  "4": "E-Mail-Adresse",
+                  "8": "Kontakt",
+                  "16": "Team",
+                  "10000": "Nextcloud-App"
+                },
+                "extra": {
+                  "10001": "Teams-App",
+                  "10002": "Administrations-Befehlszeile"
+                }
+              }
+            },
+            "config": {
+              "coreFlags": [
+                1,
+                2,
+                4
+              ],
+              "systemFlags": [
+                512,
+                1024,
+                2048
+              ]
+            }
+          },
+          "member": {
+            "constants": {
+              "level": {
+                "1": "Mitglied",
+                "4": "Moderator",
+                "8": "Administration",
+                "9": "Eigentümer"
+              }
+            },
+            "type": {
+              "0": "single",
+              "1": "user",
+              "2": "group",
+              "4": "mail",
+              "8": "contact",
+              "16": "circle",
+              "10000": "app"
+            }
+          },
+          "teamResourceProviders": [
+            "files"
+          ]
+        },
+        "ocm": {
+          "enabled": true,
+          "apiVersion": "1.0-proposal1",
+          "version": "1.1.0",
+          "endPoint": "http://localhost:8080/ocm",
+          "publicKey": null,
+          "provider": "Nextcloud 34.0.2.1",
+          "resourceTypes": [
+            {
+              "name": "file",
+              "shareTypes": [
+                "user",
+                "group"
+              ],
+              "protocols": {
+                "webdav": "/public.php/webdav/"
+              }
+            }
+          ],
+          "capabilities": [
+            "invite-accepted",
+            "notifications",
+            "shares"
+          ]
+        },
+        "files": {
+          "comments": true,
+          "$comment": "\"blacklisted_files\" is deprecated as of Nextcloud 30, use \"forbidden_filenames\" instead",
+          "blacklisted_files": [
+            ".htaccess"
+          ],
+          "forbidden_filenames": [
+            ".htaccess"
+          ],
+          "forbidden_filename_basenames": [],
+          "forbidden_filename_characters": [
+            "\\",
+            "/"
+          ],
+          "forbidden_filename_extensions": [
+            ".filepart",
+            ".part"
+          ],
+          "bigfilechunking": true,
+          "chunked_upload": {
+            "max_size": 104857600,
+            "max_parallel_count": 5
+          },
+          "file_conversions": [],
+          "windows_compatible_filenames": false,
+          "directEditing": {
+            "url": "http://localhost:8080/ocs/v2.php/apps/files/api/v1/directEditing",
+            "etag": "1dc1b8f0cb70e547508c330170656228",
+            "supportsFileId": true
+          },
+          "locking": "1.0",
+          "api-feature-lock-type": true,
+          "undelete": true,
+          "delete_from_trash": true,
+          "versioning": true,
+          "version_labeling": true,
+          "version_deletion": true
+        },
+        "dav": {
+          "chunking": "1.0",
+          "public_shares_chunking": true,
+          "search_supports_creation_time": true,
+          "search_supports_upload_time": true,
+          "search_supports_last_activity": true,
+          "bulkupload": "1.0",
+          "absence-supported": true,
+          "absence-replacement": true
+        },
+        "downloadlimit": {
+          "enabled": true,
+          "default-limit": -1
+        },
+        "files_sharing": {
+          "api_enabled": true,
+          "public": {
+            "enabled": true,
+            "password": {
+              "enforced": false,
+              "askForOptionalPassword": false
+            },
+            "expire_date": {
+              "enabled": true,
+              "days": 14,
+              "enforced": false
+            },
+            "multiple_links": true,
+            "expire_date_internal": {
+              "enabled": false
+            },
+            "expire_date_remote": {
+              "enabled": false
+            },
+            "send_mail": false,
+            "upload": true,
+            "upload_files_drop": true,
+            "custom_tokens": false
+          },
+          "resharing": true,
+          "user": {
+            "send_mail": false,
+            "expire_date": {
+              "enabled": true
+            }
+          },
+          "group_sharing": true,
+          "group": {
+            "enabled": true,
+            "expire_date": {
+              "enabled": true
+            }
+          },
+          "default_permissions": 31,
+          "exclude_reshare_from_edit": false,
+          "federation": {
+            "outgoing": true,
+            "incoming": true,
+            "expire_date": {
+              "enabled": true
+            },
+            "expire_date_supported": {
+              "enabled": true
+            }
+          },
+          "sharee": {
+            "minSearchStringLength": 0,
+            "query_lookup_default": false,
+            "always_show_unique": true
+          },
+          "sharebymail": {
+            "enabled": true,
+            "send_password_by_mail": true,
+            "upload_files_drop": {
+              "enabled": true
+            },
+            "password": {
+              "enabled": true,
+              "enforced": false
+            },
+            "expire_date": {
+              "enabled": true,
+              "enforced": false
+            }
+          }
+        },
+        "notifications": {
+          "ocs-endpoints": [
+            "list",
+            "get",
+            "delete",
+            "delete-all",
+            "icons",
+            "rich-strings",
+            "action-web",
+            "user-status",
+            "exists",
+            "test-push"
+          ],
+          "push": [
+            "devices",
+            "object-data",
+            "delete"
+          ],
+          "admin-notifications": [
+            "ocs",
+            "cli"
+          ]
+        },
+        "password_policy": {
+          "api": {
+            "generate": "http://localhost:8080/ocs/v2.php/apps/password_policy/api/v1/generate",
+            "validate": "http://localhost:8080/ocs/v2.php/apps/password_policy/api/v1/validate"
+          },
+          "policies": {
+            "account": {
+              "minLength": 10,
+              "enforceHaveIBeenPwned": true,
+              "enforceNonCommonPassword": true,
+              "enforceNumericCharacters": false,
+              "enforceSpecialCharacters": false,
+              "enforceUpperLowerCase": false
+            }
+          },
+          "minLength": 10,
+          "enforceNonCommonPassword": true,
+          "enforceNumericCharacters": false,
+          "enforceSpecialCharacters": false,
+          "enforceUpperLowerCase": false
+        },
+        "provisioning_api": {
+          "version": "1.24.0",
+          "AccountPropertyScopesVersion": 2,
+          "AccountPropertyScopesFederatedEnabled": true,
+          "AccountPropertyScopesPublishedEnabled": false
+        },
+        "recommendations": {
+          "enabled": true
+        },
+        "systemtags": {
+          "enabled": true
+        },
+        "theming": {
+          "name": "Nextcloud",
+          "productName": "Nextcloud",
+          "url": "https://nextcloud.com",
+          "imprintUrl": "",
+          "privacyUrl": "",
+          "slogan": "ein sicherer Ort für all Ihre Daten",
+          "color": "#00679e",
+          "color-text": "#ffffff",
+          "color-element": "#00679e",
+          "color-element-bright": "#00679e",
+          "color-element-dark": "#00679e",
+          "logo": "http://localhost:8080/core/img/logo/logo.svg?v=0",
+          "background": "http://localhost:8080/apps/theming/img/background/jo-myoung-hee-fluid.webp",
+          "background-text": "#ffffff",
+          "background-plain": false,
+          "background-default": true,
+          "logoheader": "http://localhost:8080/core/img/logo/logo.svg?v=0",
+          "favicon": "http://localhost:8080/core/img/logo/logo.svg?v=0",
+          "primaryColor": "#00679e",
+          "backgroundColor": "#00679e",
+          "defaultPrimaryColor": "#00679e",
+          "defaultBackgroundColor": "#00679e",
+          "inverted": false,
+          "cacheBuster": "0756640e",
+          "enabledThemes": [
+            "default"
+          ]
+        },
+        "user_status": {
+          "enabled": true,
+          "restore": true,
+          "supports_emoji": true,
+          "supports_busy": true
+        },
+        "weather_status": {
+          "enabled": true
+        }
+      }
+    }
+  }
+}
